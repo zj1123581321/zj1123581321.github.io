@@ -1,0 +1,378 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>杂谈by立行</title>
+<link rel="shortcut icon" href="https://zj1123581321.com//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://zj1123581321.com//media/css/tailwind.css">
+<link rel="stylesheet" href="https://zj1123581321.com//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="杂谈by立行 - Atom Feed" href="https://zj1123581321.com//atom.xml">
+
+    
+
+  <meta name="description" content="晚来天欲雪，" />
+</head>
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+
+    <div class="nav py-3 md:py-8 fixed w-full z-10 bg-gray-50 dark:bg-gray-700 transition-all duration-300" :class="{ 'scroll': scrolled }">
+  <div class="flex justify-end px-4">
+    <div class="w-8 h-8 flex justify-center items-center rounded-full md:hidden" @click="showMenu = !showMenu">
+      <i class="ri-close-line" v-show="showMenu"></i>
+      <i class="ri-menu-3-line" v-show="!showMenu"></i>
+    </div>
+  </div>
+  <nav class="max-w-4xl w-full mx-auto text-center flex flex-col md:flex-row justify-center md:block" :class="`${ showMenu ? 'block' : 'hidden' }`">
+    
+      <a href="/" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        首页
+      </a>
+    
+      <a href="/archives" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        归档
+      </a>
+    
+      <a href="/tags" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        标签
+      </a>
+    
+      <a href="/post/about" target="" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+        关于
+      </a>
+    
+    <a href="https://zj1123581321.com//atom.xml" target="_blank" class="py-2 md:py-1 px-4 mx-4 inline-flex transition font-semibold rounded dark:hover:bg-gray-600 hover:bg-gray-200">
+      RSS
+    </a>
+  </nav>
+</div>
+
+    <div class="max-w-4xl w-full mx-auto ">
+      
+        <header class="flex py-16 md:py-32 mt-12 flex-col md:flex-row px-4 md:px-0 animated fadeIn">
+  <div class="flex-1 order-2 md:order-1 md:pr-16">
+    <div class="text-4xl font-bold text-center md:text-left">
+      杂谈by立行
+    </div>
+    <div class="text-xl text-gray-500 mt-4 text-center md:text-left">
+      晚来天欲雪，
+    </div>
+    
+      <div class="mt-8 text-center md:text-left">
+        <a
+          href="/post/about" 
+          arget="_blank"
+          class="text-sm bg-yellow-50 dark:bg-indigo-500 dark:text-gray-700 font-semibold px-4 py-2 inline-block yellow-btn transition-fast rounded"
+        >让我看看：-&gt;</a>
+      </div>
+    
+    
+      <div class="mt-8 flex items-center">
+        
+          <div class="text-gray-500 mr-2">
+            找到我 👉
+          </div>
+        
+        
+          
+            
+              <div class="relative mr-2 w-8 h-8 inline-flex items-center justify-center text-xl hover:bg-gray-200 transition-fast dark:hover:bg-gray-600 wechat">
+                <i class="ri-wechat-line"></i>
+                <img src="\media\images\custom-wechat.png" alt="" class="absolute left-0 w-32" style="max-width: initial; top: 100%;" >
+              </div>
+            
+          
+        
+          
+            
+              <a href="mailto:zj1123581321@gmail.com" target="_blank" class="mr-2 w-8 h-8 inline-flex items-center justify-center text-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast">
+                <i class="ri-mail-line"></i>
+              </a>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+            
+              <a href="https://www.zhihu.com/people/za-tan-byli-xing" target="_blank" class="mr-2 w-8 h-8 inline-flex items-center justify-center text-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast">
+                <i class="ri-zhihu-line"></i>
+              </a>
+            
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      </div>
+    
+  </div>
+  <div class="md:mx-8 flex-shrink-0 self-start rounded-full border-4 border-dotted border-transparent hover:border-yellow-50 p-2 w-32 h-32 order-1 md:order-2 mx-auto s3-dotted">
+    <img class="rounded-full object-cover" src="https://zj1123581321.com//images/avatar.png?v=1657730472908" alt="杂谈by立行" width="100%" height="100%">
+  </div>
+</header>
+      
+
+      <div class="shadow-box bg-white dark:bg-gray-600 border-gray-300 rounded-none md:rounded-lg -mx-1 md:mx-0 md:px-0">
+        
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/windows-wen-jian-guan-li-qi-he-h265/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Windows 文件管理器和 H265 
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2022-07-14</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        很早之前在 Win10 遇到的和 H265 相关的问题是不显示缩略图，解决方法往上比较成熟，安装Download K-Lite Codec Pack 即可。
+最近业务需要，通过『要你命三千』从抖音/快手上下载了很多无水印的视频，其中一部分是...
+      </div>
+      <a href="https://zj1123581321.com/post/windows-wen-jian-guan-li-qi-he-h265/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/duo-ping-tai-wei-xin-shi-pin-hao-zhi-bo-xia-zai-fang-fa/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          多平台微信视频号直播下载方法
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2022-05-15</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        昨日晚上在外面吃饭时发现有两个比较感兴趣的老师都在视频号做直播，两边的内容都想听，但无奈只有一台手机，也没办法确定之后是否有回放，遂生下载微信视频号直播随后观看的想法。
+下载微信视频号直播大体可以分成三步：
+
+抓包获取视频号直播推流地址
+调...
+      </div>
+      <a href="https://zj1123581321.com/post/duo-ping-tai-wei-xin-shi-pin-hao-zhi-bo-xia-zai-fang-fa/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/zen-me-zai-win10-shang-jiang-xiao-nuo-ti-huan-wei-xiao-ai-tong-xue/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          怎么在 Win10 上将小娜替换为小爱同学？
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2022-05-14</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        最近入手了一台米物 Art 键盘，上面有一个语音唤醒键。但是在 Win10 上，它默认唤醒的是小娜(Cortana)，众所周知小娜在 Win10 上基本没用，所以自然产生一个想法：怎么把唤醒的小娜替换为小爱同学？
+首先通过键位监测发现，键盘...
+      </div>
+      <a href="https://zj1123581321.com/post/zen-me-zai-win10-shang-jiang-xiao-nuo-ti-huan-wei-xiao-ai-tong-xue/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/man-bu-zhe-yin-xiang-hong-wai-jie-ru-home-assistant-ji-lu/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          漫步者音箱红外接入 Home Assistant记录
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2022-05-08</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        背景
+最近买了一对漫步者 RT-1700 作为桌面音箱，该音箱可以通过有线和蓝牙接入，但想切换需要使用自带的红外遥控器。
+这对于一个懒人而言，实在是太不方便了。
+很自然地想着可以通过模拟红外信号将其接入到米家中。正好家里有一个小米空调伴侣 ...
+      </div>
+      <a href="https://zj1123581321.com/post/man-bu-zhe-yin-xiang-hong-wai-jie-ru-home-assistant-ji-lu/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/wordpress-qian-yi-gridea-ji-lu/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          WordPress 迁移 Gridea 记录
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2022-05-06</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        五一假期花了大概一天把之前放在 WordPress 上的历史文章迁移到 Gridea 上面，里面还是存了不少坑，这里做个记录。
+基本流程
+全套流程大概可以有以下几步：
+
+配置 Gridea 在 Github 的仓库和本地同步网络环境。
+导出...
+      </div>
+      <a href="https://zj1123581321.com/post/wordpress-qian-yi-gridea-ji-lu/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/220504-Start/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          写在迁移之前
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2022-05-04</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        大学时我曾经有一个搭在阿里云上的 WordPress 站点存放着历史的文章，一年一百多的价格也还可以接受。但毕业之后，一方面折腾的心思变少了，一年也更新不了几篇文章；另一方面，续费的价格直接升到了 1300 左右，想想这个投入产出比，遂将老...
+      </div>
+      <a href="https://zj1123581321.com/post/220504-Start/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+      <img class="flex-shrink-0 self-start md:ml-4 mb-4 md:mb-0 rounded-sm object-cover featured-img order-1 md:order-2 w-full h-40 md:w-56 md:h-32" loading="lazy" src="https://zj1123581321.com//post-images/220504-Start.jpg" alt="写在迁移之前">
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/2020-10-12239/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          Tasker××，Android 自动化实例
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-10-12</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        引言
+前些天，几个月前看到了 从通知实现钱迹 Tasker 自动化记账 - 少数派，想起来了之前购买即遗忘于角落的 Tasker...心有戚戚焉。加之自动化记账这件事确实 get 到我了，于是籍此开始折腾 Tasker 的自动化之路。
+经过...
+      </div>
+      <a href="https://zj1123581321.com/post/2020-10-12239/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/2020-04-06230/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          1G 数据、70+软件、万字长文，手把手教你如何将 Win10 从零打造成工作『利器』
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-04-06</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        前些天逛知乎时遇到了这样一个问题：『新买了笔记本电脑后，需要进行哪些基本的设置和下载？』
+想起了自己从一个电脑小白一路摸索过来，和各路流氓斗智斗勇的辛酸历程。
+然后我就想把这过程中的坑和经验分享出来，帮助大家更高效地使用 Win10 。尽管...
+      </div>
+      <a href="https://zj1123581321.com/post/2020-04-06230/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/2020-01-31220/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          iPad OS 文件管理入门
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-01-31</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        iPad OS 文件管理入门
+
+注：下文 iOS 和 iPad OS 不做区分。
+
+本文主要面向经常需要在电脑和 iPhone、iPad 之间频繁互传/同步文件的朋友，Windows 用户为主，Mac 用户亦有参考价值。
+入手 iPad 之...
+      </div>
+      <a href="https://zj1123581321.com/post/2020-01-31220/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="p-8 border-b border-gray-200 dark:border-gray-700 flex relative overflow-hidden flex-col md:flex-row animated fadeIn">
+    
+    <div class="flex-1 order-2 md:order-1">
+      <h2 class="text-2xl font-semibold mb-4">
+        <a href="https://zj1123581321.com/post/2020-01-30215/" class="text-gray-700 dark:text-gray-200 border-b-2 border-dotted border-gray-200 dark:border-gray-400 dark:hover:border-gray-200 hover:border-gray-600 transition-all duration-100">
+          B 站？Why&amp;How？
+        </a>
+      </h2>
+      <div class="mb-4 text-xs text-gray-500">2020-01-30</div>
+      <div class="mb-4 text-gray-500 dark:text-gray-300">
+        B 站？Why&amp;How？
+大概是在 2019 年下半年，我的信息源里面开始频繁出现 B 站的相关消息。
+
+B 站 UP 主“独立菌”给曹大引了数千粉丝
+半佛仙人、巫师经济学在 B 站的迅速崛起
+视频战争 2019
+身边朋友有的一天看...
+      </div>
+      <a href="https://zj1123581321.com/post/2020-01-30215/" class="btn">
+        Read more
+      </a>
+    </div>
+    
+  </div>
+  
+      </div>
+
+      
+  <div class="my-4 flex justify-between px-4 md:px-0">
+    
+    
+      <a href="https://zj1123581321.com/page/2" class="btn btn-white">
+        下一页
+        <i class="ri-arrow-right-line ml-4"></i>
+      </a>
+    
+  </div>
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a href="https://google.com" target="_blank">
+一切随缘</a>
+</footer>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zj1123581321.com//media/scripts/main.js"></script>
+</body>
+
+</html>
