@@ -1,0 +1,878 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Tasker××，Android 自动化实例 - 杂谈by立行</title>
+<link rel="shortcut icon" href="https://zj1123581321.com//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://zj1123581321.com//media/css/tailwind.css">
+<link rel="stylesheet" href="https://zj1123581321.com//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="Tasker××，Android 自动化实例 - 杂谈by立行 - Atom Feed" href="https://zj1123581321.com//atom.xml">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2920695321218858"
+     crossorigin="anonymous"></script>
+     
+    
+
+  <meta name="description" content="引言
+前些天，几个月前看到了 从通知实现钱迹 Tasker 自动化记账 - 少数派，想起来了之前购买即遗忘于角落的 Tasker...心有戚戚焉。加之自动化记账这件事确实 get 到我了，于是籍此开始折腾 Tasker 的自动化之路。
+经过..." />
+  <meta property="og:title" content="Tasker××，Android 自动化实例 - 杂谈by立行">
+  <meta property="og:description" content="引言
+前些天，几个月前看到了 从通知实现钱迹 Tasker 自动化记账 - 少数派，想起来了之前购买即遗忘于角落的 Tasker...心有戚戚焉。加之自动化记账这件事确实 get 到我了，于是籍此开始折腾 Tasker 的自动化之路。
+经过..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zj1123581321.com/post/2020-10-12239/" />
+  <meta property="og:image" content="https://zj1123581321.com//images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="Tasker××，Android 自动化实例 - 杂谈by立行">
+  <meta name="twitter:description" content="引言
+前些天，几个月前看到了 从通知实现钱迹 Tasker 自动化记账 - 少数派，想起来了之前购买即遗忘于角落的 Tasker...心有戚戚焉。加之自动化记账这件事确实 get 到我了，于是籍此开始折腾 Tasker 的自动化之路。
+经过...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zj1123581321.com/post/2020-10-12239/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zj1123581321.com/" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      杂谈by立行
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          Tasker××，Android 自动化实例
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2020-10-12 · 26 min read</div>
+          
+            <a href="https://zj1123581321.com/tag/lZeaGu9Kc/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              Android
+            </a>
+          
+            <a href="https://zj1123581321.com/tag/E8ohIaonIA/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              Tasker
+            </a>
+          
+            <a href="https://zj1123581321.com/tag/AymDRTYqp_/" class="text-gray-700 text-sm border-b-2 border-dotted border-gray-200 hover:border-gray-600 transition-all duration-100 inline-flex mr-2">
+              <i class="ri-hashtag"></i>
+              自动化
+            </a>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <h1 id="引言">引言</h1>
+<p><s>前些天</s>，几个月前看到了 <a href="https://sspai.com/post/61292">从通知实现钱迹 Tasker 自动化记账 - 少数派</a>，想起来了之前购买即遗忘于角落的 Tasker...心有戚戚焉。加之自动化记账这件事确实 get 到我了，于是籍此开始折腾 Tasker 的自动化之路。</p>
+<p>经过几周的折腾，混迹于各论坛，参考各种文章后魔改，目前实现的部分功能如下：</p>
+<ul>
+<li>通话后自动同步录音到坚果云、fooview 截图后自动同步到电脑桌面</li>
+<li>地图应用开启关闭与 GPS 同步</li>
+<li>视频应用开启关闭与自动锁定同步</li>
+<li>息屏下连接特定耳机自动播放微信通知</li>
+<li>除特定应用连接耳机后自动播放听力</li>
+<li>钱迹自动化记账（带备注、可选账本、延后记账、免密支付自动记账）</li>
+<li>点击手环、摇动手机、Quicker 实现管理智能家居</li>
+<li>手机充电至 95% ，手环提醒</li>
+<li>Keep 开始运动后，小米手环自动开始记录</li>
+<li>控制另一部手机实现通知转发、播放控制等功能</li>
+<li>利用小爱同学执行 Tasker 任务</li>
+<li>扫描特定 NFC 卡片，打开体重秤连接界面</li>
+<li>...</li>
+</ul>
+<p>下面会介绍这些自动化的使用场景和配置思路，部分复杂的配置会提供导入，希望对你有所帮助。</p>
+<h1 id="一-tasker-foldersync">一 Tasker + FolderSync</h1>
+<ul>
+<li><a href="https://play.google.com/store/apps/details?id=dk.tacit.android.foldersync.lite&amp;hl=zh">FolderSync - Google Play 上的应用</a></li>
+</ul>
+<h2 id="11-通话录音自动同步到云盘">1.1 通话录音自动同步到云盘</h2>
+<h3 id="功能描述">功能描述</h3>
+<p>为了防备不时之需，我希望我的录音至少可以同步到云盘，最好后面还可以<strong>同步到其他设备</strong>或<strong>分享给家人</strong>。小米自带的云服务其实是可以将通话录音同步到小米云服务里面的，但是小米云服务毕竟不是专业做网盘的，多设备同步和分享控制相对不如 Dropbox/ 坚果云这类网盘专业。</p>
+<p>所以我需要找到一个桥梁，将手机本地的录音文件夹和云盘建立链接，实现双向同步。</p>
+<p>FolderSync 就是这样一款用于云盘、本地间同步的应用，支持 Google Drive、Dropbox、OneDrive、MEGA 等常见网盘，也支持通过 FTP、SMB、WebDAV 等协议连接到其他存储空间。</p>
+<p>最后我选择利用 FolderSync 通过 WebDAV 协议将本地文件夹和坚果云文件夹链接在一起，然后坚果云的通话录音文件夹可以同步到多个设备上，并且它的分享权限控制也相对完善。</p>
+<p>这样通话结束后，录音会自动同步到坚果云上，然后坚果云也会将文件同步到电脑上。</p>
+<h3 id="配置思路">配置思路</h3>
+<p>在 FolderSync 中配置好某个同步项目后，在 Tasker 中进行以下设置。</p>
+<pre><code>if (监测到通话结束):
+	调用 Tasker 中 FolderSync 插件同步特定项目
+Endif
+</code></pre>
+<h3 id="依赖配置">依赖配置</h3>
+<ul>
+<li>无需 Root、adb</li>
+<li>下载 FolderSync 需 kx 网络（Google Play）</li>
+<li>若网盘为 Google Drive、Dropbox 等国外产品，则需 kx 网络</li>
+</ul>
+<h2 id="12-fv-悬浮球截图后自动同步到电脑桌面">1.2 FV 悬浮球截图后自动同步到电脑桌面</h2>
+<p><a href="https://www.coolapk.com/apk/com.fooview.android.fooview">FV悬浮球-fooView(com.fooview.android.fooview) - 1.4.4.1 - 应用 - 酷安网</a></p>
+<p><a href="https://play.google.com/store/apps/details?id=com.fooview.android.fooview&amp;hl=zh">FV悬浮球 - fooView，文件浏览，手势截图 - Google Play 上的应用</a></p>
+<h3 id="功能描述-2">功能描述</h3>
+<p>写这些手机上的教程免不了做截图演示，『截图-分享到电脑-电脑保存』这个流程上还是有些繁琐。我希望能够尽量简化截图上传至电脑的流程。</p>
+<p>所以我将手机截图保存的文件夹和电脑上的目标文件夹通过坚果云和 FolderSync 建立了双向同步，一旦监测到有新截图生成，FolderSync 同步本地文件夹到坚果云，坚果云再同步该文件夹到电脑。最终流程就可以被简化到『截图-电脑自动出现结果』。</p>
+<p>那怎么监测什么时候有新截图产生呢？</p>
+<p>这就要用到 Tasker 的 Logcat Entry 功能，关于它的具体说明可以查看<a href="https://tasker.joaoapps.com/userguide/en/help/eh_logcat_entry.html">Logcat Entry 官方文档</a>。简单讲就是应用完成不同的操作时会留下不同的痕迹，Tasker 可以监测这些痕迹来反推应用完成了什么操作。</p>
+<p>至此，只要在 FolderSync 里面配置好一个新的同步项目，这个动作就算是完成了。</p>
+<h3 id="配置思路-2">配置思路</h3>
+<pre><code>if (通过 Logcat Entry 监测到 fooview 保存了截图):
+	调用 Tasker 中 FolerSync 插件同步特定项目
+Endif
+
+# 我的 Logcat Entry 设置-Mi10-MIUI12，仅供参考。此部分配置会因为设备、默认保存文件夹不同而不同
+Component：MiuiGallery2_SaveToCloudUtil
+Filter：[thread-pool-0] insert /storage/emulated/0/Pictures/Screenshots/
+</code></pre>
+<h3 id="依赖配置-2">依赖配置</h3>
+<ul>
+<li>无需 Root，但 <a href="https://www.reddit.com/r/tasker/comments/dsf5gj/dev_tasker_59beta8_the_game_changer/">Logcat Entry</a> 功能需要 adb 授权（当你添加这个功能的时候，Tasker 会告诉你怎么做）</li>
+<li>下载 FolderSync 需 kx 网络（Google Play）</li>
+<li>网盘推荐使用坚果云，不过 Windows 使用 OneDrive 也能有相同的效果；如果不使用网盘，局域网下也可直接通过 FTP、SMB 协议同步到电脑。</li>
+</ul>
+<h1 id="二-tasker-notifyfitness-for-mi-band">二 Tasker + Notify&amp;Fitness for Mi Band</h1>
+<h2 id="21-充电至-95-手环发送电量充满提醒">2.1 充电至 95% 手环发送电量充满提醒</h2>
+<p><a href="https://play.google.com/store/apps/details?id=com.mc.miband1&amp;hl=zh">Notify &amp; Fitness for Mi Band - Google Play 上的应用</a></p>
+<p>NF for Mi Band 是小米手环的一款第三方客户端，相较于官方的小米运动，NF 会干净、可玩性也会更高。关于 NF 的具体介绍，可以查看<a href="https://sspai.com/post/56954">告别广告，让小米手环在 Android 上更好用：Notify &amp; Fitness - 少数派</a></p>
+<h2 id="功能描述-3">功能描述</h2>
+<p>为了手机电池的长久健康，我平时会尽量避免将电池充满。</p>
+<p>当手机充电电量到达 95% 时，一种思路是通过控制智能插座实现断电，不过问题在于不知道通过什么触发给插座发指令恢复供电，不然可能插上去半天才发现插座忘记打开了。</p>
+<p>另外一种思路就是此时给手环发通知，手动拔掉充电器...</p>
+<p>最初是通过 Tasker 来配置的，但后来发现 NF 也自带了电量充满提醒。Anyway，这个动作的意义在于你现在可以通过 Tasker 将手机和手环连接起来了，手环的玩法也籍此变得更为丰富。</p>
+<h2 id="配置思路-3">配置思路</h2>
+<pre><code>if (电池电量=95) And (在充电)：
+	手环发送通知
+Endif
+</code></pre>
+<h2 id="依赖配置-3">依赖配置</h2>
+<ul>
+<li>无需 Root、adb</li>
+<li>需要安装第三方小米手环应用 Notify&amp;Fitness for MiBand，如果从 Google Play 下载需要 kx 网络和 Google 套件，利用<a href="https://www.apkmirror.com/apk/onezerobit/notify-fitness-for-mi-band/">Notify &amp; Fitness for Mi Band APKs - APKMirror</a>或可避开 Google 套件</li>
+</ul>
+<h1 id="三-tasker-钱迹">三 Tasker+ 钱迹</h1>
+<h3 id="功能描述-4">功能描述</h3>
+<p>这个自动化主要是受 <a href="https://sspai.com/post/61292">从通知实现钱迹 Tasker 自动化记账 - 少数派</a> 这篇文章影响，之前尝试了很多方式，但还是经常忘记记账。而通过 Tasker 和钱迹的联动，则可以付款后立即快速记账，并且支持这些功能：</p>
+<ul>
+<li>有通知（有金额）可以从通知捕获金额</li>
+<li>支持添加备注</li>
+<li>支持选择账户</li>
+<li>支持延迟记账（会在通知栏中创建一条不会被误清除的通知）</li>
+<li>支付宝免密支付项目可以自动记账</li>
+</ul>
+<p>具体可以参照这条演示视频：</p>
+<p>[B 站演示视频]</p>
+<p>美中不足的一点是还没找到<strong>怎么用 Tasker 直接唤起输入法的数字输入模式</strong>，在输入小数点的时候多一步感觉不太方便。如果有知道的朋友，还望在评论区指出，感谢。</p>
+<h3 id="配置思路-4">配置思路</h3>
+<pre><code># 两个 Profiles、两个 Scenes、16 个 Tasks
+
+#变量说明
+%ACCOUNTNAME #记录存入账户
+%Accountname1 #银行卡账户1
+%Accountname2 #银行卡账户2
+%Accountname_hb	#花呗在钱迹中的名称，默认『花呗』
+%Accountname_wechat #微信余额在钱迹中的名称，默认『微信』
+%Accountname_yeb	#余额宝在钱迹中的名称
+
+%Choice	#记录是支付宝系(余额宝、花呗、银行卡们)还是微信系(微信钱包、银行卡们)，1支付宝2微信
+%Evtprm #因为%evtprm()是局部变量，存储通知文本在不同 task 之间传递
+%If_have_unrecord_bills #记录是否有需要延后记录的账单(0无1有)
+%Notification_to_cancel #记录要清除的延后通知文本
+%QJURL 	#钱迹记账的 Link
+%Tag	#记录是否选择了账本，未选择账本则取消记账
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="http://markdown.lixingzhang.site/picgo/20201010144429.png?imageslim" alt="Tasker+钱迹记账思路" loading="lazy"></figure>
+<h3 id="依赖配置-4">依赖配置</h3>
+<ul>
+<li>无需 Root、无需 adb</li>
+<li>需安装<a href="https://qianjiapp.com">钱迹</a></li>
+</ul>
+<h3 id="参考信息">参考信息</h3>
+<p><a href="https://sspai.com/post/61292">从通知实现钱迹 Tasker 自动化记账 - 少数派</a></p>
+<p><a href="http://docs.qianjiapp.com/plugin/auto_tasker.html">自动化记账接口 · 钱迹用户指南</a></p>
+<h3 id="导入说明">导入说明</h3>
+<ol>
+<li>长按左下角小房子图标，导入项目</li>
+<li>在『支付记账』项目中切换到『任务』界面，点击进入『初始化命令』</li>
+<li>根据自己钱迹账本中账户的名称修改对应的账户名称</li>
+<li>点击左下角，运行此任务</li>
+<li>(可选)到<a href="https://www.iconfont.cn/">Iconfont-阿里巴巴矢量图标库</a>搜索对应账户的图标，在『场景』中修改对应账户的图标和背景</li>
+<li>支付宝免密支付的通知需要自行修改记账账户、通知文本清理、消费类别等设置</li>
+</ol>
+<p>PS：华为手机需 EMUI 10 或 Magic UI 3.0 以上才能使用钱迹的自动化记账接口，目前还不清楚低版本系统有无解决方案。</p>
+<h1 id="四-tasker-homeassistant">四 Tasker + <a href="https://www.home-assistant.io">HomeAssistant</a></h1>
+<p>尽管米家 App 其实通过一直在努力通过快捷方式、Widget、锁屏划入、通知栏控制等方式简化智能设备的操作流程，但一来我是真的懒，这些方式我还得动脑找设备；二来，米家 App 也没办法利用手机更多样的传感器玩联动，差了点意思。但这些设备接入 HA 后，那真就是人有多大胆，地就有多大产了。</p>
+<p>另外，尽管小爱同学控制家电也是一句话的事，但如果有其他人在场，我总觉得喊小爱同学好羞耻..</p>
+<p>基于这两个原因，我选择将智能家居接入 HA，多一个控制渠道，多一些场景玩法。</p>
+<h2 id="40-安装-homeassistant-与接入米家设备">4.0 安装 HomeAssistant 与接入米家设备</h2>
+<h3 id="安装-home-assistant">安装 Home Assistant</h3>
+<blockquote>
+<p>Home Assistant 是一个免费的开源家庭自动化软件，用 Python 编写，重点关注本地控制和隐私。它有非常广泛的设备支持，截至 2020 年 5 月，它支持超过 1600 个模块化插件或附加组件与不同的物联网技术的系统集成，系统和服务作为「集成组件」可用。通过自动，语音命令，移动应用或 Home Assistant 基于 Web 的前端用户界面上的控件来触发诸如打开/关闭灯之类的操作。</p>
+<p><a href="https://en.wikipedia.org/wiki/Home_Assistant">Home Assistant - Wikipedia</a></p>
+</blockquote>
+<p>Home Assistant 作为智能家居的中控中心需要 24 小时运行，所以通常会被安装在功耗比较小的<a href="https://www.zhihu.com/question/20859055">树莓派</a>上</p>
+<p>但我手里面并没有树莓派，所以我先后尝试过安装在 Windows 和 Android 手机上，都能使用。如果没有树莓派、Nas 等设施的话，推荐安装在老旧 Android 手机上。</p>
+<h4 id="windows-安装-ha">Windows 安装 HA</h4>
+<p>教程：<a href="https://www.hachina.io/docs/330.html">homeassistant安装与启动 - HAChina 中文网</a></p>
+<p>几个避坑的点如下：</p>
+<ul>
+<li>截止至 2020.8.12，HA 需要 Python 版本大于等于 3.7</li>
+<li>因为有些pip3工具下载的库是源码形式的，在pip3工具执行安装的过程中会需要调用本机的C++编译器，所以需要安装<a href="https://blog.csdn.net/bbhdeal/article/details/81144783">MicrosoftVisual C++Build Tools</a></li>
+<li>如果遇到了 <code>Stuck at INFO:homeassistant.core:Timer:starting</code> ，可以通过<code>pip install home-assistant-fronted</code>解决</li>
+<li>如果想设置 Home Assistant 开机自启动，可以<a href="https://jingyan.baidu.com/article/0bc808fc2e37871bd485b9f7.html">制作</a> <code>.bat</code> 脚本后<a href="https://blog.csdn.net/yanchenyu365/article/details/88732646">添加到自启动</a>，以下代码可供参考(无黑窗口常驻)</li>
+</ul>
+<pre><code class="language-bash">@echo off
+if &quot;%1&quot; == &quot;h&quot; goto begin
+mshta vbscript:createobject(&quot;wscript.shell&quot;).run(&quot;&quot;&quot;%~nx0&quot;&quot; h&quot;,0)(window.close)&amp;&amp;exit
+:begin
+REM
+
+hass
+</code></pre>
+<h4 id="android-安装-ha">Android 安装 HA</h4>
+<p>先后在 红米 Note 4x (已 Root，MIUI11-9.10.10，Android 7)和华为 Nova 2s(未 Root，EMUI8.0，Android 8)  成功安装了 HA，不过两者安装时遇到的问题并不相同，命令仅供参考。</p>
+<p>以下操作需要设备安装 Termux 后完成，Termux 是 Android 上的一个终端模拟器，开源并且无需 Root。关于它的具体教程，可以参考<a href="https://www.sqlsec.com/2018/05/termux.html">Termux 高级终端安装使用配置教程 | 国光</a>。</p>
+<p>这里也假定你有一定的命令行基础并且擅于搜索，其实核心思想基本可以总结为四个字：<strong>缺啥装啥</strong>。</p>
+<p>Root 的设备可以直接进入文件夹编辑文件；未 Root 的设备则需使用 Vim 这种编辑器来编辑相关配置，此处请自行搜索 Vim 的相关用法。</p>
+<p>参考的教程：</p>
+<p><a href="https://gist.github.com/Caldis/7646df406de43e6c6581ff491dfd8afe">在 Andorid 使用 Termux 安装 HomeAssistant 以作为家庭的 HomeKit 中枢</a></p>
+<p><a href="https://www.hachina.io/7656.html">闲置Android手机变身Homeassistant家庭助理 HAChina 中文网</a></p>
+<p><a href="https://bbs.hassbian.com/thread-7167-1-1.html">Androidr手机或盒子通过Termux 安装Home assistant+homekit+MQTT+Node-red - 『HomeAssistant』</a></p>
+<p>踩坑信息：</p>
+<ol>
+<li>根据 <a href="https://wiki.termux.com/wiki/No_more_-dev_packages">No more -dev packages - Termux Wiki</a> 所言，Termux 从 2019.7.28 起停止支持 xx-dev 的包，所以以上教程中的 python-dev、openssl-dev 等包都不必安装了。</li>
+<li>可能需要补充的安装包的命令有 <code>pip install Pillow </code>、<code>pip install aiohttp_cors</code>、<code>pip install home-assistant-fronted</code></li>
+</ol>
+<h3 id="接入米家设备">接入米家设备</h3>
+<blockquote>
+<p>以小米智能插座 WIFI 版为例</p>
+</blockquote>
+<ul>
+<li>最好有已 Root 的安卓设备</li>
+<li>米家 app 5.0.19 前版本</li>
+<li>最好安装 Google Play</li>
+</ul>
+<p><a href="https://home-assistant.cc/component/xiaomi/wifi/#token-%E8%8E%B7%E5%8F%96">获取小米 WIFI 设备 token 方法</a></p>
+<p>注意 <code>yaml</code> 配置文件所有的 <code>:</code> 后面都应该跟一个<strong>空格</strong>。</p>
+<pre><code class="language-yaml">switch:
+  - platform: xiaomi_miio
+    name: Original Xiaomi Mi Smart WiFi Socket #给你的插座起个名字
+    host: # 插座的 ip 地址
+    token:	# 你获取的token
+    model: chuangmi.plug.m3
+</code></pre>
+<p><a href="https://gist.github.com/willwhui/d499629ca6c46aaf29ba2a06c2ad209d">为hass添加小米的智能插座基础版</a></p>
+<p><a href="https://bbs.hassbian.com/thread-1238-1-1.html">ha接入小米wifi插座,附miio安装 </a></p>
+<p>可能会漏掉的命令：</p>
+<p><code>pip3 install python-mirobo</code></p>
+<p><code>npm install miio</code></p>
+<h3 id="参考信息-2">参考信息</h3>
+<p><a href="https://home-assistant.cc/">Home Assistant 中文文档</a></p>
+<p><a href="https://www.home-assistant.io/docs/">Documentation - Home Assistant</a></p>
+<p><a href="https://www.home-assistant.io/integrations/switch.xiaomi_miio/">Xiaomi Smart WiFi Socket and Smart Power Strip - Home Assistant</a></p>
+<p><a href="https://developers.home-assistant.io/docs/api/rest/">REST API | Home Assistant Developer Documentation</a></p>
+<h2 id="41-特定位置摇晃手机开关灯">4.1 特定位置摇晃手机开关灯</h2>
+<h3 id="功能描述-5">功能描述</h3>
+<p>这里只是举个例子来说明你可以利用手机的传感器作为触发条件控制智能家居。</p>
+<ul>
+<li>手机在特定角度摇晃一定时间，小米插座会打开/关闭。</li>
+<li>当你手机放到无线充电座，姿势传感器维持 5 秒不变，打开无线充电插座。</li>
+<li>手机放到某支架 5 秒以上/扫描到支架上 NFC，蓝牙连接音响，关灯进入影院模式 。</li>
+</ul>
+<h3 id="配置思路-5">配置思路</h3>
+<p>Tasker 更新至 5.9.3 后，新增了 <a href="https://tasker.joaoapps.com/userguide/en/help/any_sensor_base.html">Any Sensor</a>功能，意味着 Tasker 可以使用你手机上很多没列出的传感器了。可以参考这个 <a href="https://www.youtube.com/watch?time_continue=1&amp;v=766S-KRnaiE&amp;feature=emb_logo">Live Creations #42 - New Sensor State, Event and Actions - YouTube</a> 演示视频。</p>
+<pre><code>if (左右摇晃，低敏感，长时间) And (gravity 传感器在特定区间内)：
+	向 HA 发送开关灯的命令
+Endif
+</code></pre>
+<p>至于怎么利用 Tasker 向 HA 发送请求，可以参考<a href="https://community.home-assistant.io/t/using-tasker-with-home-assistant-v2/149366">⚙️ Using Tasker with Home Assistant (V2) - Share your Projects! - Home Assistant Community</a>这篇文章，说得非常清楚。</p>
+<p>我仍然以小米智能插座 WIFI 版为例展示我的配置(<strong>需提前导入 HA call-service 这个任务</strong>)：</p>
+<pre><code># 关闭小米智能插座
+Tasker 选择『执行任务』，具体参数如下
+Name: HA call-service
+Priority: %priority
+Parameter1(%par1): switch.turn_off
+Parameter2(%par2):{&quot;entity_id&quot;:&quot;我设置的小米插座名字&quot;}
+</code></pre>
+<h2 id="42-手环单击开关灯">4.2 手环单击开关灯</h2>
+<h3 id="功能描述-6">功能描述</h3>
+<p>这个例子用于说明手环也可以作为触发条件控制智能家居。</p>
+<ul>
+<li>晚上不拿手机上床，通过手环关闭所有灯光：在小米手环心率界面，长按震动后单击，小米智能插座会打开/关闭。</li>
+<li>进入浴室后通过手环控制手机连接浴室的音箱，播放/暂停音乐。</li>
+</ul>
+<h3 id="配置思路-6">配置思路</h3>
+<p>这部分实际上是 Tasker + Notify&amp;Fitness For Mi Band 的进一步应用。</p>
+<pre><code>If 接收到 intent(com.mc.miband.buttonPressed1):
+	向 HA 发送开关灯的命令
+Endif
+</code></pre>
+<p>当然，NF for Mi Band 还可以接收/发送更多的 Intent，你可以在<a href="http://www.mibandnotify.com/help/tasker_send_intent.php">Notify&amp;Fitness for MiBand ，intent 参考文档</a>找到具体的参考说明。</p>
+<h2 id="43-quicker-管理-ha-家居">4.3 Quicker 管理 HA 家居</h2>
+<h3 id="功能描述-7">功能描述</h3>
+<p>这部分其实有点跑题..不过这确实是我折腾 HA 的初衷之一——实现在电脑上操控智能家居。之前开关灯、空调还需要拿起手机-解锁-点击桌面快捷方式，这样的步骤对于我这样一个懒人实在是太麻烦了。。</p>
+<p>现在在 Windows 上直接唤起 Quicker 面板，鼠标点击就可以开关灯、空调设置温度，全程无手机介入，非常舒服。</p>
+<p>比如『我出门了』这个命令，运行后台灯、饮水机、空调会自动关闭，电脑也会锁屏并息屏。</p>
+<figure data-type="image" tabindex="2"><img src="http://markdown.lixingzhang.site/picgo/20201010153508.png?imageslim" alt="Quicker 智能家居管理面板" loading="lazy"></figure>
+<h3 id="配置思路-7">配置思路</h3>
+<p>本质上就是通过 Quicker 向 HA 发 Post 请求实现相关操作，具体的细节需要参考<a href="https://developers.home-assistant.io/docs/api/rest/">REST API | Home Assistant Developer Documentation</a>这个官方文档。</p>
+<p>我同样以小米智能插座 WIFI 版本展示 Quicker 发 HTTP 请求关闭插座的相关配置：</p>
+<ul>
+<li>网址：<code>http://IP_ADDRESS:8123/api/services/switch/turn_off</code></li>
+<li>方法：<code>POST</code></li>
+<li>请求头：<code>Authorization: Bearer ｛你生成的 token｝</code></li>
+<li>请求体类型：<code>JSON</code></li>
+<li>请求体：<code>{&quot;entity_id&quot;:&quot;在‘服务中’找&quot;}</code></li>
+</ul>
+<p>其他可供参考的 API：</p>
+<ul>
+<li>米家台灯一代开关灯：<code>http://{IP}:8123/api/services/light/toggle</code></li>
+<li>米家空调伴侣 2 代设定温度：<code>http://{IP}:8123/api/services/climate/set_temperature</code></li>
+</ul>
+<h3 id="参考信息-3">参考信息</h3>
+<p><a href="https://bbs.hassbian.com/thread-10763-1-1.html">小米空调伴侣2 插件接入HA</a></p>
+<h2 id="44-手机自动保持电量在-40-80">4.4 手机自动保持电量在 40%-80%</h2>
+<h3 id="功能描述-8">功能描述</h3>
+<p>上文提到的两台手机都是常年放在家里面，兼具短信转发和 HA 中心的功能。为了尽量保证电池的健康和安全，两台手机充电到 80% 会自动断开充电插座，电量降到 40% 会自动打开充电插座。</p>
+<p>PS：iOS 其实也可以利用『自动化』和米家场景实现同样的效果。</p>
+<h3 id="配置思路-8">配置思路</h3>
+<pre><code>if (电量到达 40/80 %):
+	打开/关闭 充电插座
+Endif
+</code></pre>
+<h1 id="五-tasker-join">五 Tasker + Join</h1>
+<p><a href="https://joaoapps.com/join/">Join</a> 是 Tasker 作者的另一款产品，用于将 Windows、Android、浏览器、IFTTT 打通的一款工具。</p>
+<p>我比较喜欢的几点功能如下：</p>
+<ul>
+<li>Win10 上 Chrome 打开的网页可以直接投在手机上打开，反之手机打开的网页也可以直接分享到 Chrome 上打开</li>
+<li>剪贴板自动同步</li>
+<li>多设备之间互相发送通知+Tasker 联动</li>
+</ul>
+<p>当然，Join 还有更多的功能，比如电脑控制手机截屏到电脑、录屏到电脑、定位手机、让手机响铃...</p>
+<p>不过，Join 很大的一个问题是它借助 FCM 实现推送，所以你<strong>需要有稳定的 kx 网络</strong>才能获得比较好的使用体验。</p>
+<p>此部分无需 Root，adb。</p>
+<h2 id="51-控制另一台手机播放暂停音乐-调整音量">5.1 控制另一台手机播放/暂停音乐、调整音量</h2>
+<h3 id="功能描述-9">功能描述</h3>
+<p>最近在根据<a href="https://github.com/xiaolai/everyone-can-use-english/blob/master/chapter3.md">人人都能用英语-语音篇</a>尝试重建自己的语音过滤系统，所以需要听很多英语材料。可手头又没个音箱外放，于是我把目光投向了我闲置已久的短信转发手机——红米 Note 4x。</p>
+<p>因为它平时所在的位置比较奇怪，拿起来操作不太方便，所以我希望它除了能够长久播放，还可以通过另一台手机远程控制播放暂停音量。甚至进一步可以实现主力手机有电话进来，它自动停止播放；电话挂掉，它恢复播放这种功能。</p>
+<p>在红米上安装完 Tasker 之后，我找到了<a href="https://powerampapp.com/">Poweramp – Music Player for Android</a> 这款本地音乐播放器支持通过 Intent 控制播放/暂停、上一曲、下一曲等操作。所以此部分实际上是 Tasker+Join+Poweramp 。</p>
+<h3 id="配置思路-9">配置思路</h3>
+<ul>
+<li>在 Mi10 上的 Tasker 创建一个任务，通过 Join 在 Tasker 上的插件向红米上的 Join 发送一条特定文本</li>
+<li>红米上的 Tasker 通过 Join 的插件检测到接收到特定文本，通过 Intent 执行命令以控制 Poweramp 播放</li>
+</ul>
+<p>值得注意的一点是，如果你是通过参考文档中 Reddit 网友提供的<a href="https://taskernet.com/shares/?user=AS35m8l%2B3zs0BR1AZDj4AuATCi6sHXkf5gWIgaHE4nGBxoUJYqGDo%2FdXDzy829iShgNjLWU%3D&amp;id=Project%3APA+Ctrl">链接</a>下载的 Poweramp(intents) v1.1 这个『任务』，它默认的 Intent 的 <code>Target</code> 是 <code>Service</code>，如果测试控制不成功的话，可能需要将其改成<code>Activity</code>才能正常使用。你也可以在后面导入我修改好的『任务』。</p>
+<h3 id="参考文档">参考文档</h3>
+<p><a href="https://www.reddit.com/r/tasker/comments/i26864/project_share_poweramp_control_panel_to_control/">[PROJECT SHARE] PowerAmp control panel to control media function 😃 : tasker</a></p>
+<p><a href="https://github.com/maxmpz/powerampapi/blob/master/poweramp_api_lib/src/com/maxmpz/poweramp/player/PowerampAPI.java">powerampapi/PowerampAPI.java at master · maxmpz/powerampapi</a></p>
+<h2 id="52-另一台手机接收的短信通过-join-直接转发">5.2 另一台手机接收的短信通过 Join 直接转发</h2>
+<h3 id="功能描述-10">功能描述</h3>
+<p>其实这台手机本身已经配置了<a href="https://iamcristye.github.io/SMS-forwarding-using-IFTTT">通过 IFTTT 转发到 TG 了</a>，添加这个 Tasker Profile 算是多一重保险吧。</p>
+<p>如标题所言，红米接收的短信会通过 Join 直接转发到我的 Mi10 上。</p>
+<p>不过后来发现，对于经常使用电脑的人而言，还是将短信转发到微信上更方便一些..</p>
+<h3 id="配置思路-10">配置思路</h3>
+<ul>
+<li>Tasker 检测到短信，通过 Join 将短信内容、发信人、发信时间发送到 Mi10 上</li>
+</ul>
+<p>其中可能会用到的变量名称及含义如下</p>
+<ul>
+<li><code>%SMSRB</code>：短信文本</li>
+<li><code>%SMSRF</code>：发信人</li>
+<li><code>%SMSRD</code>：发送日期</li>
+<li><code>%SMSRT</code>：发送时间</li>
+</ul>
+<h3 id="参考信息-4">参考信息</h3>
+<p><a href="http://taskerm.com/2018/12/22/forwarded-sms-to-wechat/">用Tasker实现收到Android手机短信自动转发到微信-Tasker配置教程站</a></p>
+<h1 id="六-tasker-keep">六 Tasker + Keep</h1>
+<h2 id="61-keep-开始运动后小米手环开始记录">6.1 Keep 开始运动后小米手环开始记录</h2>
+<h3 id="功能描述-11">功能描述</h3>
+<p>因为 Keep 并不支持连接小米手环，所以手环上的很多传感器在 Keep 的运动场景上毫无用武之地。每次想在 Keep 记录运动时，还需要手动打开 NF for Mi Band 创建运动，然后再切回 Keep，非常麻烦。</p>
+<p>设置 Tasker 之后可以实现在 Keep 点击『开始运动』后，小米手环自动以『跑步』模式创建运动开始监测数据。</p>
+<p>同样这里也用到了 Tasker 的 Logcat Entry 功能作为监测条件。</p>
+<h3 id="配置思路-11">配置思路</h3>
+<pre><code>if (Logcat Entry 捕捉到 Keep 开始运动的日志):
+	通过 NF for Mi Band 的 Tasker 插件创建某一模式的运动
+Endif
+
+# 参考的 Logcat Entry 配置
+Component: ActivityTaskerManager
+Filter: START u0 {cmp=com.gotokeep.keep/.tc.business.training.core.activity.TrainingActivity (has extras)} from uid 10086
+</code></pre>
+<h3 id="依赖配置-5">依赖配置</h3>
+<ul>
+<li>需要安装 Notify&amp;Fitness for Mi Band</li>
+<li>无需 Root，但开启 Logcat Entry 功能需要 adb 授权</li>
+</ul>
+<h1 id="七-其他">七 其他</h1>
+<h2 id="71-息屏下连接-airpods-时自动朗读微信通知">7.1 息屏下连接 Airpods 时自动朗读微信通知</h2>
+<h3 id="功能描述-12">功能描述</h3>
+<p>见名达意，还可以把 Airpods 换成车载蓝牙，也算变相地实现了微信收消息的车载模式吧。</p>
+<p>比如开车、骑车这类场景不方便打开手机看消息、看手环也会影响注意力，利用耳朵则是一个很好的方法。</p>
+<p>简单实现的功能如下：</p>
+<ul>
+<li>同一个人多次发送消息只会说一次姓名</li>
+<li>多条消息的“[n条]”不会被播报</li>
+<li>群聊中的『@微信名』会被替换为『@我』</li>
+</ul>
+<p>推荐更进一步的操作：<a href="https://blog.csdn.net/h137242126/article/details/81235926">Tasker 一个配置实现微信朗读，微信消息播报+基础版的防撤回-CSDN博客_tasker 获取通知内容</a></p>
+<h3 id="配置思路-12">配置思路</h3>
+<p>主要介绍一下通知文本的处理过程(Mi10 调用的小爱同学发音引擎，其他型号手机需要自行设置)</p>
+<pre><code># 变量说明
+%Wechat_sender #存储微信发信人，由 %evtprm2 赋值
+%say_text #存储通知文本，由 %evtprm3 赋值
+
+If (两次发信人不相同):
+	存储发信人姓名到 %Wechat_sender
+	文字转语音：『%Wechat_sender 说』
+Endif
+存储通知文本到 %say_text
+正则搜索替换『.*:』,去除多条信息的 &quot;[n条]:&quot;
+If(通知文本中有 『@微信名』)
+	搜索『@微信名』为『@我』
+	文字转语音：『@我』
+Endif
+文字转语音：『%say_text』
+</code></pre>
+<h2 id="72-连接-airpods-后且前台非音视频应用自动播放听力">7.2 连接 Airpods 后且前台非音视频应用自动播放听力</h2>
+<h3 id="功能描述-13">功能描述</h3>
+<p>和 5.1 一脉相承，同样是为了磨耳朵，主要用于出门在外的场景。</p>
+<p>连接 Airpods 后，只要前台不是电话和音视频应用，就自动控制 Poweramp 开始播放，反之停止播放。</p>
+<h3 id="配置思路-13">配置思路</h3>
+<pre><code>If (连接了 Airpods) And (前台不是某些应用):
+	Poweramp 开始播放
+Else:
+	停止播放
+Endif
+</code></pre>
+<h3 id="依赖配置-6">依赖配置</h3>
+<ul>
+<li>需要安装 Poweramp，地址参考 5.1</li>
+</ul>
+<h2 id="73-通过小爱同学执行-tasker-命令">7.3 通过小爱同学执行 Tasker 命令</h2>
+<h3 id="功能描述-14">功能描述</h3>
+<p>因为手机上的小爱同学进行理解时，可以通过 Logcat Entry 功能监测到语音生成的文本。所以，我们可以向手机的小爱同学说特定文本，执行 Tasker 某条『任务』。</p>
+<h3 id="配置思路-14">配置思路</h3>
+<p>以下配置基于 Mi10，MIUI12，其他手机或需要另行修改。同时建议给小爱添加自定义回复，避免小爱回复『听不懂，请重说一遍』。</p>
+<p>通过 Logcat Entry 检测小爱同学转换的文本</p>
+<ul>
+<li>Component：<code>XmodeTextView</code></li>
+<li>Filter：<code>setTextWithAnimation｛要转换的文本｝</code></li>
+</ul>
+<h3 id="依赖配置-7">依赖配置</h3>
+<ul>
+<li>无需 Root，但 Logcat Entry 需要 adb 开启</li>
+</ul>
+<h2 id="74-扫描特定-nfc-卡片打开体重秤连接界面">7.4 扫描特定 NFC 卡片打开体重秤连接界面</h2>
+<h3 id="功能描述-15">功能描述</h3>
+<p>每天早上我会测量记录体重体脂状况，而每次『打开手机-找到NF-切换 Tab-点击体重 』实在是太麻烦了...</p>
+<p>利用 Tasker 则可以极大地简化这个流程，起床后把手机放在桌面特定的位置(下面有 NFC Tag)，然后站到体重秤上，体重体脂数据就会自动同步到手机。</p>
+<p>NF For Mi Band 支持的体重秤版本如下：</p>
+<blockquote>
+<p>Since 7.3.6 Notify app version these scales are supported</p>
+<p>Please notice, if you are using also the official app of the scale there could be some conflicts. We suggest use only one app (notify or the official app)</p>
+<p><strong>Xiaomi Mi Scale 1</strong><br>
+Full support</p>
+<p><strong>Xiaomi Mi Scale 2</strong><br>
+Full support<br>
+Body values (fat, water, ...) are calculated by cloud notify server. We never save / redistribute any user data on cloud server.</p>
+<p><strong>Yunmai Scale Mini</strong><br>
+Does not support offline data sync. Can measure values only when is connected.</p>
+<p><strong>Yunmai Scale SE</strong><br>
+Does not support offline data sync. Can measure values only when is connected.</p>
+<p><strong>Beurer BF700 &amp; BF800</strong><br>
+Full support</p>
+<p><strong>Beurer BF710</strong><br>
+Full support</p>
+<p><strong>Runtastic Libra</strong><br>
+Full support</p>
+<p><strong>Sanitas SBF70</strong><br>
+Full support</p>
+<p><strong>SilverCrest SBF75</strong><br>
+Full support</p>
+</blockquote>
+<h3 id="配置思路-15">配置思路</h3>
+<pre><code># 类别是 Send Intent，下面是具体参数设置
+Package: com.mc.miband1 # NF 的包名
+Class: com.mc.miband1.ui.main10.health.WeightActivity # NF 里面体重秤的 Activity
+Target：Activity
+</code></pre>
+<p>包名、当前页面的 Activity 都可以通过<a href="https://www.coolapk.com/apk/com.toshiba_dealin.developerhelper">开发者助手(com.toshiba_dealin.developerhelper) - 1.2.1 - 应用 - 酷安网</a>获取。</p>
+<h3 id="依赖配置-8">依赖配置</h3>
+<ul>
+<li>手机支持 NFC(或者你采用其他触发条件也行)</li>
+<li>需要安装 Notify&amp;Fitness for Mi Band，并且自己有支持的体重秤</li>
+</ul>
+<hr>
+<h1 id="结语">结语</h1>
+<p>我曾经在知乎搜索过『Tasker 有什么有趣的玩法』这个问题，不过下面的回答多是 2015、2016 年的，时效性大打折扣。</p>
+<p>在国内平台上，受制于 Google 套件和 kx 网络，Tasker 的相关资料比较少，这里要特别感谢少数派@Fairyex 等几位作者写的 Tasker 分享，比较受启发；在国外的平台上，则要感谢 Reddit 上的作者和热心网友了，提供了很多资料与思路。</p>
+<p>随着 Tasker 自身的更新和第三方应用的完善，相信 Tasker 会有更多的可能。非常希望大家能够在评论区分享出自己的玩法，供更多朋友参考！</p>
+<p>配置链接：https://www.jianguoyun.com/p/Ddu1CC8QyODhBxiB1sID</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a href="https://google.com" target="_blank">
+一切随缘</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li><a href="#%E5%BC%95%E8%A8%80">引言</a></li>
+<li><a href="#%E4%B8%80-tasker-foldersync">一 Tasker + FolderSync</a>
+<ul>
+<li><a href="#11-%E9%80%9A%E8%AF%9D%E5%BD%95%E9%9F%B3%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0%E4%BA%91%E7%9B%98">1.1 通话录音自动同步到云盘</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE">依赖配置</a></li>
+</ul>
+</li>
+<li><a href="#12-fv-%E6%82%AC%E6%B5%AE%E7%90%83%E6%88%AA%E5%9B%BE%E5%90%8E%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0%E7%94%B5%E8%84%91%E6%A1%8C%E9%9D%A2">1.2 FV 悬浮球截图后自动同步到电脑桌面</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-2">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-2">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE-2">依赖配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8C-tasker-notifyfitness-for-mi-band">二 Tasker + Notify&amp;Fitness for Mi Band</a>
+<ul>
+<li><a href="#21-%E5%85%85%E7%94%B5%E8%87%B3-95-%E6%89%8B%E7%8E%AF%E5%8F%91%E9%80%81%E7%94%B5%E9%87%8F%E5%85%85%E6%BB%A1%E6%8F%90%E9%86%92">2.1 充电至 95% 手环发送电量充满提醒</a></li>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-3">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-3">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE-3">依赖配置</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%89-tasker-%E9%92%B1%E8%BF%B9">三 Tasker+ 钱迹</a><br>
+*
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-4">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-4">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE-4">依赖配置</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E4%BF%A1%E6%81%AF">参考信息</a></li>
+<li><a href="#%E5%AF%BC%E5%85%A5%E8%AF%B4%E6%98%8E">导入说明</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9B%9B-tasker-homeassistant">四 Tasker + HomeAssistant</a>
+<ul>
+<li><a href="#40-%E5%AE%89%E8%A3%85-homeassistant-%E4%B8%8E%E6%8E%A5%E5%85%A5%E7%B1%B3%E5%AE%B6%E8%AE%BE%E5%A4%87">4.0 安装 HomeAssistant 与接入米家设备</a>
+<ul>
+<li><a href="#%E5%AE%89%E8%A3%85-home-assistant">安装 Home Assistant</a>
+<ul>
+<li><a href="#windows-%E5%AE%89%E8%A3%85-ha">Windows 安装 HA</a></li>
+<li><a href="#android-%E5%AE%89%E8%A3%85-ha">Android 安装 HA</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8E%A5%E5%85%A5%E7%B1%B3%E5%AE%B6%E8%AE%BE%E5%A4%87">接入米家设备</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E4%BF%A1%E6%81%AF-2">参考信息</a></li>
+</ul>
+</li>
+<li><a href="#41-%E7%89%B9%E5%AE%9A%E4%BD%8D%E7%BD%AE%E6%91%87%E6%99%83%E6%89%8B%E6%9C%BA%E5%BC%80%E5%85%B3%E7%81%AF">4.1 特定位置摇晃手机开关灯</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-5">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-5">配置思路</a></li>
+</ul>
+</li>
+<li><a href="#42-%E6%89%8B%E7%8E%AF%E5%8D%95%E5%87%BB%E5%BC%80%E5%85%B3%E7%81%AF">4.2 手环单击开关灯</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-6">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-6">配置思路</a></li>
+</ul>
+</li>
+<li><a href="#43-quicker-%E7%AE%A1%E7%90%86-ha-%E5%AE%B6%E5%B1%85">4.3 Quicker 管理 HA 家居</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-7">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-7">配置思路</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E4%BF%A1%E6%81%AF-3">参考信息</a></li>
+</ul>
+</li>
+<li><a href="#44-%E6%89%8B%E6%9C%BA%E8%87%AA%E5%8A%A8%E4%BF%9D%E6%8C%81%E7%94%B5%E9%87%8F%E5%9C%A8-40-80">4.4 手机自动保持电量在 40%-80%</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-8">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-8">配置思路</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%BA%94-tasker-join">五 Tasker + Join</a>
+<ul>
+<li><a href="#51-%E6%8E%A7%E5%88%B6%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E6%92%AD%E6%94%BE%E6%9A%82%E5%81%9C%E9%9F%B3%E4%B9%90-%E8%B0%83%E6%95%B4%E9%9F%B3%E9%87%8F">5.1 控制另一台手机播放/暂停音乐、调整音量</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-9">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-9">配置思路</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3">参考文档</a></li>
+</ul>
+</li>
+<li><a href="#52-%E5%8F%A6%E4%B8%80%E5%8F%B0%E6%89%8B%E6%9C%BA%E6%8E%A5%E6%94%B6%E7%9A%84%E7%9F%AD%E4%BF%A1%E9%80%9A%E8%BF%87-join-%E7%9B%B4%E6%8E%A5%E8%BD%AC%E5%8F%91">5.2 另一台手机接收的短信通过 Join 直接转发</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-10">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-10">配置思路</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E4%BF%A1%E6%81%AF-4">参考信息</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%85%AD-tasker-keep">六 Tasker + Keep</a>
+<ul>
+<li><a href="#61-keep-%E5%BC%80%E5%A7%8B%E8%BF%90%E5%8A%A8%E5%90%8E%E5%B0%8F%E7%B1%B3%E6%89%8B%E7%8E%AF%E5%BC%80%E5%A7%8B%E8%AE%B0%E5%BD%95">6.1 Keep 开始运动后小米手环开始记录</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-11">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-11">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE-5">依赖配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E4%B8%83-%E5%85%B6%E4%BB%96">七 其他</a>
+<ul>
+<li><a href="#71-%E6%81%AF%E5%B1%8F%E4%B8%8B%E8%BF%9E%E6%8E%A5-airpods-%E6%97%B6%E8%87%AA%E5%8A%A8%E6%9C%97%E8%AF%BB%E5%BE%AE%E4%BF%A1%E9%80%9A%E7%9F%A5">7.1 息屏下连接 Airpods 时自动朗读微信通知</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-12">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-12">配置思路</a></li>
+</ul>
+</li>
+<li><a href="#72-%E8%BF%9E%E6%8E%A5-airpods-%E5%90%8E%E4%B8%94%E5%89%8D%E5%8F%B0%E9%9D%9E%E9%9F%B3%E8%A7%86%E9%A2%91%E5%BA%94%E7%94%A8%E8%87%AA%E5%8A%A8%E6%92%AD%E6%94%BE%E5%90%AC%E5%8A%9B">7.2 连接 Airpods 后且前台非音视频应用自动播放听力</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-13">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-13">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE-6">依赖配置</a></li>
+</ul>
+</li>
+<li><a href="#73-%E9%80%9A%E8%BF%87%E5%B0%8F%E7%88%B1%E5%90%8C%E5%AD%A6%E6%89%A7%E8%A1%8C-tasker-%E5%91%BD%E4%BB%A4">7.3 通过小爱同学执行 Tasker 命令</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-14">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-14">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE-7">依赖配置</a></li>
+</ul>
+</li>
+<li><a href="#74-%E6%89%AB%E6%8F%8F%E7%89%B9%E5%AE%9A-nfc-%E5%8D%A1%E7%89%87%E6%89%93%E5%BC%80%E4%BD%93%E9%87%8D%E7%A7%A4%E8%BF%9E%E6%8E%A5%E7%95%8C%E9%9D%A2">7.4 扫描特定 NFC 卡片打开体重秤连接界面</a>
+<ul>
+<li><a href="#%E5%8A%9F%E8%83%BD%E6%8F%8F%E8%BF%B0-15">功能描述</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%80%9D%E8%B7%AF-15">配置思路</a></li>
+<li><a href="#%E4%BE%9D%E8%B5%96%E9%85%8D%E7%BD%AE-8">依赖配置</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E7%BB%93%E8%AF%AD">结语</a></li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zj1123581321.com//media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'jpU4bE7syE3UkpRXTWkX6c8s-gzGzoHsz',
+    appKey: '1PjXPXbbnlwTUHwHqwXtnmpJ',
+    pageSize: '10',
+    avatar: 'mp',
+    placeholder: '评论请点我：)',
+    visitor: 'false',
+    highlight: 'false',
+    recordIP: 'true'
+  })
+</script>
+  
+  
+</body>
+
+</html>

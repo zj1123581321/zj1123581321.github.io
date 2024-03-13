@@ -1,0 +1,357 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>WordPress 迁移 Gridea 记录 - 杂谈by立行</title>
+<link rel="shortcut icon" href="https://zj1123581321.com//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://zj1123581321.com//media/css/tailwind.css">
+<link rel="stylesheet" href="https://zj1123581321.com//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="WordPress 迁移 Gridea 记录 - 杂谈by立行 - Atom Feed" href="https://zj1123581321.com//atom.xml">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2920695321218858"
+     crossorigin="anonymous"></script>
+     
+    
+
+  <meta name="description" content="五一假期花了大概一天把之前放在 WordPress 上的历史文章迁移到 Gridea 上面，里面还是存了不少坑，这里做个记录。
+基本流程
+全套流程大概可以有以下几步：
+
+配置 Gridea 在 Github 的仓库和本地同步网络环境。
+导出..." />
+  <meta property="og:title" content="WordPress 迁移 Gridea 记录 - 杂谈by立行">
+  <meta property="og:description" content="五一假期花了大概一天把之前放在 WordPress 上的历史文章迁移到 Gridea 上面，里面还是存了不少坑，这里做个记录。
+基本流程
+全套流程大概可以有以下几步：
+
+配置 Gridea 在 Github 的仓库和本地同步网络环境。
+导出..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zj1123581321.com/post/wordpress-qian-yi-gridea-ji-lu/" />
+  <meta property="og:image" content="https://zj1123581321.com//images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="WordPress 迁移 Gridea 记录 - 杂谈by立行">
+  <meta name="twitter:description" content="五一假期花了大概一天把之前放在 WordPress 上的历史文章迁移到 Gridea 上面，里面还是存了不少坑，这里做个记录。
+基本流程
+全套流程大概可以有以下几步：
+
+配置 Gridea 在 Github 的仓库和本地同步网络环境。
+导出...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zj1123581321.com/post/wordpress-qian-yi-gridea-ji-lu/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zj1123581321.com/" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      杂谈by立行
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          WordPress 迁移 Gridea 记录
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2022-05-06 · 6 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>五一假期花了大概一天把之前放在 WordPress 上的历史文章迁移到 Gridea 上面，里面还是存了不少坑，这里做个记录。</p>
+<h2 id="基本流程">基本流程</h2>
+<p>全套流程大概可以有以下几步：</p>
+<ol>
+<li>配置 Gridea 在 Github 的仓库和本地同步网络环境。</li>
+<li>导出 WordPress 中文章成 Markdown 系列。</li>
+<li>导入历史文章到 Gridea，并根据历史 URL 修改新 URL。</li>
+<li>给 404 页面添加 JS 脚本变相实现 301(重定向)。</li>
+</ol>
+<p>因为多数流程都可以在网络上找到，所以我只记录一些容易出现坑的地方。</p>
+<h2 id="配置-gridea-云端仓库和本地同步网络环境">配置 Gridea 云端仓库和本地同步网络环境</h2>
+<p><a href="https://gridea.dev/gridea-start/">🤗 快速上手 | Gridea</a>，安装的过程并不复杂，也有比较多的资料可供查询。</p>
+<p>主要的问题在于 Gridea 本地同步经常提示 <strong><a href="https://github.com/getgridea/gridea/issues/976">🙁 同步遇到了错误，请查阅 FAQ 或 Issues 来寻找解决方案</a></strong>。</p>
+<p>Github 在部分网络条件下是被墙了，连接非常不稳，想要流畅访问 Github 通常都需要挂代理。自然，Gridea 如果部署在 Github Page 上，想要稳定连接，最好还是走代理。</p>
+<p>按照 0.9.2 版本的更新内容，Gridea 原则上支持直接使用系统代理，但实测结果是开着代理的条件下，完全抓不到 Gridea 同步时的包，『Gridea 使用系统代理』多少有点玄学了。</p>
+<p>这里略微解释一下为什么会出现这个问题。</p>
+<p>放在 Github 仓库的博客在本地是通过 Git 来同步的，而 Git 这种处于网络层的应用无法被上层类似于 Clash 这种代理软件管理网络流量，需要单独通过命令设置代理。(更多可以参考 <a href="https://blog.wdsxhb.club/2020/05/22/git/">git clone 网速过慢问题的两种解决方案 | CaryC Blog</a>)</p>
+<p>Gridea 对 Git 应该是做了一层封装，但是没有针对 Git 做网络代理配置。这就导致了在开启 Clash 等代理软件情况下，Gridea 的同步系统(Git)的网络流量实际上并没有被 Clash 接管，而是直接尝试连接 Github，自然同步也会经常出问题。</p>
+<p>知道了原因，解决方案也就出来了，两个方向：</p>
+<ul>
+<li>使代理软件接管更底层的网络流量，比如 Clash 的 Tun 模式(但 Issue 区也有反馈依旧失败的)。</li>
+<li>通过 <code>proxifier</code> 给 Gridea 单独<a href="https://www.luoyelusheng.com/post/Gridea%E5%90%8C%E6%AD%A5github%E5%A4%B1%E8%B4%A5%E6%9C%80%E7%BB%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">设置网络代理</a>。</li>
+</ul>
+<p>我自己是采用第二种方式的，缺点是想要同步时还需要把 Proxifier 提前打开。</p>
+<p>当然，思路一还可以演化为使用路由器代理，直接接管电脑上的所有流量，不过这个显然门槛就更高了。</p>
+<p>除此之外，还看到一个思路<a href="https://sonatta.top/post/Ux6xKOeOx/">利用 Github Desktop 客户端来完成同步</a>的，也是一种思路。</p>
+<h2 id="导出-wordpress-中文章成-markdown-系列">导出 WordPress 中文章成 Markdown 系列</h2>
+<p><a href="https://www.sunjianbo.com/wordpress-to-gridea/">WordPress文章导出迁移到Gridea | 孙建博的小站</a></p>
+<p>我主要使用这篇文章中的方案将历史文章导出成 Markdown，麻烦的地方在于由于在 WP 使用了目录插件将文章可折叠的目录插入到了正文，文章导出后包含了部分 HTML 的内容，且格式混乱。</p>
+<figure data-type="image" tabindex="1"><img src="http://markdown.lixingzhang.site/picgo/202205052359006.png?imageslim" alt="混入了部分 HTML 的内容" loading="lazy"></figure>
+<p>这个问题我没啥一键处理的方案，都是单个文件逐步处理。删一些文章，然后从原稿中粘贴过来。</p>
+<p>实际上<strong>导出的 Markdown 里 Gridea 能识别的文档属性都在开头</strong>，所以其实过程就是保留开头，删除剩余，粘贴原稿。</p>
+<figure data-type="image" tabindex="2"><img src="http://markdown.lixingzhang.site/picgo/202205060002883.png?imageslim" alt="文章信息" loading="lazy"></figure>
+<h2 id="修改导入-gridea-文章的-url">修改导入 Gridea 文章的 URL</h2>
+<p>因为历史文章的 URL 可能在多个地方已经被使用了，为了让这些导入的文章还能通过旧的 URL 访问，我们还需要花一定的功夫。</p>
+<p>最理想的方法显然是在 Gridea 中直接使用旧的 URL。在 WP 中的文章 URL 我设置的是 <code>https://zj1123581321.com/2020-10-12/239/</code> 这种形式，但 Gridea 中文章的默认设置是 <code>https://zj1123581321.com/post/xxx</code>，其中 <code>xxx</code> 为自定义的内容，不能包含『/』，所以这条路被堵死了。</p>
+<p>这条路走不通，很自然地想到<a href="https://ahrefs.com/blog/zh/301-redirects/">设置 301 跳转</a>。可惜 301 跳转要么在服务器上做，要么在域名提供商处做。修改 Github 的服务器显然不现实，而国内阿里云也没有提供设置 URL 跳转的功能，所以这条路也是走不通的。</p>
+<p>找了找资料，发现比较可行的方式是通过 404 页面的 JS 代码来实现变相访问，即判断如果用户是通过历史文章的 URL 进来的，通过 JS 使用户跳到文章现在的网址上。</p>
+<p>所以我把导入 Gridea 的文章 URL 设置成 <code>https://zj1123581321.com/post/2020-10-12239/</code>，然后在 <code>Gridea 文档路径/static/404.html</code>中新增一段 JS 代码完成规则跳转。</p>
+<pre><code class="language-javascript">  &lt;script&gt;
+  var url = window.location.href;
+  var OldWpUrlReg = /.*zj1123581321\.com\/\d{4}-\d{2}-\d{2}\/\d.*/i;
+  if (OldWpUrlReg.test(url)) {
+      console.log('检测到是历史 WordPress Url');
+      var new_url = url.replace('.com/', '.com/post/');
+      console.log(new_url);
+      var new_url = new_url.replace('https://zj1123581321.com/post/','JustForTemp');
+      console.log(new_url);
+      var new_url = new_url.replace(/\//g,'');
+      console.log(new_url);
+      var new_url = new_url.replace('JustForTemp','https://zj1123581321.com/post/');
+      console.log('跳转 url：' + new_url);
+      window.location.replace(new_url); 
+  }  
+  &lt;/script&gt;
+</code></pre>
+<p>如今访问 <a href="https://zj1123581321.com/2020-10-12/239/">https://zj1123581321.com/2020-10-12/239/</a> 就可以通过 404 页面中转一次，然后跳转到新的 URL 了。</p>
+<hr>
+<p>希望对你有帮助，以上。</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a href="https://google.com" target="_blank">
+一切随缘</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B">基本流程</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-gridea-%E4%BA%91%E7%AB%AF%E4%BB%93%E5%BA%93%E5%92%8C%E6%9C%AC%E5%9C%B0%E5%90%8C%E6%AD%A5%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83">配置 Gridea 云端仓库和本地同步网络环境</a></li>
+<li><a href="#%E5%AF%BC%E5%87%BA-wordpress-%E4%B8%AD%E6%96%87%E7%AB%A0%E6%88%90-markdown-%E7%B3%BB%E5%88%97">导出 WordPress 中文章成 Markdown 系列</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E5%AF%BC%E5%85%A5-gridea-%E6%96%87%E7%AB%A0%E7%9A%84-url">修改导入 Gridea 文章的 URL</a></li>
+</ul>
+</li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zj1123581321.com//media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'jpU4bE7syE3UkpRXTWkX6c8s-gzGzoHsz',
+    appKey: '1PjXPXbbnlwTUHwHqwXtnmpJ',
+    pageSize: '10',
+    avatar: 'mp',
+    placeholder: '评论请点我：)',
+    visitor: 'false',
+    highlight: 'false',
+    recordIP: 'true'
+  })
+</script>
+  
+  
+</body>
+
+</html>

@@ -1,0 +1,358 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>多平台微信视频号直播下载方法 - 杂谈by立行</title>
+<link rel="shortcut icon" href="https://zj1123581321.com//favicon.ico">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css">
+<link rel="stylesheet" href="https://zj1123581321.com//media/css/tailwind.css">
+<link rel="stylesheet" href="https://zj1123581321.com//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="多平台微信视频号直播下载方法 - 杂谈by立行 - Atom Feed" href="https://zj1123581321.com//atom.xml">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2920695321218858"
+     crossorigin="anonymous"></script>
+     
+    
+
+  <meta name="description" content="昨日晚上在外面吃饭时发现有两个比较感兴趣的老师都在视频号做直播，两边的内容都想听，但无奈只有一台手机，也没办法确定之后是否有回放，遂生下载微信视频号直播随后观看的想法。
+下载微信视频号直播大体可以分成三步：
+
+抓包获取视频号直播推流地址
+调..." />
+  <meta property="og:title" content="多平台微信视频号直播下载方法 - 杂谈by立行">
+  <meta property="og:description" content="昨日晚上在外面吃饭时发现有两个比较感兴趣的老师都在视频号做直播，两边的内容都想听，但无奈只有一台手机，也没办法确定之后是否有回放，遂生下载微信视频号直播随后观看的想法。
+下载微信视频号直播大体可以分成三步：
+
+抓包获取视频号直播推流地址
+调..." />
+  <meta property="og:type" content="articles">
+  <meta property="og:url" content="https://zj1123581321.com/post/duo-ping-tai-wei-xin-shi-pin-hao-zhi-bo-xia-zai-fang-fa/" />
+  <meta property="og:image" content="https://zj1123581321.com//images/avatar.png">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:width" content="1200">
+  <meta name="twitter:title" content="多平台微信视频号直播下载方法 - 杂谈by立行">
+  <meta name="twitter:description" content="昨日晚上在外面吃饭时发现有两个比较感兴趣的老师都在视频号做直播，两边的内容都想听，但无奈只有一台手机，也没办法确定之后是否有回放，遂生下载微信视频号直播随后观看的想法。
+下载微信视频号直播大体可以分成三步：
+
+抓包获取视频号直播推流地址
+调...">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://zj1123581321.com/post/duo-ping-tai-wei-xin-shi-pin-hao-zhi-bo-xia-zai-fang-fa/">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+ 
+  
+
+  
+</head>
+
+<body>
+  <div class="antialiased flex flex-col min-h-screen" id="app">
+    <a href="https://zj1123581321.com/" class="fixed top-0 left-0 mt-4 bg-black text-white dark:text-gray-700 dark:bg-yellow-50 dark:hover:bg-black dark:hover:text-white inline-flex p-2 pl-8 hover:text-gray-700 hover:bg-yellow-50 font-bold z-10 transition-fast animated fadeInLeft">
+      杂谈by立行
+    </a>
+    <div class="max-w-4xl w-full mx-auto">
+      <div class="shadow-box bg-white dark:bg-gray-600 rounded-lg pt-32 md:pt-64 px-4 md:px-8 pb-8 animated fadeIn mb-8">
+        <h1 class="text-5xl font-semibold leading-normal pb-8 mb-8 border-b-8 border-gray-700">
+          多平台微信视频号直播下载方法
+        </h1>
+        
+        <div class="mb-8 flex flex-wrap">
+          <div class="text-gray-400 text-sm mr-4">2022-05-15 · 5 min read</div>
+          
+        </div>
+        <div class="markdown mb-8" v-pre>
+          <p>昨日晚上在外面吃饭时发现有两个比较感兴趣的老师都在视频号做直播，两边的内容都想听，但无奈只有一台手机，也没办法确定之后是否有回放，遂生<strong>下载微信视频号直播</strong>随后观看的想法。</p>
+<p>下载微信视频号直播大体可以分成三步：</p>
+<ul>
+<li>抓包获取视频号直播推流地址</li>
+<li>调用下载器下载，最后生成一个 flv 文件</li>
+<li>将 flv 转码成 mp4 文件</li>
+</ul>
+<h1 id="抓包获取视频号推流地址">抓包获取视频号推流地址</h1>
+<p>核心是在各个平台上设置 https 抓包，推流的 URL Host 为 <code>http://voipfinderliveplay.wxqcloud.qq.com</code>，按这个地址过滤就可以直接找到可以下载直播视频流的 Url。</p>
+<h2 id="windows-平台">Windows 平台</h2>
+<p><a href="http://www.piaoyi.org/network/Fiddler-Proxifier-PC-package.html">Fiddler配合Proxifier抓包PC客户端HTTPS明文数据 - 飘易博客</a></p>
+<p>在电脑上打开直播的视频号，使用 Fidder 抓包。</p>
+<figure data-type="image" tabindex="1"><img src="http://markdown.lixingzhang.site/picgo/202205152311867.png?imageslim" alt="可以用 '@voip' 过滤" loading="lazy"></figure>
+<h2 id="android">Android</h2>
+<p>Android 7.0 + 抓包比较麻烦，要么需要 Root 迁入证书，要么使用平行空间等创建一个虚拟环境来抓包。我自身手机是 Root 过的，就直接将 http canary 的证书迁入系统即可。</p>
+<p><a href="https://www.bilibili.com/video/BV1z54y1W7Wq/">安卓11 httpcanary小黄鸟系统证书的安装_哔哩哔哩_bilibili</a></p>
+<p>http canary 安装完毕后，针对微信抓包即可。</p>
+<h2 id="ios">iOS</h2>
+<p>iOS 上抓包 https 相对来说非常简单，我是使用 Stream 来完成的。</p>
+<p><a href="https://www.cnblogs.com/hong-fithing/p/12562448.html">IOS抓包工具Stream——让移动端的抓包变得轻而易举 - 温一壶清酒 - 博客园</a></p>
+<h1 id="调用下载器下载-flv-文件">调用下载器下载 flv 文件</h1>
+<p>原则上在什么设备上拿到了视频号地址，那可以直接在对应的设备上使用下载器下载。</p>
+<p>但手机的网络不太稳定，所以我更倾向于统一用电脑下载，在电脑上我使用的下载器是 IDM。</p>
+<p><a href="https://www.idmchina.net/use/idm-euds.html#:~:text=%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93%EF%BC%8C%E4%BD%BF%E7%94%A8IDM%E4%B8%8B%E8%BD%BD,%E4%BE%BF%E8%83%BD%E6%AD%A3%E5%B8%B8%E6%92%AD%E6%94%BE%E4%BA%86%E3%80%82">使用IDM下载直播视频-IDM中文网站</a></p>
+<p>利用 Quicker 的长链接功能实现<a href="https://getquicker.net/KC/Manual/Doc/connection">手机远程调用电脑上的 IDM</a> 完成下载。</p>
+<p><a href="https://sspai.com/post/70188">动动嘴就能下载文件，我用快捷指令 + Quicker 实现远程操作 - 少数派</a></p>
+<figure data-type="image" tabindex="2"><img src="http://markdown.lixingzhang.site/picgo/202205152324283.png?imageslim" alt="Quicker 长链接调用 IDM 下载" loading="lazy"></figure>
+<p>创建下载任务成功的通知我没有使用 Bark App，而是发送到了企业微信的应用，这样我的多台设备都可以收到通知。</p>
+<p><a href="https://taskerm.com/2018/12/21/wechat">用 Tasker 实现收到 Android 手机短信自动转发到微信 | Tasker 配置教程站</a></p>
+<p>然后 Android 上通过 FV 悬浮球调用，iOS 上通过捷径调用。</p>
+<p><a href="https://getquicker.net/KC/Kb/Article/928">利用长连接实现手机与电脑的剪贴板文本交换【fooView】【仅限文本】 - Quicker</a><br>
+<a href="https://getquicker.net/Sharedaction?code=51cfce12-6aa6-4ad6-a067-08d9ac50b9f2">同步剪贴板 - 动作信息 - Quicker</a></p>
+<h1 id="将-flv-转码为-mp4">将 flv 转码为 mp4</h1>
+<p>想要得到视频号直播的 flv 文件，通常有两种方法：</p>
+<ul>
+<li>等待视频号直播结束，则下载也会自动结束。</li>
+<li>提前结束 IDM 的下载，到缓存文件夹找到下载内容，重命名后缀为 <code>.flv</code>。</li>
+</ul>
+<p>但不论是哪种 flv 文件，用普通的播放器播放时进度条基本失去了作用，这主要是因为：</p>
+<p><a href="https://www.freejishu.com/%E5%A6%82%E4%BD%95%E5%BD%95%E5%88%B6%E6%9C%A8%E6%9C%89%E5%BC%B9%E5%B9%95%E6%9C%A8%E6%9C%89%E6%B0%B4%E5%8D%B0%E7%9A%84%E7%9B%B4%E6%92%AD%EF%BC%9F/">如何录制木有弹幕木有水印的直播？ - freejishu的美丽世界</a></p>
+<blockquote>
+<p>这个时候，使用大多数播放器就可以播放了，原汁原味的流，味道怎样？</p>
+<p>不过，我们发现在播放器内快进快退、播放条等和时间有关的功能失去了作用。原因很简单，就是这种flv流的时间帧数据并不是从0分0秒000开始的（你总不可能主播一开播你就开始录制，而且直播平台大概率会吃掉前1-2秒的流）。我们还需要做一些处理。</p>
+<h4 id="6-处理录制文件">6、处理录制文件</h4>
+<p>MediaCoder这个时候就要排上用场了。MediaCoder不仅支持CUDA编码加速，而且可以复制流，乃处理这种flv的神器了。</p>
+<p>我们把待处理的flv拖进去，找到下面视频选项卡，勾中“复制视频流”，再找到音频选项卡，选择“复制音频流”。其他设定随意，别忘了改一改保存地址，然后Start就可以了。</p>
+</blockquote>
+<p>可以用 Mediacoder 处理，或者是小丸工具箱。</p>
+<p><strong>20240116 更新</strong>：<br>
+目前抖音、视频号等平台的直播流已经有部分是 hevc 格式，而非原始的 h264 格式。而上述的所有工具都无法将 hevc 格式的 flv 转换为 mp4 视频。</p>
+<p>但这种 flv 又可以通过 potplayer 进行解码播放。</p>
+<p>这里的原因在于 ffmpeg 目前对 flv 的支持编码里不含 hevc，所以这些利用 ffmpeg 进行视频转换的工具都会报错：编码错误。</p>
+<p>那有什么解决办法？</p>
+<p><a href="https://github.com/zymill/flvAnalyser">zymill/flvAnalyser: FLV v1.0 analyser</a><br>
+这款工具可以完美解决 flv+h265 的转换问题，开发者是这块的专家。软件自带一键 flv 转换 mp4 功能：）</p>
+<p>如果你需要将视频转成文字版快速浏览，可以省去转码这一步，直接上传 flv 文件到飞书妙记，照样可以识别文字、音视频也可以正常播放。</p>
+<p><a href="https://sspai.com/post/70960">年度征文 | 节时提效，用飞书妙记提升学习体验 - 少数派</a></p>
+<hr>
+<p>以上。</p>
+
+        </div>
+        <!-- Share to Twitter, Weibo, Telegram -->
+        <div class="flex items-center">
+          <div class="mr-4 flex items-center">
+            <i class="ri-share-forward-line text-gray-500"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-blue-500 hover:bg-blue-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTwitter">
+            <i class="ri-twitter-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-red-500 hover:bg-red-100 dark:hover:bg-gray-600 inline-flex" @click="shareToWeibo">
+            <i class="ri-weibo-line"></i>
+          </div>
+          <div class="px-4 cursor-pointer text-indigo-500 hover:bg-indigo-100 dark:hover:bg-gray-600 inline-flex" @click="shareToTelegram">
+            <i class="ri-telegram-line"></i>
+          </div>
+        </div>
+      </div>
+
+      
+
+      
+        <div id="vlaine-comment"></div>
+      
+
+      <footer class="py-12 text-center px-4 md:px-0" v-pre>
+  <a href="https://google.com" target="_blank">
+一切随缘</a>
+</footer>
+    </div>
+
+    <!-- TOC Container -->
+    <div class="fixed right-0 bottom-0 mb-16 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white dark:bg-gray-500 dark:text-gray-200 hover:shadow-lg transition-all animated fadeInRight" @click="showToc = true">
+      <i class="ri-file-list-line"></i>
+    </div>
+
+    <div class="fixed right-0 top-0 bottom-0 overflow-y-auto w-64 bg-white dark:bg-gray-800 p-4 border-l border-gray-100 dark:border-gray-600 z-10 transition-fast" :class="{ '-mr-64': !showToc }">
+      <div class="flex mb-4 justify-end">
+        <div class="w-8 h-8 inline-flex justify-center items-center rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-600 transition-fast" @click="showToc = false">
+          <i class="ri-close-line text-lg"></i>
+        </div>
+      </div>
+      <div class="post-toc-container">
+        <ul class="markdownIt-TOC">
+<li><a href="#%E6%8A%93%E5%8C%85%E8%8E%B7%E5%8F%96%E8%A7%86%E9%A2%91%E5%8F%B7%E6%8E%A8%E6%B5%81%E5%9C%B0%E5%9D%80">抓包获取视频号推流地址</a>
+<ul>
+<li><a href="#windows-%E5%B9%B3%E5%8F%B0">Windows 平台</a></li>
+<li><a href="#android">Android</a></li>
+<li><a href="#ios">iOS</a></li>
+</ul>
+</li>
+<li><a href="#%E8%B0%83%E7%94%A8%E4%B8%8B%E8%BD%BD%E5%99%A8%E4%B8%8B%E8%BD%BD-flv-%E6%96%87%E4%BB%B6">调用下载器下载 flv 文件</a></li>
+<li><a href="#%E5%B0%86-flv-%E8%BD%AC%E7%A0%81%E4%B8%BA-mp4">将 flv 转码为 mp4</a><br>
+*<br>
+*<br>
+* <a href="#6-%E5%A4%84%E7%90%86%E5%BD%95%E5%88%B6%E6%96%87%E4%BB%B6">6、处理录制文件</a></li>
+</ul>
+
+      </div>
+    </div>
+
+    <!-- Back to top -->
+    <div class="fixed right-0 bottom-0 mb-4 mr-4 shadow w-8 h-8 rounded-full flex justify-center items-center z-10 cursor-pointer bg-white hover:shadow-lg transition-all dark:bg-gray-500 dark:text-gray-200" @click="backToUp" v-show="scrolled">
+      <i class="ri-arrow-up-line"></i>
+    </div>
+  </div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <!-- Background of PhotoSwipe. 
+        It's a separate element as animating opacity is faster than rgba(). -->
+  <div class="pswp__bg">
+  </div>
+  <!-- Slides wrapper with overflow:hidden. -->
+  <div class="pswp__scroll-wrap">
+    <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+    <div class="pswp__container">
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+      <div class="pswp__item">
+      </div>
+    </div>
+    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <!--  Controls are self-explanatory. Order can be changed. -->
+        <div class="pswp__counter">
+        </div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+        <!-- element will get class pswp__preloader--active when preloader is running -->
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip">
+        </div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+      </button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+      </button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://zj1123581321.com//media/scripts/main.js"></script>
+  
+  <!-- Code Highlight -->
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+  <script>
+    //拿到预览框架，也就是上面的html代码
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+    //定义图片数组变量
+    var imgitems;
+    /**
+    * 用于显示预览界面
+    * @param index 图片数组下标
+    */
+    function viewImg(index) {
+      //其它选项这里不做过多阐述，详情见官网
+      var pswpoptions = {
+        index: parseInt(index, 10), // 开始幻灯片索引。0是第一张幻灯片。必须是整数，而不是字符串。
+        bgOpacity: 0.7, // 背景透明度，0-1
+        maxSpreadZoom: 3, // 缩放级别，不要太大
+      };
+      //初始化并打开PhotoSwipe，pswpElement对应上面预览框架，PhotoSwipeUI_Default为皮肤，imgitems为图片数组，pswpoptions为选项
+      var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, imgitems, pswpoptions);
+      gallery.init()
+    }
+    /**
+    * 用于添加图片点击事件
+    * @param img 图片元素
+    * @param index 所属下标（在imgitems中的位置）
+    */
+    function addImgClick(img, index) {
+      img.onclick = function() {
+        viewImg(index)
+      }
+    }
+    /**
+    * 轮询所有图片，获取src、width、height等数据，加入imgitems，并给图片元素添加事件
+    * 最好在onload中执行该方法，本站因放在最底部，所以直接初始化
+    * 异步加载图片可在图片元素创建完成后调用此方法
+    */
+    function initImg() {
+      //重置图片数组
+      imgitems = [];
+      //查找class:markdown 下的所有img元素并遍历
+      var imgs = document.querySelectorAll('.markdown img');
+      for (var i = 0; i < imgs.length; i++) {
+        var img = imgs[i];
+        //本站相册初始为loading图片，真实图片放在data-src
+        var ds = img.getAttribute("data-src");
+        //创建image对象，用于获取图片宽高
+        var imgtemp = new Image();
+        //判断是否存在data-src
+        if (ds != null && ds.length > 0) {
+          imgtemp.src = ds
+        } else {
+          imgtemp.src = img.src
+        }
+        //判断是否存在缓存
+        if (imgtemp.complete) {
+          var imgobj = {
+            "src": imgtemp.src,
+            "w": imgtemp.width,
+            "h": imgtemp.height,
+          };
+          imgitems[i] = imgobj;
+          addImgClick(img, i);
+        } else {
+          console.log('进来了2')
+          imgtemp.index = i;
+          imgtemp.img = img;
+          imgtemp.onload = function() {
+            var imgobj = {
+              "src": this.src,
+              "w": this.width,
+              "h": this.height,
+            };
+            //不要使用push，因为onload前后顺序会不同
+            imgitems[this.index] = imgobj
+            //添加点击事件
+            addImgClick(this.img, this.index);
+          }
+        }
+      }
+    }
+    //初始化
+    initImg();
+  </script>
+  
+    <script type="application/javascript" src="https://unpkg.com/valine"></script>
+<script type="application/javascript">
+  new Valine({
+    el: '#vlaine-comment',
+    appId: 'jpU4bE7syE3UkpRXTWkX6c8s-gzGzoHsz',
+    appKey: '1PjXPXbbnlwTUHwHqwXtnmpJ',
+    pageSize: '10',
+    avatar: 'mp',
+    placeholder: '评论请点我：)',
+    visitor: 'false',
+    highlight: 'false',
+    recordIP: 'true'
+  })
+</script>
+  
+  
+</body>
+
+</html>
