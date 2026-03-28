@@ -30,6 +30,11 @@ theme = 'PaperMod'
     Content = "记录一个数字生活流民的所见，所思。"
 
   [[params.socialIcons]]
+    name = "wechat"
+    title = "公众号: 杂谈by立行"
+    url = "/about/#-联系我呀"
+
+  [[params.socialIcons]]
     name = "github"
     url = "https://github.com/zj1123581321"
 
