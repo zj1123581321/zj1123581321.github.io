@@ -1,0 +1,6 @@
+{
+  "imageHosts": [
+    "192.168.1.100:9200",
+    "your-image-host.example.com"
+  ]
+}
