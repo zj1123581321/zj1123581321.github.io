@@ -51,13 +51,13 @@ Gridea 对 Git 应该是做了一层封装，但是没有针对 Git 做网络代
 
 我主要使用这篇文章中的方案将历史文章导出成 Markdown，麻烦的地方在于由于在 WP 使用了目录插件将文章可折叠的目录插入到了正文，文章导出后包含了部分 HTML 的内容，且格式混乱。
 
-![混入了部分 HTML 的内容](http://markdown.lixingzhang.site/picgo/202205052359006.png?imageslim)
+![混入了部分 HTML 的内容](/migrated-images/picgo_202205052359006.png)
 
 这个问题我没啥一键处理的方案，都是单个文件逐步处理。删一些文章，然后从原稿中粘贴过来。
 
 实际上**导出的 Markdown 里 Gridea 能识别的文档属性都在开头**，所以其实过程就是保留开头，删除剩余，粘贴原稿。
 
-![文章信息](http://markdown.lixingzhang.site/picgo/202205060002883.png?imageslim)
+![文章信息](/migrated-images/picgo_202205060002883.png)
 
 ## 修改导入 Gridea 文章的 URL
 

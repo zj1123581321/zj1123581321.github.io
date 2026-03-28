@@ -76,7 +76,7 @@ data:
 
 而如果想通过 [HA 的 API](https://developers.home-assistant.io/docs/api/rest/) 来控制，需要做一定的转换。
 
-![比如在 Quicker 中的配置](http://markdown.lixingzhang.site/picgo/202205082302618.png?imageslim)
+![比如在 Quicker 中的配置](/migrated-images/picgo_202205082302618.png)
 
 在 FV 悬浮球和捷径中也是类似的请求。
 
