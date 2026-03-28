@@ -19,10 +19,10 @@ theme = 'PaperMod'
   comments = true
 
   [params.giscus]
-    repo = "zj1123581321/blog"
-    repoId = "TO_BE_FILLED"
+    repo = "zj1123581321/zj1123581321.github.io"
+    repoId = "R_kgDOHRqMOA"
     category = "Announcements"
-    categoryId = "TO_BE_FILLED"
+    categoryId = "DIC_kwDOHRqMOM4C5dcC"
     mapping = "pathname"
 
   [params.homeInfoParams]
