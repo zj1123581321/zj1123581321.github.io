@@ -19,13 +19,13 @@ description: "前几天参考 中国人申请美国EIN几个方法-VPS大玩家 
 
 > Where is the Sole Proprietor physically located?
 
-![网申地址只能填写美国](https://markdown.lixingzhang.site/picgo/c63889c792f2aaccd7799dac008f790.png?imageslim)
+![网申地址只能填写美国](/migrated-images/picgo_c63889c792f2aaccd7799dac008f790.png)
 
 而有 ITIN 的我肉身是在中国，但此处只允许填写美国地址。
 
 填写租用的美私地址倒也能下一步，但为了防止以后出麻烦，我还是放弃了网申的方案。
 
-![填写美私地址下一步](https://markdown.lixingzhang.site/picgo/a5af6b46b5ec74b4239dd63bc5f1634.png?imageslim)
+![填写美私地址下一步](/migrated-images/picgo_a5af6b46b5ec74b4239dd63bc5f1634.png)
 
 ## 通过电话申请 EIN
 
@@ -88,13 +88,13 @@ description: "前几天参考 中国人申请美国EIN几个方法-VPS大玩家 
 "C:\Users\zlx\AppData\Local\Google\Chrome SxS\Application\chrome.exe" --enable-features=LiveCaptionMultiLanguage,LiveTranslate
 ```
 
-![chrome canary live caption & translate](https://markdown.lixingzhang.site/picgo/image-20240313182136127.png?imageslim)
+![chrome canary live caption & translate](/migrated-images/picgo_image-20240313182136127.png)
 
 然后就可以使用了
 
-![Chrome 实时字幕翻译](https://markdown.lixingzhang.site/picgo/59d080674165360cee9ac74b81db3e1.png?imageslim)
+![Chrome 实时字幕翻译](/migrated-images/picgo_59d080674165360cee9ac74b81db3e1.png)
 
-![实时翻译使用的是 Google Translate，准确率还可以](https://markdown.lixingzhang.site/picgo/10bcf8a24f2dbbb04933274cfadb5d0.png?imageslim)
+![实时翻译使用的是 Google Translate，准确率还可以](/migrated-images/picgo_10bcf8a24f2dbbb04933274cfadb5d0.png)
 
 * * *
 

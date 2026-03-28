@@ -23,7 +23,7 @@ explorer.exe shell:appsFolder\8497DDF3.639A2791C9AB_kf545nqv09rxe!App
 
 但往 HotKeyP 中添加热键的时候又出现了新的问题：
 
-![没找到直接调用命令行的方法](http://markdown.lixingzhang.site/picgo/202205140000046.png?imageslim)
+![没找到直接调用命令行的方法](/migrated-images/picgo_202205140000046.png)
 
 问题又转变成：如何使 HotKeyP 可以直接执行命令行？
 
