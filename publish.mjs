@@ -9,19 +9,30 @@
  *   node publish.mjs "path/to/my-article.md" custom-slug
  *
  * 功能:
- *   1. 下载文章中所有局域网图床图片到文章目录
- *   2. 替换图片引用为相对路径
- *   3. 生成 Hugo Page Bundle 结构
- *   4. 自动添加 frontmatter（如果没有的话）
+ *   1. 下载文章中所有远程图床图片到文章目录（域名在 .publish.config.json 中配置）
+ *   2. 复制 Obsidian 同目录下的本地图片引用
+ *   3. 替换图片引用为相对路径
+ *   4. 生成 Hugo Page Bundle 结构
+ *   5. 自动添加 frontmatter（如果没有的话），日期从文件名前缀提取
  */
 
 import fs from 'fs';
 import path from 'path';
-import http from 'http';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CONTENT_DIR = path.join(__dirname, 'content', 'posts');
+const CONFIG_PATH = path.join(__dirname, '.publish.config.json');
+
+// --- 读取配置 ---
+let config = { imageHosts: [] };
+if (fs.existsSync(CONFIG_PATH)) {
+  config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
+  console.log(`已加载配置，图床域名: ${config.imageHosts.length} 个`);
+} else {
+  console.warn('警告: 未找到 .publish.config.json，将跳过远程图片下载');
+  console.warn('请创建配置文件，格式参考 .publish.config.example.json');
+}
 
 // --- 参数解析 ---
 const args = process.argv.slice(2);
@@ -36,8 +47,9 @@ if (!fs.existsSync(sourceFile)) {
   process.exit(1);
 }
 
+const sourceDir = path.dirname(sourceFile);
 const filename = path.basename(sourceFile, '.md');
-const slug = args[1] || filename.replace(/\s+/g, '-').toLowerCase();
+const slug = args[1] || filename.replace(/\s+/g, '-').replace(/-{2,}/g, '-').replace(/^-|-$/g, '').toLowerCase();
 const postDir = path.join(CONTENT_DIR, slug);
 
 fs.mkdirSync(postDir, { recursive: true });
@@ -48,44 +60,75 @@ console.log(`目标目录: ${postDir}`);
 // --- 读取源文件 ---
 let content = fs.readFileSync(sourceFile, 'utf-8');
 
-// --- 提取并下载局域网图片 ---
-const imgPattern = /http:\/\/192\.168\.[^\s)]+/g;
-const urls = [...new Set(content.match(imgPattern) || [])];
+// --- 构建远程图片匹配模式 ---
+// 匹配配置中所有图床域名的 URL
+function buildImagePattern(hosts) {
+  if (!hosts || hosts.length === 0) return null;
+  // 转义域名中的特殊正则字符
+  const escaped = hosts.map(h => h.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  return new RegExp(`https?://(?:${escaped.join('|')})[^\\s)]*`, 'g');
+}
 
-console.log(`发现 ${urls.length} 张局域网图片\n`);
+const remoteImgPattern = buildImagePattern(config.imageHosts);
 
-function download(url) {
-  return new Promise((resolve, reject) => {
-    http.get(url, { timeout: 15000 }, (res) => {
-      if (res.statusCode !== 200) {
-        reject(new Error(`HTTP ${res.statusCode}`));
-        return;
-      }
-      const chunks = [];
-      res.on('data', c => chunks.push(c));
-      res.on('end', () => resolve(Buffer.concat(chunks)));
-      res.on('error', reject);
-    }).on('error', reject);
-  });
+// --- 下载远程图片 ---
+async function download(url) {
+  const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return Buffer.from(await res.arrayBuffer());
 }
 
 let imgCount = 0;
 
-for (const url of urls) {
-  // 从 URL 提取文件名并解码
-  const decoded = decodeURIComponent(url.split('/').pop());
-  const safeName = decoded.replace(/\s+/g, '-');
+// 处理远程图床图片
+if (remoteImgPattern) {
+  const urls = [...new Set(content.match(remoteImgPattern) || [])];
+  console.log(`\n发现 ${urls.length} 张远程图床图片`);
 
-  process.stdout.write(`  下载: ${safeName} ... `);
+  for (const url of urls) {
+    const decoded = decodeURIComponent(url.split('/').pop());
+    const safeName = decoded.replace(/\s+/g, '-');
 
-  try {
-    const data = await download(url);
-    fs.writeFileSync(path.join(postDir, safeName), data);
-    content = content.replaceAll(url, safeName);
-    console.log(`OK (${Math.round(data.length / 1024)}KB)`);
-    imgCount++;
-  } catch (e) {
-    console.log(`失败: ${e.message}，保留原始链接`);
+    process.stdout.write(`  下载: ${safeName} ... `);
+
+    try {
+      const data = await download(url);
+      fs.writeFileSync(path.join(postDir, safeName), data);
+      content = content.replaceAll(url, safeName);
+      console.log(`OK (${Math.round(data.length / 1024)}KB)`);
+      imgCount++;
+    } catch (e) {
+      console.log(`失败: ${e.message}，保留原始链接`);
+    }
+  }
+}
+
+// --- 处理本地图片引用 ---
+// 匹配 ![alt](相对路径) 形式，排除 http 链接和已下载的纯文件名
+const localImgPattern = /!\[[^\]]*\]\((?!https?:\/\/)([^)]+)\)/g;
+const localMatches = [...content.matchAll(localImgPattern)];
+// 过滤掉已经被远程下载替换过的纯文件名（它们已在 postDir 中）
+const localImages = [...new Set(localMatches.map(m => m[1]))]
+  .filter(ref => !fs.existsSync(path.join(postDir, ref)));
+
+if (localImages.length > 0) {
+  console.log(`\n发现 ${localImages.length} 张本地图片引用`);
+
+  for (const imgRef of localImages) {
+    const decodedRef = decodeURIComponent(imgRef);
+    const imgSourcePath = path.join(sourceDir, decodedRef);
+    const safeName = path.basename(decodedRef).replace(/\s+/g, '-');
+
+    process.stdout.write(`  复制: ${safeName} ... `);
+
+    if (fs.existsSync(imgSourcePath)) {
+      fs.copyFileSync(imgSourcePath, path.join(postDir, safeName));
+      content = content.replaceAll(imgRef, safeName);
+      console.log('OK');
+      imgCount++;
+    } else {
+      console.log(`未找到: ${imgSourcePath}`);
+    }
   }
 }
 
@@ -94,7 +137,16 @@ if (!content.trimStart().startsWith('---')) {
   // 提取第一个 # 标题
   const titleMatch = content.match(/^#\s+(.+)$/m);
   const title = titleMatch ? titleMatch[1].trim() : filename;
-  const date = new Date().toISOString().slice(0, 10);
+
+  // 尝试从文件名提取日期（支持 YYMMDD 格式，如 260220 → 2026-02-20）
+  const dateMatch = filename.match(/^(\d{6})/);
+  let date;
+  if (dateMatch) {
+    const d = dateMatch[1];
+    date = `20${d.slice(0, 2)}-${d.slice(2, 4)}-${d.slice(4, 6)}`;
+  } else {
+    date = new Date().toISOString().slice(0, 10);
+  }
 
   const frontmatter = `---
 title: "${title.replace(/"/g, '\\"')}"
