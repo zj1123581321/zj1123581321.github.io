@@ -1,0 +1,68 @@
+baseURL = 'https://zj1123581321.com/'
+languageCode = 'zh-cn'
+title = '杂谈by立行'
+theme = 'PaperMod'
+[pagination]
+  pagerSize = 10
+
+[params]
+  env = "production"
+  description = "记录一个数字生活流民的所见，所思。"
+  author = "立行"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  comments = true
+
+  [params.giscus]
+    repo = "zj1123581321/blog"
+    repoId = "TO_BE_FILLED"
+    category = "Announcements"
+    categoryId = "TO_BE_FILLED"
+    mapping = "pathname"
+
+  [params.homeInfoParams]
+    Title = "杂谈by立行"
+    Content = "记录一个数字生活流民的所见，所思。"
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/zj1123581321"
+
+  [[params.socialIcons]]
+    name = "rss"
+    url = "/index.xml"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.highlight]
+    style = "monokai"
+    lineNos = false
+
+[menu]
+  [[menu.main]]
+    identifier = "archives"
+    name = "归档"
+    url = "/archives/"
+    weight = 10
+  [[menu.main]]
+    identifier = "tags"
+    name = "标签"
+    url = "/tags/"
+    weight = 20
+  [[menu.main]]
+    identifier = "about"
+    name = "关于"
+    url = "/about/"
+    weight = 30
+  [[menu.main]]
+    identifier = "search"
+    name = "搜索"
+    url = "/search/"
+    weight = 40
