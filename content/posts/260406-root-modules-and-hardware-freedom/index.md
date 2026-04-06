@@ -1,0 +1,147 @@
+---
+title: "我的硬件我做主，AI 时代按需定制手机功能"
+date: 2026-04-06
+draft: false
+tags: ["AI", "Android", "Root", "Claude Code", "Xposed"]
+description: "5 个 Root 模块的实战分享：不是教你怎么装插件，而是展示拥有底层权限之后，AI 时代的个体能做到什么。"
+---
+
+<!-- 封面图 prompt for Nano Banana Pro:
+A smartphone floating in mid-air with its back panel opened like a door, revealing glowing circuit boards and neural network patterns inside. A small robotic arm (representing AI) reaches into the phone, rewiring and customizing the circuits. Around the phone, holographic UI panels and code snippets float in the air. The scene has a cyberpunk aesthetic with warm orange and cool blue lighting contrast. Isometric perspective, clean minimal background with subtle grid lines. Digital illustration style, high detail.
+-->
+
+![我的硬件我做主，AI 时代按需定制手机功能](image.png)
+
+上一篇[《Agent 的家，AI 时代个体的硬件基座》](/posts/260329-ai-hardware-data-security/)里，我提到过一个观点：**AI 时代，值得拥有一台 Root 过的手机。** 当时给了四个理由，但没有展开讲。
+
+这篇文章就是那个展开。
+
+我会用 5 个最近实际在用的 Root 模块来演示：当你拥有硬件最底层的权限，配合 Claude Code 这样的 AI 编程工具，一个普通人能做到什么。重点不在这些具体的插件——它们只是载体。我想展示的是一种可能性：**只要你能把问题定义清楚，把测试说明白，人人都可以是开发者。**
+
+这篇文章会有点极客。如果你对 Root、Xposed 这些概念完全陌生，建议只看每个模块「它解决什么问题」的部分，感受一下思路就好，不必实际折腾。
+
+> **给不了解的同学：** Root 是什么？简单来说，你买了一台手机，但厂商只给了你「住户」权限——能用，但不能改。Root 就是拿到「房东」权限，可以修改系统的任何行为。而 [Xposed](https://github.com/ElderDrivers/EdXposed)（以及它的继任者 [LSPosed](https://github.com/LSPosed/LSPosed)）是 Root 之后最常用的工具框架，它可以在不修改 APP 本身的情况下，改变 APP 的行为——比如让微信的链接跳转到外部浏览器，或者让视频 APP 默认 3 倍速播放。下面提到的「插件」「模块」，都是基于这个框架开发的小工具。
+
+---
+
+## 一、从零造一个插件：锁屏直达飞书机器人
+
+### 问题
+
+在之前[《我用 AI 长出来的那些工具》](/posts/260220-ai-时代的自用软件工具分享-正文稿/)里，我分享过自己的 [Memo](https://github.com/usememos/memos) 笔记体系——通过飞书/企微/Telegram 机器人，随时随地把想法发给机器人，自动存入 Memo 并触发 AI 后处理。
+
+这套体系运转得很好，但有一个环节一直不够顺畅：**记录闪念的速度**。
+
+当一个想法冒出来的时候，我需要：解锁手机 → 打开飞书 → 找到机器人 → 开始输入。三步，每一步都有摩擦。我一直在找一个更快的方式，也考察过各种随身硬件，但始终没找到合适的。
+
+### 思路
+
+既然硬件路线走不通，那就从手机本身想办法。
+
+我知道很多 APP 支持 [URL Scheme](https://en.wikipedia.org/wiki/URL_scheme) 协议——比如你点一个特定的链接，可以直接跳转到小红书的搜索页、微信的扫码页。飞书也支持类似的能力：可以把机器人的聊天窗口以 URL 的形式分享出来。
+
+这意味着，只要能在任何地方触发这个 URL，就能一步到位跳进飞书机器人的对话窗口。
+
+那锁屏状态呢？我用的是小米手机，指纹解锁时上滑可以快捷启动微信扫码、支付宝付款码、小爱同学等功能。如果能把其中一个槽位替换成「打开飞书机器人」——锁屏指纹一滑，直达对话框。
+
+### 实现
+
+有了这个想法，接下来就是验证。以前你得去读项目代码、学 Xposed 框架的 API、一步步调试。现在有了 Claude Code，我把手机通过 ADB 连上电脑，开启 Root 权限，让 Claude Code 去探索小米 SystemUI 的相关代码，我负责配合做一些基础调试——比如告诉它「这个 Hook 点不对，换一个试试」。
+
+整个过程非常顺畅。基本上全程不需要我去翻复杂的文档，只是在关键节点指出方向。最终插件跑通了：**指纹解锁上滑，一步直达飞书机器人聊天窗口。**
+
+![FodQuickAction 配置界面](fodquickaction-config.png)
+
+<!-- TODO: 插入 FodQuickAction 演示视频 -->
+
+> 开源地址：[FodQuickAction](https://github.com/zj1123581321/FodQuickAction) — 支持自定义小米 HyperOS 指纹快捷操作的 5 个槽位，可以指向任意 APP、深层链接或 Tasker 任务。
+
+这是我第一个从零开发的 Xposed 插件。它能做成，不是因为我懂 Android 底层开发，而是因为我能把问题定义清楚：「我要在锁屏指纹上滑时，触发一个 URL Scheme。」剩下的，Claude Code 来搞定。
+
+---
+
+## 二、让停更的开源项目复活
+
+上面那个是从零开始的。但更多时候，我的需求没那么独特——市面上已经有人做过了，只是项目停更了。
+
+Root 玩机这个圈子有一个很现实的困境：**用的人越来越少，开发成本却不低。** 很多 Xposed 模块的作者当初是出于热爱做的，但 Android 系统每年大版本升级，适配工作量不小，用户群又在萎缩，投入产出比越来越低。结果就是——很多真正好用的模块，慢慢停在了某个 Android 版本上。
+
+这些作者值得感谢。他们解决了真实存在的痛点，只是维护的成本太高了。
+
+而这恰好是 Claude Code 最擅长的场景：**Fork 下来，告诉它需要适配到什么版本、修复什么问题，几天之内就能完成升级。** 下面四个项目，都是这个模式。
+
+### 2.1 ExLink —— 拦截微信内置浏览器
+
+**解决什么问题：** 微信有一个让人抓狂的设计——所有链接都在微信内置浏览器里打开。别人在微信群里分享了一个小红书笔记、一个 B 站视频、一个知乎回答，你点开之后只能在微信的浏览器里看，体验极差。想跳转到对应的 APP 里？你得点右上角的菜单，再选「在浏览器中打开」，然后系统才会问你用哪个 APP 打开。每次都要多两步操作。
+
+ExLink 解决的就是这个问题：**它会拦截微信打开链接的行为，根据你预设的规则，自动用外部浏览器或对应的 APP 打开。** 你可以按域名配置规则——比如所有 bilibili.com 的链接直接跳 B 站 APP，所有 xiaohongshu.com 的链接直接跳小红书。也可以设置一个默认行为：除了指定域名留在微信内，其他一律跳外部浏览器。
+
+![ExLink：应用列表、规则编辑器、匹配日志](exlink-overview.png)
+
+**原项目停更了 6 年。** 原作者 [xloger](https://github.com/xloger) 最后更新是 2020 年。我 Fork 下来后，Claude Code 在 6 天内完成了 20 个 commit：从 Java 迁移到 Kotlin、升级到 AndroidX 和 Material 3、适配 Android 16、重写了规则编辑器和匹配日志——基本上是一次完整的重构。
+
+> 开源地址：[ExLink](https://github.com/zj1123581321/ExLink)
+
+### 2.2 VideoSpeed —— 全局视频倍速播放
+
+**解决什么问题：** 大部分人看视频都会开倍速。问题在于，虽然大多数 APP 支持倍速播放，但**没有 APP 支持设置一个默认倍速**——每次打开视频都得手动调，而且很多 APP 最大也只支持到 2 倍速。如果你像我一样习惯 3 倍速刷视频，每次打开都要调一遍，非常烦。
+
+VideoSpeed 解决的就是这个问题：**给 13 个以上的 APP 设置默认播放倍速，打开视频自动生效。** B 站、微信视频号、抖音、小红书、Twitter/X、Instagram、Telegram、微博，全都支持。每个 APP 可以单独配置——比如 B 站默认 3 倍速、抖音默认 2 倍速，一次设置，后续无感。
+
+![VideoSpeed：设置界面、日志查看器](videospeed-overview.png)
+
+**原项目停更数月，对新版 APP 的 Hook 开始失效。** Fork 下来后，Claude Code 在 2 天内完成了 8 个 commit：修复了 B 站最新版的倍速失效问题，新增了分 APP 独立速度设置、速度预设按钮和日志查看器，整个 UI 也做了现代化升级。
+
+> 开源地址：[VideoSpeed](https://github.com/zj1123581321/io.github.MarsGao.speed)
+
+### 2.3 ClipboardWhitelist —— 恢复剪切板后台访问
+
+**解决什么问题：** Android 10 开始，系统禁止 APP 在后台读取剪切板。这个设计初衷是保护隐私，但对依赖剪切板的自动化工具来说是灾难性的。比如我是 [Tasker](https://tasker.joaoapps.com/) 的重度用户，大量自动化流程靠「监听剪切板变化」来触发——复制一个链接自动下载、复制一段文字自动翻译、复制一个地址自动导航。Android 10 之后，这些全部失效了。
+
+ClipboardWhitelist 的做法很简单：**你指定哪些 APP 可以在后台访问剪切板，其他的继续被系统限制。** 既不完全放开隐私，又让你的自动化工具能正常工作。
+
+**原项目由 [fei-ke](https://github.com/fei-ke) 维护，但还未适配 Android 16。** Fork 下来后，Claude Code 在 1 天内完成适配，同时将 Hook 方式从脆弱的 `findAndHookMethod` 改为更健壮的 `hookAllMethods`，核心代码从约 120 行精简到 40 行。
+
+> 开源地址：[ClipboardWhitelist](https://github.com/zj1123581321/ClipboardWhitelist)
+
+### 2.4 TigerInTheWall —— 分享菜单清理
+
+**解决什么问题：** Android 的分享菜单是个重灾区——几乎每个 APP 都往里塞自己的入口。结果就是，当你想分享一张图片或一个链接的时候，分享面板里密密麻麻排了几十个选项，找到你要的那个得翻半天。
+
+TigerInTheWall 可以**批量管理哪些 APP 出现在分享菜单和「打开方式」列表里**——一键关闭那些你永远不会用到的分享选项，让分享面板恢复清爽。它通过拦截系统的 Intent 来实现过滤，还提供了快速清理功能，方便你随时调整。
+
+![TigerInTheWall：主界面、清理管理器、快速清理](tigerinthewall-overview.png)
+
+清理之后的分享菜单长这样——只留下你真正会用到的几个选项：
+
+![清理后的分享菜单](Screenshot_2026-04-06-21-36-58-496_com.android.intentresolver.jpg)
+
+原项目同样是停更多年，不支持新版 Android。升级后支持 Android 16，新增了批量关闭权限的功能。
+
+> 开源地址：[TigerInTheWall](https://github.com/zj1123581321/TigerInTheWall)
+
+---
+
+## 三、电脑端也一样
+
+手机需要 Root 才有底层权限，但电脑天然就有。
+
+举一个例子：微信桌面版的本地数据库。之前有个叫 chatlog 的项目，可以解密微信的本地聊天记录数据库，把历史对话导出来给 AI 做分析。这个项目后来因为微信更新失效了，但开源社区里不断有人接力找[新方案](https://github.com/ylytdeng/wechat-decrypt)，现在在微信 4.0 最新版本上又可以用了。
+
+电脑端原生有 Root 权限，能玩的东西只会更多。
+
+---
+
+## 写在最后
+
+所有上面提到的项目都已经开源。但说实话，我做这些东西本质上是为了自己用着顺手，开源只是顺手为之。如果你遇到了问题，当然可以提 Issue，但我大概率没有时间去处理。
+
+**我更建议的方式是：自己和 Claude Code 试着解决。** 这可能是这个时代新的协作模式——不是单纯提问题等别人修，而是直接把解决方案一站式补齐。
+
+回到最开始的那个观点：**只要你拥有硬件最底层的权限，你可以按需定制任何你想要的产品功能。** 这种可能性，比任何具体的代码都有价值。
+
+当然，Root 不是没有代价。它会带来底层的安全风险——你的手机对恶意软件的防护能力会下降。我的做法是：核心数据都在云端备份，Root 过的手机上不装银行、不存敏感信息。如果你愿意折腾，欢迎；如果不愿意，也完全没关系——至少你知道了这种可能性存在。
+
+---
+
+> 本文由飞书录音豆语音转文字构思底稿，通过 Claude Code + Opus 4.6 对话完成文章架构设计与内容整理，配图由 Nano Banana AI 生成。
