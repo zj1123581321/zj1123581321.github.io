@@ -146,8 +146,8 @@ Linux 路线的门槛确实会高一点，你至少需要对 SSH 有个基本概
 
 - **[Claude Code](https://docs.anthropic.com/en/docs/claude-code)**：Anthropic 官方的 CLI 工具，我的主力
 - **[Codex](https://github.com/openai/codex)**：OpenAI 的 CLI Agent
-- **[OpenCode](https://github.com/opencode-ai/opencode)**：开源方案，作为最底层的备用
-- **[Hermes](https://github.com/anthropics/hermes)**：Anthropic 的多 Agent 编排工具
+- **[OpenCode](https://opencode.ai/)**：开源方案，作为最底层的备用
+- **[Hermes](https://github.com/NousResearch/hermes-agent)**：Nous Research 的自主 AI Agent，我主要用它对接微信沟通和定时 Agent 任务
 
 这些工具的安装本身都不复杂，让 Agent 自己去查官方文档装就行。
 
