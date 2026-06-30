@@ -257,3 +257,7 @@ brew install --cask clash-party cmux codex ferdium handbrake-app iina iterm2 kar
 | NoMachine | 安装包比较大（~100MB），会注册系统级的 LaunchDaemon。如果你只用它做客户端不做服务端，可以在安装后关掉 NoMachine Server |
 | Synergy | 需要在两台电脑上都安装。配置时注意哪台是 Server（接键鼠的那台）哪台是 Client |
 | 豆包输入法 | 安装在 `/Library/Input Methods/` 目录下。如需卸载，直接删除 `/Library/Input Methods/DoubaoIme.app` |
+
+---
+
+> 本文由飞书录音豆语音转文字构思底稿，通过 Claude Code + Opus 4.6 对话完成文章架构设计与内容整理。图片来自于官网 + GPT Image 2。
