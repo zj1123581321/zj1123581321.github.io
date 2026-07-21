@@ -1,5 +1,5 @@
 ---
-title: "人生的塞尔达时期：日均 40 亿 Token 的 7 月"
+title: "人生的塞尔达时期：日均 40 亿 Token 的那一周"
 date: 2026-07-21
 draft: false
 tags: ["AI", "Claude Code", "Codex", "Token", "方法论"]
