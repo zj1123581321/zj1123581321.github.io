@@ -8,6 +8,8 @@ description: "Token 额度全部打满的那个晚上写下的分享：塞尔达
 
 > 这篇的底稿是一段 80 分钟的语音分享，聊的东西比较杂：我最近的沉迷状态、Token 的使用逻辑、Skill 和软件的边界、人机协作方式的进阶，以及我在用的所有模型。依然延续这个系列的传统——**作为人类，你只需要读懂思路和架构逻辑；所有具体的执行细节，把文章丢给你的 Claude Code 或 Codex，让它去做就行。**
 
+![人生的塞尔达时期](images/cover.png)
+
 ## 开头：Token 用光了这个晚上
 
 好久没有更新了。原因很简单：沉迷于薅 Token 羊毛中。
@@ -88,6 +90,31 @@ Skill 这个东西，既要看它写得怎么样，也要看模型自身的能�
 
 这些东西一旦建成，就能被下游很多场景反复消费，排列组合出新玩法——不管是总结各平台的音视频，还是帮我盯不同平台的直播推流，都是在之前搭好的工程化基础上组合出来的。每个服务下游通常有两三个消费方，多的能到四五个。这也是[我用 AI 长出来的那些工具](../260220-ai-时代的自用软件工具分享-正文稿/)那篇讲的“Skill 快速验证、工程化追求稳定”，最新的进展。
 
+```mermaid
+graph LR
+    subgraph svc["🧰 局域网服务矩阵"]
+        YT["YouTube 视频下载"]
+        CRAWL["爬虫网关<br/>公众号 / 小红书 / Twitter"]
+        ASR["ASR 语音转文本<br/>每天几十小时"]
+        OCR["图片 OCR / 图片理解"]
+    end
+
+    YT --> U1["各平台音视频总结"]
+    ASR --> U1
+    YT --> U2["直播推流监控"]
+    CRAWL --> U2
+    CRAWL --> U3["信息采集与过滤"]
+    OCR --> U3
+
+    style YT fill:#9b59b6,color:#fff
+    style CRAWL fill:#9b59b6,color:#fff
+    style ASR fill:#9b59b6,color:#fff
+    style OCR fill:#9b59b6,color:#fff
+    style U1 fill:#2ecc71,color:#fff
+    style U2 fill:#2ecc71,color:#fff
+    style U3 fill:#2ecc71,color:#fff
+```
+
 ### 我的 Skill 使用原则
 
 也因此，我现在装的 Skill 其实不多，常年高频在用的就一个：YC CEO Garry Tan 开源的 [gstack](https://github.com/garrytan/gstack) Skill 包——里面那个多视角 review 的 Skill 我每天都在用。其他即使装了，大多也是项目级别的安装，不会往全局装。或者我干脆去研究一下某个 Skill 背后的原理，把它吸收进自己的工程化项目里。
@@ -143,7 +170,7 @@ graph LR
 ```
 
 整个流程里我只做两个动作：出事后在飞书里回一句“去查”，修完在批准卡上点一下“合并”。中间的诊断、修复、提 PR、跑测试、过评审，全是 Agent 自己干的。
-![飞书审批 agent](image.png)
+![飞书审批 agent](images/feishu-agent-dispatch.png)
 
 顺带说一句：日常我主动派活（写新功能、改 bug）产生的 PR，走的也是这同一套 CI 门禁，所以图里没单独画出来。
 
@@ -153,7 +180,7 @@ graph LR
 
 **第二，写代码的和挑毛病的不能是同一个 Agent。** PR 提上去会自动触发那套统一门禁：跑测试、找一个独立的 Agent 来评审（评审者和写代码的分开，不然容易自我确认出幻觉）、有前端的项目还会自动跑端到端测试再录屏给我看。这些活儿都是 Agent 自己扛的，没占用我的时间。
 
-![GLM 的 agent review](image-1.png)
+![GLM 的 agent review](images/pr-review-gate.png)
 
 **第三，我被叫出来的那一刻，必须是万事俱备、只差拍板的那一刻。** PR 刚开出来，飞书只会收到一张没有按钮的进度卡；等门禁全部跑绿，同一张卡才会变出一个按钮。中间跑测试、评审、等结果的过程，完全不会打扰到我。
 
@@ -216,7 +243,7 @@ graph TB
 
 **Grok 4.5 是执行层牛马。** 能力大概是准第一梯队的水平，但速度快得离谱——窜稀一样的速度。通过印度区订阅，原价 30 刀的套餐只要 30 块人民币一个月，每周大概两三亿 Token 的额度，非常划算。Claude Code 和 Codex 负载高的时候，很适合把活儿甩给它，跑得快又能打。
 
-![grok 的羊毛还是得薅的](image-2.png)
+![grok 的羊毛还是得薅的](images/grok-pricing.png)
 
 **Kimi 699 套餐：审美能打，CLI 待成熟。** K3 的前端审美确实是国产模型里最能打的，整体能力也很不错，一周大概七八亿 Token 的量。比较纠结的是 Kimi CLI 目前体验还差一截：长程任务的信息压缩、一些指令的支持能力都不如成熟工具——不过这些应该会逐步提升。纯性价比角度 Kimi 699 肯定是不如 Codex 的，但还是要支持一下国产，希望它们再接再厉。
 
