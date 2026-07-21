@@ -1,7 +1,7 @@
 ---
-title: "人生的塞尔达时期"
+title: "人生的塞尔达时期：日均 40 亿 Token 的 7 月"
 date: 2026-07-21
-draft: true
+draft: false
 tags: ["AI", "Claude Code", "Codex", "Token", "方法论"]
 description: "Token 额度全部打满的那个晚上写下的分享：塞尔达式的沉迷、红利期的薅羊毛逻辑、Skill 与软件的边界、人机协作的三阶段，以及我的模型分工策略。"
 ---
