@@ -420,17 +420,17 @@ Agent 做的每一个任务都成功了，测试都通过了——但日积月�
 
 ## 附录：给 Agent 读的参考材料
 
-> 以下参考材料已从正文中独立出来，放在本文同目录的 [`references/`](references/) 文件夹下。人类读者不需要细看——**把对应的文件丢给你的 Agent，告诉它"参考这个帮我搭一套类似的体系"就行了。**
+> 以下参考材料已从正文中独立出来，放在 [GitHub 仓库的 references/ 文件夹](https://github.com/zj1123581321/zj1123581321.github.io/tree/main/content/posts/260809-multi-agent-scheduling-architecture/references)下。人类读者不需要细看——**把对应的链接丢给你的 Agent，告诉它"参考这个帮我搭一套类似的体系"就行了。**
 
 | 文件 | 对应章节 | 说明 |
 |------|---------|------|
-| [01-claude-code-sub-agent-setup.md](references/01-claude-code-sub-agent-setup.md) | 第一层 | Claude Code 的 implementer/reviewer 子代理配置 |
-| [02-codex-sub-agent-setup.md](references/02-codex-sub-agent-setup.md) | 第一层 | Codex 的 AGENTS.md 主脑编排 + implementer/reviewer/explorer 三角色 |
-| [03-task-card-template.md](references/03-task-card-template.md) | 第三层 | 任务卡模板（目标/修改边界/完成条件） |
-| [04-routing-profile.md](references/04-routing-profile.md) | 第三层 | 配额感知路由配置（执行器顺位/水位闸门） |
-| [05-agents-template.md](references/05-agents-template.md) | 质量保障 | 仓库级 AGENTS.md 全局指南模板 |
-| [06-acceptance-scorecard.md](references/06-acceptance-scorecard.md) | 指标监测 | 验收记分卡（执行器 x 任务类型 → 质量维度） |
-| [07-gate-ci-overview.md](references/07-gate-ci-overview.md) | 质量保障 | 门禁系统概述（tier/chain/shadow、多 Agent review 架构） |
+| [01-claude-code-sub-agent-setup.md](https://github.com/zj1123581321/zj1123581321.github.io/blob/main/content/posts/260809-multi-agent-scheduling-architecture/references/01-claude-code-sub-agent-setup.md) | 第一层 | Claude Code 的 implementer/reviewer 子代理配置 |
+| [02-codex-sub-agent-setup.md](https://github.com/zj1123581321/zj1123581321.github.io/blob/main/content/posts/260809-multi-agent-scheduling-architecture/references/02-codex-sub-agent-setup.md) | 第一层 | Codex 的 AGENTS.md 主脑编排 + implementer/reviewer/explorer 三角色 |
+| [03-task-card-template.md](https://github.com/zj1123581321/zj1123581321.github.io/blob/main/content/posts/260809-multi-agent-scheduling-architecture/references/03-task-card-template.md) | 第三层 | 任务卡模板（目标/修改边界/完成条件） |
+| [04-routing-profile.md](https://github.com/zj1123581321/zj1123581321.github.io/blob/main/content/posts/260809-multi-agent-scheduling-architecture/references/04-routing-profile.md) | 第三层 | 配额感知路由配置（执行器顺位/水位闸门） |
+| [05-agents-template.md](https://github.com/zj1123581321/zj1123581321.github.io/blob/main/content/posts/260809-multi-agent-scheduling-architecture/references/05-agents-template.md) | 质量保障 | 仓库级 AGENTS.md 全局指南模板 |
+| [06-acceptance-scorecard.md](https://github.com/zj1123581321/zj1123581321.github.io/blob/main/content/posts/260809-multi-agent-scheduling-architecture/references/06-acceptance-scorecard.md) | 指标监测 | 验收记分卡（执行器 x 任务类型 → 质量维度） |
+| [07-gate-ci-overview.md](https://github.com/zj1123581321/zj1123581321.github.io/blob/main/content/posts/260809-multi-agent-scheduling-architecture/references/07-gate-ci-overview.md) | 质量保障 | 门禁系统概述（tier/chain/shadow、多 Agent review 架构） |
 
 ---
 
