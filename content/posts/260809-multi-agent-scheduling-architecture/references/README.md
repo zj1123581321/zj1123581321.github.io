@@ -2,25 +2,22 @@
 
 本文件夹是[《将军赶路不追小兔：多 Agent 调度体系的架构与实践》](../index.md)的配套参考材料。
 
-**面向 Agent 阅读**：这些文件是给你的 Coding Agent 看的，不是给人看的。你可以把整个文件夹或单个文件丢给 Agent，让它帮你搭建类似的多 Agent 调度体系。
+**怎么用**：把你想解决的问题对应的文件丢给你的 Coding Agent，告诉它"参考这个帮我搭起来"。每个文件都按"解决什么问题 → 核心原则 → 最小起步方案 → 根据你的情况调整"的结构组织，Agent 读完就能动手。
 
-## 文件索引
+## 按你的需求选择
 
-| 文件 | 对应文章章节 | 说明 |
-|------|-------------|------|
-| [01-claude-code-sub-agent-setup.md](01-claude-code-sub-agent-setup.md) | 第一层：单 Agent 子代理 | Claude Code 的 implementer/reviewer 子代理角色定义模板 |
-| [02-codex-sub-agent-setup.md](02-codex-sub-agent-setup.md) | 第一层：单 Agent 子代理 | Codex 的 AGENTS.md 主脑编排 + implementer/reviewer/explorer 子代理配置 |
-| [03-task-card-template.md](03-task-card-template.md) | 第三层：自定义编排 | 任务卡模板（目标/修改边界/完成条件/基线信息） |
-| [04-routing-profile.md](04-routing-profile.md) | 第三层：自定义编排 | 配额感知路由配置（执行器顺位/水位闸门） |
-| [05-agents-template.md](05-agents-template.md) | 质量保障 | 仓库级 AGENTS.md 全局指南模板（六段式骨架） |
-| [06-acceptance-scorecard.md](06-acceptance-scorecard.md) | 指标监测 | 验收记分卡 schema（执行器 x 任务类型 -> 质量维度） |
-| [07-gate-ci-overview.md](07-gate-ci-overview.md) | 质量保障 | 门禁系统概述（tier/chain/shadow 角色、多 Agent review 架构） |
+**想让一个 Agent 内部分工更高效？**
+→ [01-claude-code-sub-agent-setup.md](01-claude-code-sub-agent-setup.md)（用 Claude Code）
+→ [02-codex-sub-agent-setup.md](02-codex-sub-agent-setup.md)（用 Codex）
 
-## 使用方式
+**想让多个 Agent 协同干活？**
+→ 先试 [Orca](https://github.com/stablyai/orca) 或 [Paseo](https://github.com/getpaseo/paseo)（开箱即用）
+→ 需要自定义？看 [03-task-card-template.md](03-task-card-template.md) + [04-routing-profile.md](04-routing-profile.md)
 
-1. **想搭第一层**（单 Agent 内部子代理分工）：读 01 或 02
-2. **想搭第三层**（自定义编排）：读 03 + 04
-3. **想搭质量门禁**：读 05 + 07
-4. **想搭指标监测**：读 06
+**想建一套自动化质量把关？**
+→ [05-agents-template.md](05-agents-template.md)（仓库级规范）+ [07-gate-ci-overview.md](07-gate-ci-overview.md)（门禁架构）
+
+**想量化和复盘 Agent 的表现？**
+→ [06-acceptance-scorecard.md](06-acceptance-scorecard.md)
 
 所有文件均已脱敏，可直接参考使用。
