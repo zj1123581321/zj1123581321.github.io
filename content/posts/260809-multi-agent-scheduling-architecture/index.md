@@ -1,7 +1,7 @@
 ---
 title: "将军赶路不追小兔：多 Agent 调度体系的架构与实践"
 date: 2026-08-09
-draft: true
+draft: false
 tags: ["AI", "Claude Code", "Codex", "Multi-Agent", "架构", "调度"]
 description: "从一个朴素的省额度想法，到一套主脑+执行层的多 Agent 调度体系——覆盖任务拆分、并行开发、质量门禁、配额感知调度、指标监测，以及如何让复杂系统从简单需求一步步长出来。"
 ---
