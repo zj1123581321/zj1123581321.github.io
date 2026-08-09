@@ -5,6 +5,9 @@ draft: false
 description: "今天测试 Memo 的翻译服务，发现经常失败，于是想抓包看看失败原因。 很自然的打开了电脑上的 Fidder，但出乎意料的是完全抓不到 Memo 的任何 Http 请求...(已开启 https 抓包，其他软件测试正常) 搜了一下，发现可能..."
 tags:
   - "雕虫小技"
+url: "/posts/zen-yang-gei-electron-ying-yong-zhua-bao/"
+aliases:
+  - "/post/zen-yang-gei-electron-ying-yong-zhua-bao/"
 ---
 
 今天测试 Memo 的翻译服务，发现经常失败，于是想抓包看看失败原因。

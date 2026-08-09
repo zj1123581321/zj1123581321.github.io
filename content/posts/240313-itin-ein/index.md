@@ -3,6 +3,9 @@ title: "有 ITIN 的情况下通过电话申请 EIN 记录"
 date: 2024-03-13
 draft: false
 description: "前几天参考 中国人申请美国EIN几个方法-VPS大玩家 打电话申请了 EIN，此处做一个记录。 虽然我有 ITIN，但申请 EIN 实际上无需 ITIN ，也无需创办公司。 ITIN -网络申请：原则上可行，实际不行 秉承着能线上解决就不打..."
+url: "/posts/you-itin-de-qing-kuang-xia-tong-guo-dian-hua-shen-qing-ein-ji-lu/"
+aliases:
+  - "/post/you-itin-de-qing-kuang-xia-tong-guo-dian-hua-shen-qing-ein-ji-lu/"
 ---
 
 前几天参考 [中国人申请美国EIN几个方法-VPS大玩家](https://www.vpsdawanjia.com/4450.html) 打电话申请了 EIN，此处做一个记录。

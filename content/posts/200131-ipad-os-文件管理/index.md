@@ -11,6 +11,9 @@ tags:
   - "OneDrive"
   - "smb"
   - "网盘"
+url: "/posts/2020-01-31220/"
+aliases:
+  - "/post/2020-01-31220/"
 ---
 
 # iPad OS 文件管理入门

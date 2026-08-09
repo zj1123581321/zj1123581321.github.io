@@ -3,6 +3,9 @@ title: "漫步者音箱红外接入 Home Assistant记录"
 date: 2022-05-08
 draft: false
 description: "背景 最近买了一对漫步者 RT-1700 作为桌面音箱，该音箱可以通过有线和蓝牙接入，但想切换需要使用自带的红外遥控器。 这对于一个懒人而言，实在是太不方便了。 很自然地想着可以通过模拟红外信号将其接入到米家中。正好家里有一个小米空调伴侣 ..."
+url: "/posts/man-bu-zhe-yin-xiang-hong-wai-jie-ru-home-assistant-ji-lu/"
+aliases:
+  - "/post/man-bu-zhe-yin-xiang-hong-wai-jie-ru-home-assistant-ji-lu/"
 ---
 
 # 背景

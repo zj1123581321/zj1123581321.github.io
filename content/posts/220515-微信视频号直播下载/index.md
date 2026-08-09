@@ -3,6 +3,9 @@ title: "多平台微信视频号直播下载方法"
 date: 2022-05-15
 draft: false
 description: "昨日晚上在外面吃饭时发现有两个比较感兴趣的老师都在视频号做直播，两边的内容都想听，但无奈只有一台手机，也没办法确定之后是否有回放，遂生下载微信视频号直播随后观看的想法。 下载微信视频号直播大体可以分成三步：  抓包获取视频号直播推流地址 调..."
+url: "/posts/duo-ping-tai-wei-xin-shi-pin-hao-zhi-bo-xia-zai-fang-fa/"
+aliases:
+  - "/post/duo-ping-tai-wei-xin-shi-pin-hao-zhi-bo-xia-zai-fang-fa/"
 ---
 
 昨日晚上在外面吃饭时发现有两个比较感兴趣的老师都在视频号做直播，两边的内容都想听，但无奈只有一台手机，也没办法确定之后是否有回放，遂生**下载微信视频号直播**随后观看的想法。

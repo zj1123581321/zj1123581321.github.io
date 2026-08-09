@@ -8,6 +8,9 @@ tags:
   - "杂记"
 cover:
   image: "/post-images/liao-liao-gao-jing-du-yin-shi-pin-zhuan-wen-zi-gong-zuo-liu.jpeg"
+url: "/posts/liao-liao-gao-jing-du-yin-shi-pin-zhuan-wen-zi-gong-zuo-liu/"
+aliases:
+  - "/post/liao-liao-gao-jing-du-yin-shi-pin-zhuan-wen-zi-gong-zuo-liu/"
 ---
 
 # 背景

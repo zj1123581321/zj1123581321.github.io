@@ -3,6 +3,9 @@ title: "WordPress 迁移 Gridea 记录"
 date: 2022-05-06
 draft: false
 description: "五一假期花了大概一天把之前放在 WordPress 上的历史文章迁移到 Gridea 上面，里面还是存了不少坑，这里做个记录。 基本流程 全套流程大概可以有以下几步：  配置 Gridea 在 Github 的仓库和本地同步网络环境。 导出..."
+url: "/posts/wordpress-qian-yi-gridea-ji-lu/"
+aliases:
+  - "/post/wordpress-qian-yi-gridea-ji-lu/"
 ---
 
 五一假期花了大概一天把之前放在 WordPress 上的历史文章迁移到 Gridea 上面，里面还是存了不少坑，这里做个记录。

@@ -6,6 +6,9 @@ description: "测试设备  Windows 微信 3.7.6.44 Android 微信 8.0.34 红米
 tags:
   - "雕虫小技"
   - "杂记"
+url: "/posts/bei-fen-shou-ji-wei-xin-liao-tian-ji-lu-dao-dian-nao-jie-jue-ti-shi-wen-ti-dang-qian-wang-luo-huan-jing-fu-za-qing-chang-shi-shi-yong-qi-ta-wang-luo/"
+aliases:
+  - "/post/bei-fen-shou-ji-wei-xin-liao-tian-ji-lu-dao-dian-nao-jie-jue-ti-shi-wen-ti-dang-qian-wang-luo-huan-jing-fu-za-qing-chang-shi-shi-yong-qi-ta-wang-luo/"
 ---
 
 ## 测试设备

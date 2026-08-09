@@ -3,6 +3,9 @@ title: "Windows 文件管理器和 H265"
 date: 2022-07-14
 draft: false
 description: "很早之前在 Win10 遇到的和 H265 相关的问题是不显示缩略图，解决方法往上比较成熟，安装Download K-Lite Codec Pack 即可。 最近业务需要，通过『要你命三千』从抖音/快手上下载了很多无水印的视频，其中一部分是..."
+url: "/posts/windows-wen-jian-guan-li-qi-he-h265/"
+aliases:
+  - "/post/windows-wen-jian-guan-li-qi-he-h265/"
 ---
 
 很早之前在 Win10 遇到的和 H265 相关的问题是不显示缩略图，解决方法往上比较成熟，安装[Download K-Lite Codec Pack](https://codecguide.com/download_kl.htm) 即可。

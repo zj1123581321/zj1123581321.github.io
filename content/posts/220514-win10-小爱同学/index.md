@@ -3,6 +3,9 @@ title: "怎么在 Win10 上将小娜替换为小爱同学？"
 date: 2022-05-14
 draft: false
 description: "最近入手了一台米物 Art 键盘，上面有一个语音唤醒键。但是在 Win10 上，它默认唤醒的是小娜(Cortana)，众所周知小娜在 Win10 上基本没用，所以自然产生一个想法：怎么把唤醒的小娜替换为小爱同学？ 首先通过键位监测发现，键盘..."
+url: "/posts/zen-me-zai-win10-shang-jiang-xiao-nuo-ti-huan-wei-xiao-ai-tong-xue/"
+aliases:
+  - "/post/zen-me-zai-win10-shang-jiang-xiao-nuo-ti-huan-wei-xiao-ai-tong-xue/"
 ---
 
 最近入手了一台米物 Art 键盘，上面有一个语音唤醒键。但是在 Win10 上，它默认唤醒的是小娜(Cortana)，众所周知小娜在 Win10 上基本没用，所以自然产生一个想法：怎么把唤醒的小娜替换为小爱同学？

@@ -7,6 +7,9 @@ tags:
   - "Android"
   - "Tasker"
   - "自动化"
+url: "/posts/2020-10-12239/"
+aliases:
+  - "/post/2020-10-12239/"
 ---
 
 # 引言
