@@ -408,124 +408,26 @@ Agent 做的每一个任务都成功了，测试都通过了——但日积月�
 
 ## 附录：给 Agent 读的参考材料
 
-> 以下是从我实际在用的配置中脱敏整理出来的参考模板。人类读者不需要细看——**把这一段直接丢给你的 Agent，告诉它"参考这些模板帮我搭一套类似的体系"就行了。**
+> 以下参考材料已从正文中独立出来，放在本文同目录的 [`references/`](references/) 文件夹下。人类读者不需要细看——**把对应的文件丢给你的 Agent，告诉它"参考这个帮我搭一套类似的体系"就行了。**
 
-### A. 子代理角色定义（第一层配置参考）
+| 文件 | 对应章节 | 说明 |
+|------|---------|------|
+| [01-claude-code-sub-agent-setup.md](references/01-claude-code-sub-agent-setup.md) | 第一层 | Claude Code 的 implementer/reviewer 子代理配置 |
+| [02-codex-sub-agent-setup.md](references/02-codex-sub-agent-setup.md) | 第一层 | Codex 的 AGENTS.md 主脑编排 + implementer/reviewer/explorer 三角色 |
+| [03-task-card-template.md](references/03-task-card-template.md) | 第三层 | 任务卡模板（目标/修改边界/完成条件） |
+| [04-routing-profile.md](references/04-routing-profile.md) | 第三层 | 配额感知路由配置（执行器顺位/水位闸门） |
+| [05-agents-template.md](references/05-agents-template.md) | 质量保障 | 仓库级 AGENTS.md 全局指南模板 |
+| [06-acceptance-scorecard.md](references/06-acceptance-scorecard.md) | 指标监测 | 验收记分卡（执行器 x 任务类型 → 质量维度） |
+| [07-gate-ci-overview.md](references/07-gate-ci-overview.md) | 质量保障 | 门禁系统概述（tier/chain/shadow、多 Agent review 架构） |
 
-在 Claude Code 中，你可以在项目的 `.claude/agents/` 目录下定义不同角色的子代理。以下是两个核心角色的定义模板：
-
-**执行者（implementer）**——负责写代码的子代理：
-
-```markdown
-# implementer
-
-执行边界明确的实现任务。
-
-## 输入契约
-任务必须给出：目标、允许修改的文件清单或目录范围、验证命令、回滚点。
-缺任何一项，先停下来向主会话要，不要猜。
-
-## 行为准则
-- 只改任务卡允许范围内的文件，不越界
-- 改完必须跑验证命令，验证通过才算完成
-- 偏离计划时当场记录，不要事后才说
-- 小步提交，每个提交都能独立通过测试
-
-## 输出格式
-1. 改了什么（文件清单 + 每个文件一句话）
-2. 验证：跑了什么命令、结果如何
-3. 偏离与保守决定（若有）
-4. 残余风险 / 建议的后续任务
-```
-
-**审查者（reviewer）**——只读不写，负责挑毛病的子代理：
-
-```markdown
-# reviewer
-
-只读审查代码改动。发现问题输出有界修复任务清单，绝不直接改代码。
-
-## 审查重点（按严重度排序）
-1. 与需求/任务卡不符、遗漏验收项
-2. 逻辑错误、回归、边界条件
-3. 权限/安全、错误处理
-4. 缺失测试、无法复现的"完成"声明
-5. 代码可检索性（命名是否清晰、日志是否方便查找）
-
-## 输出格式
-- 每个问题：位置、问题描述、失败场景、建议的修复任务
-- 没有阻断问题时，说明剩余验证盲区
-- 结论：可合并 / 需修复后复审
-```
-
-### B. 任务卡模板（第三层配置参考）
-
-主脑拆任务时，每个任务用一张标准化的"任务卡"描述。这个模板确保了每个执行器拿到的任务都有明确的边界和验收标准：
-
-```markdown
-# 任务卡：<一句话任务标题>
-
-## 目标
-<!-- 这个任务要达成的具体结果是什么，一到两句话说清楚 -->
-
-## 非目标
-<!-- 明确哪些事情不在这次任务范围内，防止执行器越界 -->
-
-## 修改边界
-- **允许**：<!-- 允许修改的文件清单或目录 -->
-- **禁止**：<!-- 绝对不能碰的文件/目录 -->
-
-## 完成条件
-- [ ] <!-- 验收条件 1：具体的、可验证的 -->
-- [ ] <!-- 验收条件 2 -->
-- [ ] 所有测试通过：`<具体的测试命令>`
-- [ ] 代码提交信息包含任务追踪信息
-
-## 基线信息
-- **起点 commit**：<!-- 出问题时的回滚点 -->
-- **分支**：<!-- 在哪个分支上干活 -->
-- **执行器**：<!-- 派给谁、用什么模型 -->
-- **任务类型**：<!-- frontend-ui / backend-logic / tests-docs 等 -->
-- **复杂度**：<!-- S / M / L -->
-```
-
-### C. 配额感知路由配置（第三层配置参考）
-
-调度器根据这份配置来决定任务路由。`chains` 定义了不同任务类型的执行器优先级顺序，`watermark_gates` 定义了额度低于多少时停止向该执行器派发：
-
-```json
-{
-  "executors": {
-    "codex": {"plan_usd_month": 200, "weekly_token_budget": 4500000000},
-    "kimi":  {"plan_usd_month": 50,  "weekly_token_budget": 750000000},
-    "grok":  {"plan_usd_month": 20,  "weekly_token_budget": 350000000}
-  },
-  "chains": {
-    "big":   ["codex", "kimi"],
-    "quick": ["grok", "codex", "kimi"],
-    "slow":  ["kimi", "codex", "grok"]
-  },
-  "watermark_gates": {
-    "watermark_long_term_pct": 90,
-    "watermark_short_term_pct": 80
-  }
-}
-```
-
-- `big`（大活）优先派 Codex，额度不够时降级到 Kimi
-- `quick`（快活）优先派 Grok（速度快），不够时逐级降级
-- `slow`（前端/慢活）优先派 Kimi（审美强），不够时降级
-- 当某个执行器的周额度消耗超过 `watermark_long_term_pct`（90%），调度器自动停止向它派发新任务
-
-### D. 延伸阅读
-
-如果你想进一步了解这套体系背后的思路，以下是本文引用过的相关文章：
+### 延伸阅读
 
 - [Context is All You Need：为什么你的 AI 时灵时不灵？](../context-is-all-you-need/) — 上下文管理方法论
 - [人生的塞尔达时期](../260721-the-zelda-phase-of-life/) — Token 经济学、模型分工、自修复系统
 - [Claude Code 设计哲学](../claude-code-risk-model-philosophy/) — 风险模型、分层策略
 - [Agent 不下班](../260628-agent-era-dev-anywhere/) — 远程开发基础设施
 - [Orca](https://github.com/stablyai/orca) / [Paseo](https://github.com/getpaseo/paseo) — 产品化的多 Agent 编排工具
+- [保号和交互最佳实践](https://mp.weixin.qq.com/s/U0Ha_Zia3brKntMvPPeurA) — herdr + mosh 组合推荐
 
 ---
 
