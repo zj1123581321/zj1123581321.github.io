@@ -6,6 +6,13 @@ tags: ["AI", "Claude Code", "Codex", "Multi-Agent", "架构", "调度"]
 description: "从一个朴素的省额度想法，到一套主脑+执行层的多 Agent 调度体系——覆盖任务拆分、并行开发、质量门禁、配额感知调度、指标监测，以及如何让复杂系统从简单需求一步步长出来。"
 ---
 
+<!-- TODO:cover 封面图 — AI 生图 prompt：
+"一幅简洁的等距插画，深色背景。画面中央是一位穿着休闲的人坐在指挥台前，面前有多个发光的屏幕。
+指挥台下方连接着五六个不同颜色的机器人助手，每个在自己的独立工位上工作——有的在写代码，
+有的在审查文件，有的在搬运数据。画面传达'一个人指挥一支 AI 团队'的感觉。
+风格：扁平化科技插画，配色以深蓝/紫色为主调，点缀亮色。不含任何英文文字。"
+-->
+
 > 这篇的底稿是一段 80 分钟的语音分享。依然延续这个系列的传统——**作为人类，你只需要读懂思路和架构逻辑；所有具体的执行细节，把文章丢给你的 Claude Code 或 Codex，让它去做就行。**
 
 ## 开头：为什么要聊调度体系
@@ -75,6 +82,8 @@ graph LR
 
 - **[Orca](https://github.com/stablyai/orca)**（YC 孵化项目）：主打并行 Agent 编排。它帮你管理多个 Agent 同时在不同的代码副本上干活，有桌面端、手机端和服务器端，支持你用自己的订阅账号跑任意 Coding Agent。
 - **[Paseo](https://github.com/getpaseo/paseo)**：主打轻量编排。同样支持从桌面和手机端调度多个 Agent，还有命令行和 Docker 部署模式。
+
+![Orca 的并行 Agent 编排界面和手机端](https://github.com/stablyai/orca/raw/main/docs/assets/feature-wall/mobile-companion-app-showcase.jpg)
 
 这两个工具的共同点是：它们也是直接借助各家原生 Coding Agent 的能力来工作的（和我的第三层一样，都基于"模型和它的原生工具应该配套使用"这个前提），同时帮你处理了"多个 Agent 怎么不互相冲突地同时干活"这个最头疼的问题。而且都有图形界面（GUI），使用门槛低得多。如果你的需求是"我有几个套餐，想让它们同时帮我干活"，从这一层开始就好，不用往下走了。
 
@@ -153,6 +162,8 @@ graph TB
 
 **执行层**全部走"无头模式"。解释一下这个概念：我们平时用 Coding Agent，通常是打开一个对话窗口，你说一句、它做一步——这叫"对话模式"。而"无头模式"是另一种用法：你写好一段任务描述，通过命令行传给 Agent，它在后台默默干完，把结果交回来，全程不需要你盯着。就像你给员工发了一封邮件说"把这个做完"，而不是站在他旁边一步步指挥。之所以选这种模式——因为调度系统需要程序化地同时派出几十个任务、自动收结果，人坐在那里一个个对话是做不到这种自动化的。
 
+<!-- TODO:screenshot 请截一张 herdr 的多窗口界面截图，展示多个 Agent 会话同时运行的效果 -->
+
 顺带推荐一个在命令行环境下管理多个 Agent 会话的工具组合：**[herdr](https://github.com/herdrdev/herdr) + [mosh](https://mosh.org/)**。herdr 是一个专为 AI Agent 设计的终端多路复用器，可以同时管理多个 Agent 窗口；mosh 则解决了远程连接的断线续传问题。这个组合已经取代了我在 [Agent 不下班](../260628-agent-era-dev-anywhere/) 那篇文章里推荐的 tmux + SSH 方案——更稳定、更适合 Agent 场景。感兴趣的朋友也可以参考[这篇保号和交互最佳实践](https://mp.weixin.qq.com/s/U0Ha_Zia3brKntMvPPeurA)。
 
 这一层的具体实现细节（任务卡模板、路由配置、子代理角色定义等），文末附录里有脱敏后的参考材料，感兴趣的读者可以把附录丢给自己的 Agent，让它帮你搭一套类似的体系。
@@ -166,6 +177,8 @@ graph TB
 解决这个问题的方式叫 **Worktree**——你可以理解为把项目"复印"出多份副本，每个 Agent 在自己的副本上独立干活，互不干扰。干完以后，主脑负责把各自的成果合并回主线。
 
 在我的体系里，主脑会自己管理这些副本：哪些可以同时开工，哪些必须等前一个做完，命名怎么统一，做完以后怎么清理——全部由主脑自动安排。
+
+<!-- TODO:screenshot 请截一张展示多个 worktree 并行工作的终端截图，比如 herdr 里同时跑 5-8 个任务的画面 -->
 
 实际运行时，后台经常有三五十个 Agent 同时在跑，但前台我打开的主脑窗口可能只有七八个。每个主脑下面会并行管理五六个甚至七八个任务，它们各自在自己的副本上干活，做完以后主脑来处理合并冲突。
 
@@ -284,6 +297,8 @@ Agent 的优势在于目标感很强，但劣势也在于目标感很强——�
 
 先说前提：目前没有一个完美的单一指标能直接反映人和 Agent 协作的质量。这些指标**不适合拿来和别人比拼**，更多是给自己看的诚实看板——客观地、侧面地反映你和 Agent 之间的协作是顺畅还是充满摩擦。
 
+![我的 Token 用量监控面板：近 30 天模型分布与协作概览](<images/过去 30 天模型分布.png>)
+
 ### 1. 每日 Token 消耗（含缓存）
 
 最直观的指标。在不刻意浪费的前提下，能把 Token 消耗拉上去，本身就需要相当的技巧和基础设施——不然大量 Token 会浪费在 Agent 跑偏、重来、兜圈子上。
@@ -307,6 +322,8 @@ Agent 能自主跑多久不出岔子？这个指标最能看人和 Agent 的能�
 你的本地其实已经有 Agent 的工作轨迹记录（每次对话和操作的日志文件），这是非常好的复盘材料。**第一件事：把它们长期保留下来。** Claude Code 默认只保存 30 天的轨迹数据，你可以设置成永久保存，再加上定时备份。
 
 这些是你独有的 Agent 任务路径数据，价值极高。这么说吧：中转站（第三方代理平台）的很大一部分收入来源是贩卖用户的任务轨迹数据——各家模型厂商对高质量的"模型执行任务路径"数据开价非常夸张。你本地就躺着这些数据，你更应该好好保留和利用它们。
+
+![Turns 趋势与效率指标面板](images/指标监测.png)
 
 ### 5. 每百万 Token 的任务执行成本
 
@@ -419,15 +436,6 @@ Agent 做的每一个任务都成功了，测试都通过了——但日积月�
 | [05-agents-template.md](references/05-agents-template.md) | 质量保障 | 仓库级 AGENTS.md 全局指南模板 |
 | [06-acceptance-scorecard.md](references/06-acceptance-scorecard.md) | 指标监测 | 验收记分卡（执行器 x 任务类型 → 质量维度） |
 | [07-gate-ci-overview.md](references/07-gate-ci-overview.md) | 质量保障 | 门禁系统概述（tier/chain/shadow、多 Agent review 架构） |
-
-### 延伸阅读
-
-- [Context is All You Need：为什么你的 AI 时灵时不灵？](../context-is-all-you-need/) — 上下文管理方法论
-- [人生的塞尔达时期](../260721-the-zelda-phase-of-life/) — Token 经济学、模型分工、自修复系统
-- [Claude Code 设计哲学](../claude-code-risk-model-philosophy/) — 风险模型、分层策略
-- [Agent 不下班](../260628-agent-era-dev-anywhere/) — 远程开发基础设施
-- [Orca](https://github.com/stablyai/orca) / [Paseo](https://github.com/getpaseo/paseo) — 产品化的多 Agent 编排工具
-- [保号和交互最佳实践](https://mp.weixin.qq.com/s/U0Ha_Zia3brKntMvPPeurA) — herdr + mosh 组合推荐
 
 ---
 
