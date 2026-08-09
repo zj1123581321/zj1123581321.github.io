@@ -2,6 +2,7 @@
 title: "Context is All You Need：为什么你的 AI 时灵时不灵？"
 date: 2026-03-28
 draft: false
+url: "/posts/context-is-all-you-need/"
 ---
 
 > **Description：** AI 聊着聊着就犯傻、Skill 成功率忽高忽低、复制别人的配置却跑不出同样的效果——这些问题的根源往往是同一个。理解上下文窗口，是用好所有 AI 工具的第一课。

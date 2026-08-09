@@ -2,6 +2,7 @@
 title: "Claude Code：防封号、模型选择与设计哲学"
 date: 2026-03-28
 draft: false
+url: "/posts/claude-code-risk-model-philosophy/"
 ---
 
 ![Claude Code：防封号、模型选择与设计哲学](Pasted-image-20260328205719.png)
