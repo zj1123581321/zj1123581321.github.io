@@ -24,3 +24,10 @@
     securityLevel: 'loose',
   });
 </script>
+
+<!-- Google AdSense 自动广告（仅生产环境加载，避免本地预览产生无效展示） -->
+{{ if hugo.IsProduction }}
+<script async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2920695321218858"
+        crossorigin="anonymous"></script>
+{{ end }}
