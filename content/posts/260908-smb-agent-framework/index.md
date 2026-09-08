@@ -230,6 +230,8 @@ New API 解决了大头的模型 Token 中转，但它管不了这些长尾的 A
 
 这里面要有日志留痕、权限控制、花费控制。这块我们自己写了一套叫 Key Proxy，没有开源，但思路是通用的。
 
+![Key Proxy 管理面板：请求统计、成本追踪、服务健康状态、Key 用量排行](images/keyproxy-dashboard.png)
+
 ### ③ Skill 版本管理：SkillHub
 
 > 场景：某个同事写了一个特别好用的 Skill，比如"一键生成竞品分析报告"。他想分享给全团队。现在的做法是往群里丢一个压缩包——两天后有人改了一版又丢一个，一周后没人知道哪个是最新的。
@@ -268,14 +270,22 @@ New API 解决了大头的模型 Token 中转，但它管不了这些长尾的 A
 
 ```mermaid
 graph TB
+    subgraph Upstream["上游 API 来源"]
+        direction LR
+        Official["官方 API"]
+        Reseller["中转站"]
+        Sub2API["Sub2API"]
+    end
+
     subgraph Server["公司服务器（一台普通机器就够）"]
         direction TB
         NewAPI["New API<br/>模型网关"]
+        KeyProxy["Key Proxy<br/>API 密钥网关"]
         MCPHub["MCPHub<br/>MCP 服务聚合"]
         SkillHub["SkillHub<br/>Skill 应用商店"]
         N8N["n8n<br/>Workflow 引擎"]
         MCP["各种 MCP Server"]
-        Custom["Key Proxy / 搜索中心<br/>（自建）"]
+        Search["搜索中心<br/>（自建）"]
     end
 
     subgraph Client["员工的电脑（不要求高性能）"]
@@ -284,14 +294,20 @@ graph TB
         CC["Claude Code / Codex<br/>技术人员"]
     end
 
+    Official --> NewAPI
+    Reseller --> NewAPI
+    Sub2API --> NewAPI
+
     Proma -->|调用模型| NewAPI
-    Proma -->|使用工具| MCPHub
     CC -->|调用模型| NewAPI
-    CC -->|使用工具| MCPHub
+    Proma -->|使用工具| KeyProxy
+    CC -->|使用工具| KeyProxy
+    KeyProxy --> MCPHub
+    KeyProxy --> Search
     MCPHub --> MCP
-    MCPHub -->|权限控制| Custom
     N8N -->|MCP| MCPHub
 
+    style Upstream fill:#fff5f0,stroke:#e74c3c
     style Server fill:#f0f4ff,stroke:#3498db
     style Client fill:#f0fff4,stroke:#2ecc71
 ```
