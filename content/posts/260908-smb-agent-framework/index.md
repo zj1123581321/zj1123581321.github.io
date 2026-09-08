@@ -218,6 +218,8 @@ graph TB
 
 **开源，免费。**
 
+![New API 管理后台：模型调用统计、Token 消耗、成本分布一目了然](images/newapi-dashboard.png)
+
 ### ② API 密钥网关：Key Proxy
 
 > 场景：运营要用 GPT 生图，设计要用第三方的去水印 API，选品要调用某个数据平台的接口。每个服务都有自己的密钥——总不能把原始密钥发给每个人吧？但让每个人自己注册，报销和管理又是一团糟。
@@ -306,7 +308,9 @@ Agent 现在的能力非常强，但能力强也意味着安全风险大。如�
 
 **非技术人员**推荐 [Proma](https://github.com/proma-ai/Proma)。它是一个专门为办公场景设计的通用 Agent 客户端，Windows 和 Mac 都有，体验相当不错。
 
-![Proma 客户端界面：左侧项目列表、中间 Agent 对话、右侧代码变更一目了然](images/proma-ui.png)UI 非常清晰易用，可以直接接 New API，对办公场景来说是一个很好的通用 Agent 入口。
+![Proma 客户端界面：左侧项目列表、中间 Agent 对话、右侧代码变更一目了然](images/proma-ui.png)
+
+UI 非常清晰易用，可以直接接 New API，对办公场景来说是一个很好的通用 Agent 入口。
 
 **技术人员**用 Claude Code 或 Codex，这个不用多讲。
 
@@ -331,6 +335,8 @@ Agent 现在的能力非常强，但能力强也意味着安全风险大。如�
 **绝大多数企业内部场景，用 Workflow + LLM 调用都能解决。** 这可能是目前被严重低估的一条路。
 
 推荐工具是 **[n8n](https://github.com/n8n-io/n8n)**——一个开源的 Workflow 自动化引擎，部署在前面提到的那台公司服务器上就行，和其他服务共用一台机器，不需要额外成本。
+
+![n8n 工作流编辑器：可视化搭建 AI Agent 工作流，接入 LLM、搜索、工具调用等节点](images/n8n-screenshot.png)
 
 n8n 在 Agent 时代的使用方式需要做一个转变：不是由人手动在界面上拖拽创建工作流，而是**让 Agent 通过 MCP 和 Skill 来创建和维护 Workflow**。同时，把团队里那些共用的逻辑节点抽象成 n8n 的 Node，长期迭代，方便基于工作流进行自由拼接组合。
 
