@@ -281,11 +281,14 @@ graph TB
         direction TB
         NewAPI["New API<br/>模型网关"]
         KeyProxy["Key Proxy<br/>API 密钥网关"]
-        MCPHub["MCPHub<br/>MCP 服务聚合"]
         SkillHub["SkillHub<br/>Skill 应用商店"]
+        MCPHub["MCPHub<br/>MCP 服务聚合"]
         N8N["n8n<br/>Workflow 引擎"]
+        Search["搜索中心"]
+        Gemini["Gemini 生图"]
+        Supabase["Supabase"]
+        Video["视频理解 API"]
         MCP["各种 MCP Server"]
-        Search["搜索中心<br/>（自建）"]
     end
 
     subgraph Client["员工的电脑（不要求高性能）"]
@@ -302,8 +305,13 @@ graph TB
     CC -->|调用模型| NewAPI
     Proma -->|使用工具| KeyProxy
     CC -->|使用工具| KeyProxy
+    SkillHub -->|安装 Skill| Proma
+    SkillHub -->|安装 Skill| CC
     KeyProxy --> MCPHub
     KeyProxy --> Search
+    KeyProxy --> Gemini
+    KeyProxy --> Supabase
+    KeyProxy --> Video
     MCPHub --> MCP
     N8N -->|MCP| MCPHub
 
