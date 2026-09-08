@@ -6,6 +6,8 @@ tags: ["AI", "Agent", "企业落地", "中小团队", "工具推荐", "MCP"]
 description: "一个跨境电商团队的一手实践：中小团队旧组织不需要追求 AI Native，从数字化基建、人员分层、上下文闭环到基础设施选型，用开源工具和一台服务器搭起整个团队的 Agent 基建。"
 ---
 
+![老树开新花](images/cover.png)
+
 > 这篇文章的底稿是一段 45 分钟的语音思考。延续这个系列的传统——**作为人类，你只需要读懂思路和框架；具体的执行细节，交给你的 Agent。** 文末附录里有给 Agent 读的参考资料。
 >
 > 前置推荐阅读：[Context is All You Need](../context-is-all-you-need/)（上下文工程基础）、[风控、设计哲学与模型选择](../260328-claude-code-risk-model-philosophy/)（模型分层策略）、[将军赶路不追小兔](../260809-multi-agent-scheduling-architecture/)（多 Agent 调度体系）。本文聊的是一个不同的视角——不是"我个人怎么用 Agent"，而是"一个传统团队怎么让 Agent 落地"。
