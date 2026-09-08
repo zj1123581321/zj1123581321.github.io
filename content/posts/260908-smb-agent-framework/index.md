@@ -285,8 +285,6 @@ graph TB
         MCPHub["MCPHub<br/>MCP 服务聚合"]
         N8N["n8n<br/>Workflow 引擎"]
         Search["搜索中心"]
-        Gemini["Gemini 生图"]
-        Supabase["Supabase"]
         Video["视频理解 API"]
         MCP["各种 MCP Server"]
     end
@@ -309,8 +307,6 @@ graph TB
     SkillHub -->|安装 Skill| CC
     KeyProxy --> MCPHub
     KeyProxy --> Search
-    KeyProxy --> Gemini
-    KeyProxy --> Supabase
     KeyProxy --> Video
     MCPHub --> MCP
     N8N -->|MCP| MCPHub
