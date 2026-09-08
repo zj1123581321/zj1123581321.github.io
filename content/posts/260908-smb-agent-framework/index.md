@@ -74,6 +74,16 @@ Agent 在组织里落地，有两个方向的效果：**降本增效**和**做�
 
 我理解下来，传统团队转型 Agent 时代，人员应该是这么分层的：
 
+```mermaid
+graph TB
+    A["顶层：组织架构师（1-2 人）<br/>搭基础组件、定架构"] --> B["中层：一线实践者（3%-5%）<br/>搭业务工作流、写 Skill、分享经验"]
+    B --> C["基层：跟随者（大多数人）<br/>Follow SOP、提供数据反馈"]
+
+    style A fill:#9b59b6,color:#fff
+    style B fill:#3498db,color:#fff
+    style C fill:#2ecc71,color:#fff
+```
+
 ### 顶层：组织架构师（1-2 人）
 
 一个既懂 Agent 又很懂业务的人，来搭整个团队的基础组件：建立唯一的业务数据源、设计权限治理机制、搭建技能分享平台、构建反馈迭代的闭环。
@@ -222,6 +232,8 @@ New API 解决了大头的模型 Token 中转，但它管不了这些长尾的 A
 
 [SkillHub](https://github.com/iflytek/skillhub) 是讯飞开源的 Agent 技能注册平台。它解决的就是 Skill 在团队内的版本化管理——上传、审核、分层权限、一键安装，相当于**团队内部的 Skill 应用商店**。
 
+![SkillHub 演示：Skill 的上传、版本管理和安装流程](images/skillhub-demo.gif)
+
 **开源，免费。**
 
 ### ④ MCP 服务聚合：MCPHub
@@ -229,6 +241,8 @@ New API 解决了大头的模型 Token 中转，但它管不了这些长尾的 A
 > 场景：Agent 要调用各种 MCP 服务——连 GitHub 的、搜竞品数据的、查公司库存的。如果每个员工的电脑上各自起一份这些 Server，10 个人就是 10 份内存开销，而且配置管理是噩梦。
 
 [MCPHub](https://github.com/samanhappy/mcphub) 是一个自托管的 MCP 网关。把所有的 MCP 服务统一部署在服务器上，通过 MCPHub 聚合起来，给下游提供统一的接入点。员工的 Agent 客户端只需要连接 MCPHub 这一个地址，就能使用所有的 MCP 工具。
+
+![MCPHub 管理面板：一目了然地看到所有 MCP 服务的状态、工具数量和接入地址](images/mcphub-dashboard.png)
 
 再接一层 Key Proxy 的话，还能实现权限控制——谁能用哪些 MCP 服务，一目了然。
 
@@ -248,18 +262,34 @@ New API 解决了大头的模型 Token 中转，但它管不了这些长尾的 A
 
 ### 全景：一台服务器上的全家桶
 
-```
-公司服务器（一台普通机器就够）
-├── New API ——— 模型网关，分发 AI 模型权限
-├── MCPHub ——— MCP 网关，统一管理所有 MCP 服务
-├── SkillHub ——— Skill 应用商店，版本化管理
-├── n8n ———— Workflow 自动化引擎
-├── 各种 MCP Server 进程
-└── Key Proxy / 搜索中心（自建）
+```mermaid
+graph TB
+    subgraph Server["公司服务器（一台普通机器就够）"]
+        direction TB
+        NewAPI["New API<br/>模型网关"]
+        MCPHub["MCPHub<br/>MCP 服务聚合"]
+        SkillHub["SkillHub<br/>Skill 应用商店"]
+        N8N["n8n<br/>Workflow 引擎"]
+        MCP["各种 MCP Server"]
+        Custom["Key Proxy / 搜索中心<br/>（自建）"]
+    end
 
-员工的电脑（不要求高性能）
-├── Proma（Windows / Mac 客户端）
-└── 或 Claude Code / Codex（技术人员）
+    subgraph Client["员工的电脑（不要求高性能）"]
+        direction TB
+        Proma["Proma<br/>Windows / Mac"]
+        CC["Claude Code / Codex<br/>技术人员"]
+    end
+
+    Proma -->|调用模型| NewAPI
+    Proma -->|使用工具| MCPHub
+    CC -->|调用模型| NewAPI
+    CC -->|使用工具| MCPHub
+    MCPHub --> MCP
+    MCPHub -->|权限控制| Custom
+    N8N -->|MCP| MCPHub
+
+    style Server fill:#f0f4ff,stroke:#3498db
+    style Client fill:#f0fff4,stroke:#2ecc71
 ```
 
 重点：**所有重活都在服务端，客户端只是操作入口。** 员工不需要高性能电脑，不需要自己配置任何服务端的东西。这对中小团队来说非常友好——投入一台服务器的成本，就能让整个团队的 Agent 基建跑起来。如果有一个懂技术的人专职推进，上面这些开源工具从部署到跑通，大约一到两周。
@@ -274,7 +304,9 @@ Agent 现在的能力非常强，但能力强也意味着安全风险大。如�
 
 根据实际观察，组织内部也就 3%-5% 的人 Agent 用量特别大——基本就是前面说的那批中层实践者——其他人用得都很少。所以不需要给每个人都开最贵的账号。
 
-**非技术人员**推荐 [Proma](https://github.com/proma-ai/Proma)。它是一个专门为办公场景设计的通用 Agent 客户端，Windows 和 Mac 都有，体验相当不错。UI 非常清晰易用，可以直接接 New API，对办公场景来说是一个很好的通用 Agent 入口。
+**非技术人员**推荐 [Proma](https://github.com/proma-ai/Proma)。它是一个专门为办公场景设计的通用 Agent 客户端，Windows 和 Mac 都有，体验相当不错。
+
+![Proma 客户端界面：左侧项目列表、中间 Agent 对话、右侧代码变更一目了然](images/proma-ui.png)UI 非常清晰易用，可以直接接 New API，对办公场景来说是一个很好的通用 Agent 入口。
 
 **技术人员**用 Claude Code 或 Codex，这个不用多讲。
 
