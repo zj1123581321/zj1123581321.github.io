@@ -269,51 +269,64 @@ New API 解决了大头的模型 Token 中转，但它管不了这些长尾的 A
 ### 全景：一台服务器上的全家桶
 
 ```mermaid
-graph TB
-    subgraph Upstream["上游 API 来源"]
-        direction LR
+graph LR
+    subgraph Client["🖥️ 员工电脑（不要求高性能）"]
+        direction TB
+        Proma["Proma<br/>Windows / Mac"]
+        CC["Claude Code / Codex"]
+    end
+
+    subgraph Server["🖧 公司服务器（一台普通机器）"]
+        direction TB
+
+        subgraph ModelLayer["模型层"]
+            NewAPI["New API<br/>模型网关"]
+        end
+
+        subgraph ToolLayer["工具层"]
+            KeyProxy["Key Proxy<br/>API 密钥网关"]
+            SkillHub["SkillHub<br/>Skill 应用商店"]
+        end
+
+        subgraph ServiceLayer["服务层"]
+            MCPHub["MCPHub<br/>MCP 聚合"]
+            Search["搜索中心"]
+            Video["视频理解 API"]
+            N8N["n8n<br/>Workflow"]
+            MCP["其他 MCP Server"]
+        end
+    end
+
+    subgraph Upstream["☁️ 上游"]
+        direction TB
         Official["官方 API"]
         Reseller["中转站"]
         Sub2API["Sub2API"]
     end
 
-    subgraph Server["公司服务器（一台普通机器就够）"]
-        direction TB
-        NewAPI["New API<br/>模型网关"]
-        KeyProxy["Key Proxy<br/>API 密钥网关"]
-        SkillHub["SkillHub<br/>Skill 应用商店"]
-        MCPHub["MCPHub<br/>MCP 服务聚合"]
-        N8N["n8n<br/>Workflow 引擎"]
-        Search["搜索中心"]
-        Video["视频理解 API"]
-        MCP["各种 MCP Server"]
-    end
-
-    subgraph Client["员工的电脑（不要求高性能）"]
-        direction TB
-        Proma["Proma<br/>Windows / Mac"]
-        CC["Claude Code / Codex<br/>技术人员"]
-    end
+    Proma -->|调用模型| NewAPI
+    CC -->|调用模型| NewAPI
+    Proma -->|使用工具| KeyProxy
+    CC -->|使用工具| KeyProxy
+    SkillHub -.->|安装 Skill| Proma
+    SkillHub -.->|安装 Skill| CC
 
     Official --> NewAPI
     Reseller --> NewAPI
     Sub2API --> NewAPI
 
-    Proma -->|调用模型| NewAPI
-    CC -->|调用模型| NewAPI
-    Proma -->|使用工具| KeyProxy
-    CC -->|使用工具| KeyProxy
-    SkillHub -->|安装 Skill| Proma
-    SkillHub -->|安装 Skill| CC
     KeyProxy --> MCPHub
     KeyProxy --> Search
     KeyProxy --> Video
     MCPHub --> MCP
-    N8N -->|MCP| MCPHub
+    N8N --> MCPHub
 
-    style Upstream fill:#fff5f0,stroke:#e74c3c
-    style Server fill:#f0f4ff,stroke:#3498db
     style Client fill:#f0fff4,stroke:#2ecc71
+    style Server fill:#f0f4ff,stroke:#3498db
+    style Upstream fill:#fff5f0,stroke:#e74c3c
+    style ModelLayer fill:#e8f0fe,stroke:#90b4f0
+    style ToolLayer fill:#e8f0fe,stroke:#90b4f0
+    style ServiceLayer fill:#e8f0fe,stroke:#90b4f0
 ```
 
 重点：**所有重活都在服务端，客户端只是操作入口。** 员工不需要高性能电脑，不需要自己配置任何服务端的东西。这对中小团队来说非常友好——投入一台服务器的成本，就能让整个团队的 Agent 基建跑起来。如果有一个懂技术的人专职推进，上面这些开源工具从部署到跑通，大约一到两周。
