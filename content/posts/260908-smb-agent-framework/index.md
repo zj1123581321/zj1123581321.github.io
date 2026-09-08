@@ -1,7 +1,7 @@
 ---
 title: "老树开新花：中小团队的 Agent 落地框架"
 date: 2026-09-08
-draft: true
+draft: false
 tags: ["AI", "Agent", "企业落地", "中小团队", "工具推荐", "MCP"]
 description: "一个跨境电商团队的一手实践：中小团队旧组织不需要追求 AI Native，从数字化基建、人员分层、上下文闭环到基础设施选型，用开源工具和一台服务器搭起整个团队的 Agent 基建。"
 ---
