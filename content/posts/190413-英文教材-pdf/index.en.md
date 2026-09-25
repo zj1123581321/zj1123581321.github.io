@@ -88,6 +88,8 @@ Free registration required before downloading.
 
 #### 2.3.4 [ManyBooks](https://manybooks.net/)
 
+![Manybooks](/migrated-images/markdown_20190529_sObYaJ7LXt76.png)
+
 "It offers more than 20,000 free e-books. You can search by category, author, title, and language; every book comes with a profile including title, author, country, and a content summary. All of the e-books can be downloaded and saved in dozens of formats, such as Doc, PDF, RTF, JAR, TXT, and so on." (translated from Chinese)
 
 #### 2.3.5 [Free Computer Books](http://freecomputerbooks.com/)
