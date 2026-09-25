@@ -13,4 +13,3 @@
 - **本段结论**：`/en/posts/claude-code-risk-model-philosophy/` 正常输出，中文网址列表与基线 diff 为空，中文 RSS 条数不变；英文 RSS 恰 1 条。译文里指向中文原文的 Markdown 链接不会被加语言前缀。
 - **关键决策与已否决方案**：站内旧 `render-image.html` 直接输出裸相对路径，多语言下英文页图片会 404（bundle 资源只发布在中文路径下），参照 PaperMod 原生模板改为 `PageInner.Resources.Get` 取 `.RelPermalink`，两种语言图片共享同一 URL、文件不复制；`data-lang` 用 `cond (eq .Lang "zh") "zh-CN" .Lang`（giscus 无 `zh` locale，必须地区限定码）。已否决：为英文版复制一份图片文件（卡面明确禁止）。
 - **下一步唯一动作**：push 分支、清理临时目录、交验收报告。
-
