@@ -76,7 +76,7 @@ The two mainstream note apps internationally: Evernote and OneNote.
 
 #### 2.3.1 Evernote (Yinxiang Biji)
 
-Evernote is an app focused on note-taking. Yinxiang Biji is its China-market edition; the two keep **separate accounts** (they don't share a database), and Yinxiang Biji has a few extra localized features that Evernote lacks, such as saving WeChat and Weibo content.
+Evernote is an app focused on note-taking. Yinxiang Biji is its China-market edition; the two keep **separate accounts** (they don't share a database), and Yinxiang Biji has a few extra localized features that Evernote lacks, such as saving content from WeChat and Weibo (China's Twitter-like platform).
 
 **Pros**
 

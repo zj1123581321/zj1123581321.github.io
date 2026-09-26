@@ -81,7 +81,7 @@ Last April, to consume audio and video more efficiently, I started building [Vid
 
 Beyond observing the world, it also carries a good deal of my **learning-from-content** needs — much of the experience sharing on YouTube and the high-quality conversations on Xiaoyuzhou, I read as text through this system.
 
-A year-plus on, the missing pieces have gradually been filled in. It now supports YouTube, Bilibili, Xiaoyuzhou, Douyin, Xiaohongshu, WeChat Channels, Twitter, and other mainstream platforms; there's a WebUI to operate it, plus a Skill interface for agents. Core capabilities:
+A year-plus on, the missing pieces have gradually been filled in. It now supports YouTube, Bilibili, Xiaoyuzhou, Douyin (TikTok's Chinese version), Xiaohongshu (China's Instagram-like platform), WeChat Channels (WeChat's short-video platform), Twitter, and other mainstream platforms; there's a WebUI to operate it, plus a Skill interface for agents. Core capabilities:
 
 - **Local transcription**: dual engines, CapsWriter and FunASR, running entirely locally
 - **LLM proofreading and summarization**: works with any OpenAI-compatible API, e.g. DeepSeek
