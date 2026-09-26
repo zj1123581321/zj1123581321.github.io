@@ -8,4 +8,7 @@
   3. `200131-ipad-os-文件管理` → `/en/posts/2020-01-31220/`（918e67f）
   4. `220714-windows-h265` → `/en/posts/windows-wen-jian-guan-li-qi-he-h265/`（39ce2ce）
 - 中文原稿 index.md、hugo.toml、layouts、themes 均未改动
-- 验收：hugo --gc --minify 构建 + /tmp/i18n-check-4.py 全绿，详见执行报告
+- zelda 篇两张含空格文件名的图片（多个 Token 套餐已耗尽 / 近 30 日 token 消耗分布）在英文稿中改用
+  `../../../posts/...` 相对引用：中文页输出的百分号编码绝对 URL 生产可用但验收脚本磁盘核对误判缺失，
+  相对引用解析后与中文页 URL 逐字节一致（9c3374e）
+- 验收：hugo --gc --minify 构建 + /tmp/i18n-check-4.py 全绿（PASS），详见执行报告
