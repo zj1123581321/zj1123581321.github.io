@@ -159,7 +159,7 @@ graph TB
 
 **The execution layer** runs entirely in "headless mode." To explain the concept: when we normally use a coding agent, we open a conversation window — you say a sentence, it takes a step; that's "conversation mode." "Headless mode" is the other way of using it: you write up a task description, pass it to the agent through the command line, it quietly finishes the work in the background and hands back the result — no watching required at any point. It's like emailing an employee "get this done" instead of standing beside them directing every step. Why choose this mode? Because the scheduling system needs to programmatically dispatch dozens of tasks at once and collect results automatically — a human sitting there holding conversations one by one cannot achieve that kind of automation.
 
-A side recommendation for managing multiple agent sessions in a terminal environment: **[herdr](https://github.com/herdrdev/herdr) + [mosh](https://mosh.org/)**. herdr is a terminal multiplexer designed for AI agents that manages multiple agent windows at once; mosh solves the dropped-connection problem of remote sessions. This combo has replaced the tmux + SSH setup I recommended in [Agents Don't Clock Out](/en/posts/260628-agent-era-dev-anywhere/) — more stable and better suited to agent scenarios. If you're interested, also see [this best-practices guide on keeping accounts alive and interacting with agents](https://mp.weixin.qq.com/s/U0Ha_Zia3brKntMvPPeurA).
+A side recommendation for managing multiple agent sessions in a terminal environment: **[herdr](https://github.com/herdrdev/herdr) + [mosh](https://mosh.org/)**. herdr is a terminal multiplexer designed for AI agents that manages multiple agent windows at once; mosh solves the dropped-connection problem of remote sessions. This combo has replaced the tmux + SSH setup I recommended in [Agents Don't Clock Out](/en/posts/260628-agent-era-dev-anywhere/) — more stable and better suited to agent scenarios. If you're interested, also see [this best-practices guide on keeping accounts alive and interacting with agents](https://mp.weixin.qq.com/s/U0Ha_Zia3brKntMvPPeurA) (in Chinese).
 
 The concrete implementation details of this layer (task-card template, routing config, sub-agent role definitions, etc.) are in the appendix as sanitized reference material; interested readers can hand the appendix to their own agent and have it build a similar system.
 
@@ -263,7 +263,7 @@ This gate doesn't only serve the auto-fix scenario — the commits produced by w
 
 ## 4. Letting Agents Enter Production Autonomously
 
-The self-repair system I described in [The Zelda Phase of Life](/en/posts/260721-the-zelda-phase-of-life/) (a production incident occurs → automatic diagnosis → agent fixes it → code submitted → passes the gate → approval in Feishu → deployed to production) was the first form of agents entering production. Here are a few more scenarios, all fundamentally the same road: **pick out the things you currently do repeatedly, let agents replace you step by step, and free up your own energy.**
+The self-repair system I described in [The Zelda Phase of Life](/en/posts/260721-the-zelda-phase-of-life/) (a production incident occurs → automatic diagnosis → agent fixes it → code submitted → passes the gate → approval in Feishu (Lark, ByteDance's workplace collaboration suite) → deployed to production) was the first form of agents entering production. Here are a few more scenarios, all fundamentally the same road: **pick out the things you currently do repeatedly, let agents replace you step by step, and free up your own energy.**
 
 ### Scheduled Bulk Issue Triage
 
@@ -382,7 +382,7 @@ Interestingly, multi-agent orchestration has already started becoming productize
 
 ### Every Loop Succeeds — So Why Does the System Keep Getting Worse?
 
-[A deep-dive article from the Castbox Guru team](https://mp.weixin.qq.com/s/CiV0mZwwB6ZT-CEHbpBq3Q) (who run AI-driven R&D on the [Trellis](https://docs.trytrellis.app/) framework) diagnosed a deeper problem:
+[A deep-dive article from the Castbox Guru team](https://mp.weixin.qq.com/s/CiV0mZwwB6ZT-CEHbpBq3Q) (in Chinese) (who run AI-driven R&D on the [Trellis](https://docs.trytrellis.app/) framework) diagnosed a deeper problem:
 
 Every task the agents performed succeeded, every test passed — yet accumulated over time, the system as a whole became harder and harder to maintain. Why?
 
@@ -394,7 +394,7 @@ This points in the same direction as the practice in my system of "periodically 
 
 ### Vibe Coding Will Collapse on Big Projects, Unless…
 
-[Xu Wenhao's talk on AI Alchemy](https://mp.weixin.qq.com/s/kpeoDfe87-PY5yXpOm00fA) gave me a great deal of inspiration on engineering practice:
+[Xu Wenhao's talk on AI Alchemy](https://mp.weixin.qq.com/s/kpeoDfe87-PY5yXpOm00fA) (in Chinese) gave me a great deal of inspiration on engineering practice:
 
 > Pure vibe coding (letting AI write code by feel) will inevitably collapse on a big project. There is only one road that avoids collapse — build, and keep iterating, your tooling and process system.
 
