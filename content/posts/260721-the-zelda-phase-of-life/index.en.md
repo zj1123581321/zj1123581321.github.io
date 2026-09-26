@@ -16,7 +16,7 @@ translationSynced: 2026-09-26
 
 It has been a while since my last update. The reason is simple: I've been obsessed with farming free token quota.
 
-![Multiple token plans maxed out](<images/多个 Token 套餐已耗尽.png>)
+![Multiple token plans maxed out](<../../../posts/260721-the-zelda-phase-of-life/images/多个 Token 套餐已耗尽.png>)
 
 Claude Code hit its 7-day cap, Fable 5 (Claude's current top-of-the-line model) hit its cap, Codex hit its 7-day cap, and Kimi Code was at 94%. Among my backup channels, GLM had 63% left and Grok 32%, while DeepSeek and Bailian (Alibaba Cloud's model platform) still had plenty — but the main workhorses were all down.
 
@@ -42,7 +42,7 @@ Objectively speaking, my entire July schedule was organized around the validity 
 
 Note: **that 4 billion means the 20x plan's quota was being maxed out, not that I couldn't hold up any more.**
 
-![Distribution of token consumption over the last 30 days](<images/近 30 日 token 消耗分布.png>)
+![Distribution of token consumption over the last 30 days](<../../../posts/260721-the-zelda-phase-of-life/images/近 30 日 token 消耗分布.png>)
 
 This is the token-usage monitoring dashboard I built myself. The last 30 days of total processing (cache included) comes out to an equivalent value of over US$27,000 at API prices — note this is only a notional equivalent at list prices, not an actual bill; what I actually pay is two $200 subscriptions. By coding agent, Claude Code and Codex each take about half; by model, the biggest by volume are gpt-5.6-sol (33%, the mainstay of the Codex pipeline), Sonnet 5 (24%), Opus 4.8 (18.6%), and Fable 5 (5.6%).
 
