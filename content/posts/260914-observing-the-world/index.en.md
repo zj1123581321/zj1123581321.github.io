@@ -13,7 +13,7 @@ Chen Jingfei released a new song called "The Myriad Faces of the World."
 > The world is a net — who is weaving its directions?
 > Some have fallen into the night; some wait for the spring wind.
 
-![Chen Jingfei's "The Myriad Faces of the World" in a music player](images/人间万象-播放器.jpg)
+![Chen Jingfei's "The Myriad Faces of the World" in a music player](https://zj1123581321.com/posts/260914-observing-the-world/images/人间万象-播放器.jpg)
 
 I'm very fond of her. After listening, it struck me that this song title works perfectly as a doorway into something I've wanted to write about for a long time but never found the occasion for — **I have a standing habit of observing the world.**
 
@@ -88,13 +88,13 @@ A year-plus on, the missing pieces have gradually been filled in. It now support
 - **Multi-channel push**: automatic notifications via WeCom and Feishu (Chinese workplace IMs)
 - **Web reading interface**: a web version for reading the proofread text and summaries, plus detailed notes matched to timestamps. The proofread text's URL can be copied straight into ChatGPT, Claude, and other web chat UIs for follow-up questions
 
-![VTA web reading interface: content summary, chapter outline, proofread text; copy the URL to a third-party LLM to keep asking](images/vta-阅读界面.jpg)
+![VTA web reading interface: content summary, chapter outline, proofread text; copy the URL to a third-party LLM to keep asking](https://zj1123581321.com/posts/260914-observing-the-world/images/vta-阅读界面.jpg)
 
 The sources come in two layers. One is **standing subscriptions**: when particular YouTube or Bilibili channels publish a new video, transcription is submitted automatically. The other is **casual submits**: something interesting scrolls by, one click and it goes into the system.
 
 On top of that I built a live-recorder — an automatic recording-and-archiving service for livestreams; finished recordings are handed to VideoTranscriptAPI for transcription automatically.
 
-![live-recorder console: the recording task list, covering livestreams on WeChat Channels, Bilibili, Douyin, and other platforms](images/live-recorder-控制台.png)Livestreams come unedited, and sometimes you can see rawer things — of course there's plenty of rambling and muddled logic too, but anyway, it's AI doing the reading now; none of that is a problem.
+![live-recorder console: the recording task list, covering livestreams on WeChat Channels, Bilibili, Douyin, and other platforms](https://zj1123581321.com/posts/260914-observing-the-world/images/live-recorder-控制台.png)Livestreams come unedited, and sometimes you can see rawer things — of course there's plenty of rambling and muddled logic too, but anyway, it's AI doing the reading now; none of that is a problem.
 
 The two combined are where the dozen-plus hours of daily transcription come from.
 

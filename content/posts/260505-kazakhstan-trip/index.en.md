@@ -6,7 +6,7 @@ url: "/en/posts/260505-kazakhstan-trip/"
 translationSynced: 2026-09-26
 ---
 
-![Kazakhstan: Planning with AI, a Drone Lost to the Wind, and the Afterglow of a Golden Age](阿克套的海底沉积地貌.jpg)
+![Kazakhstan: Planning with AI, a Drone Lost to the Wind, and the Afterglow of a Golden Age](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿克套的海底沉积地貌.jpg)
 
 *Translated from the [Chinese original](/posts/260505-kazakhstan-trip/). Last synced 2026-09-26.*
 
@@ -114,26 +114,26 @@ Special recommendation: **Google's open-source Gemma 4 large model** (the E2B / 
 
 To get it: search **"Edge Gallery"** on Google Play or the App Store; note that you need to download both the app and the model inside it (E2B recommended — small and fast).
 
-![Gemma 4 — a miracle tool for the no-man's-land](Gemma4-无人区的神器.jpg)
+![Gemma 4 — a miracle tool for the no-man's-land](https://zj1123581321.com/posts/260505-kazakhstan-trip/Gemma4-无人区的神器.jpg)
 
 ### 3.6 Food: A Survival Guide for a Chinese Stomach
 
 The most awkward fact of the whole trip: the best food we ate was always at Chinese restaurants. Pure local cuisine is meat or rice-and-flour staples, period — a Chinese stomach can't take days of it in a row. We had two Northeastern Chinese meals in Almaty, and that warmth of spotting a "Harbin" sign in a foreign land — if you know, you know.
 
-![The Northeastern Chinese restaurant in Almaty is literally named "Harbin" & the giant meat skewers at another barbecue joint](阿拉木图的东北餐厅名字就叫哈尔滨&另一家烧烤店的大肉串.jpg)
+![The Northeastern Chinese restaurant in Almaty is literally named "Harbin" & the giant meat skewers at another barbecue joint](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿拉木图的东北餐厅名字就叫哈尔滨&另一家烧烤店的大肉串.jpg)
 
 A fun discovery: at one Chinese restaurant in Aktau, the menu doesn't translate Chinese into Russian — it **transliterates the Chinese dish names into approximate Russian pronunciation**. Google Translate is completely lost — you need a model with actual intelligence, like Gemini, to work out what each dish is.
 
-![A Chinese menu transliterated into Russian](用俄语音译的中文菜单.jpg)
+![A Chinese menu transliterated into Russian](https://zj1123581321.com/posts/260505-kazakhstan-trip/用俄语音译的中文菜单.jpg)
 
 Buying water was another repeated pitfall. Sparkling water seems to be the mainstream there, in bottles that look exactly like still water. I bought wrong the first time, switched brands and bought wrong again — same brand, different packaging, different contents. It took two or three mistakes to figure out the pattern; in the end, taking a photo and asking AI was the reliable move.
 
-![The bewildering variety of local sparkling water](当地种类繁多的气泡水.jpg)
+![The bewildering variety of local sparkling water](https://zj1123581321.com/posts/260505-kazakhstan-trip/当地种类繁多的气泡水.jpg)
 
 ### 3.7 Packing: A Few Small Tips for Long Trips
 
 - **Decathlon's swim/sports towel** beats disposable bath towels by a mile. Disposables eat up suitcase space; a sports towel absorbs well and dries fast — ideal for long trips with frequent accommodation changes.
-  ![Decathlon swim towel](迪卡侬游泳毛巾.jpg)
+  ![Decathlon swim towel](https://zj1123581321.com/posts/260505-kazakhstan-trip/迪卡侬游泳毛巾.jpg)
 - **Bring playing cards from China.** Plenty of local supermarkets don't stock ordinary playing cards; only specialty card shops sell them.
 
 ---
@@ -152,15 +152,15 @@ I've been really into Chen Jingfei (a Chinese singer-songwriter) lately, so natu
 
 The melody looped unbidden in my head that whole evening. Time really does move fast — and each of us has ended up watching the sunset somewhere else.
 
-![Almaty amusement park — sunset elsewhere](阿拉木图游乐场-别处的夕阳.jpg)
+![Almaty amusement park — sunset elsewhere](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿拉木图游乐场-别处的夕阳.jpg)
 
 Dinner was local barbecue. Nothing else to say: lots of meat, huge portions — the skewers ran the length of a forearm; China has similar things. But calling it delicious would be a stretch: once it cooled it turned greasy, and the only thing that cut the grease was raw onion. Taste-wise it's no match for the Chinese barbecue joints whose marinated meat has real character; other than being economical, there's not much else to express. Order skewers one at a time rather than many at once — otherwise the last few are a pure battle against the grease.
 
 That night we went to a supermarket to buy water — and stepped on the sparkling-water trap described above.
 
-![A Mixue Ice Cream & Tea (Chinese budget tea-and-ice-cream chain) by the street, photobombed by a squad of muscle guys](街道旁的蜜雪冰城和乱入的肌肉男团.jpg)
+![A Mixue Ice Cream & Tea (Chinese budget tea-and-ice-cream chain) by the street, photobombed by a squad of muscle guys](https://zj1123581321.com/posts/260505-kazakhstan-trip/街道旁的蜜雪冰城和乱入的肌肉男团.jpg)
 
-![Almaty — a traditional Kazakh swing](阿拉木图-哈萨克斯坦传统秋千.jpg)
+![Almaty — a traditional Kazakh swing](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿拉木图-哈萨克斯坦传统秋千.jpg)
 
 ---
 
@@ -186,7 +186,7 @@ After thinking it over, two reasons made me hold off on replacing it for now. Fi
 
 I had crashed a drone once before — that time it was repaired — so I had some experience with this. When it happened this time I didn't panic much, and it didn't really spoil the mood. Once it was gone I didn't agonize over it; it's just that the rest of the trip lost one camera angle, and those sweeping aerial views of the terrain went unshot. A real pity, that.
 
-![The flight path of the fallen DJI Flip](坠落的大疆Flip轨迹.jpg)
+![The flight path of the fallen DJI Flip](https://zj1123581321.com/posts/260505-kazakhstan-trip/坠落的大疆Flip轨迹.jpg)
 
 ### Horse Meat, Lanzhou Noodles, Craft Beer
 
@@ -194,7 +194,7 @@ Up on the mountain we also had snacks at a horse-meat place. The texture was odd
 
 In the evening we went to a local bar for craft beer. According to my friends, local craft beer is extremely cheap: a large pour is just 30 RMB (≈ US$4), when the same volume back home runs 50. Surprisingly, the bar's vibe was very everyday — you could even see moms and dads bringing their three-to-five-year-old kids along, none of the standoffishness of Chinese bars.
 
-![A local craft beer bar](当地精酿酒馆.jpg)
+![A local craft beer bar](https://zj1123581321.com/posts/260505-kazakhstan-trip/当地精酿酒馆.jpg)
 
 ---
 
@@ -206,9 +206,9 @@ The route opens with a sustained climb along a giant pipeline, and it is exhaust
 
 I had GPT generate an "expected view" image to compare against reality, and the gap was striking — what AI paints for you is a fog-free blue lake; what reality hands you is a grey smear where you can't see a thing.
 
-![Big Almaty Lake — reality vs. expectation (generated with GPT Image 2)](大阿拉木图湖-实际和预期.jpg)
+![Big Almaty Lake — reality vs. expectation (generated with GPT Image 2)](https://zj1123581321.com/posts/260505-kazakhstan-trip/大阿拉木图湖-实际和预期.jpg)
 
-![The pipeline hike in Almaty](阿拉木图的管道徒步.jpg)
+![The pipeline hike in Almaty](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿拉木图的管道徒步.jpg)
 
 This trail is best described as an experience. On pure scenery, plenty of trails in China look better. The pipeline itself counts as a unique feature; the natural scenery, not so much. If you're planning to go, **picking your weather** matters more than anything. Second is flattening your mindset and adjusting expectations. If it feels too tiring, renting a car for the opening stretch straight to the summit is also a fine option — no need to force yourself; fatigue that money can solve is sometimes not worth gutting through.
 
@@ -220,13 +220,13 @@ In the morning we visited the local art museum — an exhibition of works by the
 
 This is where **Doubao** has to be mentioned — in most cases you snap a photo and ask it, or start a video call and let it look at the exhibit and narrate, and it answers quite convincingly: a culture consultant available anytime, anywhere. Of course, I don't have strong feelings for cultural matters myself, so I just treated it as broadening my horizons.
 
-![Almaty art museum — Amangul Menibayeva](阿拉木图艺术馆-是阿曼古丽・梅尼巴耶娃.jpg)
+![Almaty art museum — Amangul Menibayeva](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿拉木图艺术馆-是阿曼古丽・梅尼巴耶娃.jpg)
 
 In the evening we joined a tour and headed out to a village rendezvous point in the Almaty countryside. The moment I stepped off the bus I felt I'd arrived at my grandmother's village — the familiar smell of livestock manure, the remote hamlet, the startlingly clear starry sky. Don't expect the amenities to be comprehensive; it was relatively clean, only the curtains blocked no light at all, and morning sunlight would wake you straight up. Since we were leaving early the next day anyway, it doubled as a natural alarm clock.
 
 Signal was terrible; we went straight to bed.
 
-![Free-range chickens raised by villagers on the Almaty outskirts, and breakfast](阿拉木图郊区居民养的土鸡和早餐.jpg)
+![Free-range chickens raised by villagers on the Almaty outskirts, and breakfast](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿拉木图郊区居民养的土鸡和早餐.jpg)
 
 ---
 
@@ -248,7 +248,7 @@ Just shoot a rough frame of the background — or snap someone else's photo as r
 
 **My own feeling: seeing it with your own eyes is enough.** I'm not that keen on taking photos, but I am keen on shooting video — it's more three-dimensional: sound, motion, ambient noise, letting you truly recall later how that moment felt. A carefully retouched photo can't do that.
 
-![The eagle and me — who can tell us apart](老鹰与我-安能辨我是雄雌.jpg)
+![The eagle and me — who can tell us apart](https://zj1123581321.com/posts/260505-kazakhstan-trip/老鹰与我-安能辨我是雄雌.jpg)
 
 ### The Bonfire Party
 
@@ -284,7 +284,7 @@ Only looking at the map did I realize Aktau already sits near the Caspian Sea, c
 
 May 1 is Kazakhstan's Unity Day. In the morning we watched the holiday performances in Almaty — a multiethnic village-variety stage, quite lively. In the afternoon we flew to Aktau.
 
-![The May 1 Unity Day performance](五一团结日表演.jpg)
+![The May 1 Unity Day performance](https://zj1123581321.com/posts/260505-kazakhstan-trip/五一团结日表演.jpg)
 
 The Aktau hotel had a strong formaldehyde smell, though overall it looked reasonably presentable, and we weren't asking for more. In the evening we went for Chinese food — the very restaurant that transliterates its Chinese menu into Russian, mentioned earlier.
 
@@ -306,7 +306,7 @@ Next came the place known as "Tiramisu" — a few blocky hills rising abruptly f
 
 Some of the wind-eroded formations nearby are hollow at the base, with faint cracks above; I didn't quite dare linger on them too long. The guide also said there are no public toilet facilities here — you have to find your own "hidden place" — a silence-inducing arrangement :)
 
-![Aktau's seabed sediment terrain](阿克套的海底沉积地貌.jpg)
+![Aktau's seabed sediment terrain](https://zj1123581321.com/posts/260505-kazakhstan-trip/阿克套的海底沉积地貌.jpg)
 
 
 
@@ -316,7 +316,7 @@ The next day was free exploring in Aktau; we went to a café by the Caspian Sea 
 
 Combined with the current situation in the Middle East, I couldn't help wondering where those ships were headed — feeling for the first time, on a map, just how close I was to Iran was a rather wonderful experience.
 
-![The Caspian, cargo ships, and Iran](里海-游轮-和伊朗.jpg)
+![The Caspian, cargo ships, and Iran](https://zj1123581321.com/posts/260505-kazakhstan-trip/里海-游轮-和伊朗.jpg)
 
 That evening we had local roast meat at another place. No surprises, no delights — as expected.
 
@@ -372,7 +372,7 @@ Plane or bus, the time on the road is long. Read a book, watch a show, or listen
   >
   > As for the rest of the friends — we can only wish them luck.
 - **Gödel, Escher, Bach (GEB)**: because I'd previously read an article about the protocol- and text-first design philosophies people devised when compute was scarce in the early days — which unexpectedly collided with the needs of today's large language models. So I picked up this strange 1979 book. Around seven or eight chapters in I couldn't keep reading; after that I just talked with Gemini about the emergence of consciousness — the underlying mechanism maybe needn't be that complex, yet the upper layer can still give rise to consciousness. Looking at today's AI progress, it feels a bit magical.
-  ![GEB — the chat with Gemini](GEB-和gemini的聊天.jpg)
+  ![GEB — the chat with Gemini](https://zj1123581321.com/posts/260505-kazakhstan-trip/GEB-和gemini的聊天.jpg)
 - **The Art of Unix Programming**: Unix philosophy has always had value; with the spread of LLMs and agents it has become newly prominent and important. The specific details don't actually need memorizing — the large language model certainly knows them better than you; you only need to know where the direction lies. A design philosophy from the barren-hardware era fitting the large-model era's needs so uncannily — quite wonderful.
 
 An attitude I've already discussed in an earlier post — [from anxiety to acceptance](https://mp.weixin.qq.com/s/Rjxlr-O2kbH2vtHOWJ2G9A) — make the most of experiencing things now. No one can change this direction anymore.
