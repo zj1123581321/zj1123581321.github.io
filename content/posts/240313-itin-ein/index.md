@@ -87,7 +87,7 @@ aliases:
 -   快捷方式-右键-属性-添加参数
 
 ```
-"~/AppData/Local/Google/Chrome SxS\Application\chrome.exe" --enable-features=LiveCaptionMultiLanguage,LiveTranslate
+"C:\Users\<user>\AppData\Local\Google\Chrome SxS\Application\chrome.exe" --enable-features=LiveCaptionMultiLanguage,LiveTranslate
 ```
 
 ![chrome canary live caption & translate](/migrated-images/picgo_image-20240313182136127.png)
