@@ -6,6 +6,8 @@ tags: ["AI", "ASR", "工具", "开源"]
 description: "音视频里有大量文字世界没有的信息，但 Agent 读不到。我每天十几个小时的音视频转录全部跑在家里的普通电脑上，核心思路只有一条：转得够准就行，剩下的交给 LLM 校对。聊聊几款主流本地模型怎么选、区分说话人为什么难，以及两个可以直接接进工作流的开源转录服务。"
 ---
 
+![给 Agent 装上耳朵](images/cover.jpg)
+
 [《人间万象》](../260914-observing-the-world/)里提到，我每天的音视频转录量在十几个小时以上。不少朋友问：底下跑的是什么？
 
 2023 年我写过一篇 [Whisper 的使用指南](/posts/liao-liao-gao-jing-du-yin-shi-pin-zhuan-wen-zi-gong-zuo-liu/)（[少数派版](https://sspai.com/post/83644)），算是当时全网介绍得比较全的一篇。前阵子一位高中同学突然找我，说他在搜 Whisper 相关资料时搜到了这篇，点进去才惊喜地发现作者是我——一篇三年前的文章，以这种方式把老同学连上了，挺奇妙的。
@@ -55,6 +57,8 @@ description: "音视频里有大量文字世界没有的信息，但 Agent 读�
 
 只要 ASR 有基础准确率，配上 LLM 校对，转录稿的可读性就非常高了。一篇稿子的校对成本也就一两毛钱。
 
+![同一段开场白：左边是 ASR 原始转录，右边是 LLM 结合节目信息校对后，人名、节目名、英文术语都改对了](images/calibration-compare.png)
+
 **这个结论反过来决定了选型：既然质量可以靠 LLM 兜底，选 ASR 时就应该更关心速度和资源占用。**
 
 ## 选型地图
@@ -71,6 +75,8 @@ description: "音视频里有大量文字世界没有的信息，但 Agent 读�
 后三个都出自阿里：Paraformer 和 SenseVoice 来自阿里开源的语音工具箱 FunASR，Qwen3-ASR 来自通义千问团队。几句展开：
 
 **Whisper** 2022 年 9 月由 OpenAI 开源，胜在出现得早、支持语种多，所以经常被默认成 ASR 的首选。但如果你的场景主要是中英文，它的准确率已经不如新模型了，资源占用还更高，长音频也容易出现幻觉，不断重复同一句话。当年它让我最惊艳的，是连 `theta_i^t` 这种符号写法都能转出来。如今除了小语种，我已经没有理由用它了。
+
+![2023 年用 Whisper Large-v2 转录课程录音，连 theta_i^t 这种符号写法都转了出来](images/whisper-2023.png)
 
 **Paraformer-zh** 是 CapsWriter 里最老的模型，却是我用得最多的。最大的优势是快：普通 CPU 就能跑出几十倍实时，完全不需要显卡，说实话有点恐怖。代价是准确率比 Qwen3-ASR 差一些，但有上下文加 LLM 校对兜底，完全够用。如果你没有显卡，只做中英文转录，我非常推荐它。
 
@@ -100,20 +106,17 @@ description: "音视频里有大量文字世界没有的信息，但 Agent 读�
 
 再说一层：在总结类场景里，模型能力足够强的话，其实也未必需要提前区分说话人，它能从上下文推断出谁在说话。只不过如果你能提前把说话人分好，模型就能省下一部分注意力，专注在内容的总结和提炼上，效果会更好。
 
+![区分说话人之后，再由 LLM 结合节目信息把「说话人 1、2」推断成真名](images/speaker-result.png)
+
 ## 我是怎么搭的
 
-我手上的设备比较杂，最后搭成了三层。从上往下读，上层调用下层；左右两列是两条独立的链路，那台 Mac Studio 同时服务两边：
+我手上的设备比较杂，最后搭成了三层：最上面是应用，中间是两个 ASR 服务端，最下面是几台机器。主力是那台 Mac Studio：
 
-```
-应用层   VideoTranscriptAPI · 语音输入 · 微信群语音转文字 · ……
-            │                          │
-服务层   CapsWriter ASR Server     funasr_spk_server
-         （通用转录，负载均衡）       （区分说话人）
-            │                          │
-设备层   Mac Studio M1 Max 64G     同一台 Mac Studio：FunASR 引擎
-         Windows 6800H 笔记本       Linux + RTX 3060：Qwen3 引擎
-         （两台都跑 Paraformer）
-```
+![三层架构：应用层调用两个 ASR 服务端，服务端分布在三台设备上](images/architecture.png)
+
+- **Mac Studio M1 Max 64G**：CapsWriter 跑 Paraformer（速度优先）和 MLX 版 Qwen3-ASR（质量优先），funasr_spk_server 跑 FunASR 引擎（区分说话人）。日常的转录基本都在这台上。
+- **Windows 6800H 笔记本**：CapsWriter 跑 Qwen3-ASR，和 Mac Studio 上的 Qwen3-ASR 一起挂在负载均衡后面，分担追求质量的那部分活。
+- **Linux + RTX 3060**：funasr_spk_server 的 Qwen3 引擎，需要时再开机。
 
 两个 ASR 服务端都以 MIT 许可证开源，下面各用几句话说清楚它们分别是什么。部署细节就别看我讲了，把仓库地址丢给你的 Agent，让它结合你的设备出方案。
 
@@ -144,7 +147,7 @@ CapsWriter 是纯转录，不区分说话人。语音输入当然够用，但播
 
 在 M1 Max 64G 上用 Mac 自带的 GPU 加速（MPS），可以开 3 个并发，大概 10 倍实时。我需要区分说话人的转录基本都跑在它上面。
 
-后来 Qwen3-ASR 出来了，今年 5 月我又给它加了 Qwen3 引擎，追求准确率时用。这个引擎最好配英伟达显卡，我放在 RTX 3060 上跑。
+后来 Qwen3-ASR 出来了，今年 5 月我又给它加了 Qwen3 引擎，追求准确率时用。这个引擎最好配英伟达显卡，我放在一台 RTX 3060 的机器上，需要时再开机。
 
 ### VideoTranscriptAPI：应用层
 

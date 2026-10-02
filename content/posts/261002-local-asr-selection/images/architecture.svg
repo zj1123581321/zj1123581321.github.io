@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1060" viewBox="0 0 1600 1060" font-family="'WenQuanYi Zen Hei','Droid Sans Fallback',sans-serif">
+<defs>
+<marker id="b" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M0,0 L10,6 L0,12 z" fill="#2f6fb5"/></marker>
+<marker id="g" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M0,0 L10,6 L0,12 z" fill="#2f8f6b"/></marker>
+</defs>
+<rect width="1600" height="1060" fill="#fff"/>
+<g font-size="26" fill="#94a3b8" font-weight="bold">
+<text x="40" y="60">应用层</text><text x="40" y="378">服务层</text><text x="40" y="738">设备层</text></g>
+<rect x="40" y="80" width="1520" height="190" rx="16" fill="#f1f5f9"/>
+<rect x="80" y="110" width="700" height="130" rx="12" fill="#fff" stroke="#64748b" stroke-width="2.5"/>
+<text x="430" y="158" font-size="32" font-weight="bold" text-anchor="middle" fill="#1e293b">VideoTranscriptAPI</text>
+<text x="430" y="206" font-size="24" text-anchor="middle" fill="#475569">音视频下载 → 转录 → LLM 校对 → 总结</text>
+<rect x="840" y="110" width="320" height="130" rx="12" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
+<text x="1000" y="186" font-size="28" text-anchor="middle" fill="#334155">语音输入</text>
+<rect x="1200" y="110" width="320" height="130" rx="12" fill="#fff" stroke="#94a3b8" stroke-width="2"/>
+<text x="1360" y="162" font-size="28" text-anchor="middle" fill="#334155">微信群语音转文字</text>
+<text x="1360" y="210" font-size="26" text-anchor="middle" fill="#94a3b8">……</text>
+<path d="M300 240 L300 400" stroke="#2f6fb5" stroke-width="3.5" fill="none" marker-end="url(#b)"/>
+<text x="316" y="330" font-size="24" fill="#2f6fb5" font-weight="bold">不分说话人</text>
+<path d="M600 240 L600 320 L1150 320 L1150 400" stroke="#2f8f6b" stroke-width="3.5" fill="none" marker-end="url(#g)"/>
+<text x="860" y="308" font-size="24" fill="#2f8f6b" font-weight="bold">要分说话人</text>
+<rect x="40" y="400" width="740" height="290" rx="16" fill="#eaf2fb" stroke="#2f6fb5" stroke-width="2.5"/>
+<text x="70" y="448" font-size="30" font-weight="bold" fill="#1f4f87">CapsWriter ASR Server</text>
+<text x="450" y="448" font-size="24" fill="#4a79ad">通用转录</text>
+<rect x="70" y="475" width="320" height="90" rx="10" fill="#fff" stroke="#2f6fb5" stroke-width="1.8"/>
+<text x="230" y="515" font-size="28" font-weight="bold" text-anchor="middle" fill="#1f4f87">Paraformer</text>
+<text x="230" y="548" font-size="23" text-anchor="middle" fill="#475569">速度优先</text>
+<rect x="430" y="475" width="320" height="90" rx="10" fill="#fff" stroke="#2f6fb5" stroke-width="1.8"/>
+<text x="590" y="515" font-size="28" font-weight="bold" text-anchor="middle" fill="#1f4f87">Qwen3-ASR</text>
+<text x="590" y="548" font-size="23" text-anchor="middle" fill="#475569">质量优先</text>
+<rect x="430" y="595" width="320" height="64" rx="10" fill="#d6e6f7" stroke="#2f6fb5" stroke-width="1.8"/>
+<text x="590" y="636" font-size="25" text-anchor="middle" fill="#1f4f87">负载均衡代理</text>
+<path d="M590 565 L590 595" stroke="#2f6fb5" stroke-width="2.5" marker-end="url(#b)"/>
+<rect x="820" y="400" width="740" height="290" rx="16" fill="#e9f6ef" stroke="#2f8f6b" stroke-width="2.5"/>
+<text x="850" y="448" font-size="30" font-weight="bold" fill="#1f6b4d">funasr_spk_server</text>
+<text x="1160" y="448" font-size="24" fill="#4c9a7c">区分说话人</text>
+<rect x="850" y="475" width="320" height="90" rx="10" fill="#fff" stroke="#2f8f6b" stroke-width="1.8"/>
+<text x="1010" y="515" font-size="28" font-weight="bold" text-anchor="middle" fill="#1f6b4d">FunASR 引擎</text>
+<text x="1010" y="548" font-size="23" text-anchor="middle" fill="#475569">日常主力</text>
+<rect x="1210" y="475" width="320" height="90" rx="10" fill="#fff" stroke="#2f8f6b" stroke-width="1.8"/>
+<text x="1370" y="515" font-size="28" font-weight="bold" text-anchor="middle" fill="#1f6b4d">Qwen3 引擎</text>
+<text x="1370" y="548" font-size="23" text-anchor="middle" fill="#475569">追准确率</text>
+<rect x="40" y="760" width="860" height="260" rx="16" fill="#f8fafc" stroke="#1e293b" stroke-width="4"/>
+<text x="70" y="808" font-size="30" font-weight="bold" fill="#1e293b">Mac Studio</text>
+<text x="238" y="808" font-size="23" fill="#64748b">M1 Max 64G</text>
+<rect x="760" y="782" width="110" height="38" rx="19" fill="#1e293b"/>
+<text x="815" y="808" font-size="22" font-weight="bold" text-anchor="middle" fill="#fff">主力</text>
+<rect x="70" y="840" width="250" height="150" rx="10" fill="#eaf2fb" stroke="#2f6fb5" stroke-width="2"/>
+<text x="195" y="925" font-size="27" font-weight="bold" text-anchor="middle" fill="#1f4f87">Paraformer</text>
+<rect x="345" y="840" width="250" height="150" rx="10" fill="#eaf2fb" stroke="#2f6fb5" stroke-width="2"/>
+<text x="470" y="905" font-size="27" font-weight="bold" text-anchor="middle" fill="#1f4f87">Qwen3-ASR</text>
+<text x="470" y="942" font-size="23" text-anchor="middle" fill="#475569">MLX 版</text>
+<rect x="620" y="840" width="250" height="150" rx="10" fill="#e9f6ef" stroke="#2f8f6b" stroke-width="2"/>
+<text x="745" y="925" font-size="27" font-weight="bold" text-anchor="middle" fill="#1f6b4d">FunASR 引擎</text>
+<rect x="940" y="760" width="300" height="260" rx="16" fill="#f8fafc" stroke="#94a3b8" stroke-width="2.5"/>
+<text x="970" y="808" font-size="28" font-weight="bold" fill="#334155">Windows 笔记本</text>
+<text x="970" y="842" font-size="23" fill="#64748b">6800H</text>
+<rect x="970" y="870" width="240" height="120" rx="10" fill="#eaf2fb" stroke="#2f6fb5" stroke-width="2"/>
+<text x="1090" y="920" font-size="27" font-weight="bold" text-anchor="middle" fill="#1f4f87">Qwen3-ASR</text>
+<text x="1090" y="956" font-size="23" text-anchor="middle" fill="#475569">GGUF 版</text>
+<rect x="1280" y="760" width="280" height="260" rx="16" fill="#fcfdfd" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="14 9"/>
+<text x="1310" y="808" font-size="28" font-weight="bold" fill="#64748b">Linux</text>
+<text x="1310" y="842" font-size="23" fill="#94a3b8">RTX 3060 · 按需开机</text>
+<rect x="1310" y="870" width="220" height="120" rx="10" fill="#f4faf7" stroke="#8cc9b0" stroke-width="2" stroke-dasharray="10 7"/>
+<text x="1420" y="920" font-size="26" font-weight="bold" text-anchor="middle" fill="#4c9a7c">Qwen3 引擎</text>
+<text x="1420" y="956" font-size="23" text-anchor="middle" fill="#94a3b8">(funasr)</text>
+<path d="M590 659 L590 715 L470 715 L470 840" stroke="#2f6fb5" stroke-width="2.5" fill="none" marker-end="url(#b)"/>
+<path d="M590 715 L1190 715 L1190 870" stroke="#2f6fb5" stroke-width="2.5" fill="none" marker-end="url(#b)"/>
+<path d="M1370 565 L1370 760" stroke="#2f8f6b" stroke-width="2.5" stroke-dasharray="8 6" fill="none" marker-end="url(#g)"/>
+</svg>
