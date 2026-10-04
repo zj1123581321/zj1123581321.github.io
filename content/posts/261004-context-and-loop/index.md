@@ -33,7 +33,7 @@ description: "如果 Agent 时代只能记住两个词，我会选 Context 和 L
 我现在每天大概消耗 20 到 30 亿 Token（含缓存读取）。几个月前，我得一直高频盯着、基本人在环内（people in the loop），才能维持每天 40 亿左右的消耗；现在消耗还是这个量级，我每天只花一小部分时间在 Agent 上，不影响干别的事。凭体感说，**投入的精力下降了一个数量级，单个项目明显省心得多。**
 
 ![Token 消耗趋势](images/token-trend.png)
-*8 月 1 日至 10 月 4 日每天的 Token 处理量（含缓存），按 Coding Agent 堆叠。8 月初几乎全是 Claude Code 和 Codex，9 月下旬以后 Pi（黄色）明显变多。*
+*8 月 1 日至 10 月 4 日每天的 Token 处理量（含缓存），按 Coding Agent 堆叠。8 月初几乎全是 Claude Code 和 Codex，9 月下旬以后 Pi（黄色）明显变多。下半部分是同期按模型的分布：表里列出的 19 个之外还有 37 个，Claude、GPT、Grok、DeepSeek、MiniMax、Kimi 混着用，没有哪一家独占。*
 
 这背后的功臣，就是 Context 和 Loop。
 
