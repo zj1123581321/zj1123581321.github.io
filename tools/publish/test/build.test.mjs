@@ -1,10 +1,12 @@
 // node --test 全量测试。fixture 直接读仓库真实文章：
 //   261004-context-and-loop（图片已全在 origin/main，含 3 条内链 + 外链脚注 + 表格）
-//   260809-multi-agent-scheduling-architecture（3 个 mermaid，generated PNG 未推送 → 用 --skip-push-check）
+//   260809-multi-agent-scheduling-architecture（3 个 mermaid；未推送场景用临时仓测，不依赖 origin/main 是否已含 PNG）
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { runBuild } from '../build.mjs';
 import { buildPostsIndex, rewriteLinksForWechat, rewriteLinksForX, resolveInternalLink, blogUrlOf, GITHUB_RAW_BASE } from '../lib/links.mjs';
@@ -230,27 +232,53 @@ test('build 261004：data.json 契约 + 图片 URL 与手工版一致 + 内链�
   }
 });
 
-test('build 260809：mermaid 渲染 3 块、公众号引用 raw URL、未推送检查报缺失', async () => {
-  const postDir = path.join(REPO_ROOT, 'content/posts/260809-multi-agent-scheduling-architecture');
-  // 场景一（预期失败）：mermaid generated PNG 尚未推送 → 未推送检查报错，不写产物
-  const outDir260809 = path.join(OUT_DIR, '260809-multi-agent-scheduling-architecture');
-  fs.rmSync(outDir260809, { recursive: true, force: true });
-  await assert.rejects(
-    () =>
-      runBuild({
-        repoRoot: REPO_ROOT,
-        postArg: 'content/posts/260809-multi-agent-scheduling-architecture',
-        skipPushCheck: false,
-      }),
-    (e) => {
-      assert.match(e.message, /图片尚未推送/);
-      assert.match(e.message, /images\/generated\/mermaid-[0-9a-f]{12}\.png/);
-      return true;
-    }
-  );
-  assert.ok(!fs.existsSync(outDir260809), '未推送检查失败时不应写任何产物');
+function git(cwd, args) {
+  const env = { ...process.env };
+  delete env.GIT_DIR;
+  delete env.GIT_WORK_TREE;
+  env.GIT_CONFIG_GLOBAL = '/dev/null';
+  env.GIT_CONFIG_SYSTEM = '/dev/null';
+  const result = spawnSync('git', ['-c', 'core.hooksPath=/dev/null', ...args], {
+    cwd,
+    encoding: 'utf8',
+    env,
+  });
+  if (result.status !== 0) {
+    throw new Error(result.stderr || result.stdout || `git ${args.join(' ')} 失败`);
+  }
+  return result;
+}
 
-  // 场景二：--skip-push-check 成功
+test('runBuild 遇到未推送图片时报错且不写产物（不依赖真实仓远端状态）', async () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'md2p-unpushed-'));
+  try {
+    git(tmp, ['init', '-b', 'main']);
+    git(tmp, ['config', 'commit.gpgsign', 'false']);
+    git(tmp, ['-c', 'user.email=test@example.com', '-c', 'user.name=test', 'commit', '--allow-empty', '-m', 'base']);
+    git(tmp, ['remote', 'add', 'origin', tmp]);
+    git(tmp, ['update-ref', 'refs/remotes/origin/main', 'HEAD']);
+    const postDir = path.join(tmp, 'content/posts/tmp-unpushed');
+    fs.mkdirSync(path.join(postDir, 'images'), { recursive: true });
+    fs.writeFileSync(path.join(postDir, 'index.md'), '---\ntitle: "t"\n---\n\n![x](images/a.png)\n');
+    fs.writeFileSync(path.join(postDir, 'images/a.png'), Buffer.from([137, 80, 78, 71]));
+    const outDir = path.join(tmp, 'tools/publish/out/tmp-unpushed');
+    await assert.rejects(
+      () =>
+        runBuild({
+          repoRoot: tmp,
+          postArg: 'content/posts/tmp-unpushed',
+          skipPushCheck: false,
+        }),
+      /图片尚未推送/
+    );
+    assert.ok(!fs.existsSync(outDir), '未推送检查失败时不应写任何产物');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test('build 260809：mermaid 渲染 3 块、公众号引用 raw URL', async () => {
+  const postDir = path.join(REPO_ROOT, 'content/posts/260809-multi-agent-scheduling-architecture');
   const data = await runBuild({
     repoRoot: REPO_ROOT,
     postArg: 'content/posts/260809-multi-agent-scheduling-architecture',
