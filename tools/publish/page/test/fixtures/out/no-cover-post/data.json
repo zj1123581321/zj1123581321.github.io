@@ -1,0 +1,13 @@
+{
+  "schema": "md2platforms/v1",
+  "post": "no-cover-post",
+  "title": "无封面文章",
+  "blog_url": null,
+  "cover": null,
+  "wechat": {
+    "html": "<p>无封面测试</p>"
+  },
+  "x": {
+    "segments": []
+  }
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>md2platforms 复制页</title>
+  <link rel="stylesheet" href="page.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <h1 id="post-title">md2platforms 复制页</h1>
+      <div id="post-meta" class="post-meta"></div>
+    </div>
+    <div id="header-actions" class="header-actions"></div>
+  </header>
+
+  <div id="error-banner" class="error-banner" role="alert" hidden></div>
+
+  <main id="app-content" class="app-layout" hidden>
+    <section class="panel wechat-panel">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <h2>微信公众号</h2>
+          <span class="panel-subtitle">富文本排版（mdnice 兰青）</span>
+        </div>
+        <div class="panel-actions">
+          <button id="btn-copy-wechat" class="btn btn-primary" type="button">复制公众号全文</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="wechat-preview" class="preview-box wechat-box"></div>
+      </div>
+    </section>
+
+    <section class="panel x-panel">
+      <div class="panel-header">
+        <div class="panel-title-group">
+          <h2>X (Twitter) 文章</h2>
+          <span class="panel-subtitle">分段交替复制</span>
+        </div>
+        <div class="panel-actions">
+          <span id="x-progress" class="x-progress-badge">0 / 0 已复制</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div id="x-segments-list" class="segments-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="page.js"></script>
+</body>
+</html>
