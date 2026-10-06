@@ -164,6 +164,7 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
       [
         'navigate',
         'evaluate',
+        'evaluate',
         'click',
         'evaluate',
         'fill',

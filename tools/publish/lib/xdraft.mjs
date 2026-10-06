@@ -152,6 +152,10 @@ function editorReadyCode() {
   return `Boolean(document.querySelector(${JSON.stringify(EDITOR_SELECTOR)}))`;
 }
 
+function createReadyCode() {
+  return `Boolean(document.querySelector(${JSON.stringify(CREATE_SELECTOR)}))`;
+}
+
 function imageUploadStateCode() {
   return `(() => {
     const editor = document.querySelector(${JSON.stringify(EDITOR_SELECTOR)});
@@ -347,6 +351,12 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
       url: ARTICLES_URL,
       newTab: true,
       group_title: `X 草稿：${data.title}`,
+    });
+    await waitForCondition({
+      bridge,
+      code: createReadyCode(),
+      description: 'X 新建文章入口',
+      predicate: Boolean,
     });
     await safeClick(bridge, CREATE_SELECTOR);
     await waitForCondition({

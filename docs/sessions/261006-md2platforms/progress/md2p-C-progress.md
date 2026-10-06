@@ -21,3 +21,16 @@ aria-label 不含「发布」「Publish」「Post」。
 状态判据，不以固定 sleep 代替。
 
 下一步唯一动作：提交 bridge 客户端、安全闸、草稿编排和跨 HTTP 边界测试。
+
+当前阶段：里程碑二——真实 bridge 联调修正。
+
+本段结论：真实 X 页面确认 `navigate` 返回早于入口 DOM 挂载，已增加基于入口存在性的等待，再
+执行安全闸和新建 click。正文合成 File 粘贴已在真实草稿中产生 `blob:https://x.com/...` 图片块，
+HTML、H2、列表、引用和链接块保持顺序；一次完整联调因执行窗口超时只完成到中途，草稿已删除。
+
+关键决策与已否决方案：真实 bridge 的 `upload` 明确返回
+`upload needs Chrome's per-extension file access... Allow access to file URLs`，且 CDP
+`DOM.setFileInputFiles` 也返回 `Not allowed`；不绕过文件权限、不引入 fallback，保留代码使用卡面
+锁定的 `upload` 动作。此前联调创建的测试草稿均已按卡面流程删除。
+
+下一步唯一动作：提交入口等待修正，然后用有界长命令完成真实正文全量联调并核对草稿列表。
