@@ -1,0 +1,21 @@
+{
+  "name": "blog-md2platforms",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "博客文章 → 公众号 HTML + X 分段 data.json（md2platforms/v1）",
+  "license": "GPL-3.0",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.11.1",
+    "juice": "^12.2.0",
+    "markdown-it": "^14.1.0",
+    "markdown-it-implicit-figures": "^0.12.0",
+    "mermaid": "^11.12.0",
+    "playwright": "1.60.0"
+  }
+}

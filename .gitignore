@@ -2,3 +2,5 @@ public/
 resources/
 .hugo_build.lock
 .publish.config.json
+tools/publish/out/
+tools/publish/node_modules/
