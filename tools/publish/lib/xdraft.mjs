@@ -221,7 +221,9 @@ export function normalizeEditorBlocks(blocks) {
 }
 
 export function expectedSegmentSequence(segments) {
-  return segments.map((segment) => (segment.kind === 'image' ? 'IMG' : 'TEXT'));
+  return collapseTextKinds(
+    segments.map((segment) => (segment.kind === 'image' ? 'IMG' : 'TEXT'))
+  );
 }
 
 export function assertSegmentOrder(actualBlocks, segments) {

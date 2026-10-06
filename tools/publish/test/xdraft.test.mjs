@@ -112,6 +112,7 @@ test('段顺序自检把连续文本块归并并拒绝图片前移', () => {
         { kind: 'html', html: '<p>A</p>' },
         { kind: 'image', src: 'assets/a.png' },
         { kind: 'html', html: '<p>B</p>' },
+        { kind: 'html', html: '<p>C</p>' },
       ]
     )
   );
