@@ -137,5 +137,6 @@ node tools/publish/x-draft.mjs content/posts/261004-context-and-loop
   `addr` 字段；
 - `extension_not_connected`：打开 Chrome 中的 Kimi 扩展并恢复连接；
 - `上传超时`：X 未在 60 秒内生成已上传图片块或封面，命令会非零退出并报告已完成段数；
+- `HTML 落盘且图片块保持`：长 HTML 粘贴后图片块数回退或文末未进入编辑器，同样非零退出；
 - `拒绝点击发布相关目标` 或 `段顺序自检不一致`：安全闸和顺序自检会直接终止，避免误发布或
   生成顺序错误的草稿。

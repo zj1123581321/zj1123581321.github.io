@@ -103,3 +103,16 @@ innerText 包含「编辑媒体」；点「应用」后封面 `pbs.twimg.com` �
 关键决策与已否决方案：不把 X 图片上限写成 9（追加第 10 张正文图成功）；不用固定 sleep。
 
 下一步唯一动作：提交后重跑含封面的完整 `x-draft.mjs`。
+
+当前阶段：修复轮 1 收尾——含封面全量联调通过。
+
+本段结论：`node tools/publish/x-draft.mjs content/posts/261004-context-and-loop` 成功，草稿
+`https://x.com/compose/articles/edit/2107433888780083200`，标题正确，封面 pbs 图
+naturalWidth=1200，正文 14 张图均为 blob 且带「编辑媒体」，块序列自检为 14 个 IMG 交替。
+截图 `x-draft-editor.png`。该草稿已删除，列表回到「你的草稿在这里」，会话已 close_session。
+未触达 X 图片上限，已测封面 1 + 正文 14。红验安全闸、段顺序、未推送均为 AssertionError。
+
+关键决策与已否决方案：封面对话框按 innerText 匹配；HTML 落盘等待保留，不引入固定 sleep 或
+图片上限常量。
+
+下一步唯一动作：提交文档与进度存档并 push。
