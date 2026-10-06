@@ -14,12 +14,14 @@ import {
   paceDelayMs,
   readBridgeAddress,
   runXDraft,
+  safeClick,
   waitForCondition,
 } from '../lib/xdraft.mjs';
 
-function startFakeBridge() {
+function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }] } = {}) {
   const requests = [];
   let imageCount = 0;
+  let captionDialogOpen = false;
   const server = http.createServer(async (request, response) => {
     try {
     const chunks = [];
@@ -32,18 +34,32 @@ function startFakeBridge() {
       const code = body.args.code;
       if (code.includes('target = document.querySelector')) {
         const isApply = code.includes('data-md2p-cover-apply');
+        const isCaptionSave = code.includes('data-md2p-caption-save');
+        const isCaptionOpen = code.includes('data-md2p-caption-open');
         data = {
           type: 'string',
           value: JSON.stringify(
             isApply
               ? { found: true, text: '应用', ariaLabel: '' }
+              : isCaptionSave
+              ? { found: true, text: '保存', ariaLabel: '保存' }
+              : isCaptionOpen
+              ? { found: true, text: '提供字幕（可选）', ariaLabel: '' }
               : { found: true, text: '', ariaLabel: 'create' }
           ),
         };
       } else if (code.includes('data-md2p-cover-apply')) {
         data = { type: 'string', value: JSON.stringify({ found: true, text: '应用', ariaLabel: '' }) };
+      } else if (code.includes('data-md2p-caption-save')) {
+        data = { type: 'string', value: JSON.stringify({ found: true, text: '保存', ariaLabel: '保存' }) };
+      } else if (code.includes('data-md2p-caption-open')) {
+        data = { type: 'string', value: JSON.stringify({ found: true, text: '提供字幕（可选）', ariaLabel: '' }) };
+      } else if (code.includes('applied: Boolean')) {
+        data = { type: 'string', value: JSON.stringify({ dialogOpen: captionDialogOpen, applied: true }) };
       } else if (code.includes('pbs.twimg.com/media/')) {
         data = { type: 'string', value: JSON.stringify({ ready: true, naturalWidth: 1200 }) };
+      } else if (code.includes('编辑字幕')) {
+        data = captionDialogOpen;
       } else if (code.includes('[role="dialog"]') || code.includes('role="dialog"')) {
         data = true;
       } else if (code.includes('Boolean(document.querySelector')) {
@@ -68,12 +84,7 @@ function startFakeBridge() {
       } else if (code.includes('imageSectionCount')) {
         data = { type: 'string', value: JSON.stringify({ imageSectionCount: imageCount, ready: true }) };
       } else if (code.includes('return JSON.stringify({blocks});')) {
-        data = {
-          type: 'string',
-          value: JSON.stringify({
-            blocks: [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }],
-          }),
-        };
+        data = { type: 'string', value: JSON.stringify({ blocks }) };
       } else if (code.includes('location.href')) {
         data = { type: 'string', value: JSON.stringify({ url: 'https://x.com/compose/articles/edit/123' }) };
       } else if (code === '__timeout_probe__') {
@@ -81,9 +92,15 @@ function startFakeBridge() {
       } else {
         throw new Error(`fake bridge 未处理 evaluate：${code}`);
       }
+    } else if (body.action === 'list_tabs') {
+      data = { success: true, tabs };
+    } else if (body.action === 'find_tab') {
+      data = { success: true, url: body.args.url, tabId: 7, borrowed: false };
     } else if (body.action === 'navigate') {
       data = { success: true, url: body.args.url, tabId: 1 };
     } else if (body.action === 'click') {
+      if (body.args.selector === '[data-md2p-caption-open="1"]') captionDialogOpen = true;
+      if (body.args.selector === '[data-md2p-caption-save="1"]') captionDialogOpen = false;
       data = { success: true, tag: 'BUTTON', text: '' };
     } else if (body.action === 'fill') {
       data = { success: true, tag: 'TEXTAREA', mode: 'value' };
@@ -232,10 +249,12 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
     assert.match(logs[0], /图片段数量 1/);
     assert.match(logs[0], /总字数 5/);
     const actions = requests.filter((request) => request.action).map((request) => request.action);
-    assert.equal(actions[0], 'navigate');
+    assert.equal(actions[0], 'list_tabs', '先问会话已有标签页再决定要不要新开');
+    assert.equal(actions[1], 'navigate');
     assert.ok(!actions.includes('upload'));
     assert.equal(requests[0].session, 'md2p-x-draft');
-    assert.equal(requests[0].args.group_title, 'X 草稿：测试长文章');
+    const navigateRequest = requests.find((request) => request.action === 'navigate');
+    assert.equal(navigateRequest.args.group_title, 'X 草稿：测试长文章');
     assert.equal(requests.find((request) => request.action === 'fill').args.value, '测试长文章');
 
     const coverAssign = requests.find(
@@ -313,6 +332,8 @@ test('类人停顿按锁定点位插入，进度行与预计耗时打印', async
         events.push('fill');
         return realBridge.fill(args);
       },
+      listTabs: async () => realBridge.listTabs(),
+      findTab: async (url) => realBridge.findTab(url),
       evaluate: async (args) => {
         if (args.code.includes('new ClipboardEvent')) {
           events.push(args.code.includes("kind: 'image'") ? 'paste-image' : 'paste-html');
@@ -362,6 +383,142 @@ test('类人停顿按锁定点位插入，进度行与预计耗时打印', async
     assert.equal(result.completedSegments, 3);
   } finally {
     await new Promise((resolve) => server.close(resolve));
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('安全闸拒绝白名单外的 click 选择器，且不向 bridge 发任何请求', async () => {
+  const boom = async () => {
+    throw new Error('不应发出请求');
+  };
+  const bridge = { evaluate: boom, click: boom };
+  await assert.rejects(
+    () => safeClick(bridge, 'button[aria-label="publish"]'),
+    /安全闸拒绝未授权 click 选择器：button\[aria-label="publish"\]/
+  );
+});
+
+test('图片字幕：带 caption 的图片段点占位→填值→保存；无 caption 的图片段不发字幕请求', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-caption-'));
+  const outDir = path.join(dir, 'tools/publish/out/example');
+  fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'assets/cover.png'), Buffer.from('cover'));
+  fs.writeFileSync(path.join(outDir, 'assets/body1.png'), Buffer.from([1, 2, 3]));
+  fs.writeFileSync(path.join(outDir, 'assets/body2.png'), Buffer.from([4, 5, 6]));
+  const caption = '同一段开场白：左边是 ASR 原始转录，右边是 LLM 校对后';
+  const data = {
+    title: '字幕测试',
+    cover: 'assets/cover.png',
+    x: {
+      segments: [
+        { kind: 'image', src: 'assets/cover.png', alt: '封面' },
+        { kind: 'html', html: '<p>开场</p>' },
+        { kind: 'image', src: 'assets/body1.png', alt: caption, caption },
+        { kind: 'image', src: 'assets/body2.png', alt: '表格 1' },
+        { kind: 'html', html: '<p>结束</p>' },
+      ],
+    },
+  };
+  const { server, requests } = startFakeBridge({
+    blocks: [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'IMG' }, { kind: 'TEXT' }],
+  });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  try {
+    const { port } = server.address();
+    const bridge = new BridgeClient({ addr: `127.0.0.1:${port}` });
+    const result = await runXDraft({ data, outDir, bridge, log: () => {}, pause: async () => {} });
+    assert.equal(result.completedSegments, 4);
+
+    const eventOf = (request) => {
+      if (request.action === 'click') return `click:${request.args.selector}`;
+      if (request.action === 'fill') return `fill:${request.args.selector}`;
+      if (request.action === 'evaluate') {
+        if (request.args.code.includes("kind: 'image'")) return 'paste-image';
+        if (request.args.code.includes("kind: 'html'")) return 'paste-html';
+        if (request.args.code.includes('target = document.querySelector')) return 'click-probe';
+        if (request.args.code.includes('data-md2p-caption-open')) return 'mark-caption-open';
+      }
+      return request.action;
+    };
+    const events = requests.map(eventOf);
+    // 两张图：只有第一张（带 caption）走字幕流程，顺序为 贴图→点占位→填值→点保存
+    assert.equal(events.filter((e) => e === 'paste-image').length, 2);
+    assert.deepEqual(
+      events.filter((e) => e.includes('caption') || e.startsWith('fill:[')),
+      [
+        'mark-caption-open',
+        'click:[data-md2p-caption-open="1"]',
+        'fill:[role="dialog"] .public-DraftEditor-content',
+        'click:[data-md2p-caption-save="1"]',
+      ]
+    );
+    const imagePasteIdx = events
+      .map((event, index) => (event === 'paste-image' ? index : -1))
+      .filter((index) => index >= 0);
+    const captionIdx = events.indexOf('click:[data-md2p-caption-open="1"]');
+    const saveIdx = events.indexOf('click:[data-md2p-caption-save="1"]');
+    assert.ok(imagePasteIdx[0] < captionIdx && saveIdx < imagePasteIdx[1], `字幕请求应夹在两张图的粘贴之间：${events.join(' > ')}`);
+
+    // 请求体里的字幕原文与 caption 逐字一致
+    const dialogFill = requests.find(
+      (request) =>
+        request.action === 'fill' &&
+        request.args.selector === '[role="dialog"] .public-DraftEditor-content'
+    );
+    assert.equal(dialogFill.args.value, caption);
+    // 标题填入仍走原选择器，与字幕填入区分开
+    const titleFill = requests.find((request) => request.action === 'fill' && request.args.selector === 'textarea[name="文章标题"]');
+    assert.equal(titleFill.args.value, '字幕测试');
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('标签页：会话已有标签页则 find_tab 后不带 newTab 导航；没有才新开一个', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-tabs-'));
+  const outDir = path.join(dir, 'tools/publish/out/example');
+  fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'assets/body.png'), Buffer.from([1, 2, 3]));
+  const data = {
+    title: '标签页复用',
+    cover: null,
+    x: { segments: [{ kind: 'image', src: 'assets/body.png', alt: '正文图' }] },
+  };
+
+  const run = async (tabs) => {
+    const { server, requests } = startFakeBridge({ tabs, blocks: [{ kind: 'IMG' }] });
+    await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+    try {
+      const { port } = server.address();
+      const bridge = new BridgeClient({ addr: `127.0.0.1:${port}` });
+      await runXDraft({ data, outDir, bridge, log: () => {}, pause: async () => {} });
+      return requests;
+    } finally {
+      await new Promise((resolve) => server.close(resolve));
+    }
+  };
+
+  try {
+    const reused = await run([{ tabId: 9, url: 'https://x.com/compose/articles/edit/123' }]);
+    assert.deepEqual(
+      reused.slice(0, 3).map((request) => request.action),
+      ['list_tabs', 'find_tab', 'navigate']
+    );
+    assert.deepEqual(reused[1].args, { url: 'https://x.com' });
+    assert.equal(reused[2].args.newTab, undefined, '已有标签页时不应再开新标签页');
+    assert.equal(reused[2].args.group_title, undefined);
+    assert.equal(reused[2].args.url, 'https://x.com/compose/articles');
+    assert.ok(!reused.some((request) => request.action === 'close_tab'));
+
+    const fresh = await run([]);
+    assert.deepEqual(
+      fresh.slice(0, 2).map((request) => request.action),
+      ['list_tabs', 'navigate']
+    );
+    assert.equal(fresh[1].args.newTab, true);
+    assert.equal(fresh[1].args.group_title, 'X 草稿：标签页复用');
+  } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
 });
