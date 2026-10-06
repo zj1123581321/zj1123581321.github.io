@@ -59,10 +59,10 @@ node tools/publish/build.mjs content/posts/<目录名>
 
 ### 第 2 步：复制进公众号后台
 
-浏览器打开复制页（首次使用先跑一次 `tools/publish/serve.sh` 注册，之后不用再跑）：
+浏览器打开复制页（首次使用先跑一次 `tools/publish/serve.sh` 注册，它会打印本机的完整地址；之后不用再跑）：
 
 ```
-https://zlx-vm-work-dev-01.taile9071.ts.net/md2p/page/?post=<目录名>
+https://<本机 tailnet 域名>/md2p/page/?post=<目录名>
 ```
 
 点 **「复制公众号全文」**，到微信公众号后台的图文编辑器里粘贴，检查排版后发布。
