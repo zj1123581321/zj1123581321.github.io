@@ -1,7 +1,9 @@
 # tools/publish — md2platforms 生成器
 
 把一篇 Hugo page bundle 文章转成「公众号 HTML + X 分段」的 `data.json`，供复制页
-（`tools/publish/page/`，另一张卡）读取。
+（`tools/publish/page/`）读取。
+
+> 端到端操作流程（从文章导入到公众号/X 发出）见仓库根 [README.md](../../README.md) 的「同步到公众号和 X」一节。
 
 ```bash
 cd tools/publish

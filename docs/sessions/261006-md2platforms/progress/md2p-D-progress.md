@@ -16,3 +16,16 @@ tools/publish/README.md「常见报错」。
 
 下一步唯一动作：清理 tools/publish/README.md 开发过程用语并加指回根 README 的导航，
 核查 page/README.md 同类用语，跑 `cd tools/publish && npm test` 后提交。
+
+当前阶段：完成。
+
+本段结论：tools/publish/README.md 删去「另一张卡」并在顶部加一行指回根 README
+「同步到公众号和 X」的链接；page/README.md 经 `rg -n "另一张卡|并行卡|本卡"` 核查无
+开发过程用语（其中的「卡片」是复制页 UI 术语，保留），未改动；三文件该 rg 零输出；
+`cd tools/publish && npm test` 全绿，未触任何代码。
+
+关键决策与已否决方案：page/README.md 无此类用语就不强行改动；相对链接只指向存在的
+文件（README.md → tools/publish/README.md；tools/publish/README.md → ../../README.md），
+不用中文标题锚点，避免锚点失效。
+
+下一步唯一动作：push 分支，写 delegate report。
