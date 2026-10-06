@@ -1,0 +1,32 @@
+{
+  "schema": "md2platforms/v1",
+  "post": "valid-post",
+  "title": "测试文章标题：吃一堑，长一智",
+  "blog_url": "https://zj1123581321.com/posts/valid-post/",
+  "cover": "assets/cover.jpg",
+  "wechat": {
+    "html": "<section id=\"nice\"><h2>测试微信标题</h2><p>测试微信正文内容</p></section>"
+  },
+  "x": {
+    "segments": [
+      {
+        "kind": "html",
+        "html": "<h2>X段落1标题</h2><p>X段落1正文</p>"
+      },
+      {
+        "kind": "image",
+        "src": "assets/x-001.png",
+        "alt": "表格 1 图片"
+      },
+      {
+        "kind": "html",
+        "html": "<p>X段落2正文</p>"
+      },
+      {
+        "kind": "image",
+        "src": "assets/x-002.jpg",
+        "alt": "插图 2 (JPEG)"
+      }
+    ]
+  }
+}

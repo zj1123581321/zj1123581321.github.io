@@ -1,0 +1,13 @@
+{
+  "schema": "unknown/v0",
+  "post": "invalid-schema",
+  "title": "非法 schema 文章",
+  "blog_url": "https://zj1123581321.com/posts/invalid-schema/",
+  "cover": null,
+  "wechat": {
+    "html": "<p>test</p>"
+  },
+  "x": {
+    "segments": []
+  }
+}
