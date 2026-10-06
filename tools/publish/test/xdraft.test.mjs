@@ -11,12 +11,14 @@ import {
   assertSegmentOrder,
   readBridgeAddress,
   runXDraft,
+  waitForCondition,
 } from '../lib/xdraft.mjs';
 
 function startFakeBridge() {
   const requests = [];
   let imageCount = 0;
   const server = http.createServer(async (request, response) => {
+    try {
     const chunks = [];
     for await (const chunk of request) chunks.push(chunk);
     const body = JSON.parse(Buffer.concat(chunks).toString('utf8'));
@@ -26,9 +28,25 @@ function startFakeBridge() {
     if (body.action === 'evaluate') {
       const code = body.args.code;
       if (code.includes('target = document.querySelector')) {
-        data = { type: 'string', value: JSON.stringify({ found: true, text: '', ariaLabel: 'create' }) };
+        const isApply = code.includes('data-md2p-cover-apply');
+        data = {
+          type: 'string',
+          value: JSON.stringify(
+            isApply
+              ? { found: true, text: '应用', ariaLabel: '' }
+              : { found: true, text: '', ariaLabel: 'create' }
+          ),
+        };
+      } else if (code.includes('data-md2p-cover-apply')) {
+        data = { type: 'string', value: JSON.stringify({ found: true, text: '应用', ariaLabel: '' }) };
+      } else if (code.includes('pbs.twimg.com/media/')) {
+        data = { type: 'string', value: JSON.stringify({ ready: true, naturalWidth: 1200 }) };
+      } else if (code.includes('dialog[aria-label="编辑媒体"]') || code.includes('role="dialog"')) {
+        data = true;
       } else if (code.includes('Boolean(document.querySelector')) {
         data = true;
+      } else if (code.includes('kind: \'cover\'')) {
+        data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'cover' }) };
       } else if (code.includes('data.items.add(file)')) {
         imageCount += 1;
         data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'image' }) };
@@ -50,6 +68,8 @@ function startFakeBridge() {
         };
       } else if (code.includes('location.href')) {
         data = { type: 'string', value: JSON.stringify({ url: 'https://x.com/compose/articles/edit/123' }) };
+      } else if (code === '__timeout_probe__') {
+        data = false;
       } else {
         throw new Error(`fake bridge 未处理 evaluate：${code}`);
       }
@@ -59,13 +79,18 @@ function startFakeBridge() {
       data = { success: true, tag: 'BUTTON', text: '' };
     } else if (body.action === 'fill') {
       data = { success: true, tag: 'TEXTAREA', mode: 'value' };
-    } else if (body.action === 'upload') {
-      data = { success: true, fileCount: 1 };
     } else {
       throw new Error(`fake bridge 未处理 action：${body.action}`);
     }
     response.writeHead(200, { 'content-type': 'application/json' });
     response.end(JSON.stringify({ ok: true, data }));
+    } catch (error) {
+      response.writeHead(200, { 'content-type': 'application/json' });
+      response.end(JSON.stringify({
+        ok: false,
+        error: { code: 'fake_unhandled', message: error.message },
+      }));
+    }
   });
   return { server, requests };
 }
@@ -102,6 +127,7 @@ test('安全闸拒绝中文和英文发布按钮', () => {
     /拒绝点击发布相关目标/
   );
   assert.doesNotThrow(() => assertSafeClickTarget({ ariaLabel: 'create' }));
+  assert.doesNotThrow(() => assertSafeClickTarget({ text: '应用' }));
 });
 
 test('段顺序自检把连续文本块归并并拒绝图片前移', () => {
@@ -127,6 +153,29 @@ test('段顺序自检把连续文本块归并并拒绝图片前移', () => {
       ),
     /段顺序自检不一致/
   );
+});
+
+test('等待超时会抛错并带上描述', async () => {
+  const { server } = startFakeBridge();
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  try {
+    const { port } = server.address();
+    const bridge = new BridgeClient({ addr: `127.0.0.1:${port}` });
+    await assert.rejects(
+      () =>
+        waitForCondition({
+          bridge,
+          code: '__timeout_probe__',
+          description: '第 1 个图片块上传',
+          timeoutMs: 80,
+          pollMs: 20,
+          predicate: () => false,
+        }),
+      /等待第 1 个图片块上传超时/
+    );
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
 });
 
 test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、按序粘贴', async () => {
@@ -160,35 +209,34 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
     assert.equal(result.url, 'https://x.com/compose/articles/edit/123');
     assert.match(logs[0], /图片段数量 1/);
     assert.match(logs[0], /总字数 5/);
-    assert.deepEqual(
-      requests.filter((request) => request.action).map((request) => request.action),
-      [
-        'navigate',
-        'evaluate',
-        'evaluate',
-        'click',
-        'evaluate',
-        'fill',
-        'upload',
-        'evaluate',
-        'evaluate',
-        'evaluate',
-        'evaluate',
-        'evaluate',
-        'evaluate',
-        'evaluate',
-      ]
-    );
+    const actions = requests.filter((request) => request.action).map((request) => request.action);
+    assert.equal(actions[0], 'navigate');
+    assert.ok(!actions.includes('upload'));
     assert.equal(requests[0].session, 'md2p-x-draft');
     assert.equal(requests[0].args.group_title, 'X 草稿：测试长文章');
     assert.equal(requests.find((request) => request.action === 'fill').args.value, '测试长文章');
-    assert.deepEqual(
-      requests.find((request) => request.action === 'upload').args,
-      {
-        selector: 'input[type="file"][data-testid="fileInput"]',
-        files: [path.join(outDir, 'assets/cover.png')],
-      }
+
+    const coverAssign = requests.find(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes("kind: 'cover'")
     );
+    assert.ok(coverAssign, '应发出封面 File change 命令');
+    const coverBase64Literal = coverAssign.args.code.match(/atob\(("(?:\\.|[^"\\])*")\)/)[1];
+    assert.deepEqual(Buffer.from(JSON.parse(coverBase64Literal), 'base64'), coverBytes);
+
+    const applyClicks = requests.filter(
+      (request) =>
+        request.action === 'click' &&
+        request.args.selector === '[data-md2p-cover-apply="1"]'
+    );
+    assert.equal(applyClicks.length, 1);
+    const applyMark = requests.find(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes("trim() === '应用'")
+    );
+    assert.ok(applyMark, '「应用」按钮应经安全闸标记后再 click');
 
     const pasteRequests = requests.filter(
       (request) =>

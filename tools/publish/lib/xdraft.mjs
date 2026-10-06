@@ -7,6 +7,7 @@ export const ARTICLES_URL = 'https://x.com/compose/articles';
 export const CREATE_SELECTOR = 'button[aria-label="create"]';
 export const TITLE_SELECTOR = 'textarea[name="文章标题"]';
 export const COVER_INPUT_SELECTOR = 'input[type="file"][data-testid="fileInput"]';
+export const COVER_APPLY_SELECTOR = '[data-md2p-cover-apply="1"]';
 export const EDITOR_SELECTOR = '.public-DraftEditor-content';
 export const IMAGE_UPLOAD_TIMEOUT_MS = 60_000;
 export const IMAGE_UPLOAD_POLL_MS = 250;
@@ -72,10 +73,6 @@ export class BridgeClient {
     return this.command('fill', args);
   }
 
-  upload(args) {
-    return this.command('upload', args);
-  }
-
   evaluate(args) {
     return this.command('evaluate', args);
   }
@@ -111,8 +108,10 @@ function clickProbeCode(selector) {
   })()`;
 }
 
+const ALLOWED_CLICK_SELECTORS = new Set([CREATE_SELECTOR, COVER_APPLY_SELECTOR]);
+
 export async function safeClick(bridge, selector) {
-  if (selector !== CREATE_SELECTOR) {
+  if (!ALLOWED_CLICK_SELECTORS.has(selector)) {
     throw new Error(`安全闸拒绝未授权 click 选择器：${selector}`);
   }
   const target = evaluateValue(await bridge.evaluate({ code: clickProbeCode(selector) }));
@@ -154,6 +153,52 @@ function editorReadyCode() {
 
 function createReadyCode() {
   return `Boolean(document.querySelector(${JSON.stringify(CREATE_SELECTOR)}))`;
+}
+
+function coverDialogReadyCode() {
+  return `Boolean(
+    document.querySelector('dialog[aria-label="编辑媒体"]') ||
+    [...document.querySelectorAll('dialog, [role="dialog"]')].some((el) =>
+      (el.getAttribute('aria-label') || el.getAttribute('name') || '') === '编辑媒体'
+    )
+  )`;
+}
+
+function markCoverApplyCode() {
+  return `(() => {
+    document.querySelectorAll('[data-md2p-cover-apply]').forEach((el) => {
+      el.removeAttribute('data-md2p-cover-apply');
+    });
+    const dialog = document.querySelector('dialog[aria-label="编辑媒体"]')
+      || [...document.querySelectorAll('dialog, [role="dialog"]')].find((el) =>
+        (el.getAttribute('aria-label') || el.getAttribute('name') || '') === '编辑媒体'
+      );
+    if (!dialog) return JSON.stringify({found: false});
+    const button = [...dialog.querySelectorAll('button')].find((el) =>
+      (el.textContent || '').trim() === '应用'
+    );
+    if (!button) return JSON.stringify({found: false});
+    button.setAttribute('data-md2p-cover-apply', '1');
+    return JSON.stringify({
+      found: true,
+      text: (button.textContent || '').trim(),
+      ariaLabel: button.getAttribute('aria-label') || ''
+    });
+  })()`;
+}
+
+function coverImageReadyCode() {
+  return `(() => {
+    const editor = document.querySelector(${JSON.stringify(EDITOR_SELECTOR)});
+    const image = [...document.querySelectorAll('img')].find((el) =>
+      (el.getAttribute('src') || '').startsWith('https://pbs.twimg.com/media/') &&
+      (!editor || !editor.contains(el))
+    );
+    return JSON.stringify({
+      ready: Boolean(image && image.complete && image.naturalWidth > 0),
+      naturalWidth: image ? image.naturalWidth : 0
+    });
+  })()`;
 }
 
 function imageUploadStateCode() {
@@ -272,6 +317,20 @@ export function buildHtmlPasteCode(html) {
   })()`;
 }
 
+export function buildCoverFileCode({ base64, filename, mimeType }) {
+  return `(() => {
+    const input = document.querySelector(${JSON.stringify(COVER_INPUT_SELECTOR)});
+    if (!input) throw new Error('封面文件输入不存在');
+    const bytes = Uint8Array.from(atob(${JSON.stringify(base64)}), (char) => char.charCodeAt(0));
+    const file = new File([bytes], ${JSON.stringify(filename)}, {type: ${JSON.stringify(mimeType)}});
+    const data = new DataTransfer();
+    data.items.add(file);
+    input.files = data.files;
+    input.dispatchEvent(new Event('change', {bubbles: true}));
+    return JSON.stringify({dispatched: true, kind: 'cover', filename: file.name});
+  })()`;
+}
+
 export function buildImagePasteCode({ base64, filename, mimeType }) {
   return `(() => {
     const editor = document.querySelector(${JSON.stringify(EDITOR_SELECTOR)});
@@ -371,13 +430,32 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
 
     if (data.cover) {
       const coverPath = resolveAsset(outDir, data.cover);
-      const uploadResult = await bridge.upload({
-        selector: COVER_INPUT_SELECTOR,
-        files: [coverPath],
+      const coverBytes = fs.readFileSync(coverPath);
+      await bridge.evaluate({
+        code: buildCoverFileCode({
+          base64: coverBytes.toString('base64'),
+          filename: path.basename(coverPath),
+          mimeType: mimeTypeFor(coverPath),
+        }),
       });
-      if (uploadResult?.fileCount !== 1) {
-        throw new Error(`封面上传未完成：${JSON.stringify(uploadResult)}`);
+      await waitForCondition({
+        bridge,
+        code: coverDialogReadyCode(),
+        description: '封面编辑媒体对话框',
+        predicate: Boolean,
+      });
+      const applyTarget = evaluateValue(await bridge.evaluate({ code: markCoverApplyCode() }));
+      if (!applyTarget?.found) {
+        throw new Error('安全闸找不到封面应用按钮');
       }
+      assertSafeClickTarget(applyTarget);
+      await safeClick(bridge, COVER_APPLY_SELECTOR);
+      await waitForCondition({
+        bridge,
+        code: coverImageReadyCode(),
+        description: '封面图上传',
+        predicate: (state) => state?.ready === true,
+      });
     }
 
     for (const segment of bodySegments) {
