@@ -1,6 +1,7 @@
 // node --test 全量测试。fixture 直接读仓库真实文章：
 //   261004-context-and-loop（图片已全在 origin/main，含 3 条内链 + 外链脚注 + 表格）
 //   260809-multi-agent-scheduling-architecture（3 个 mermaid；未推送场景用临时仓测，不依赖 origin/main 是否已含 PNG）
+//   261002-local-asr-selection（4 张作者图片带 alt 说明 + 1 张表格转图，用于 caption 契约）
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -304,6 +305,11 @@ test('build 260809：mermaid 渲染 3 块、公众号引用 raw URL', async () =
     (s) => s.kind === 'image' && s.src.includes('mermaid-')
   );
   assert.equal(mermaidSegs.length, 3);
+  // mermaid 图是生成器自造的：alt 是占位文案，不进 caption
+  for (const s of mermaidSegs) {
+    assert.equal(s.alt, '架构图');
+    assert.ok(!Object.hasOwn(s, 'caption'), `mermaid 段不应带 caption：${s.src}`);
+  }
   // 中文文件名 percent-encode（agent控制台.png）
   assert.ok(
     data.wechat.html.includes(
@@ -391,6 +397,28 @@ test('build 261004：X image 段顺序严格等于原文图片出现顺序，且
   assert.ok(checkedAnchors >= 10, `应有大量锚点被检查（实际 ${checkedAnchors}）`);
 });
 
+test('build 261002：作者手写的图片 alt 进 caption，表格转图不带 caption', async () => {
+  const data = await runBuild({
+    repoRoot: REPO_ROOT,
+    postArg: 'content/posts/261002-local-asr-selection',
+    skipPushCheck: true,
+  });
+  const imageSegs = data.x.segments.filter((s) => s.kind === 'image');
+  const tableSegs = imageSegs.filter((s) => /x-table-/.test(s.src));
+  assert.equal(tableSegs.length, 1, '261002 有 1 张表格');
+  for (const s of tableSegs) {
+    assert.ok(!Object.hasOwn(s, 'caption'), `表格转图段不应带 caption：${s.src}`);
+  }
+  // 正文图（封面之外的作者图）4 张：caption 逐字等于 Markdown alt
+  const contentSegs = imageSegs.filter((s) => !/x-(table|code)-/.test(s.src) && s.src !== data.cover);
+  assert.equal(contentSegs.length, 4);
+  for (const s of contentSegs) {
+    assert.ok(s.alt.trim() !== '', `正文图应有非空 alt：${s.src}`);
+    assert.equal(s.caption, s.alt, `caption 应逐字等于 alt：${s.src}`);
+  }
+  assert.match(contentSegs[0].caption, /^同一段开场白：左边是 ASR 原始转录/);
+});
+
 test('X 分段最小 fixture：文字A/图a/文字B/图b/文字C → html(image){3}交替，图片不积压正文', async () => {
   const { buildXSegments } = await import('../lib/x.mjs');
   const md = '文字A\n\n![](images/a.png)\n\n文字B\n\n![](images/b.png)\n\n文字C';
@@ -404,8 +432,10 @@ test('X 分段最小 fixture：文字A/图a/文字B/图b/文字C → html(image)
   assert.equal(kinds, 'html,image,html,image,html,html', `段序列错乱：${kinds}`);
   assert.match(segments[0].html, /文字A/);
   assert.equal(segments[1].src, 'assets/a.png');
+  assert.ok(!Object.hasOwn(segments[1], 'caption'), '空 alt 的图片段不应带 caption');
   assert.match(segments[2].html, /文字B/);
   assert.equal(segments[3].src, 'assets/b.png');
+  assert.ok(!Object.hasOwn(segments[3], 'caption'), '空 alt 的图片段不应带 caption');
   assert.match(segments[4].html, /文字C/);
   assert.ok(!segments[4].html.includes('文字A'), 'html 段不应积压此前正文');
   assert.match(segments[5].html, /本文首发于我的博客/);

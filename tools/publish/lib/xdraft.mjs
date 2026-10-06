@@ -9,6 +9,9 @@ export const TITLE_SELECTOR = 'textarea[name="文章标题"]';
 export const COVER_INPUT_SELECTOR = 'input[type="file"][data-testid="fileInput"]';
 export const COVER_APPLY_SELECTOR = '[data-md2p-cover-apply="1"]';
 export const EDITOR_SELECTOR = '.public-DraftEditor-content';
+export const CAPTION_OPEN_SELECTOR = '[data-md2p-caption-open="1"]';
+export const CAPTION_SAVE_SELECTOR = '[data-md2p-caption-save="1"]';
+export const CAPTION_EDITOR_SELECTOR = '[role="dialog"] .public-DraftEditor-content';
 export const IMAGE_UPLOAD_TIMEOUT_MS = 60_000;
 export const IMAGE_UPLOAD_POLL_MS = 250;
 export const PACE_MIN_MS = 3000;
@@ -78,6 +81,14 @@ export class BridgeClient {
   evaluate(args) {
     return this.command('evaluate', args);
   }
+
+  listTabs() {
+    return this.command('list_tabs');
+  }
+
+  findTab(url) {
+    return this.command('find_tab', { url });
+  }
 }
 
 export function evaluateValue(data) {
@@ -110,7 +121,12 @@ function clickProbeCode(selector) {
   })()`;
 }
 
-const ALLOWED_CLICK_SELECTORS = new Set([CREATE_SELECTOR, COVER_APPLY_SELECTOR]);
+const ALLOWED_CLICK_SELECTORS = new Set([
+  CREATE_SELECTOR,
+  COVER_APPLY_SELECTOR,
+  CAPTION_OPEN_SELECTOR,
+  CAPTION_SAVE_SELECTOR,
+]);
 
 export async function safeClick(bridge, selector) {
   if (!ALLOWED_CLICK_SELECTORS.has(selector)) {
@@ -230,6 +246,114 @@ function imageUploadStateCode() {
       ready
     });
   })()`;
+}
+
+// 字幕对话框打开时页面上会多出对话框自己的 .public-DraftEditor-content，
+// 字幕流程要定位的是「含 section[data-block="true"] 的那个」编辑器（正文编辑器）。
+function bodyEditorWithBlocks() {
+  return `[...document.querySelectorAll(${JSON.stringify(EDITOR_SELECTOR)})].find((el) => el.querySelector('section[data-block="true"]'))`;
+}
+
+function captionDialogOpenCode() {
+  return `Boolean(
+    [...document.querySelectorAll('dialog, [role="dialog"]')].some((el) =>
+      (el.innerText || '').includes('编辑字幕')
+    )
+  )`;
+}
+
+// 标记最后一张图片块的字幕入口（占位「提供字幕（可选）」或已有字幕）：图片块结构为
+// section > 包装 div > （图片区域 + 字幕入口），字幕入口是该包装 div 的最后一个子元素。
+function markCaptionOpenCode() {
+  return `(() => {
+    document.querySelectorAll('[data-md2p-caption-open]').forEach((el) => {
+      el.removeAttribute('data-md2p-caption-open');
+    });
+    const editor = ${bodyEditorWithBlocks()};
+    const sections = editor
+      ? [...editor.querySelectorAll('section[data-block="true"]')]
+      : [];
+    const latest = sections.filter((section) => section.querySelector('img')).at(-1);
+    const wrapper = latest ? latest.firstElementChild : null;
+    const entry = wrapper ? wrapper.lastElementChild : null;
+    const isCaptionEntry =
+      Boolean(entry) &&
+      (Boolean(entry.querySelector('[data-testid="longformRichTextComponent"]')) ||
+        (entry.textContent || '').trim() === '提供字幕（可选）');
+    if (!isCaptionEntry) {
+      return JSON.stringify({found: false});
+    }
+    entry.setAttribute('data-md2p-caption-open', '1');
+    return JSON.stringify({
+      found: true,
+      text: (entry.textContent || '').trim(),
+      ariaLabel: entry.getAttribute('aria-label') || ''
+    });
+  })()`;
+}
+
+function markCaptionSaveCode() {
+  return `(() => {
+    document.querySelectorAll('[data-md2p-caption-save]').forEach((el) => {
+      el.removeAttribute('data-md2p-caption-save');
+    });
+    const dialog = [...document.querySelectorAll('dialog, [role="dialog"]')].find((el) =>
+      (el.innerText || '').includes('编辑字幕')
+    );
+    if (!dialog) return JSON.stringify({found: false});
+    const button = [...dialog.querySelectorAll('button')].find(
+      (el) =>
+        (el.textContent || '').trim() === '保存' || el.getAttribute('aria-label') === '保存'
+    );
+    if (!button) return JSON.stringify({found: false});
+    button.setAttribute('data-md2p-caption-save', '1');
+    return JSON.stringify({
+      found: true,
+      text: (button.textContent || '').trim(),
+      ariaLabel: button.getAttribute('aria-label') || ''
+    });
+  })()`;
+}
+
+function captionAppliedCode(caption) {
+  return `(() => {
+    const dialogOpen = [...document.querySelectorAll('dialog, [role="dialog"]')].some((el) =>
+      (el.innerText || '').includes('编辑字幕')
+    );
+    const editor = ${bodyEditorWithBlocks()};
+    const sections = editor
+      ? [...editor.querySelectorAll('section[data-block="true"]')]
+      : [];
+    const latest = sections.filter((section) => section.querySelector('img')).at(-1);
+    return JSON.stringify({
+      dialogOpen,
+      applied: Boolean(latest && (latest.innerText || '').includes(${JSON.stringify(caption)}))
+    });
+  })()`;
+}
+
+// 一个图片块的字幕：点开字幕入口 → 等对话框 → 填值 → 保存 → 等字幕落到图片块下方。
+async function fillImageCaption(bridge, caption) {
+  await bridge.evaluate({ code: markCaptionOpenCode() });
+  await safeClick(bridge, CAPTION_OPEN_SELECTOR);
+  await waitForCondition({
+    bridge,
+    code: captionDialogOpenCode(),
+    description: '图片字幕对话框',
+    predicate: Boolean,
+  });
+  await bridge.fill({ selector: CAPTION_EDITOR_SELECTOR, value: caption });
+}
+
+async function saveImageCaption(bridge, caption) {
+  await bridge.evaluate({ code: markCaptionSaveCode() });
+  await safeClick(bridge, CAPTION_SAVE_SELECTOR);
+  await waitForCondition({
+    bridge,
+    code: captionAppliedCode(caption),
+    description: '图片字幕保存',
+    predicate: (state) => state?.dialogOpen === false && state?.applied === true,
+  });
 }
 
 function htmlFingerprint(html) {
@@ -426,10 +550,11 @@ export async function runXDraft({
     ? allSegments.slice(1)
     : allSegments;
   const imageCount = bodySegments.filter((segment) => segment.kind === 'image').length;
+  const captionCount = bodySegments.filter((segment) => segment.caption).length;
   const textLength = bodySegments
     .filter((segment) => segment.kind === 'html')
     .reduce((total, segment) => total + textLengthOfHtml(segment.html), 0);
-  log(`预检：图片段数量 ${imageCount}，总字数 ${textLength}`);
+  log(`预检：图片段数量 ${imageCount}，总字数 ${textLength}，带字幕图片 ${captionCount}`);
   const pauseCount = (data.cover ? 3 : 2) + bodySegments.length + imageCount;
   log(
     `节奏：${pauseCount} 次停顿，预计额外 ${Math.round((pauseCount * PACE_MIN_MS) / 1000)}~${Math.round(
@@ -440,11 +565,18 @@ export async function runXDraft({
   let completedSegments = 0;
   let imagesCompleted = 0;
   try {
-    await bridge.navigate({
-      url: ARTICLES_URL,
-      newTab: true,
-      group_title: `X 草稿：${data.title}`,
-    });
+    const tabs = await bridge.listTabs();
+    if (Array.isArray(tabs?.tabs) && tabs.tabs.length > 0) {
+      await bridge.findTab('https://x.com');
+      await bridge.navigate({ url: ARTICLES_URL });
+      log(`复用会话已有标签页（共 ${tabs.tabs.length} 个），不新开`);
+    } else {
+      await bridge.navigate({
+        url: ARTICLES_URL,
+        newTab: true,
+        group_title: `X 草稿：${data.title}`,
+      });
+    }
     await waitForCondition({
       bridge,
       code: createReadyCode(),
@@ -494,6 +626,7 @@ export async function runXDraft({
     }
 
     for (const segment of bodySegments) {
+      let caption = null;
       if (segment.kind === 'html') {
         await bridge.evaluate({ code: buildHtmlPasteCode(segment.html) });
         const fingerprint = htmlFingerprint(segment.html);
@@ -505,6 +638,7 @@ export async function runXDraft({
             state?.textReady === true && state.imageSectionCount === imagesCompleted,
         });
       } else if (segment.kind === 'image') {
+        caption = segment.caption ?? null;
         const imagePath = resolveAsset(outDir, segment.src);
         const bytes = fs.readFileSync(imagePath);
         await bridge.evaluate({
@@ -522,6 +656,10 @@ export async function runXDraft({
             state?.imageSectionCount === imagesCompleted + 1 && state.ready === true,
         });
         imagesCompleted += 1;
+        if (caption) {
+          await pause();
+          await fillImageCaption(bridge, caption);
+        }
       } else {
         throw new Error(`未知 X 段类型：${segment.kind}`);
       }
@@ -534,6 +672,9 @@ export async function runXDraft({
       await pause();
       if (segment.kind === 'image') {
         await pause();
+      }
+      if (caption) {
+        await saveImageCaption(bridge, caption);
       }
     }
 

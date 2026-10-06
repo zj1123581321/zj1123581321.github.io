@@ -55,8 +55,14 @@ export async function buildXSegments(markdown, ctx) {
     return name;
   };
 
-  const pushImage = (destRel, alt) => {
-    segments.push({ kind: 'image', src: destRel, alt });
+  // caption：作者在 Markdown 里手写的图片说明（alt）→ X 图片块字幕。
+  // 表格/代码/mermaid 等生成器自造的图不传 caption，alt 为空的正文图也不带字幕。
+  const pushImage = (destRel, alt, caption) => {
+    const segment = { kind: 'image', src: destRel, alt };
+    if (caption !== undefined) {
+      segment.caption = caption;
+    }
+    segments.push(segment);
   };
 
   const writeAsset = (destName, data) => {
@@ -101,7 +107,7 @@ export async function buildXSegments(markdown, ctx) {
         c.kind === 'bundle' ? `content/posts/${ctx.dirName}/${c.relPath}` : c.repoRelPath;
       destRel = registerCopyAsset(path.basename(repoRel), repoRel);
     }
-    pushImage(destRel, alt);
+    pushImage(destRel, alt, alt.trim() === '' ? undefined : alt);
   };
 
   for (let i = 0; i < tokens.length; i++) {
