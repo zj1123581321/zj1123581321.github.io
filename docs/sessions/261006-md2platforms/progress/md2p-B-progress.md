@@ -17,3 +17,12 @@
   - 错误展示：复制操作失败时展示非致命错误横幅，不隐藏已加载的正文视图。
 - **下一步唯一动作**：执行公众号复制断言红验（确认改坏后测试真红），随后实现 X 分段（html / image）复制功能与 canvas PNG 转换。
 
+## 里程碑 3：X 文章分段列表渲染与富文本/图片复制 (milestone-3-x-segments-copy)
+- **当前阶段**：milestone-3-x-segments-copy
+- **本段结论**：实现 X 分段列表渲染（HTML 预览与图片预览）；HTML 分段复制富文本与纯文本；图片分段通过 `createImageBitmap` + `canvas` 转为 PNG Blob 后经 `ClipboardItem({'image/png': pngBlob})` 写入剪贴板（源图为 JPEG 时同样保证写入 PNG）；点击后更新卡片状态、段落按钮文字（如 `✓ 第 1 段已复制`）并联动更新 `#x-progress` 进度徽标；Playwright 真实浏览器测试成功断言 HTML 段富文本及 JPEG 源图复制后的 `image/png` 类型与大小。
+- **关键决策与已否决方案**：
+  - 图片转码方案：直接使用标准的 `createImageBitmap` 异步解码并在 canvas 绘制后导出 `image/png`，既高效又避免在 Chrome 剪贴板中因为 JPEG 类型被拒。
+  - 进度感知：每张分段卡片独立维护 `.copied` 样式，顶部徽标动态统计已复制段数，方便用户在 X 编辑器中按顺序推进。
+- **下一步唯一动作**：执行 X 图片段写入 `image/png` 的红验；随后实现标题与封面独立复制按钮及全局复制错误横幅展示。
+
+

@@ -26,6 +26,14 @@ function markButtonCopied(btn, text) {
   btn.classList.add('copied');
 }
 
+function updateXProgress() {
+  const badge = document.getElementById('x-progress');
+  if (!badge) return;
+  const cards = document.querySelectorAll('#x-segments-list .segment-card');
+  const copiedCards = document.querySelectorAll('#x-segments-list .segment-card.copied');
+  badge.textContent = `${copiedCards.length} / ${cards.length} 已复制`;
+}
+
 function extractPlainText(html) {
   try {
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -50,6 +58,38 @@ async function copyHtmlAndText(html, btn, successText = '✓ 已复制全文') {
   }
 }
 
+async function fetchImageAsPngBlob(imgUrl) {
+  const res = await fetch(imgUrl);
+  if (!res.ok) {
+    throw new Error(`获取图片失败 (HTTP ${res.status}): ${imgUrl}`);
+  }
+  const blob = await res.blob();
+  const bitmap = await createImageBitmap(blob);
+  const canvas = document.createElement('canvas');
+  canvas.width = bitmap.width;
+  canvas.height = bitmap.height;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(bitmap, 0, 0);
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(pngBlob => {
+      if (pngBlob) resolve(pngBlob);
+      else reject(new Error('Canvas 转换为 PNG 失败'));
+    }, 'image/png');
+  });
+}
+
+async function copyImage(imgUrl, btn, successText = '✓ 已复制') {
+  clearError();
+  try {
+    const pngBlob = await fetchImageAsPngBlob(imgUrl);
+    const item = new ClipboardItem({ 'image/png': pngBlob });
+    await navigator.clipboard.write([item]);
+    markButtonCopied(btn, successText);
+  } catch (err) {
+    showError(`图片复制失败: ${err.message}`, false);
+  }
+}
+
 function renderWeChat(data) {
   const previewEl = document.getElementById('wechat-preview');
   const copyBtn = document.getElementById('btn-copy-wechat');
@@ -64,6 +104,64 @@ function renderWeChat(data) {
       copyHtmlAndText(html, copyBtn, '✓ 已复制全文');
     };
   }
+}
+
+function renderXSegments(data, post) {
+  const listEl = document.getElementById('x-segments-list');
+  const segments = data.x?.segments || [];
+  if (!listEl) return;
+  listEl.innerHTML = '';
+
+  segments.forEach((seg, idx) => {
+    const segNum = idx + 1;
+    const card = document.createElement('div');
+    card.className = 'segment-card';
+    card.id = `x-segment-${segNum}`;
+
+    const header = document.createElement('div');
+    header.className = 'segment-header';
+
+    const indexSpan = document.createElement('span');
+    indexSpan.className = 'segment-index';
+    indexSpan.textContent = `第 ${segNum} 段 · ${seg.kind === 'image' ? '图片' : '富文本'}`;
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'btn btn-secondary btn-copy-segment';
+    copyBtn.type = 'button';
+    copyBtn.textContent = `复制第 ${segNum} 段`;
+
+    const body = document.createElement('div');
+    body.className = 'segment-body';
+
+    if (seg.kind === 'html') {
+      body.innerHTML = seg.html || '';
+      copyBtn.onclick = async () => {
+        await copyHtmlAndText(seg.html || '', copyBtn, `✓ 第 ${segNum} 段已复制`);
+        card.classList.add('copied');
+        updateXProgress();
+      };
+    } else if (seg.kind === 'image') {
+      const imgUrl = `../out/${encodeURIComponent(post)}/${seg.src}`;
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      img.alt = seg.alt || `第 ${segNum} 段配图`;
+      body.appendChild(img);
+
+      copyBtn.onclick = async () => {
+        await copyImage(imgUrl, copyBtn, `✓ 第 ${segNum} 段已复制`);
+        card.classList.add('copied');
+        updateXProgress();
+      };
+    }
+
+    header.appendChild(indexSpan);
+    header.appendChild(copyBtn);
+    card.appendChild(header);
+    card.appendChild(body);
+    listEl.appendChild(card);
+  });
+
+  updateXProgress();
 }
 
 function renderMeta(data, post) {
@@ -144,6 +242,7 @@ async function init() {
 
   renderMeta(data, post.trim());
   renderWeChat(data);
+  renderXSegments(data, post.trim());
 }
 
 window.addEventListener('DOMContentLoaded', init);

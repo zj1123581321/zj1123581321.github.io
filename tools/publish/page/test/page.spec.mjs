@@ -81,4 +81,59 @@ test.describe('md2platforms page initialization and error handling', () => {
     expect(clipboardHtml).toContain('测试微信标题');
     expect(clipboardHtml).toContain('测试微信正文内容');
   });
+
+  test('copies X html segment and verifies rich text clipboard', async ({ page }) => {
+    await page.goto('/page/?post=valid-post');
+    const seg1 = page.locator('#x-segment-1');
+    const seg1Btn = seg1.locator('.btn-copy-segment');
+    await expect(seg1Btn).toBeVisible();
+    await expect(seg1Btn).toHaveText('复制第 1 段');
+
+    await seg1Btn.click();
+    await expect(seg1Btn).toHaveText('✓ 第 1 段已复制');
+    await expect(seg1).toHaveClass(/copied/);
+    await expect(page.locator('#x-progress')).toHaveText('1 / 4 已复制');
+
+    const clipboardHtml = await page.evaluate(async () => {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        if (item.types.includes('text/html')) {
+          const blob = await item.getType('text/html');
+          return await blob.text();
+        }
+      }
+      return null;
+    });
+
+    expect(clipboardHtml).toContain('X段落1标题');
+    expect(clipboardHtml).toContain('X段落1正文');
+  });
+
+  test('copies X image segment (from JPEG) and verifies image/png clipboard', async ({ page }) => {
+    await page.goto('/page/?post=valid-post');
+    // Segment 4 uses assets/x-002.jpg
+    const seg4 = page.locator('#x-segment-4');
+    const seg4Btn = seg4.locator('.btn-copy-segment');
+    await expect(seg4Btn).toBeVisible();
+    await expect(seg4Btn).toHaveText('复制第 4 段');
+
+    await seg4Btn.click();
+    await expect(seg4Btn).toHaveText('✓ 第 4 段已复制');
+    await expect(seg4).toHaveClass(/copied/);
+
+    const imageInfo = await page.evaluate(async () => {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        if (item.types.includes('image/png')) {
+          const blob = await item.getType('image/png');
+          return { type: blob.type, size: blob.size };
+        }
+      }
+      return null;
+    });
+
+    expect(imageInfo).not.toBeNull();
+    expect(imageInfo.type).toBe('image/png');
+    expect(imageInfo.size).toBeGreaterThan(0);
+  });
 });
