@@ -4,6 +4,7 @@ date: 2026-06-28
 draft: false
 tags: ["AI", "远程开发", "Claude Code", "架构", "工具"]
 description: "一套让 Coding Agent 24 小时在线的远程开发架构：服务器选型、tmux 会话管理、HAPI 手机接入、Tailscale 组网，以及给小白和 Agent 各准备了一份阅读指南。"
+wechat_url: "https://mp.weixin.qq.com/s/JeiK11Ix00WmQmAJej9lqA"
 ---
 
 > 本文是「LLM 吞噬一切」系列的开发环境篇。硬件基座怎么搭，见上一篇 [Agent 的家，AI 时代个体的硬件基座](../260329-ai-hardware-data-security/)；软件层怎么搭，见 [我用 AI 长出来的那些工具](https://mp.weixin.qq.com/s/w8VnWJcUp5VkD5J-fYCUrg)。这篇聊的是：硬件和软件都就位以后，怎么让你的 Agent 24 小时在线，而你可以随时随地、用任何设备接入。

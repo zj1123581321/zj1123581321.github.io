@@ -4,6 +4,7 @@ date: 2026-09-14
 draft: false
 tags: ["AI", "工具", "生活"]
 description: "法律纠纷、婚恋市场、行业内幕、时局风光——从音视频里看世间无常，人间万象。"
+wechat_url: "https://mp.weixin.qq.com/s/HmLD4ENTjB0LW6_DnSDuiw"
 ---
 
 陈婧霏发了一首新歌，叫《人间万象》。

@@ -2,6 +2,7 @@
 title: "我把听过的 234 期播客，做成了一张推荐地图"
 date: 2026-06-17
 draft: false
+wechat_url: "https://mp.weixin.qq.com/s/Tq0S-camUlp_OQULdtn5Ew"
 ---
 
 前两天在南京，刚好把《肥话连篇》历史上的 234 期播客全听完了。

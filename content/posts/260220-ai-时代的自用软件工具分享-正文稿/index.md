@@ -2,6 +2,7 @@
 title: "LLM 吞噬一切，我用 AI 长出来的那些工具"
 date: 2026-02-20
 draft: false
+wechat_url: "https://mp.weixin.qq.com/s/w8VnWJcUp5VkD5J-fYCUrg"
 ---
 
 过去一年多，我用 AI 给自己写了不少工具。从一开始只是想解决某个具体的小问题，到后来不知不觉搭出了一套还算完整的信息处理体系。

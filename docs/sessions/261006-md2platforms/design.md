@@ -20,16 +20,16 @@ X 版按顺序点「复制」→ 粘贴（正文段落与图片交替），不�
   按「生成器（Node 命令）」与「复制页（静态前端）」切两块，中间只隔一个 `data.json` 契约。
 - **删除**：砍掉中间 md 文件、砍掉 API 发布、砍掉 X 自动插图；剩下的每一步都是现在手工在做的。
 - **约定**：链接映射不建单独表，用约定——已发公众号的文章在自己的 frontmatter 写 `wechat_url:`；
-  生成物统一落 `tools/publish/.out/<目录名>/`（gitignore）；复制页靠目录约定定位数据，无服务端。
+  生成物统一落 `tools/publish/out/<目录名>/`（gitignore）；复制页靠目录约定定位数据，无服务端。
 
 ## 方案要点与已否决方案
 
 - **要点**：
   - 代码放博客仓库 `tools/publish/`（独立 `package.json`，Node 24，ESM）。Hugo 不读该目录。
   - 入口：`node tools/publish/build.mjs content/posts/<目录>` → 产出
-    `tools/publish/.out/<目录>/data.json` + `assets/`，并打印复制页 URL。
+    `tools/publish/out/<目录>/data.json` + `assets/`，并打印复制页 URL。
   - 复制页：`tools/publish/page/index.html`（无构建链静态页），用 `?post=<目录>` 读
-    `../.out/<目录>/data.json`。整个 `tools/publish/` 用 `tailscale serve` 挂成 HTTPS（剪贴板写图片要求安全上下文）。
+    `../out/<目录>/data.json`。整个 `tools/publish/` 用 `tailscale serve` 挂成 HTTPS（剪贴板写图片要求安全上下文）。
   - **公众号版**：markdown-it + 移植 mdnice 开源仓库（GPL-3.0）的插件（span/linkfoot/table-container 等），
     生成与 mdnice 同构的 HTML（`<section id="nice">`、标题 `.prefix/.content/.suffix`、脚注 `.footnote-word` 等），
     再用 juice 把 `themes/lanqing.css`（从 mdnice 线上「兰青」主题导出的 CSSOM，含代码块主题）内联成 style 属性。
@@ -39,7 +39,7 @@ X 版按顺序点「复制」→ 粘贴（正文段落与图片交替），不�
     - mermaid → PNG，写入文章目录 `images/generated/mermaid-<内容哈希>.png`（需提交推送，公众号要从 GitHub 拉图）。
     - 表格保留（mdnice 表格样式）。
   - **X 版**：分段数组：`html` 段（标题/段落/列表/引用/链接）与 `image` 段交替。
-    - 表格、代码块、mermaid → PNG（只放 `.out/<目录>/assets/`，不进 git）。
+    - 表格、代码块、mermaid → PNG（只放 `out/<目录>/assets/`，不进 git）。
     - 内链 → 博客 URL（尊重 frontmatter `url:` 覆盖）；文末追加「本文首发于我的博客：<博客 URL>」。
     - 标题与封面单独给复制按钮（X 标题、封面是独立字段）。
   - 复制实现：公众号 `ClipboardItem({'text/html', 'text/plain'})`；X 图片段 fetch 同源资源 → canvas 转 PNG →
