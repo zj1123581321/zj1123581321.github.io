@@ -334,6 +334,7 @@ function captionAppliedCode(caption) {
 
 // 一个图片块的字幕：点开字幕入口 → 等对话框 → 填值 → 保存 → 等字幕落到图片块下方。
 async function fillImageCaption(bridge, caption) {
+  await bridge.evaluate({ code: markCaptionOpenCode() });
   await safeClick(bridge, CAPTION_OPEN_SELECTOR);
   await waitForCondition({
     bridge,
@@ -345,6 +346,7 @@ async function fillImageCaption(bridge, caption) {
 }
 
 async function saveImageCaption(bridge, caption) {
+  await bridge.evaluate({ code: markCaptionSaveCode() });
   await safeClick(bridge, CAPTION_SAVE_SELECTOR);
   await waitForCondition({
     bridge,
@@ -656,7 +658,6 @@ export async function runXDraft({
         imagesCompleted += 1;
         if (caption) {
           await pause();
-          await bridge.evaluate({ code: markCaptionOpenCode() });
           await fillImageCaption(bridge, caption);
         }
       } else {

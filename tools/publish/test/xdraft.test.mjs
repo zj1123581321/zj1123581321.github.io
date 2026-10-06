@@ -22,6 +22,8 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
   const requests = [];
   let imageCount = 0;
   let captionDialogOpen = false;
+  // 标记属性存在才允许 probe 找到目标（与真实页面一致：没 mark 过就查不到该选择器）
+  const marked = { create: false, coverApply: false, captionOpen: false, captionSave: false };
   const server = http.createServer(async (request, response) => {
     try {
     const chunks = [];
@@ -40,19 +42,22 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
           type: 'string',
           value: JSON.stringify(
             isApply
-              ? { found: true, text: '应用', ariaLabel: '' }
+              ? { found: marked.coverApply, text: '应用', ariaLabel: '' }
               : isCaptionSave
-              ? { found: true, text: '保存', ariaLabel: '保存' }
+              ? { found: marked.captionSave, text: '保存', ariaLabel: '保存' }
               : isCaptionOpen
-              ? { found: true, text: '提供字幕（可选）', ariaLabel: '' }
+              ? { found: marked.captionOpen, text: '提供字幕（可选）', ariaLabel: '' }
               : { found: true, text: '', ariaLabel: 'create' }
           ),
         };
       } else if (code.includes('data-md2p-cover-apply')) {
+        marked.coverApply = true;
         data = { type: 'string', value: JSON.stringify({ found: true, text: '应用', ariaLabel: '' }) };
       } else if (code.includes('data-md2p-caption-save')) {
+        marked.captionSave = true;
         data = { type: 'string', value: JSON.stringify({ found: true, text: '保存', ariaLabel: '保存' }) };
       } else if (code.includes('data-md2p-caption-open')) {
+        marked.captionOpen = true;
         data = { type: 'string', value: JSON.stringify({ found: true, text: '提供字幕（可选）', ariaLabel: '' }) };
       } else if (code.includes('applied: Boolean')) {
         data = { type: 'string', value: JSON.stringify({ dialogOpen: captionDialogOpen, applied: true }) };
@@ -101,6 +106,7 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
     } else if (body.action === 'click') {
       if (body.args.selector === '[data-md2p-caption-open="1"]') captionDialogOpen = true;
       if (body.args.selector === '[data-md2p-caption-save="1"]') captionDialogOpen = false;
+      if (body.args.selector === '[data-md2p-cover-apply="1"]') marked.coverApply = false;
       data = { success: true, tag: 'BUTTON', text: '' };
     } else if (body.action === 'fill') {
       data = { success: true, tag: 'TEXTAREA', mode: 'value' };
