@@ -54,4 +54,31 @@ test.describe('md2platforms page initialization and error handling', () => {
     await expect(page.locator('#post-meta')).toContainText('valid-post');
     expect(consoleErrors).toEqual([]);
   });
+
+  test('copies wechat html and verifies clipboard content with id="nice"', async ({ page }) => {
+    await page.goto('/page/?post=valid-post');
+    const copyBtn = page.locator('#btn-copy-wechat');
+    await expect(copyBtn).toBeVisible();
+    await expect(copyBtn).toHaveText('复制公众号全文');
+
+    await copyBtn.click();
+    await expect(copyBtn).toContainText('已复制');
+    await expect(copyBtn).toHaveClass(/copied/);
+
+    const clipboardHtml = await page.evaluate(async () => {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        if (item.types.includes('text/html')) {
+          const blob = await item.getType('text/html');
+          return await blob.text();
+        }
+      }
+      return null;
+    });
+
+    expect(clipboardHtml).toBeTruthy();
+    expect(clipboardHtml).toContain('id="nice"');
+    expect(clipboardHtml).toContain('测试微信标题');
+    expect(clipboardHtml).toContain('测试微信正文内容');
+  });
 });

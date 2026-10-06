@@ -1,13 +1,13 @@
 // tools/publish/page/page.js
 
-function showError(message) {
+function showError(message, fatal = false) {
   const banner = document.getElementById('error-banner');
   const appContent = document.getElementById('app-content');
   if (banner) {
     banner.textContent = message;
     banner.removeAttribute('hidden');
   }
-  if (appContent) {
+  if (fatal && appContent) {
     appContent.setAttribute('hidden', '');
   }
 }
@@ -17,6 +17,52 @@ function clearError() {
   if (banner) {
     banner.textContent = '';
     banner.setAttribute('hidden', '');
+  }
+}
+
+function markButtonCopied(btn, text) {
+  if (!btn) return;
+  btn.textContent = text;
+  btn.classList.add('copied');
+}
+
+function extractPlainText(html) {
+  try {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.innerText || '';
+  } catch {
+    return html;
+  }
+}
+
+async function copyHtmlAndText(html, btn, successText = '✓ 已复制全文') {
+  clearError();
+  const plainText = extractPlainText(html);
+  try {
+    const item = new ClipboardItem({
+      'text/html': new Blob([html], { type: 'text/html' }),
+      'text/plain': new Blob([plainText], { type: 'text/plain' }),
+    });
+    await navigator.clipboard.write([item]);
+    markButtonCopied(btn, successText);
+  } catch (err) {
+    showError(`剪贴板写入失败: ${err.message}`, false);
+  }
+}
+
+function renderWeChat(data) {
+  const previewEl = document.getElementById('wechat-preview');
+  const copyBtn = document.getElementById('btn-copy-wechat');
+  const html = data.wechat?.html || '';
+
+  if (previewEl) {
+    previewEl.innerHTML = html;
+  }
+
+  if (copyBtn) {
+    copyBtn.onclick = () => {
+      copyHtmlAndText(html, copyBtn, '✓ 已复制全文');
+    };
   }
 }
 
@@ -51,12 +97,12 @@ async function loadPostData(post) {
   try {
     res = await fetch(dataUrl);
   } catch (err) {
-    showError(`加载失败: 网络错误或跨域问题 (${err.message})`);
+    showError(`加载失败: 网络错误或跨域问题 (${err.message})`, true);
     return null;
   }
 
   if (!res.ok) {
-    showError(`加载失败: 未找到数据文件 ${dataUrl} (HTTP ${res.status})`);
+    showError(`加载失败: 未找到数据文件 ${dataUrl} (HTTP ${res.status})`, true);
     return null;
   }
 
@@ -64,12 +110,12 @@ async function loadPostData(post) {
   try {
     data = await res.json();
   } catch (err) {
-    showError(`加载失败: data.json 解析失败 (${err.message})`);
+    showError(`加载失败: data.json 解析失败 (${err.message})`, true);
     return null;
   }
 
   if (data.schema !== 'md2platforms/v1') {
-    showError(`不支持的 schema: "${data.schema || ''}"，页面仅支持 md2platforms/v1`);
+    showError(`不支持的 schema: "${data.schema || ''}"，页面仅支持 md2platforms/v1`, true);
     return null;
   }
 
@@ -82,7 +128,7 @@ async function init() {
   const post = params.get('post');
 
   if (!post || !post.trim()) {
-    showError('缺少 post 参数，请在 URL 中指定 ?post=<目录名>');
+    showError('缺少 post 参数，请在 URL 中指定 ?post=<目录名>', true);
     return;
   }
 
@@ -97,6 +143,7 @@ async function init() {
   }
 
   renderMeta(data, post.trim());
+  renderWeChat(data);
 }
 
 window.addEventListener('DOMContentLoaded', init);
