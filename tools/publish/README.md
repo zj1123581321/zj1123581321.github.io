@@ -117,8 +117,7 @@ URL、同一文本对应多个目标/URL 时报错停止。
 前提：
 
 - Mac Chrome 已安装 Kimi Browser Extension，并登录了 X；
-- Kimi WebBridge 守护进程正在运行，扩展已连接；上传本地封面和正文图片时，还需在
-  `chrome://extensions` → Kimi → 详情中打开「允许访问文件网址」；
+- Kimi WebBridge 守护进程正在运行，扩展已连接；
 - `tools/publish/out/<目录>/` 中的素材可由生成器产出；若 `data.json` 不存在，命令会先在
   进程内运行现有 build。
 
@@ -137,7 +136,6 @@ node tools/publish/x-draft.mjs content/posts/261004-context-and-loop
 - `bridge 配置不存在` / `bridge 配置缺少 addr`：检查 `~/.kimi-webbridge/config.json` 的
   `addr` 字段；
 - `extension_not_connected`：打开 Chrome 中的 Kimi 扩展并恢复连接；
-- `upload needs Chrome's per-extension file access`：打开上述「允许访问文件网址」权限后重跑；
-- `上传超时`：X 未在 60 秒内生成已上传图片块，命令会非零退出并报告已完成段数；
+- `上传超时`：X 未在 60 秒内生成已上传图片块或封面，命令会非零退出并报告已完成段数；
 - `拒绝点击发布相关目标` 或 `段顺序自检不一致`：安全闸和顺序自检会直接终止，避免误发布或
   生成顺序错误的草稿。

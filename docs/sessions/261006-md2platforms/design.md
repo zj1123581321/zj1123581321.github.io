@@ -89,9 +89,13 @@ X 版按顺序点「复制」→ 粘贴（正文段落与图片交替），不�
   图片 `src` 为 `blob:https://x.com/...`，并有「编辑媒体」按钮。
 - 按 `x.segments` 顺序逐段追加，正文图片不会前移；`h2`、加粗、链接、列表、引用均保留。封面与
   第一段相同的图片只上传到封面，正文跳过该段，避免重复。
+- 封面不走 bridge `upload`（依赖 Chrome「允许访问文件网址」）。Node 读封面字节后在页面内还原
+  `File`，赋给 `input[data-testid="fileInput"]` 并派发 `change`；随后等待「编辑媒体」对话框，
+  经安全闸点击「应用」，再等待封面区出现 `img[src^="https://pbs.twimg.com/media/"]` 且
+  `naturalWidth>0`。不要用赋值后的 `input.files.length` 做判据（React 会立刻清掉）。
 
 因此新增 `node tools/publish/x-draft.mjs content/posts/<目录>`：缺少 `data.json` 时先复用现有
-build 逻辑；随后通过 Kimi Browser Extension bridge 新建草稿、填标题、上传封面、按序粘贴 HTML
+build 逻辑；随后通过 Kimi Browser Extension bridge 新建草稿、填标题、设置封面、按序粘贴 HTML
 与图片。每个图片段等待编辑器图片块数量增加一块，且满足 `blob:`、`complete`、自然宽度大于零和
 「编辑媒体」按钮四项完成判据；末尾读取 `[data-block=true]` 顺序并与正文段序列自检。代码不执行
 发布点击，复制页的 X 复制按钮保留为备用通道。
