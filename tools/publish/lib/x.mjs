@@ -165,21 +165,28 @@ export async function buildXSegments(markdown, ctx) {
         continue;
       }
       let textRun = [];
-      const flushRun = () => {
-        if (textRun.length === 0) return;
-        htmlBuf.push(`<p>${md.renderer.renderInline(textRun, md.options, {})}</p>\n`);
+      // 图片段 push 前必须先落文本 run（若有）并 flush 整个 html 缓冲区：
+      // 否则纯图片段落（无文本 run）会跳过 flush，htmlBuf 积压导致段顺序错乱（修复轮 1）。
+      const flushBeforeImage = async (child) => {
+        if (textRun.length > 0) {
+          htmlBuf.push(`<p>${md.renderer.renderInline(textRun, md.options, {})}</p>\n`);
+          textRun = [];
+        }
         flushHtml();
-        textRun = [];
+        await pushContentImage(child);
       };
       for (const child of children) {
         if (child.type === 'image') {
-          flushRun();
-          await pushContentImage(child);
+          await flushBeforeImage(child);
         } else {
           textRun.push(child);
         }
       }
-      flushRun();
+      if (textRun.length > 0) {
+        // 图片后剩余文字：落回缓冲区，允许与后续相邻 html 块继续合并
+        htmlBuf.push(`<p>${md.renderer.renderInline(textRun, md.options, {})}</p>\n`);
+        textRun = [];
+      }
       i = close;
       continue;
     }

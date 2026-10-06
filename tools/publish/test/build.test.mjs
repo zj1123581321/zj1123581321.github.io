@@ -284,6 +284,105 @@ test('build 260809：mermaid 渲染 3 块、公众号引用 raw URL、未推送�
   );
 });
 
+test('build 261004：X image 段顺序严格等于原文图片出现顺序，且每图前一个 html 段末尾 = 原文前文', async () => {
+  const data = await runBuild({
+    repoRoot: REPO_ROOT,
+    postArg: 'content/posts/261004-context-and-loop',
+    skipPushCheck: false,
+  });
+  const segs = data.x.segments;
+
+  // 原文图片序列（frontmatter 之后的正文，逐行扫描）与每张图的前文锚点行
+  const raw = fs.readFileSync(
+    path.join(REPO_ROOT, 'content/posts/261004-context-and-loop/index.md'),
+    'utf8'
+  );
+  const bodyLines = raw.slice(raw.indexOf('\n---\n') + 5).split('\n');
+  const textify = (h) =>
+    h
+      .replace(/&nbsp;/g, ' ')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, '');
+  const normMd = (s) =>
+    s
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      .replace(/[#>*_`|]/g, '')
+      .replace(/^-\s+/, '')
+      .replace(/\s+/g, '');
+
+  const expected = []; // {src, anchor|null}
+  bodyLines.forEach((line, idx) => {
+    const m = line.match(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"[^"]*")?\)/);
+    if (!m) return;
+    let anchor = null;
+    for (let j = idx - 1; j >= 0; j--) {
+      const l = bodyLines[j].trim();
+      if (!l || /^!\[/g.test(l)) continue; // 跳过空行与图片行（261004 无连续图片）
+      anchor = l;
+      break;
+    }
+    expected.push({ src: m[2], anchor });
+  });
+
+  const imgSegIdx = [];
+  segs.forEach((s, i) => {
+    // 只比对正文图片段；表格/代码 PNG（x-table-/x-code-）是派生产物，不在原文图片序列里
+    if (s.kind === 'image' && !/\/x-(table|code)-/.test(s.src)) imgSegIdx.push(i);
+  });
+  assert.equal(imgSegIdx.length, expected.length, `image 段数应等于原文图片数（${expected.length}）`);
+  expected.forEach((exp, k) => {
+    const seg = segs[imgSegIdx[k]];
+    assert.equal(
+      seg.src,
+      `assets/${path.basename(exp.src)}`,
+      `第 ${k + 1} 张图顺序错乱：期望 ${exp.src}，实际 ${seg.src}`
+    );
+  });
+
+  // 每个图片段之前最近的 html 段的末尾文本 = 原文中该图前最近的一段文字（末尾 20 字）
+  let checkedAnchors = 0;
+  expected.forEach((exp, k) => {
+    if (!exp.anchor) return; // 首图（cover）前无正文
+    const segIdx = imgSegIdx[k];
+    let prevHtml = null;
+    for (let j = segIdx - 1; j >= 0; j--) {
+      if (segs[j].kind === 'html') {
+        prevHtml = segs[j].html;
+        break;
+      }
+    }
+    assert.ok(prevHtml, `图片 ${exp.src} 之前应存在 html 段`);
+    const tailHtml = textify(prevHtml);
+    const tailMd = normMd(exp.anchor);
+    assert.ok(
+      tailHtml.endsWith(tailMd),
+      `图片 ${exp.src} 前一个 html 段末尾「…${tailHtml.slice(-30)}」未以原文前文「${tailMd}」结尾（顺序错乱或缓冲区未 flush）`
+    );
+    checkedAnchors += 1;
+  });
+  assert.ok(checkedAnchors >= 10, `应有大量锚点被检查（实际 ${checkedAnchors}）`);
+});
+
+test('X 分段最小 fixture：文字A/图a/文字B/图b/文字C → html(image){3}交替，图片不积压正文', async () => {
+  const { buildXSegments } = await import('../lib/x.mjs');
+  const md = '文字A\n\n![](images/a.png)\n\n文字B\n\n![](images/b.png)\n\n文字C';
+  const { segments } = await buildXSegments(md, {
+    dirName: '__fixture__',
+    repoRoot: REPO_ROOT,
+    browser: null,
+    blogUrl: 'https://example.com/p/',
+  });
+  const kinds = segments.map((s) => s.kind).join(',');
+  assert.equal(kinds, 'html,image,html,image,html,html', `段序列错乱：${kinds}`);
+  assert.match(segments[0].html, /文字A/);
+  assert.equal(segments[1].src, 'assets/a.png');
+  assert.match(segments[2].html, /文字B/);
+  assert.equal(segments[3].src, 'assets/b.png');
+  assert.match(segments[4].html, /文字C/);
+  assert.ok(!segments[4].html.includes('文字A'), 'html 段不应积压此前正文');
+  assert.match(segments[5].html, /本文首发于我的博客/);
+});
+
 test('blog URL：frontmatter url 优先，否则 /posts/<目录名>/', () => {
   const index = buildPostsIndex(REPO_ROOT);
   assert.equal(
