@@ -33,5 +33,14 @@
   - 封面处理：cover 为 null 时保留禁用态按钮，提供明确视觉反馈，避免界面元素闪烁或布局跳动。
 - **下一步唯一动作**：编写 tools/publish/serve.sh 注册脚本、tools/publish/page/README.md 文档，并完成全套 Narrow-Verify 与全量回归。
 
+## 里程碑 5：Tailscale serve 注册脚本、文档说明与全量回归 (milestone-5-serve-and-docs)
+- **当前阶段**：milestone-5-serve-and-docs
+- **本段结论**：编写 `tools/publish/serve.sh` 脚本，基于自身物理路径解析并使用 `tailscale serve --bg --set-path /md2p` 挂载，输出对应 HTTPS 访问样例且不干扰其他挂载；编写 `tools/publish/page/README.md` 详细记录目录结构、注册方式、发布步骤及常见错误排查；全量测试与验证命令均顺利通过。
+- **关键决策与已否决方案**：
+  - 域名获取：从 `tailscale status --json` 读取 `.Self.DNSName` 自动剥离末尾句点，在无网络/无登录时优雅回退为占位符提示。
+  - 安全与测试隔离：不执行实际的系统级 `tailscale serve` 注册以防影响现有开发环境；保留收工干净现场。
+- **下一步唯一动作**：执行 Verify-Command 与 Narrow-Verify，汇总反向红验与收尾答案，撰写最终报告。
+
+
 
 
