@@ -4,6 +4,7 @@ date: 2026-09-08
 draft: false
 tags: ["AI", "Agent", "企业落地", "中小团队", "工具推荐", "MCP"]
 description: "一个跨境电商团队的一手实践：中小团队旧组织不需要追求 AI Native，从数字化基建、人员分层、上下文闭环到基础设施选型，用开源工具和一台服务器搭起整个团队的 Agent 基建。"
+wechat_url: "https://mp.weixin.qq.com/s/M-x9Vbw9NplFrXDBk4_lWw"
 ---
 
 ![老树开新花](images/cover.png)

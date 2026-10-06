@@ -4,6 +4,7 @@ date: 2026-07-21
 draft: false
 tags: ["AI", "Claude Code", "Codex", "Token", "方法论"]
 description: "Token 额度全部打满的那个晚上写下的分享：塞尔达式的沉迷、红利期的薅羊毛逻辑、Skill 与软件的边界、人机协作的三阶段，以及我的模型分工策略。"
+wechat_url: "https://mp.weixin.qq.com/s/9IQzxijlbDdLiAiS8np5aQ"
 ---
 
 > 这篇的底稿是一段 80 分钟的语音分享，聊的东西比较杂：我最近的沉迷状态、Token 的使用逻辑、Skill 和软件的边界、人机协作方式的进阶，以及我在用的所有模型。依然延续这个系列的传统——**作为人类，你只需要读懂思路和架构逻辑；所有具体的执行细节，把文章丢给你的 Claude Code 或 Codex，让它去做就行。**

@@ -4,6 +4,7 @@ date: 2026-03-29
 draft: false
 tags: ["AI", "硬件", "数据安全", "Mac", "NAS"]
 description: "一个普通个体的 AI 硬件实践：设备选型、数据安全、硬件市场趋势，以及一些黑色幽默。"
+wechat_url: "https://mp.weixin.qq.com/s/I2ksdFm_jbNqoTPD_QSuuw"
 ---
 
 > 本文是「LLM 吞噬一切」系列的硬件篇。上一篇 [我用 AI 长出来的那些工具](https://mp.weixin.qq.com/s/w8VnWJcUp5VkD5J-fYCUrg) 聊的是软件层我怎么搭的，这一篇聊底下的硬件基座——怎么搭、为什么这样搭，以及硬件市场的趋势判断。

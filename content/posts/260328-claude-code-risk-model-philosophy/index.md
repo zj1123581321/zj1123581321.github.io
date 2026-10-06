@@ -3,6 +3,7 @@ title: "Claude Code：防封号、模型选择与设计哲学"
 date: 2026-03-28
 draft: false
 url: "/posts/claude-code-risk-model-philosophy/"
+wechat_url: "https://mp.weixin.qq.com/s/Set_2-M-QP2xSAhyl1MonQ"
 ---
 
 ![Claude Code：防封号、模型选择与设计哲学](Pasted-image-20260328205719.png)

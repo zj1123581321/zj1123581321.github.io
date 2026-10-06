@@ -189,17 +189,25 @@ test('build 261004：data.json 契约 + 图片 URL 与手工版一致 + 内链�
     assert.ok(onDisk.wechat.html.includes(u), `生成的公众号 HTML 应包含手工版图片 URL：${u}`);
   }
 
-  // 内链映射：目标均无 wechat_url → 全部转脚注（博客 URL）
+  // 内链映射：目标已回填 wechat_url → 可点公众号链接（不转脚注、无相对内链残留）
   assert.ok(!/href="\.\.\//.test(onDisk.wechat.html), '公众号 HTML 不应残留相对内链');
   assert.match(
     onDisk.wechat.html,
-    /footnote-word"[^>]*>[^<]*<\/span><sup class="footnote-ref"/,
-    '内链应转脚注（目标尚无 wechat_url）'
+    /<a href="https:\/\/mp\.weixin\.qq\.com\/s\/az3gUGA24mXs1ptYdayFjQ"[^>]*>Context is All You Need<\/a>/,
+    '内链应映射为目标文章的 wechat_url 可点链接'
+  );
+  assert.match(
+    onDisk.wechat.html,
+    /<a href="https:\/\/mp\.weixin\.qq\.com\/s\/E64iWXnuryt9HhU2cQ91xw"[^>]*>将军赶路不追小兔<\/a>/
   );
 
   // X 分段
   const segs = onDisk.x.segments;
   assert.ok(segs.length > 5);
+  // X：内链一律博客 URL（即使目标已回填 wechat_url）
+  const xHtml = segs.filter((s) => s.kind === 'html').map((s) => s.html).join('');
+  assert.match(xHtml, /href="https:\/\/zj1123581321\.com\/posts\/context-is-all-you-need\/"/);
+  assert.ok(!xHtml.includes('mp.weixin.qq.com'), 'X html 段不应出现公众号链接');
   assert.equal(segs[0].kind, 'image', '首段应为封面 image 段');
   assert.equal(segs[0].src, 'assets/cover.jpg');
   let lastHtml = '';

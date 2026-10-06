@@ -4,6 +4,7 @@ date: 2026-08-09
 draft: false
 tags: ["AI", "Claude Code", "Codex", "Multi-Agent", "架构", "调度"]
 description: "从一个朴素的省额度想法，到一套主脑+执行层的多 Agent 调度体系——覆盖任务拆分、并行开发、质量门禁、配额感知调度、指标监测，以及如何让复杂系统从简单需求一步步长出来。"
+wechat_url: "https://mp.weixin.qq.com/s/E64iWXnuryt9HhU2cQ91xw"
 ---
 
 ![将军赶路不追小兔](images/agent控制台.png)

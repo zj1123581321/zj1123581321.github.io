@@ -2,6 +2,7 @@
 title: "跑在熊前面的日子——AI 时代闲言几则"
 date: 2026-03-15
 draft: false
+wechat_url: "https://mp.weixin.qq.com/s/Rjxlr-O2kbH2vtHOWJ2G9A"
 ---
 
 上个月写了一篇[《LLM 吞噬一切，我用 AI 长出来的那些工具》](https://mp.weixin.qq.com/s/w8VnWJcUp5VkD5J-fYCUrg)，聊了聊过去一年多我用 AI 给自己造的那套信息处理体系。反响还不错，收到了不少反馈。
