@@ -222,13 +222,24 @@ function imageUploadStateCode() {
   })()`;
 }
 
-function imageSectionCountCode() {
+function htmlFingerprint(html) {
+  const text = htmlToPlainText(html).replace(/\s/g, '');
+  if (text.length <= 24) return text;
+  return text.slice(-24);
+}
+
+function htmlSettledCode(fingerprint) {
   return `(() => {
     const editor = document.querySelector(${JSON.stringify(EDITOR_SELECTOR)});
-    return editor
+    const text = (editor?.innerText || '').replace(/\\s/g, '');
+    const sections = editor
       ? [...editor.querySelectorAll('section[data-block="true"]')]
-          .filter((section) => section.querySelector('img')).length
-      : 0;
+      : [];
+    const imageSectionCount = sections.filter((section) => section.querySelector('img')).length;
+    return JSON.stringify({
+      textReady: ${JSON.stringify(fingerprint)} === '' || text.includes(${JSON.stringify(fingerprint)}),
+      imageSectionCount
+    });
   })()`;
 }
 
@@ -405,6 +416,7 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
   log(`预检：图片段数量 ${imageCount}，总字数 ${textLength}`);
 
   let completedSegments = 0;
+  let imagesCompleted = 0;
   try {
     await bridge.navigate({
       url: ARTICLES_URL,
@@ -459,12 +471,17 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
     for (const segment of bodySegments) {
       if (segment.kind === 'html') {
         await bridge.evaluate({ code: buildHtmlPasteCode(segment.html) });
+        const fingerprint = htmlFingerprint(segment.html);
+        await waitForCondition({
+          bridge,
+          code: htmlSettledCode(fingerprint),
+          description: `第 ${completedSegments + 1} 段 HTML 落盘且图片块保持`,
+          predicate: (state) =>
+            state?.textReady === true && state.imageSectionCount === imagesCompleted,
+        });
       } else if (segment.kind === 'image') {
         const imagePath = resolveAsset(outDir, segment.src);
         const bytes = fs.readFileSync(imagePath);
-        const beforeCount = evaluateValue(
-          await bridge.evaluate({ code: imageSectionCountCode() })
-        );
         await bridge.evaluate({
           code: buildImagePasteCode({
             base64: bytes.toString('base64'),
@@ -475,9 +492,11 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
         await waitForCondition({
           bridge,
           code: imageUploadStateCode(),
-          description: `第 ${completedSegments + 1} 个图片块上传`,
-          predicate: (state) => state?.imageSectionCount === beforeCount + 1 && state.ready === true,
+          description: `第 ${imagesCompleted + 1} 个图片块上传`,
+          predicate: (state) =>
+            state?.imageSectionCount === imagesCompleted + 1 && state.ready === true,
         });
+        imagesCompleted += 1;
       } else {
         throw new Error(`未知 X 段类型：${segment.kind}`);
       }

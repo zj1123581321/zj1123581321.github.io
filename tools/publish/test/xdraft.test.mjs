@@ -57,6 +57,11 @@ function startFakeBridge() {
         !code.includes('imageSectionCount')
       ) {
         data = imageCount;
+      } else if (code.includes('textReady')) {
+        data = {
+          type: 'string',
+          value: JSON.stringify({ textReady: true, imageSectionCount: imageCount }),
+        };
       } else if (code.includes('imageSectionCount')) {
         data = { type: 'string', value: JSON.stringify({ imageSectionCount: imageCount, ready: true }) };
       } else if (code.includes('return JSON.stringify({blocks});')) {
