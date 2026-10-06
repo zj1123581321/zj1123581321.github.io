@@ -81,3 +81,14 @@ HTML、H2、列表、引用和链接块保持顺序；一次完整联调因执�
 关键决策与已否决方案：git 调用禁用 hooksPath 并清空 GIT_DIR，避免共享 worktree 的 reference-transaction 钩子拦临时仓。
 
 下一步唯一动作：红验未推送用例后，跑含封面的真实 x-draft 命令。
+
+当前阶段：修复轮 1——封面对话框判据按真实 DOM 放宽。
+
+本段结论：真实封面 File+change 已弹出媒体编辑层，但层是 `[role=dialog]` 且
+`aria-label`/`name` 为空、`innerText` 含「编辑媒体 应用」。等待与标记改为
+innerText 包含「编辑媒体」；点「应用」后封面 `pbs.twimg.com` 图 naturalWidth=1200。
+`npm test` 19/19 仍绿。失败半成品草稿 2107429440800309248 已删除，列表回到空。
+
+关键决策与已否决方案：不改正文粘贴/等待/自检；不把 `aria-label="编辑媒体"` 当封面层硬条件。
+
+下一步唯一动作：提交对话框判据后跑完整含封面的 `x-draft.mjs`。

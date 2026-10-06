@@ -157,9 +157,8 @@ function createReadyCode() {
 
 function coverDialogReadyCode() {
   return `Boolean(
-    document.querySelector('dialog[aria-label="编辑媒体"]') ||
     [...document.querySelectorAll('dialog, [role="dialog"]')].some((el) =>
-      (el.getAttribute('aria-label') || el.getAttribute('name') || '') === '编辑媒体'
+      (el.getAttribute('aria-label') || el.getAttribute('name') || el.innerText || '').includes('编辑媒体')
     )
   )`;
 }
@@ -169,10 +168,9 @@ function markCoverApplyCode() {
     document.querySelectorAll('[data-md2p-cover-apply]').forEach((el) => {
       el.removeAttribute('data-md2p-cover-apply');
     });
-    const dialog = document.querySelector('dialog[aria-label="编辑媒体"]')
-      || [...document.querySelectorAll('dialog, [role="dialog"]')].find((el) =>
-        (el.getAttribute('aria-label') || el.getAttribute('name') || '') === '编辑媒体'
-      );
+    const dialog = [...document.querySelectorAll('dialog, [role="dialog"]')].find((el) =>
+      (el.getAttribute('aria-label') || el.getAttribute('name') || el.innerText || '').includes('编辑媒体')
+    );
     if (!dialog) return JSON.stringify({found: false});
     const button = [...dialog.querySelectorAll('button')].find((el) =>
       (el.textContent || '').trim() === '应用'

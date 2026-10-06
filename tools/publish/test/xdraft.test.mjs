@@ -41,7 +41,7 @@ function startFakeBridge() {
         data = { type: 'string', value: JSON.stringify({ found: true, text: '应用', ariaLabel: '' }) };
       } else if (code.includes('pbs.twimg.com/media/')) {
         data = { type: 'string', value: JSON.stringify({ ready: true, naturalWidth: 1200 }) };
-      } else if (code.includes('dialog[aria-label="编辑媒体"]') || code.includes('role="dialog"')) {
+      } else if (code.includes('[role="dialog"]') || code.includes('role="dialog"')) {
         data = true;
       } else if (code.includes('Boolean(document.querySelector')) {
         data = true;
