@@ -11,6 +11,8 @@ export const COVER_APPLY_SELECTOR = '[data-md2p-cover-apply="1"]';
 export const EDITOR_SELECTOR = '.public-DraftEditor-content';
 export const IMAGE_UPLOAD_TIMEOUT_MS = 60_000;
 export const IMAGE_UPLOAD_POLL_MS = 250;
+export const PACE_MIN_MS = 3000;
+export const PACE_MAX_MS = 8000;
 
 const FORBIDDEN_CLICK_LABEL = /发布|publish|post/i;
 
@@ -124,6 +126,14 @@ export async function safeClick(bridge, selector) {
 
 function delay(milliseconds) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+export function paceDelayMs(random = Math.random) {
+  return Math.round(PACE_MIN_MS + random() * (PACE_MAX_MS - PACE_MIN_MS));
+}
+
+function defaultPause() {
+  return delay(paceDelayMs());
 }
 
 export async function waitForCondition({
@@ -401,7 +411,13 @@ function withProgress(error, completedSegments) {
   return new Error(message, { cause: error });
 }
 
-export async function runXDraft({ data, outDir, bridge, log = console.log }) {
+export async function runXDraft({
+  data,
+  outDir,
+  bridge,
+  log = console.log,
+  pause = defaultPause,
+}) {
   const allSegments = data?.x?.segments;
   if (!Array.isArray(allSegments)) {
     throw new Error('data.json 缺少 x.segments');
@@ -414,6 +430,12 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
     .filter((segment) => segment.kind === 'html')
     .reduce((total, segment) => total + textLengthOfHtml(segment.html), 0);
   log(`预检：图片段数量 ${imageCount}，总字数 ${textLength}`);
+  const pauseCount = (data.cover ? 3 : 2) + bodySegments.length + imageCount;
+  log(
+    `节奏：${pauseCount} 次停顿，预计额外 ${Math.round((pauseCount * PACE_MIN_MS) / 1000)}~${Math.round(
+      (pauseCount * PACE_MAX_MS) / 1000
+    )} 秒（不含上传时间）`
+  );
 
   let completedSegments = 0;
   let imagesCompleted = 0;
@@ -429,6 +451,7 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
       description: 'X 新建文章入口',
       predicate: Boolean,
     });
+    await pause();
     await safeClick(bridge, CREATE_SELECTOR);
     await waitForCondition({
       bridge,
@@ -437,6 +460,7 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
       predicate: Boolean,
     });
     await bridge.fill({ selector: TITLE_SELECTOR, value: data.title });
+    await pause();
 
     if (data.cover) {
       const coverPath = resolveAsset(outDir, data.cover);
@@ -466,6 +490,7 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
         description: '封面图上传',
         predicate: (state) => state?.ready === true,
       });
+      await pause();
     }
 
     for (const segment of bodySegments) {
@@ -501,6 +526,15 @@ export async function runXDraft({ data, outDir, bridge, log = console.log }) {
         throw new Error(`未知 X 段类型：${segment.kind}`);
       }
       completedSegments += 1;
+      log(
+        `[${completedSegments}/${bodySegments.length}] 已贴入 ${
+          segment.kind === 'image' ? '图片' : '文本'
+        }`
+      );
+      await pause();
+      if (segment.kind === 'image') {
+        await pause();
+      }
     }
 
     const summary = evaluateValue(await bridge.evaluate({ code: selfCheckCode() }));

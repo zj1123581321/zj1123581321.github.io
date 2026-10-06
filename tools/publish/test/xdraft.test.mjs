@@ -7,8 +7,11 @@ import path from 'node:path';
 
 import {
   BridgeClient,
+  PACE_MAX_MS,
+  PACE_MIN_MS,
   assertSafeClickTarget,
   assertSegmentOrder,
+  paceDelayMs,
   readBridgeAddress,
   runXDraft,
   waitForCondition,
@@ -183,6 +186,14 @@ test('等待超时会抛错并带上描述', async () => {
   }
 });
 
+test('停顿时长生成函数在注入随机源下取到区间边界', () => {
+  assert.equal(PACE_MIN_MS, 3000);
+  assert.equal(PACE_MAX_MS, 8000);
+  assert.equal(paceDelayMs(() => 0), PACE_MIN_MS);
+  assert.equal(paceDelayMs(() => 1), PACE_MAX_MS);
+  assert.equal(paceDelayMs(() => 0.5), 5500);
+});
+
 test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、按序粘贴', async () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-run-'));
   const outDir = path.join(dir, 'tools/publish/out/example');
@@ -209,7 +220,13 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
     const { port } = server.address();
     const logs = [];
     const bridge = new BridgeClient({ addr: `127.0.0.1:${port}` });
-    const result = await runXDraft({ data, outDir, bridge, log: (line) => logs.push(line) });
+    const result = await runXDraft({
+      data,
+      outDir,
+      bridge,
+      log: (line) => logs.push(line),
+      pause: async () => {},
+    });
 
     assert.equal(result.url, 'https://x.com/compose/articles/edit/123');
     assert.match(logs[0], /图片段数量 1/);
@@ -253,6 +270,96 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
     const imageBase64Literal = pasteRequests[1].args.code.match(/atob\(("(?:\\.|[^"\\])*")\)/)[1];
     assert.deepEqual(Buffer.from(JSON.parse(imageBase64Literal), 'base64'), bodyBytes);
     assert.match(pasteRequests[2].args.code, /<p>结束<\/p>/);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('类人停顿按锁定点位插入，进度行与预计耗时打印', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-pace-'));
+  const outDir = path.join(dir, 'tools/publish/out/example');
+  fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'assets/cover.png'), Buffer.from('cover-bytes'));
+  fs.writeFileSync(path.join(outDir, 'assets/body.png'), Buffer.from([0, 1, 2, 3]));
+  const data = {
+    title: '节奏测试',
+    cover: 'assets/cover.png',
+    x: {
+      segments: [
+        { kind: 'image', src: 'assets/cover.png', alt: '封面' },
+        { kind: 'html', html: '<p>第一段</p>' },
+        { kind: 'image', src: 'assets/body.png', alt: '正文图' },
+        { kind: 'html', html: '<p>末段</p>' },
+      ],
+    },
+  };
+  const { server } = startFakeBridge();
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  try {
+    const { port } = server.address();
+    const events = [];
+    const realBridge = new BridgeClient({ addr: `127.0.0.1:${port}` });
+    const bridge = {
+      navigate: async (args) => {
+        events.push('navigate');
+        return realBridge.navigate(args);
+      },
+      click: async (args) => {
+        events.push('click');
+        return realBridge.click(args);
+      },
+      fill: async (args) => {
+        events.push('fill');
+        return realBridge.fill(args);
+      },
+      evaluate: async (args) => {
+        if (args.code.includes('new ClipboardEvent')) {
+          events.push(args.code.includes("kind: 'image'") ? 'paste-image' : 'paste-html');
+        } else if (args.code.includes("kind: 'cover'")) {
+          events.push('cover-file');
+        }
+        return realBridge.evaluate(args);
+      },
+    };
+    const logs = [];
+    const result = await runXDraft({
+      data,
+      outDir,
+      bridge,
+      log: (line) => logs.push(line),
+      pause: async () => {
+        events.push('pause');
+      },
+    });
+
+    // 3（导航后/标题后/封面后）+ 3 段 + 1 个图片段额外 = 7 次停顿，按请求与停顿交错顺序断言。
+    assert.deepEqual(events, [
+      'navigate',
+      'pause',
+      'click',
+      'fill',
+      'pause',
+      'cover-file',
+      'click',
+      'pause',
+      'paste-html',
+      'pause',
+      'paste-image',
+      'pause',
+      'pause',
+      'paste-html',
+      'pause',
+    ]);
+    assert.equal(events.filter((event) => event === 'pause').length, 7);
+    assert.match(logs[0], /预检/);
+    assert.match(logs[1], /7 次停顿/);
+    assert.match(logs[1], /21~56 秒/);
+    assert.match(logs[1], /不含上传时间/);
+    assert.ok(logs.includes('[1/3] 已贴入 文本'));
+    assert.ok(logs.includes('[2/3] 已贴入 图片'));
+    assert.ok(logs.includes('[3/3] 已贴入 文本'));
+    assert.equal(result.completedSegments, 3);
   } finally {
     await new Promise((resolve) => server.close(resolve));
     fs.rmSync(dir, { recursive: true, force: true });
