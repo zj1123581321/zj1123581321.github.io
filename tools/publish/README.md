@@ -111,3 +111,33 @@ URL、同一文本对应多个目标/URL 时报错停止。
   与表格/代码块 PNG。
 - 测试：`npm test`（node:test）。fixture 直接读仓库真实文章 261004-context-and-loop、
   260809-multi-agent-scheduling-architecture。
+
+## X 草稿自动填充
+
+前提：
+
+- Mac Chrome 已安装 Kimi Browser Extension，并登录了 X；
+- Kimi WebBridge 守护进程正在运行，扩展已连接；上传本地封面和正文图片时，还需在
+  `chrome://extensions` → Kimi → 详情中打开「允许访问文件网址」；
+- `tools/publish/out/<目录>/` 中的素材可由生成器产出；若 `data.json` 不存在，命令会先在
+  进程内运行现有 build。
+
+运行：
+
+```bash
+node tools/publish/x-draft.mjs content/posts/261004-context-and-loop
+```
+
+命令会打印预检的图片段数量和总字数，然后在 X 新建一篇长文章草稿，填写标题、上传封面并按
+`x.segments` 顺序粘贴正文。封面与第一段图片相同时，正文会跳过该段。每个正文图片都等待
+编辑器图片块实际上传完成，最后校验编辑器块顺序并打印草稿 URL；命令绝不会点击「发布」。
+
+常见报错：
+
+- `bridge 配置不存在` / `bridge 配置缺少 addr`：检查 `~/.kimi-webbridge/config.json` 的
+  `addr` 字段；
+- `extension_not_connected`：打开 Chrome 中的 Kimi 扩展并恢复连接；
+- `upload needs Chrome's per-extension file access`：打开上述「允许访问文件网址」权限后重跑；
+- `上传超时`：X 未在 60 秒内生成已上传图片块，命令会非零退出并报告已完成段数；
+- `拒绝点击发布相关目标` 或 `段顺序自检不一致`：安全闸和顺序自检会直接终止，避免误发布或
+  生成顺序错误的草稿。

@@ -72,9 +72,29 @@ X 版按顺序点「复制」→ 粘贴（正文段落与图片交替），不�
 ## 待验证前提
 
 1. [推断] 公众号编辑器粘贴带 raw.githubusercontent 图片的富文本会自动转存图片——现有手工流程旁证成立，最终以用户真实粘贴验收为准。
-2. [推断] X 编辑器粘贴 HTML 不带入远程图片、但接受剪贴板 `image/png` 粘贴——验收时在 X 草稿真实粘一次确认；若 HTML 里的图片其实能带入，则 X 版可简化为整篇一次复制。
+2. [实测] X 编辑器粘贴 HTML 不带入远程图片；远程 `<img>` 只留下 📷 占位，但合成 `ClipboardEvent('paste')` 并通过 `DataTransfer.items.add(File)` 粘贴图片会上传为编辑器图片块。
 3. [推断] 本机 tailscale 可对 `tools/publish/` 做 `tailscale serve` HTTPS（用户已确认有 HTTPS 能力，具体命令待执行器实测）。
 4. [推断] mdnice 线上兰青主题与开源插件产出的 DOM 结构一致（主题 CSS 与开源仓 `markdown-it-span` 等的类名对得上）。
+
+## X 草稿自动填充（2026-10-06 修订）
+
+主脑在用户真实 X 账号实测得到以下结论：
+
+- 文章草稿入口是 `https://x.com/compose/articles`，空列表显示「撰写」；点击后进入
+  `/compose/articles/edit/<id>`。标题为 `textarea[name="文章标题"]`，正文是唯一
+  `.notranslate.public-DraftEditor-content`，封面区域存在 `input[type="file"][data-testid="fileInput"]`。
+- 把含远程 `<img>` 的 HTML 直接粘贴进正文，图片位置只留下 📷 占位；页面内 `fetch` 外部图片还会被
+  X 的内容安全策略拦截。Node 侧读取 `data.json` 对应素材为 base64，在页面内还原成 `File`，
+  用 `DataTransfer.items.add(file)` 合成 paste 后，编辑器会出现 `section[data-block=true]` 图片块，
+  图片 `src` 为 `blob:https://x.com/...`，并有「编辑媒体」按钮。
+- 按 `x.segments` 顺序逐段追加，正文图片不会前移；`h2`、加粗、链接、列表、引用均保留。封面与
+  第一段相同的图片只上传到封面，正文跳过该段，避免重复。
+
+因此新增 `node tools/publish/x-draft.mjs content/posts/<目录>`：缺少 `data.json` 时先复用现有
+build 逻辑；随后通过 Kimi Browser Extension bridge 新建草稿、填标题、上传封面、按序粘贴 HTML
+与图片。每个图片段等待编辑器图片块数量增加一块，且满足 `blob:`、`complete`、自然宽度大于零和
+「编辑媒体」按钮四项完成判据；末尾读取 `[data-block=true]` 顺序并与正文段序列自检。代码不执行
+发布点击，复制页的 X 复制按钮保留为备用通道。
 
 ## 验收路径
 
