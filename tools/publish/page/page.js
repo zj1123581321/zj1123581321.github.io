@@ -90,6 +90,47 @@ async function copyImage(imgUrl, btn, successText = '✓ 已复制') {
   }
 }
 
+async function copyTitle(title, btn) {
+  clearError();
+  try {
+    const item = new ClipboardItem({
+      'text/plain': new Blob([title], { type: 'text/plain' }),
+    });
+    await navigator.clipboard.write([item]);
+    markButtonCopied(btn, '✓ 标题已复制');
+  } catch (err) {
+    showError(`标题复制失败: ${err.message}`, false);
+  }
+}
+
+function renderHeaderActions(data, post) {
+  const actionsEl = document.getElementById('header-actions');
+  if (!actionsEl) return;
+  actionsEl.innerHTML = '';
+
+  const titleBtn = document.createElement('button');
+  titleBtn.id = 'btn-copy-title';
+  titleBtn.className = 'btn btn-secondary';
+  titleBtn.type = 'button';
+  titleBtn.textContent = '复制标题';
+  titleBtn.onclick = () => copyTitle(data.title || '', titleBtn);
+  actionsEl.appendChild(titleBtn);
+
+  const coverBtn = document.createElement('button');
+  coverBtn.id = 'btn-copy-cover';
+  coverBtn.className = 'btn btn-secondary';
+  coverBtn.type = 'button';
+  if (data.cover) {
+    coverBtn.textContent = '复制封面图';
+    const coverUrl = `../out/${encodeURIComponent(post)}/${data.cover}`;
+    coverBtn.onclick = () => copyImage(coverUrl, coverBtn, '✓ 封面已复制');
+  } else {
+    coverBtn.textContent = '无封面图';
+    coverBtn.disabled = true;
+  }
+  actionsEl.appendChild(coverBtn);
+}
+
 function renderWeChat(data) {
   const previewEl = document.getElementById('wechat-preview');
   const copyBtn = document.getElementById('btn-copy-wechat');
@@ -187,6 +228,8 @@ function renderMeta(data, post) {
       metaEl.appendChild(link);
     }
   }
+
+  renderHeaderActions(data, post);
 }
 
 async function loadPostData(post) {

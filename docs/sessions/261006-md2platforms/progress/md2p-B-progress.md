@@ -25,4 +25,13 @@
   - 进度感知：每张分段卡片独立维护 `.copied` 样式，顶部徽标动态统计已复制段数，方便用户在 X 编辑器中按顺序推进。
 - **下一步唯一动作**：执行 X 图片段写入 `image/png` 的红验；随后实现标题与封面独立复制按钮及全局复制错误横幅展示。
 
+## 里程碑 4：标题封面独立复制、已复制状态指示与错误显式化 (milestone-4-title-cover-status-errors)
+- **当前阶段**：milestone-4-title-cover-status-errors
+- **本段结论**：实现标题复制（text/plain）与封面图复制（经 canvas 转 PNG）；当 post 无封面时自动将按钮标记为“无封面图”并禁用；当剪贴板权限被拒时，页面非致命显式呈现 `#error-banner` 红色横幅，不吞错、不使用 alert、保持正文可见；Playwright 真实浏览器测试新增 4 个场景（标题复制、封面转 PNG 复制与无封面降级、权限拒绝错误横幅、Chromium 存在性硬断言），共 11 项用例全部通过。
+- **关键决策与已否决方案**：
+  - 复制错误提示：通过页面级 `#error-banner` 显示详细错误，不弹出阻断性 window.alert，保持现代 Web 交互与测试可观测性。
+  - 封面处理：cover 为 null 时保留禁用态按钮，提供明确视觉反馈，避免界面元素闪烁或布局跳动。
+- **下一步唯一动作**：编写 tools/publish/serve.sh 注册脚本、tools/publish/page/README.md 文档，并完成全套 Narrow-Verify 与全量回归。
+
+
 

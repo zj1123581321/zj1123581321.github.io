@@ -136,4 +136,82 @@ test.describe('md2platforms page initialization and error handling', () => {
     expect(imageInfo.type).toBe('image/png');
     expect(imageInfo.size).toBeGreaterThan(0);
   });
+
+  test('copies title as plain text and verifies clipboard', async ({ page }) => {
+    await page.goto('/page/?post=valid-post');
+    const titleBtn = page.locator('#btn-copy-title');
+    await expect(titleBtn).toBeVisible();
+    await expect(titleBtn).toHaveText('复制标题');
+
+    await titleBtn.click();
+    await expect(titleBtn).toHaveText('✓ 标题已复制');
+    await expect(titleBtn).toHaveClass(/copied/);
+
+    const titleText = await page.evaluate(async () => {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        if (item.types.includes('text/plain')) {
+          const blob = await item.getType('text/plain');
+          return await blob.text();
+        }
+      }
+      return null;
+    });
+
+    expect(titleText).toBe('测试文章标题：吃一堑，长一智');
+  });
+
+  test('copies cover image (JPEG to PNG) and handles posts without cover', async ({ page }) => {
+    // 1. Post with cover
+    await page.goto('/page/?post=valid-post');
+    const coverBtn = page.locator('#btn-copy-cover');
+    await expect(coverBtn).toBeVisible();
+    await expect(coverBtn).toHaveText('复制封面图');
+    await expect(coverBtn).toBeEnabled();
+
+    await coverBtn.click();
+    await expect(coverBtn).toHaveText('✓ 封面已复制');
+    await expect(coverBtn).toHaveClass(/copied/);
+
+    const coverInfo = await page.evaluate(async () => {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        if (item.types.includes('image/png')) {
+          const blob = await item.getType('image/png');
+          return { type: blob.type, size: blob.size };
+        }
+      }
+      return null;
+    });
+
+    expect(coverInfo).not.toBeNull();
+    expect(coverInfo.type).toBe('image/png');
+    expect(coverInfo.size).toBeGreaterThan(0);
+
+    // 2. Post without cover
+    await page.goto('/page/?post=no-cover-post');
+    const noCoverBtn = page.locator('#btn-copy-cover');
+    await expect(noCoverBtn).toBeVisible();
+    await expect(noCoverBtn).toHaveText('无封面图');
+    await expect(noCoverBtn).toBeDisabled();
+  });
+
+  test('shows visible error banner when clipboard write is denied', async ({ page, context }) => {
+    await page.goto('/page/?post=valid-post');
+    // Clear clipboard permissions to simulate user/browser denial
+    await context.clearPermissions();
+
+    const titleBtn = page.locator('#btn-copy-title');
+    await titleBtn.click();
+
+    const banner = page.locator('#error-banner');
+    await expect(banner).toBeVisible();
+    await expect(banner).toContainText('失败');
+    // App content remains visible (non-fatal error)
+    await expect(page.locator('#app-content')).toBeVisible();
+  });
+
+  test('ensures chromium browser is explicitly verified and non-empty', async ({ browserName }) => {
+    expect(browserName).toBe('chromium');
+  });
 });
