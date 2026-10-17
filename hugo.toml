@@ -100,6 +100,11 @@ theme = 'PaperMod'
     url = "https://github.com/zj1123581321"
 
   [[params.socialIcons]]
+    name = "x"
+    title = "X: @bylixing"
+    url = "https://x.com/bylixing"
+
+  [[params.socialIcons]]
     name = "rss"
     url = "/index.xml"
 
