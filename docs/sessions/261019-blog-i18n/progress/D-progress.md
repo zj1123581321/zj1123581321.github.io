@@ -21,3 +21,11 @@
 关键决策与已否决方案：checkout 带 `submodules: recursive`；CI 钉 Node 20，因为 Node 22+ 的 `--test <目录>` 把目录当文件执行，卡面命令在 Node 20 才按目录展开。不加 continue-on-error、不加重试。
 
 下一步唯一动作：把试点译文 translationSynced 迁成 sourceHash。
+
+当前阶段：implementing — 试点译文迁到 sourceHash。
+
+本段结论：试点 `index.en.md` 删 `translationSynced`，写入当前中文正文算出的 `sourceHash`；译文声明里「Last synced 2026-09-25.」一并去掉。中文正文自英文创建后只改过 frontmatter，该哈希即真实同步状态。
+
+关键决策与已否决方案：新鲜度改由哈希承载，不再用日期字段；不改正文其它句子。
+
+下一步唯一动作：跑 Verify-Command，push 并开 draft PR，等 check.yml。
