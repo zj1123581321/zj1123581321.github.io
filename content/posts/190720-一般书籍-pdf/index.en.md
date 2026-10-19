@@ -1,7 +1,7 @@
 ---
-title: "How to Find Books: A Quick Guide to Searching for General Books"
+title: "How to Find General-Interest Books — Mastering PDFs, Part 3"
 date: 2019-07-20
-draft: true
+draft: false
 url: "/en/posts/2019-07-20206/"
 sourceHash: "sha256:e90409efdd8717629ba734d7ce075e470db090f5a41ce8bd08810ef82063b974"
 translatedBy: "claude-cli/sonnet"
@@ -40,39 +40,39 @@ See the right half of the image below for a demo.
 
 Open a book page on Douban, and Douban Download Master will query that book on multiple sites at the same time and return the results. You can choose to hide the failed results.
 
-All we need to do is click into a successful result and we can download.
+Click a result marked as successful to start the download.
 
 At its core, Douban Download Master is a small search engine that lets you **enter a query once and search many places simultaneously**.
 
 Official feature introduction:
 
-> \*Shows the corresponding Chinese and English subtitles  
-> \*Shows the corresponding online video | online audio | online books  
+> \*Shows Chinese and English subtitles  
+> \*Shows online videos, audio, and books  
 > \*Supports searching Douban lists  
-> \*Shows the corresponding movie | TV series | documentary | variety show | animation | music | book resources (including direct links | FTP | BT | magnet | ED2K | NZB | Xunlei | Baidu Pan | 115 Pan, etc.)  
-> \*Aggregates 400+ mainstream resource sites | subtitle sites | resource search engine sites  
-> \*Exclusive automatic resource color marking: sites with resources show green, sites that are inaccessible | not logged in show white, sites with no resources show yellow  
-> \*One-click generation of movie introduction info, convenient for adding a film description when posting resources on forums | websites  
+> \*Shows resources for movies | TV series | documentaries | variety shows | animation | music | books, etc. (including direct links | FTP | BT | magnet links | ED2K | NZB | Xunlei | Baidu Pan | 115 Pan, etc.)  
+> \*Aggregates 400+ major resource sites | subtitle sites | resource search engines  
+> \*Exclusive automatic resource color coding: green for sites with results, white for sites that are inaccessible | require login, and yellow for sites with no results  
+> \*Generates movie details with one click, making it easy to add a synopsis when sharing a movie on forums | websites  
 > \*Exclusive smart resource ID matching for more accurate search results: matches by IMDB ID if there is an IMDB link, otherwise by Douban ID  
-> \*Exclusive smart display of sites by category for more accurate search results: e.g., TV series sites appear only on TV series entries, animation sites appear only on animation entries  
-> \*Exclusive smart display of sites by country for more accurate search results: e.g., American TV sites appear only on American TV entries, Japanese TV sites appear only on Japanese TV entries  
-> \*Exclusive smart resource year matching for more accurate search results: keywords for movies automatically get the year added, while non-movies (e.g., TV series, animation) do not  
-> \*Exclusive search result caching: the more you use it, the faster searches get  
-> \*Exclusive customization: delete sites and customize resource background and foreground colors  
-> \*Exclusive resource marking + site login + IMDB TOP 250 caching, with manual/automatic cache clearing  
-> \*Exclusive Chinese explanation of MPAA movie ratings  
-> \*Exclusive Chinese explanation of TV ratings  
-> \*Exclusive production budget, domestic opening week box office, North American opening week box office, and total box office  
-> \*Shows IMDB rating and number of raters, and adds a distinctive eye-catching mark to IMDB Top 250 titles  
-> \*Shows Metascore and popularity, plus weekly rank changes  
-> \*Shows Rotten Tomatoes score, freshness and rottenness  
-> \*Shows AniDB rating | Bgm rating | MAL rating
+> \*Shows sites by category for more accurate results: e.g., TV sites appear only for TV entries, animation sites only for animation entries  
+> \*Shows sites by country for more accurate results: e.g., U.S. drama sites appear only for U.S. dramas, Japanese drama sites only for Japanese dramas  
+> \*Matches resource years for more accurate results: automatically adds the year to movie searches, but not to non-movie searches such as TV series or animation  
+> \*Caches search results, making searches faster the more you use it  
+> \*Lets you remove sites and customize the background and text colors used for resources  
+> \*Caches resource bookmarks, site login states, and IMDb Top 250 data, with user-initiated or automatic cleanup  
+> \*Provides Chinese-language explanations of MPAA movie ratings  
+> \*Provides Chinese-language explanations of TV ratings  
+> \*Exclusive feature: shows production budgets, domestic opening-week box office, North American opening-week box office, and total box office  
+> \*Shows IMDb ratings and number of raters, and highlights titles in the IMDb Top 250  
+> \*Shows Metascore and popularity, including weekly rank changes  
+> \*Shows Rotten Tomatoes score, Fresh percentage, and Rotten percentage  
+> \*Shows ratings from AniDB | Bangumi (Bgm) | MyAnimeList (MAL)
 
 ### Installation
 
-Choose [Firefox](http://www.firefox.com.cn/) or [Chrome](https://www.google.com/intl/zh-CN/chrome/) as your browser, then install the [Violentmonkey](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?utm_source=chrome-ntp-icon) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?utm_source=chrome-ntp-icon) extension, and click to install the script on the [script installation page](https://greasyfork.org/zh-CN/scripts/329484-%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88-1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1-%E9%9F%B3%E4%B9%90-%E5%9B%BE%E4%B9%A6%E4%B8%8B%E8%BD%BD). (If you have questions about installation, you can send a screenshot to the official account's backend.)
+Choose [Firefox](http://www.firefox.com.cn/) or [Chrome](https://www.google.com/intl/zh-CN/chrome/) as your browser, then install the [Violentmonkey](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?utm_source=chrome-ntp-icon) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?utm_source=chrome-ntp-icon) extension. Then install the script from the [script installation page](https://greasyfork.org/zh-CN/scripts/329484-%E8%B1%86%E7%93%A3%E8%B5%84%E6%BA%90%E4%B8%8B%E8%BD%BD%E5%A4%A7%E5%B8%88-1%E7%A7%92%E6%90%9E%E5%AE%9A%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1-%E9%9F%B3%E4%B9%90-%E5%9B%BE%E4%B9%A6%E4%B8%8B%E8%BD%BD). (If you have installation questions, send a screenshot to the official account.)
 
-PS: If you can't download Chrome and the related extensions, I've left a Chrome installer and a Tampermonkey installation file in the backend. You can follow the tutorial below to install the offline crx file yourself. Reply "**豆瓣下载**" to get them.
+PS: If you can't download Chrome or the related extensions, I have a Chrome installer and a Tampermonkey setup file available through the official account. You can follow the tutorial below to install a .crx file offline. Reply with the exact Chinese keyword "豆瓣下载" ("Douban Download") to get them.
 
 [Installing the Tampermonkey userscript manager](https://chrome.zzzmh.cn/info?token=dhdgffkkebhmkfjojejmpbldmpobfkfo)
 
