@@ -29,3 +29,11 @@
 关键决策与已否决方案：新鲜度改由哈希承载，不再用日期字段；不改正文其它句子。
 
 下一步唯一动作：跑 Verify-Command，push 并开 draft PR，等 check.yml。
+
+当前阶段：完成。
+
+本段结论：四次实现提交已在 `card/blog-i18n2-D-freshness-check`；draft PR #27 上 `check.yml` job `check` 结论 success（run 39228422040）。本地 `node tools/i18n/check.mjs` 输出 `i18n check: 1 translations, 0 stale`。
+
+关键决策与已否决方案：不自行合并，留给主脑验收。
+
+下一步唯一动作：主脑按 Accept-Check 与 E2E-Assertion 验收。
