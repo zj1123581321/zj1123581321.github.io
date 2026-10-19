@@ -32,10 +32,21 @@ export function sourceHash(zhMarkdownText) {
   return `sha256:${hex}`;
 }
 
+const LIST_ITEM = /^\s+- (.*)$/;
+const NESTED_KEY_VALUE = /^\s+([^:\s][^:]*):\s*(.*)$/;
+
+function unquote(text) {
+  if (text.startsWith('"') && text.endsWith('"') && text.length >= 2) {
+    return text.slice(1, -1);
+  }
+  return text;
+}
+
 export function readFrontmatter(markdownText) {
   const { frontmatterLines } = splitFrontmatter(markdownText);
   const out = {};
-  for (const line of frontmatterLines) {
+  for (let i = 0; i < frontmatterLines.length; i++) {
+    const line = frontmatterLines[i];
     if (line === '') {
       continue;
     }
@@ -50,10 +61,35 @@ export function readFrontmatter(markdownText) {
     if (BLOCK_SCALAR.test(value.trim())) {
       throw new Error(UNPARSEABLE);
     }
-    if (value.startsWith('"') && value.endsWith('"') && value.length >= 2) {
-      value = value.slice(1, -1);
+    if (value.trim() === '') {
+      const items = [];
+      let j = i + 1;
+      for (; j < frontmatterLines.length; j++) {
+        const lm = frontmatterLines[j].match(LIST_ITEM);
+        if (!lm) {
+          break;
+        }
+        items.push(unquote(lm[1].trim()));
+      }
+      if (items.length > 0) {
+        out[m[1]] = items;
+        i = j - 1;
+        continue;
+      }
+      const nested = {};
+      let k = i + 1;
+      for (; k < frontmatterLines.length; k++) {
+        const nm = frontmatterLines[k].match(NESTED_KEY_VALUE);
+        if (!nm) {
+          break;
+        }
+        nested[nm[1]] = unquote(nm[2].trim());
+      }
+      out[m[1]] = Object.keys(nested).length > 0 ? nested : '';
+      i = k - 1;
+      continue;
     }
-    out[m[1]] = value;
+    out[m[1]] = unquote(value);
   }
   return out;
 }
