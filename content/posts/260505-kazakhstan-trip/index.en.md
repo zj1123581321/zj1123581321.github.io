@@ -1,7 +1,7 @@
 ---
 title: "Kazakhstan: Planning with AI, a Drone Blown Away by the Wind, and the Afterglow of a Golden Age"
 date: 2026-05-05
-draft: true
+draft: false
 sourceHash: "sha256:917b462a87639d41b0809c9f4db0ef2ececf59f0582f40df47073f0e1560cf00"
 translatedBy: "claude-cli/sonnet"
 description: "Ten days in Kazakhstan, April 25 to May 4. I planned the trip with four Deep Research reports, lost my drone to a canyon wind, thought of Iran by the Caspian Sea, and thought of Chen Jingfei in the sunset. A scattered but honest travelogue."
@@ -26,14 +26,14 @@ But there was still plenty of day-to-day stuff to sort out (transport, exchange 
 
 ## 2. Using AI to Plan an Off-the-Beaten-Path Independent Trip
 
-The early planning was done largely with the help of AI. The process was fairly simple: I pooled Deep Research reports from several different platforms, had Claude Code talk through with me which parts were consensus and which were in conflict, then wrote the result into a Feishu document through the Feishu CLI and shared it with everyone going.
+The early planning was done largely with the help of AI. The process was fairly simple: I pooled Deep Research reports from several different platforms, had Claude Code help me compare what the reports agreed on and where they conflicted, then wrote the result into a Feishu document through the Feishu CLI and shared it with everyone going.
 
 I used Deep Research from four sources: **Doubao, Diandian, Qianwen, and Gemini**.
 
 Looking at the final result, I think two sources would actually have been enough:
 
-- **Diandian** (backed by Xiaohongshu): timely and very China-oriented. It had already stepped on some of the traps for me. For example, the airport exchange rate is bad and you should change money at a bank, and Google Maps is not as useful locally as 2GIS. That is its one-of-a-kind advantage.
-- **Gemini** (backed by Google): more international and more authoritative sources. Things like rules on carrying medication, for example, were nowhere to be found in the other channels. A global view does help when preparing.
+- **Diandian** (backed by Xiaohongshu): timely and very China-oriented. It had already helped me avoid some pitfalls, such as poor exchange rates at the airport and the advice to exchange money at a bank. It also noted that Google Maps is not as useful locally as 2GIS. That is its one-of-a-kind advantage.
+- **Gemini** (backed by Google): its sources are more international and more rigorous. Things like rules on carrying medication, for example, were nowhere to be found in the other channels. A global view does help when preparing.
 
 Of course, many of the warnings in them may never come up in practice. They're more about being prepared and knowing what to expect. Since the report was already generated, I figured I might as well share it with anyone who needs it.
 
@@ -79,7 +79,7 @@ The funny thing is that when I left the country I had only notified CCB and hadn
 
 Later, when I had to pay for overweight baggage on FlyArystan, the same problem came back: the CCB card couldn't pay, and the Hong Kong card didn't have enough balance, so I had to log into another account on the spot and transfer money to fix it. Across the whole trip, the CCB card didn't succeed even once. A lesson learned in blood and tears.
 
-**Cash**: carry large bills, but also have small 100-tenge notes. In many places a toilet costs 100 tenge, and they don't support online payment. In some wild areas, villages, or places with unstable signal, online payment may not work, and cash is the last backstop.
+**Cash**: carry large denominations, but also have some 100-tenge change. In many places a toilet costs 100 tenge, and they don't support online payment. In some wild areas, villages, or places with unstable signal, online payment may not work, and cash is the last backstop.
 
 **Withdrawing cash**: prefer a UnionPay debit card, and avoid withdrawing cash with a VISA credit card (you lose on the exchange rate and pay another layer of fees). ATMs that carry the UnionPay logo and are connected to the UnionPay network can usually dispense tenge directly.
 
@@ -144,17 +144,17 @@ We arrived in Almaty at noon. By the time check-in was done it was already after
 
 The whole park gave me a feeling of traveling through time: loudspeakers tied to utility poles, rusty iron frames, simple but unpretentious joy. Most of the rides are scaled-down versions of what you find in Chinese parks, maybe the same ones you played on more than ten years ago. More broadly, the whole city gave me this feeling too: stuck in the Soviet era, with history and modernity blending together.
 
-But the sunset coaster is worth riding. We happened to catch the time when the sun was going down. Sliding down the mountain and watching the sun drop behind the distant ridgeline felt quite different in my heart.
+But the sunset coaster is worth riding. We happened to catch the time when the sun was going down. Sliding down the mountain and watching the sun drop behind the distant ridgeline gave me a very different feeling.
 
 I've been into Chen Jingfei recently, so I naturally thought of **"Sunset Elsewhere"**:
 
 > People come and people go, the fragrance of roses in rose-colored air, and quietly you become the past.
 
-The whole melody echoed in my head without my meaning to that evening. Time really does pass quickly, and we each ended up falling for a sunset elsewhere.
+That evening the melody kept playing in my head on its own. Time really does pass quickly, and we each ended up falling for a sunset elsewhere.
 
 ![Almaty amusement park: sunset elsewhere](阿拉木图游乐场-别处的夕阳.jpg)
 
-For dinner we had local barbecue. Nothing special, just lots of meat in big portions. The skewers were as long as a forearm, and you can find similar ones in China. But it's not so good that I'd rave about it. Once it cooled it got especially greasy, and the only thing that cut the grease was onion. In terms of taste it's not as good as those barbecue places in China that marinate their meat with real character, and other than being cheap there's not much else to say. I suggest ordering a few at a time rather than too many, or the last few skewers are purely a fight against grease.
+For dinner we had local barbecue. Nothing special, just lots of meat in big portions. The skewers were as long as a forearm, and you can find similar ones in China. But it's not so good that I'd rave about it. Once it cooled it got especially greasy, and the only thing that cut the grease was onion. In terms of taste it's not as good as those barbecue places in China that use distinctive marinades, and other than being cheap there's not much else to say. I suggest ordering a few at a time rather than too many, or the last few skewers are purely a fight against grease.
 
 In the evening we went to a supermarket for water and fell into the sparkling-water trap I mentioned earlier.
 
@@ -190,7 +190,7 @@ I'd crashed a drone once before, back then it was a repair, so I have a bit of e
 
 ### Horse Meat, Lanzhou Beef Noodles, Craft Beer
 
-On the mountain I also tried a horse meat snack place. The texture was strange, with a flavor I can't quite describe, and I just couldn't get used to it. My friends, on the other hand, discovered a Lanzhou beef noodle shop: after half a lifetime away, you come back to your Chinese stomach.
+On the mountain I also tried a horse meat snack place. The texture was strange, with a flavor I can't quite describe, and I just couldn't get used to it. My friends, on the other hand, discovered a Lanzhou beef noodle shop: after traveling far and wide, you still come home to your Chinese palate.
 
 In the evening we went to a local bar for craft beer. My friend said craft beer here is very cheap: a large glass is only 30 RMB, where the same volume would be 50 in China. What surprised me was how ordinary the atmosphere was. You could even see dads and moms bringing kids of three or five years old, without the sense of distance that bars in China have.
 
@@ -210,7 +210,7 @@ I had GPT generate an "expected image" and compared it with the real thing, and 
 
 ![Hiking the Almaty aqueduct](阿拉木图的管道徒步.jpg)
 
-This route is only an experience. Purely in terms of scenery, many routes in China are better. The pipe itself is a distinctive feature, but the natural scenery doesn't stand out. If you're planning to go, **picking your weather** matters more than anything. Next is to relax and adjust your expectations. If you find it tiring, renting a car for that opening stretch straight to the summit is also a fine option, and there's no need to force yourself. When tiredness can be solved with money, sometimes you shouldn't just push through it.
+This route is only an experience. Purely in terms of scenery, many routes in China are better. The pipe itself is a distinctive feature, but the natural scenery doesn't stand out. If you're planning to go, **choosing the right weather** matters more than anything. Next is to relax and adjust your expectations. If you find it tiring, renting a car for that opening stretch straight to the summit is also a fine option, and there's no need to force yourself. When tiredness can be solved with money, sometimes you shouldn't just push through it.
 
 ---
 
@@ -344,13 +344,13 @@ Whether on a plane or a bus, the time on the road is long. You either read, watc
   >
   > The novel isn't long and reads smoothly, and I could empathize with its twists and turns.
   >
-  > The three male characters in the novel left me hanging my head and slumping my chest as I read; each is hateful in his own way.
+  > The three male characters in the novel left me shaking my head in exasperation as I read; each was hateful in his own way.
   >
   > Na Wei's earlier job loss and stumbles were all fine. They just make you feel he's foolish. But his wife goes out to sell braised meat and he does nothing to help, just sinks into gloom. That is only infuriating, and, damn, so embarrassing.
   >
   > Na Jun seems clear-headed, but he is always fixated on wanting to change others. Plain crazy. "I wanted it when I came, I strove for it, I got it." This smooth experience reinforces itself and takes him further and further down the path of execution. Understanding how the world works is the real learning.
   >
-  > Shen Lei just goes against the grain. That attitude toward life doesn't matter if he lives alone, and has no effect on the world. But if you want to take part in the transactions of the marriage market, you can't expect others to be content with poverty and happy with the Way as you are. It's plainly not a fit, so why force it?
+  > Shen Lei just goes against the grain. That attitude toward life doesn't matter if he lives alone, and has no effect on the world. But if you want to take part in the dating and marriage market, you can't expect others to be content with poverty and happy with the Way as you are. It's plainly not a fit, so why force it?
   >
   > So I do think Xie Meilan leaving him was a very good choice, only it should have come sooner. This has nothing to do with loyalty; it's simply plain market behavior, and everyone has the right to pursue a better life for themselves.
   >

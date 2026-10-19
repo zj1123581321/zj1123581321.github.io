@@ -1,7 +1,7 @@
 ---
 title: "A Nanjing Travelogue: A Solo Trip with Chen Jingfei and New Pants"
 date: 2026-06-13
-draft: true
+draft: false
 sourceHash: "sha256:97043450f34f25ee01f99d26ba16063189e97a013313fe6f736eaedf5c4d880f"
 translatedBy: "claude-cli/sonnet"
 description: "My second time in Nanjing. A friend invited me to a music festival, but it turned into a solo trip. I saw Chen Jingfei and New Pants at Qixia Mountain, walked the city wall by the Xuanwu Lake at night, and in the quiet amid the bustle thought through a pile of things about relationships, AI, and our times. A travelogue I first recorded by voice and then slowly sorted out."
@@ -12,7 +12,7 @@ description: "My second time in Nanjing. A friend invited me to a music festival
 
 ---
 
-I wanted to write a travelogue but was too lazy to do it properly, so I first rambled through everything I wanted to say into a voice-recorder gadget, then slowly sorted it out.
+I wanted to write a travelogue but was too lazy to do it properly, so I first rambled through everything I wanted to say into Feishu's Recording Bean, then slowly sorted it out.
 
 ## 1. How It Started
 
@@ -90,7 +90,7 @@ By the lake there was something of the feeling of "Moonlight over the Lotus Pond
 
 It reminded me of a Li Dan livestream I watched earlier, where a bookish listener wrote in to describe the feeling of their stirring youth, roughly the experience of one glance making your heart race. Li Dan said he was especially envious. Honestly, I felt the same way watching it.
 
-But as the years go by and experience piles up, I now look at everything through a layer of quiet rationality, and it's hard to get "carried away" anymore. When I see a pretty girl, all I have left is "Mm, pretty," and then what? What I want more now is the kind of state where **you can talk and also sleep well together**.
+But as the years go by and experience piles up, I now look at everything through a layer of quiet rationality, and it's hard to get "carried away" anymore. When I see a pretty girl, all I have left is "Mm, pretty," and then what? What I want more now is **someone I can talk to and be compatible with in bed**.
 
 Not long ago, by happy chance, I got to know Teacher Gu and Teacher Zhu, and I finished their [annual romantic history series](https://mp.weixin.qq.com/s/veL_r5t37VQ2mbxtq4r1Gg). I couldn't help marveling. It was the loveliest discovery of my day, a rare specimen of human sincerity and a slice of beautiful love. It made others green with envy.
 
@@ -102,7 +102,7 @@ When you reach for AI first to talk about everything, you can't help feeling tha
 
 A soul-searching question: does cheating with AI count as cheating? Friends who are interested can search the tag "#人机恋" (human-AI romance), which is a completely new world.
 
-On one hand, I think **desire and obstinacy** may be the biggest difference between people and AI, a difference in initiative and agency. On the other hand, these rough edges are bound to chafe against each other in day-to-day life. It's a bit like algorithms and short videos: it understands you too well, but with the threshold set this high, is that really a good thing?
+On one hand, I think **desire and obstinacy** may be the biggest difference between people and AI, a difference in initiative and agency. On the other hand, these rough edges are bound to chafe against each other in day-to-day life. It's a bit like algorithms and short videos: it understands you too well, but with the bar set this high, is that really a good thing?
 
 Some time ago I read an article saying that marriage is not a good solution to love. I agree. But then what? The evolution of institutions will always be slower than the change in ideas, and standing right at this juncture, you feel the jolt of the tangled chaos more keenly. If human society still exists a hundred years from now, what kind of social thought will prevail then?
 
@@ -136,13 +136,13 @@ Then New Pants opened with "Do You Wanna Dance?" Good grief. It catapulted me st
 
 ![On site: an adult in a wheelchair, and a child covering their ears](images/乘坐轮椅的成年人&捂住耳朵的小孩子.jpg)
 
-I quite like these two photos; they sit well together. An adult comes to a music festival even in a wheelchair, while a child covers their ears tight, finding it only noisy.
+I quite like these two photos; they make a striking contrast. An adult comes to a music festival even in a wheelchair, while a child covers their ears tight, finding it only noisy.
 
-At this point I have to add something: at this kind of live event, rather than only shooting the singer, you're much better off turning on the front and rear cameras together to record yourself in the moment and the stage at once, like a flat panoramic camera. Or put it this way: **the you of that moment is more worth filming than the singer on stage**.
+At this point I have to add something: at this kind of live event, rather than only shooting the singer, you're much better off turning on the front and rear cameras together to record yourself in the moment and the stage at once, like a flat panoramic camera. Or put it this way: **you in that moment are more worth capturing than the singer on stage**.
 
 Years later, if all you have are photos and videos of the singer without your own reaction in that moment, you'll probably feel regret.
 
-As for singers, there will always be someone who films them more professionally and more clearly, so they aren't scarce. But for you, nobody will film you except yourself, and that is the truly rare memory. So now I always turn on both the front and rear cameras, recording my thoughts of the moment exactly as they were. Watching that video of me jumping along now, I can still feel that **happiness to the point of blur**.
+As for singers, there will always be someone who films them more professionally and more clearly, so they aren't scarce. But for you, nobody will film you except yourself, and that is the truly rare memory. So now I always turn on both the front and rear cameras, recording my thoughts of the moment exactly as they were. Watching that video of me jumping along now, I can still feel that **joy so intense everything goes blurry**.
 
 ![Screenshot of a front-and-rear dual-camera video, jumping until everything blurs](images/跳到模糊的前后双摄视频截图.png)
 

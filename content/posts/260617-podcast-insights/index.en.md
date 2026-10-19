@@ -1,21 +1,21 @@
 ---
 title: "Listening to a Podcast Is Easy; Finding What It Recommended Is Hard — So I Turned 234 Episodes Into a Map"
 date: 2026-06-17
-draft: true
+draft: false
 sourceHash: "sha256:47cacbacf06804647d27335af98a4090b253459690c1fd0091db88f099de5aff"
 translatedBy: "claude-cli/sonnet"
 ---
 *Translated from the [Chinese original](/posts/260617-podcast-insights/).*
 
-A couple of days ago in Nanjing, I finally finished all 234 episodes of the podcast 《肥话连篇》 (Feihua Lianpian), start to finish.
+A couple of days ago in Nanjing, I finally finished all 234 episodes of the podcast *Feihua Lianpian* (肥话连篇), start to finish.
 
 The show drops recommendations from time to time: a restaurant in some city, a series the hosts are bingeing, a little gadget they like. While listening I think "worth trying", make a mental note to check it out later, and then... nothing happens. Later, when I actually want to find that one restaurant again, all I can do is rummage through my fuzzy memory, and I basically never find it. Xiaoyuzhou (the podcast app) currently has no ability to search the text inside the audio.
 
 **That's the awkward thing about listening to podcasts: the information just flows past, so it's hard to stop and organize it in the moment, and afterwards there's no way to retrieve it.**
 
-But this time I happened to have half a toolset already on hand, so I simply let it grow its own solution. The end result is a map:
+But this time I happened to have half the pieces already, so I let the solution take shape from there. The end result is a map:
 
-👉 **[《肥话连篇》Recommendation Map](https://feihua.lexgogo.site/web/)**
+👉 **[Feihua Lianpian Recommendation Map](https://feihua.lexgogo.site/web/)**
 
 ![935 recommendations from 234 episodes, clustered by city on one map](images/网站-地图页.png)
 
@@ -31,7 +31,7 @@ So this wasn't starting from zero. It was "I happen to have half a set of buildi
 
 The whole thing breaks down into three steps, and it ran on and off in the background for two days.
 
-**Step one: turn sound into text.** First I had to grab the links to every single episode of 《肥话连篇》, and that step has its own hurdle: the Xiaoyuzhou web page only shows the latest 10 episodes by default, so getting the full history of all 234 episodes isn't realistic that way. Fortunately I had already explored this before. When I built [an online audio/video consumption history tracker](https://github.com/zj1123581321/online-video-history-server), I worked out how to scrape Xiaoyuzhou's historical episode list, so this time I just reused that.
+**Step one: turn sound into text.** First I had to grab the links to every episode of *Feihua Lianpian*, and that step has its own hurdle: the Xiaoyuzhou web page only shows the latest 10 episodes by default, so getting the full history of all 234 episodes isn't realistic that way. Fortunately I had already explored this before. When I built [an online audio/video consumption history tracker](https://github.com/zj1123581321/online-video-history-server), I worked out how to scrape Xiaoyuzhou's historical episode list, so this time I just reused that.
 
 With all the links in hand, I wrote a script to submit them in one go to my VideoTranscriptAPI server. The 234 episodes of audio queued up and ran for about a day, and the DeepSeek proofreading cost came to nearly 20 RMB. When it finished, I had 234 speaker-diarized, proofread transcripts.
 
@@ -47,7 +47,7 @@ I was extra picky about one thing here: every recommendation must be **traceable
 
 ## The Result
 
-It's the image at the top: the [《肥话连篇》Recommendation Map](https://feihua.lexgogo.site/web/).
+It's the image at the top: the [Feihua Lianpian Recommendation Map](https://feihua.lexgogo.site/web/).
 
 You can browse the restaurants recommended on the show by city, or switch to a list to flip through the films, series, and products, each with a category and the reason it was recommended. No more fretting over "I think they mentioned a place once".
 
@@ -59,7 +59,7 @@ All the code is here if you're interested: [podcast-insights](https://github.com
 
 If I had to sum it up, it comes down to a few points:
 
-First, **engineering**. At its core, this setup is about snapping together a few ready-made components: transcription, extraction, and map, each handling one segment, and put together it just works. Scaling up to batch processing isn't hard either, and it has a deterministic expectation. Unlike a Skill, which in the end still depends on the model behind it being strong enough.
+First, **engineering**. At its core, this setup is about snapping together a few ready-made components: transcription, extraction, and mapping, each handling one segment, and put together it just works. Scaling up to batch processing isn't hard either, and the output is predictable, unlike a Skill, which still depends on the underlying model being capable enough.
 
 Second, **Workflow is genuinely good in this kind of scenario**. For running the same processing across hundreds of pieces of content, this kind of large-scale job, a workflow is far more flexible than writing a script.
 
