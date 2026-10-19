@@ -1,7 +1,7 @@
 ---
 title: "Old Tree, New Blossoms: How a Traditional Team Lands Agents"
 date: 2026-09-08
-draft: true
+draft: false
 sourceHash: "sha256:a8fef620055cfd45dd777a2da29a702f21a8234bf7228e5fd3d90b659a3b9d3b"
 translatedBy: "claude-cli/sonnet"
 description: "First-hand practice from a cross-border e-commerce team: an old organization in a small or mid-sized team doesn't need to chase AI Native. From digital infrastructure, staff tiering, and a closed context loop to infrastructure selection, I used open-source tools and a single server to build the Agent infrastructure for the whole team."
@@ -62,7 +62,7 @@ There's one more crucial point: **for businesses deeply tied to the physical wor
 
 Landing Agents in an organization produces effects in two directions: **cutting costs and boosting efficiency**, and **growing the pie**.
 
-Cost cutting and efficiency gains are relatively easy to quantify and achieve, so this is probably the entry point for the vast majority of bosses. But if you start from here, there's a natural problem — **it creates a split of interests with the people inside the organization.** When you use an Agent to replace a certain step, someone used to be responsible for that step. This isn't something an outsider should push.
+Cost cutting and efficiency gains are relatively easy to quantify and achieve, so this is probably the entry point for the vast majority of bosses. But if you start from here, there's a natural problem — **it can create a conflict of interest with people inside the organization.** When you use an Agent to replace a certain step, someone used to be responsible for that step. This isn't something an outsider should push.
 
 The other angle is **growing the pie** — using Agents to expand into new businesses and raise the output ceiling, and sharing the newly created gains. This meets much less resistance. Of course, some industries really don't have that much room for incremental growth and are forced to go the cost-cutting route.
 
@@ -70,7 +70,7 @@ Whichever path you take, one thing is certain: **landing Agents is a top-leaders
 
 Why? Because every step you save is, in essence, a redrawing of the boundaries of someone's turf. Without authorization from the top, and without someone who understands both the business and Agents to lead the push, it's basically very hard for the organization to truly enjoy the Agent dividend.
 
-At the same time, **you shouldn't measure the results of landing Agents by a 100% AI usage rate.** Take cross-border e-commerce: a colleague in the supply chain — expecting them to be proficient in both supply chain and AI, that kind of talent is far too scarce. And frankly, such talent is unlikely to stay in your organization anyway — unless you're willing to share the money.
+At the same time, **you shouldn't measure the results of landing Agents by a 100% AI usage rate.** Take cross-border e-commerce: people who are proficient in both supply chain and AI are extremely rare. And frankly, such talent is unlikely to stay in your organization anyway — unless you're willing to share the money.
 
 So the right way isn't to push across the whole company, but to **push in tiers**.
 
@@ -92,13 +92,13 @@ graph TB
 
 ### Top Tier: Organizational Architects (1-2 People)
 
-Someone who understands both Agents and the business very well, to build the team's entire set of foundational components: establishing the single source of business data, designing the permission governance mechanism, building the Skill-sharing platform, and constructing the feedback-and-iteration loop.
+At the top is a person who understands both Agents and the business very well and is responsible for building the team's foundational components: establishing the single source of business data, designing the permission governance mechanism, building the Skill-sharing platform, and constructing the feedback-and-iteration loop.
 
 ### Middle Tier: Front-Line Practitioners (3%-5%)
 
 A small number of people in the organization who are willing to actively embrace change. In real business work, they use Agents to solve problems, improve efficiency, and produce results. These are the people who build the "branches" on the business side: concrete workflows, useful Skills, and experience interacting with Agents.
 
-Because they have Agent assistance, these people will also produce fairly good results in the business itself. And most people essentially "believe because they see" — when a small group in the organization has truly mastered Agents and produced results, the others will naturally follow.
+With Agent assistance, these people will also produce good business results. Most people are convinced by what they see: when a small group in the organization has truly mastered Agents and produced results, the others will naturally follow.
 
 You need to use mechanisms to encourage and guide them to share.
 
@@ -106,7 +106,7 @@ You need to use mechanisms to encourage and guide them to share.
 
 Most people actually follow SOPs and follow Skills — those SOPs and Skills come from what the middle-tier practitioners have distilled. Base-tier employees don't need a deep understanding of Agents; they only need to operate according to the workflows that have been built, and provide data feedback along the way — giving the whole Agent system more behavioral data as input.
 
-As for the last small group who strongly resist AI, it's essentially a matter of calculating ROI. Some people really do have deep accumulated experience in the physical world, and their abilities remain strong without AI. There's nothing to be done about that; everyone still does the math. Collaborate with the best of them, and don't force it.
+As for the small group who strongly resist AI, it's essentially a matter of calculating ROI. Some people really do have deep accumulated experience in the physical world, and their abilities remain strong without AI. In the end, this too comes down to the numbers. Collaborate with the best of them, and don't force it.
 
 ### Token Costs Follow the Tiers
 
@@ -130,7 +130,7 @@ At the organizational level, building context has three layers, and each step up
 |------|------|------|
 | **Readable** | The Agent can get the organization's business data conveniently and quickly | Sales data isn't scattered across individual Excel files but sits in a unified data source |
 | **Writable** | The Agent can take part in business operations, not just look | The Agent can automatically update inventory status and send customer notifications |
-| **Closable (loop)** | Execution results feed back and form iteration | The Agent's ad-placement decisions can see actual conversion data and self-correct |
+| **Closed loop** | Execution results feed back and form iteration | The Agent's ad-placement decisions can see actual conversion data and self-correct |
 
 These three layers progress like a staircase. Each layer up raises the depth of the Agent's participation in the business by a step, and the value gain comes in steps too.
 
@@ -173,11 +173,11 @@ A self-check: in your team's core business processes, what information does the 
 
 ---
 
-## 5. Don't Chase Token Usage; Chase Single-Point Replacement
+## 5. Don't Chase Token Usage; Replace Individual Steps
 
 After you've built the data source and the context, how do you measure the results of landing? There's a common misconception here: give everyone an Agent and a WorkBuddy account, then see whose Token usage is highest — **this metric is meaningless.**
 
-What really matters is this: around the business process, have the Agent do a **single-point replacement**. A step that used to be done by a person is now done by an Agent, with better results, higher speed, and lower cost. Replacing one point at a time is the most practical and feasible approach.
+What really matters is identifying individual steps in a business process for **replacement by an Agent**. A step that used to be done by a person is now done by an Agent, with better results, higher speed, and lower cost. Replacing one step at a time is the most practical and feasible approach.
 
 The concrete model usage strategy follows the tiers too: top-tier models are used to design solutions, build frameworks, and write Skills; cheap models execute per the Skill, run operations, and collect feedback — so the execution results feed back to improve the next round of decisions, forming a closed loop.
 
@@ -260,14 +260,14 @@ If you add a layer of Key Proxy on top, you can also achieve permission control 
 
 ### ⑤ Search and Crawler Hub
 
-> Scenario: three operations staff ask their Agents to search the same competitor's TikTok data at the same time. Without caching, that's triple the API call cost, and the shared IP egress may be hit by the platform's risk controls for frequent access.
+> Scenario: three people on the operations team ask their Agents to search the same competitor's TikTok data at the same time. Without caching, that's triple the API call cost, and repeated requests from the same IP could trigger the platform's anti-abuse controls.
 
 Different Agents' search capabilities vary widely, and search capability is itself an important component of building context. The organization should have a unified search and crawler hub:
 
 - **Caching**: cache what has been searched, avoiding wasted cost from repeated calls
 - **Aggregation**: external search (TikTok, Instagram, e-commerce platforms) and internal search (the enterprise knowledge base) through one unified interface
 - **Async and concurrency**: when multiple Agents initiate search requests at once, the system has to hold up
-- **Risk control**: handle crawler rate control and IP management centrally, rather than letting each person's Agent run naked
+- **Risk control**: handle crawler rate limits and IP management centrally, rather than letting each person's Agent operate without safeguards
 
 I built this one myself as well, and it isn't open source, but any team with search needs should consider doing this.
 
@@ -380,21 +380,21 @@ For most small and mid-sized teams, get the n8n layer solid first.
 
 ## Final Thoughts
 
-Back to the judgment at the start: boosting an individual's efficiency 10x is easy, and boosting an organization's by 20% is hard.
+Back to the judgment at the start: boosting an individual's efficiency 10x is easy, and boosting an organization's efficiency by 20% is hard.
 
 But hard doesn't mean it can't be done. This article lays out a path a traditional team can take:
 
 - **No need to chase AI Native** — just push forward incrementally along that direction
 - **Build the digital infrastructure first** — Feishu Bitable solves most of the problem
-- **Push in tiers among people** — don't chase a full-staff usage rate; let results drive "believe because they see"
+- **Roll it out in tiers** — don't chase a full-staff usage rate; let results show why seeing is believing
 - **Build the infrastructure with open-source tools** — one server can run it all, at very low cost
 - **Workflow is the main battlefield** — 90% of enterprise scenarios can be solved with Workflow + LLM
 
-It comes down to two things: **at the organizational level, clear the obstacles of permissions, infrastructure, and the distribution of interests; at the technical level, give Agents ample context and build a closed loop.**
+It comes down to two things: **at the organizational level, clear the obstacles of permissions, infrastructure, and the distribution of benefits; at the technical level, give Agents ample context and build a closed loop.**
 
 Only with a closed loop can an Agent inside the enterprise backtest and analyze against historical data and keep improving. That way your organization gets lasting incremental gains from Agents. Otherwise, as soon as any point in this chain is broken, the Agent can only be a one-off tool — used once, with no next time.
 
-A closed loop yields increments, and increments are worth sustained investment. I think this idea matters more than any specific tool choice.
+A closed loop creates lasting gains, and those gains are worth sustained investment. I think this idea matters more than any specific tool choice.
 
 ---
 
@@ -417,10 +417,10 @@ All of the above tools support Docker deployment and can be deployed on the same
 
 ### Related Articles
 
-- [Context is All You Need](/posts/context-is-all-you-need/): the basics of context engineering
-- [Risk Control, Design Philosophy, and Model Selection](/posts/260328-claude-code-risk-model-philosophy/): model tiering strategy
-- [A General Doesn't Chase Rabbits](/posts/260809-multi-agent-scheduling-architecture/): multi-Agent scheduling architecture
-- [Agents Don't Clock Out](/posts/260628-agent-era-dev-anywhere/): setting up a remote development environment
+- [Context is All You Need](/en/posts/context-is-all-you-need/): the basics of context engineering
+- [Risk Control, Design Philosophy, and Model Selection](/en/posts/260328-claude-code-risk-model-philosophy/): model tiering strategy
+- [A General Doesn't Chase Rabbits](/en/posts/260809-multi-agent-scheduling-architecture/): multi-Agent scheduling architecture
+- [Agents Don't Clock Out](/en/posts/260628-agent-era-dev-anywhere/): setting up a remote development environment
 - [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview): Anthropic's official managed Agent platform
 
 ### Recommended Podcast
