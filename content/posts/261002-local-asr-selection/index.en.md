@@ -1,7 +1,7 @@
 ---
 title: "Giving Your Agent a Pair of Ears"
 date: 2026-10-02
-draft: true
+draft: false
 sourceHash: "sha256:aeec16c12f364bf5f75dbecbcfe88abdb20fe59a69c264362b32710fb652ddcd"
 translatedBy: "claude-cli/sonnet"
 description: "Audio and video carry a huge amount of information that the text world doesn't, but an Agent can't read it. I run more than ten hours of audio and video transcription every day, all on ordinary computers at home, and the core idea is just one thing: transcribe accurately enough, and leave the rest to LLM proofreading. Here's how to choose among the mainstream local models, why speaker diarization is so hard, and two open-source transcription services you can plug straight into your workflow."
@@ -12,7 +12,7 @@ description: "Audio and video carry a huge amount of information that the text w
 
 In [*Observing the World*](../260914-observing-the-world/), I mentioned that I transcribe more than ten hours of audio and video every day. Quite a few friends asked: what's running underneath?
 
-In 2023 I wrote a [usage guide for Whisper](/posts/liao-liao-gao-jing-du-yin-shi-pin-zhuan-wen-zi-gong-zuo-liu/) ([the Sspai version](https://sspai.com/post/83644)), which was one of the more complete introductions available online at the time. Not long ago, a high school classmate suddenly got in touch. He had been searching for Whisper material, came across that article, and was pleasantly surprised to discover that the author was me. An article from three years ago reconnecting me with an old classmate in this way felt kind of magical.
+In 2023 I wrote a [usage guide for Whisper](/en/posts/liao-liao-gao-jing-du-yin-shi-pin-zhuan-wen-zi-gong-zuo-liu/) ([the Sspai version](https://sspai.com/post/83644)), which was one of the more complete introductions available online at the time. Not long ago, a high school classmate suddenly got in touch. He had been searching for Whisper material, came across that article, and was pleasantly surprised to discover that the author was me. An article from three years ago reconnecting me with an old classmate in this way felt kind of magical.
 
 Three years on, the ASR (automatic speech recognition, i.e. speech-to-text) field has changed a lot. New models keep arriving one after another, and the capabilities of Coding Agents now let someone like me, a non-professional engineer, build an entire service on my own. **But these days, I basically don't use Whisper anymore.**
 
@@ -76,7 +76,7 @@ First, the context: home consumer-grade hardware, mainly Chinese and English. In
 
 The last three all come from Alibaba: Paraformer and SenseVoice come from FunASR, Alibaba's open-source speech toolkit, and Qwen3-ASR comes from the Qwen team. A few words on each:
 
-**Whisper** was open-sourced by OpenAI in September 2022. Its strengths are that it arrived early and supports many languages, so it is often treated as the default first choice for ASR. But if your use case is mainly Chinese and English, its accuracy is no longer on par with the newer models, its resource usage is higher, and on long audio it is prone to hallucination, repeating the same sentence over and over. What impressed me most about it back then was that it could even transcribe notation like `theta_i^t`. These days, apart from minority languages, I have no reason to use it.
+**Whisper** was open-sourced by OpenAI in September 2022. Its strengths are that it arrived early and supports many languages, so it is often treated as the default first choice for ASR. But if your use case is mainly Chinese and English, its accuracy is no longer on par with the newer models, its resource usage is higher, and on long audio it is prone to hallucination, repeating the same sentence over and over. What impressed me most about it back then was that it could even transcribe notation like `theta_i^t`. These days, apart from less common languages, I have no reason to use it.
 
 ![In 2023, transcribing a course recording with Whisper Large-v2, it even transcribed notation like theta_i^t](images/whisper-2023.png)
 
