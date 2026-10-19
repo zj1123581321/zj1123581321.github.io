@@ -1,19 +1,19 @@
 ---
 title: "The Myriad Faces of the World"
 date: 2026-09-14
-draft: true
+draft: false
 sourceHash: "sha256:23a5a3c6ddf6efb39f2aae98be4450815a6a2330c978b80b6d77f4cbc4869db4"
 translatedBy: "claude-cli/sonnet"
 description: "Legal disputes, the marriage market, industry insider stories, the state of the times — watching the impermanence of life through audio and video, the myriad faces of the human world."
 ---
 *Translated from the [Chinese original](/posts/260914-observing-the-world/).*
 
-Jing Fei Chen (陈婧霏) has released a new song called "The Myriad Faces of the World" (《人间万象》).
+Chen Jingfei (陈婧霏) has released a new song called "The Myriad Faces of the World" (人间万象).
 
 > The world is a net — who is weaving its direction?
 > Some have fallen into the dark of night; some are waiting for the spring breeze.
 
-![陈婧霏《人间万象》](images/人间万象-播放器.jpg)
+![Chen Jingfei, The Myriad Faces of the World](images/人间万象-播放器.jpg)
 
 I like her a lot. After listening, I felt the song title could serve as an entry point to talk about something I've wanted to discuss for a long time but never found the right moment for: **I have a habit of continuously observing the world.**
 
@@ -21,7 +21,7 @@ I like her a lot. After listening, I felt the song title could serve as an entry
 
 In grand terms, it's about seeing heaven and earth, seeing all living beings, seeing myself. In small terms, it's just a fairly pure kind of curiosity.
 
-My following list doesn't only contain things I agree with. It also includes things I don't quite endorse but consider a sample worth keeping. After you've seen enough samples, you truly understand why arguing online mostly has no point — you have no idea what the entire life background and way of thinking of the person behind that screen actually look like.
+My following list doesn't only contain things I agree with. It also includes things I don't quite endorse but consider a sample worth keeping. After you've seen enough samples, you truly understand why arguing online mostly has no point — you have no idea what life experiences shaped the person behind that screen or how they think.
 
 There's an interesting divide in this world: one group uses ASR to turn all kinds of content into text to speed up understanding; the other uses TTS to turn text into sound so they can listen anywhere, anytime. I belong to the former — I watch videos at triple speed almost every day, and more often than not I simply convert audio and video into text and read it.
 
@@ -29,11 +29,11 @@ There's an interesting divide in this world: one group uses ASR to turn all kind
 
 A busy person may only have time to record a podcast or shoot a spoken-word video; a frontline practitioner might just film a video to vent a few complaints, and writing an article would feel too formal for them. When you want to look at the real experiences of different people from a broader perspective, audio and video are far richer than text.
 
-There's another layer: text faces a higher review threshold, and that's one side of it. On the other side, as internet access has become faster and cheaper and the online population has grown, the space for public expression has been shrinking too — water that is too clear has no fish. You can only look for topics within the greatest common divisor and talk about very "correct" content. Put the two together, and the world of text grows ever cleaner and ever safer. By comparison, audio and video still have a chance to convey something more real, something less "correct."
+There's another layer: text faces a higher review threshold, and that's one side of it. On the other side, as internet access has become faster and cheaper and the online population has grown, the space for public expression has been shrinking too — water that is too clear has no fish. You can only stick to the lowest common denominator and talk about very "correct" content. Put the two together, and the world of text grows ever cleaner and ever safer. By comparison, audio and video still have a chance to convey something more real, something less "correct."
 
 At least for our generation, this isn't too big a problem — after all, we lived through a rougher, wilder era, and we've touched on things both above and below the surface of the water. But for the younger generation, if their main source of information is the internet, it may take exceptional insight to read the information beneath the surface out of all the various forms of self-censorship. Otherwise, they can only make up for it through things like family education.
 
-In short, to gain a broader perception of the world as a whole, audio and video are an extremely high-value channel of consumption. So I built myself a set of audio and video transcription tools that automatically process content from various platforms. The system handles roughly more than ten hours of transcription every day.
+In short, to gain a broader perception of the world as a whole, audio and video are an extremely high-value channel of consumption. So I built myself a set of audio and video transcription tools that automatically process content from various platforms. The system handles more than ten hours of transcription every day.
 
 ## Ten Thousand Kinds of Lives
 
@@ -45,17 +45,17 @@ My regular subscriptions cover law, relationships, and starting restaurant busin
 
 She studies the humanities, is from Beijing, and comes from an "ordinary family" — she kept stressing those three words. In the stream she was in the classic post-exam frenzy: speaking very fast, jumping between topics, with real anxiety showing through the self-deprecation. She longs for A-levels and an education in Berlin, but her family's finances mean she can only take the in-system route — "I'll go see the world in grad school."
 
-A Gen Z kid, in a livestream, laying out her confusion, her dissatisfaction with the education system, and her uncertainty about the future to a few hundred strangers. The gap between "aiming sky-high" and real-world constraints shows up in her in an extremely direct way. You'd rarely see this intensity of reality in any text medium.
+A young woman from Gen Z, in a livestream, laying out her confusion, her dissatisfaction with the education system, and her uncertainty about the future to a few hundred strangers. The gap between "aiming sky-high" and real-world constraints shows up in her in an extremely direct way. You'd rarely find this degree of rawness in any text medium.
 
 **A doctor ran the numbers using probability theory.**
 
 Dr. Han was sentenced for a missed diagnosis, and the news set the medical community abuzz. Another doctor, who has already left the profession, used a mathematical concept — the birthday paradox — to explain why he left clinical practice early: when the sample size is large enough, any low-probability event becomes inevitable. The number of patients a clinician sees in a lifetime far exceeds that threshold. For disputes like missed diagnoses and accidents, there used to be an exit in the form of "settle it with money," but the trend toward criminalization has pushed the risk to an unbearable level.
 
-Having worked out the math, he made an irreversible career choice. In his own words: get out early, so the wall doesn't fall on me. This isn't emotional complaining — it's a rational decision derived from probability theory.
+Having worked out the math, he made an irreversible career choice. In his own words: get out early, before the whole thing comes crashing down on me. This isn't emotional complaining — it's a rational decision derived from probability theory.
 
-**A practitioner with more than ten years in the local government financing vehicle (城投) sector talked to the camera for nearly thirty thousand characters.**
+**A practitioner with more than ten years in the local government financing vehicle (LGFV, 城投) sector talked to the camera for nearly thirty thousand characters.**
 
-Every city investment company in the country lives on debt; none of them rely on their own cash flow — those were his exact words. He described a way of operating that you won't find in books or the news: city investment companies are essentially financing platforms for local governments — much of the urban infrastructure you see was funded through this kind of platform, and the capital chain behind it is far more complex and delicate than outsiders imagine. A young peer wrote him a letter, full of idealistic questioning between the lines. His reply boiled down to eight characters: blend in with the world, but stay clear-headed.
+LGFVs across the country live on debt; none of them rely on their own cash flow — those were his exact words. He described a way of operating that you won't find in books or the news: LGFVs are essentially financing platforms for local governments — much of the urban infrastructure you see was funded through these platforms, and the funding flows behind them are far more complex and delicate than outsiders imagine. A young peer wrote him a letter, full of idealistic questioning between the lines. His reply boiled down to eight characters: blend in with the world, but stay clear-headed.
 
 **A relationship-counseling creator on Bilibili [took apart the term "emotional value"](https://sum.zlxlabs.com/view/view_Jf164S3xHG2sa6eeoVkRtItjB9J5QnA0PL6EuUdPJYc).**
 
@@ -88,13 +88,13 @@ A little over a year later, the gaps have gradually been filled. It now supports
 - **Multi-channel push**: automatic notifications to WeCom and Feishu
 - **Web reading interface**: a web version lets you read the proofread text and summaries, and also generate detailed notes with matching timestamps. The URL of the proofread text can be copied straight into web clients like ChatGPT and Claude for follow-up questions
 
-![VTA Web 阅读界面：内容总结、章节目录、校对文本，支持复制 URL 到第三方 LLM 继续提问](images/vta-阅读界面.jpg)
+![VTA Web reading interface: summary, chapter list, proofread transcript, and a copyable URL for follow-up questions in third-party LLMs](images/vta-阅读界面.jpg)
 
 The information sources come in two layers. One is **fixed subscriptions**: whenever a specific YouTube or Bilibili channel publishes a new video, it is automatically submitted for transcription. The other is **ad-hoc submission**: when I come across something interesting, I throw it into the system with one click.
 
 I also built a live-recorder — a livestream auto-recording and archiving service that hands recordings over to VideoTranscriptAPI for transcription once they're done.
 
-![live-recorder 控制台：录制任务列表，覆盖视频号、B 站、抖音等平台的直播](images/live-recorder-控制台.png)Livestream content is unedited, and sometimes you can actually see something more raw in it — of course there's also a lot of rambling and muddled logic, but anyway, it's AI doing the reading now, so none of that is a problem.
+![live-recorder console: recording task list covering livestreams from WeChat Channels, Bilibili, Douyin, and other platforms](images/live-recorder-控制台.png)Livestream content is unedited, and sometimes you can actually see something more raw in it — of course there's also a lot of rambling and muddled logic, but anyway, it's AI doing the reading now, so none of that is a problem.
 
 Put together, the two are the source of those ten-plus hours of daily transcription volume.
 
@@ -122,12 +122,12 @@ Of course, the other half of that sentence goes unsaid: it's also possible that 
 
 ---
 
-Let me end with Jing Fei Chen's "The Myriad Faces of the World" once more.
+Let me end with Chen Jingfei's "The Myriad Faces of the World" once more.
 
 > Ten thousand kinds of lives, ten thousand kinds of swaying, sharing the same lamp of moonlight.
 > Rising and falling, crossing and interweaving — the myriad faces of life pass through a single shuttle.
 
-<!-- TODO: 嵌入音乐播放器 -->
+<!-- TODO: Embed music player -->
 
 That's all.
 
