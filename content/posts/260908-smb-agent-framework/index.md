@@ -11,7 +11,7 @@ wechat_url: "https://mp.weixin.qq.com/s/M-x9Vbw9NplFrXDBk4_lWw"
 
 > 这篇文章的底稿是一段 45 分钟的语音思考。延续这个系列的传统——**作为人类，你只需要读懂思路和框架；具体的执行细节，交给你的 Agent。** 文末附录里有给 Agent 读的参考资料。
 >
-> 前置推荐阅读：[Context is All You Need](../context-is-all-you-need/)（上下文工程基础）、[风控、设计哲学与模型选择](../260328-claude-code-risk-model-philosophy/)（模型分层策略）、[将军赶路不追小兔](../260809-multi-agent-scheduling-architecture/)（多 Agent 调度体系）。本文聊的是一个不同的视角——不是"我个人怎么用 Agent"，而是"一个传统团队怎么让 Agent 落地"。
+> 前置推荐阅读：[Context is All You Need](../context-is-all-you-need/)（上下文工程基础）、[风控、设计哲学与模型选择](../claude-code-risk-model-philosophy/)（模型分层策略）、[将军赶路不追小兔](../260809-multi-agent-scheduling-architecture/)（多 Agent 调度体系）。本文聊的是一个不同的视角——不是"我个人怎么用 Agent"，而是"一个传统团队怎么让 Agent 落地"。
 
 ## 开篇：为什么聊这个话题
 
@@ -111,7 +111,7 @@ graph TB
 
 这个架构还有一个好处：**成本可控**。只有顶层架构师和中层实践者才需要高质量的 Token 来思考（用顶级模型设计方案框架、编写可复用的自动化流程），大部分人配一个便宜的执行模型就够了。
 
-这就是我在 [风控、设计哲学与模型选择](../260328-claude-code-risk-model-philosophy/) 里讲的策略：**顶级模型定思路，国产模型搞好工程降成本。** 在组织层面同样适用。
+这就是我在 [风控、设计哲学与模型选择](../claude-code-risk-model-philosophy/) 里讲的策略：**顶级模型定思路，国产模型搞好工程降成本。** 在组织层面同样适用。
 
 > 关于 AI 时代的组织变革，强烈推荐听一下 XMind 联合创始人 Mango 的分享：[分活，分圈，分钱，搞 AI](https://www.xiaoyuzhoufm.com/episode/6a8c42b42e27ea5b21fabac7)（[AI 总结与校对稿](https://sum.zlxlabs.com/view/view__jJHBegbh00Puv8ZsVDPdYOQxfxJVEk8HRIpT8eIcPc)）。XMind 从部门制转向"圈子制"的一手施工经验，核心结论是：AI 原生组织的目标是尽量减少人与人之间的摩擦，凡是有摩擦的部分能自动化就自动化。怎么分圈、怎么分活、怎么分钱，这期节目讲得非常透。
 
@@ -417,7 +417,7 @@ n8n 在 Agent 时代的使用方式需要做一个转变：不是由人手动在
 ### 相关文章
 
 - [Context is All You Need](/posts/context-is-all-you-need/)：上下文工程基础
-- [风控、设计哲学与模型选择](/posts/260328-claude-code-risk-model-philosophy/)：模型分层策略
+- [风控、设计哲学与模型选择](/posts/claude-code-risk-model-philosophy/)：模型分层策略
 - [将军赶路不追小兔](/posts/260809-multi-agent-scheduling-architecture/)：多 Agent 调度体系
 - [Agent 不下班](/posts/260628-agent-era-dev-anywhere/)：远程开发环境搭建
 - [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview)：Anthropic 官方托管 Agent 平台

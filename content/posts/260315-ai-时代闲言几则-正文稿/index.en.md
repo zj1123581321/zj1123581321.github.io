@@ -246,7 +246,7 @@ But right now, and for some time to come, this really is a very good window of o
 
 Here's a chart (from Ruan Yifeng's weekly newsletter) to get an intuitive feel:
 
-![AI 使用分布图](AI-使用分布图.jpg)
+![AI usage distribution map](AI-使用分布图.jpg)
 
 The world's population is 8.1 billion. 84% of people have never used AI, 16% have only chatted with AI, 0.3% pay for an AI subscription, and only 0.04% use AI to generate code to build their own projects. If you're reading this article and already using AI to write code, you're already ahead of more than 99% of the world.
 
