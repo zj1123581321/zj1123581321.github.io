@@ -9,7 +9,7 @@ export function textTokens(text) {
       if (word) tokens.push(word);
       word = '';
       if (tokens.at(-1) !== ' ') tokens.push(' ');
-    } else if (CJK.test(char)) {
+    } else if (CJK.test(char) || NO_LINE_START.test(char)) {
       if (word) tokens.push(word);
       word = '';
       tokens.push(char);
@@ -31,17 +31,41 @@ export function wrapText(text, maxWidth, measureText) {
       continue;
     }
     const candidate = line ? `${line}${pendingSpace ? ' ' : ''}${token}` : token;
-    if (line && measureText(candidate) > maxWidth && !NO_LINE_START.test(token)) {
+    if (!line || measureText(candidate) <= maxWidth) {
+      line = candidate;
+    } else if (!NO_LINE_START.test(token)) {
       lines.push(line);
       line = token;
-    } else if (line && measureText(candidate) > maxWidth && NO_LINE_START.test(token)) {
-      line += token;
     } else {
-      line = candidate;
+      const units = textTokens(line);
+      let moved = token;
+      let prefix = '';
+      let fitted = false;
+      while (units.length > 0) {
+        const previous = units.pop();
+        if (previous === ' ') continue;
+        moved = `${previous}${moved}`;
+        prefix = units.join('').trimEnd();
+        if (!NO_LINE_START.test(moved) && measureText(moved) <= maxWidth) {
+          if (prefix) lines.push(prefix);
+          line = moved;
+          fitted = true;
+          break;
+        }
+      }
+      if (!fitted) {
+        throw new RangeError(`OG-TEXT-LINE-OVERFLOW width=${measureText(candidate)} maxWidth=${maxWidth} line=${candidate}`);
+      }
     }
     pendingSpace = false;
   }
   if (line) lines.push(line);
+  for (const current of lines) {
+    const width = measureText(current);
+    if (width > maxWidth) {
+      throw new RangeError(`OG-TEXT-LINE-OVERFLOW width=${width} maxWidth=${maxWidth} line=${current}`);
+    }
+  }
   return lines;
 }
 

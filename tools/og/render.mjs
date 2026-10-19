@@ -51,6 +51,15 @@ function drawLines(ctx, lines, x, y, lineHeight, strokeWidth = 0) {
   }
 }
 
+function assertLinesFit(ctx, lines, maxWidth, label) {
+  for (const line of lines) {
+    const width = ctx.measureText(line).width;
+    if (width > maxWidth) {
+      throw new Error(`OG-TEXT-LINE-OVERFLOW ${label} width=${width} maxWidth=${maxWidth} line=${line}`);
+    }
+  }
+}
+
 function fitTitle(ctx, text, maxWidth) {
   const layout = (size) => {
     ctx.font = `700 ${size}px "Noto Sans SC"`;
@@ -83,22 +92,37 @@ export async function renderCard({ title, description, language, avatarPath, has
   ctx.fillRect(0, 0, 16, HEIGHT);
 
   const x = 82;
-  const maxWidth = 1040;
+  const maxWidth = 1034;
+  const topMargin = 82;
+  const footerTop = 520;
   const heading = fitTitle(ctx, title, maxWidth);
   const titleLineHeight = Math.round(heading.size * 1.2);
   ctx.font = `700 ${heading.size}px "Noto Sans SC"`;
-  ctx.fillStyle = COLORS.title;
-  drawLines(ctx, heading.lines, x, 100, titleLineHeight, 2.4);
+  assertLinesFit(ctx, heading.lines, maxWidth, 'title');
 
-  let footerTop = 520;
-  if (description) {
-    const lines = fitDescription(ctx, description, maxWidth);
-    const descriptionY = 100 + heading.lines.length * titleLineHeight + 25;
-    const descriptionLineHeight = 41;
+  const descriptionLines = description ? fitDescription(ctx, description, maxWidth) : [];
+  const descriptionLineHeight = 41;
+  ctx.font = '400 28px "Noto Sans SC"';
+  if (descriptionLines.length) assertLinesFit(ctx, descriptionLines, maxWidth, 'description');
+
+  const titleBlockHeight = heading.lines.length * titleLineHeight;
+  const descriptionGap = descriptionLines.length ? 25 : 0;
+  const descriptionBlockHeight = descriptionLines.length * descriptionLineHeight;
+  const contentBlockHeight = titleBlockHeight + descriptionGap + descriptionBlockHeight;
+  if (contentBlockHeight > footerTop - topMargin) {
+    throw new Error(`OG-TEXT-BLOCK-OVERFLOW height=${contentBlockHeight} available=${footerTop - topMargin}`);
+  }
+  const contentTop = topMargin + ((footerTop - topMargin) - contentBlockHeight) / 2;
+
+  ctx.font = `700 ${heading.size}px "Noto Sans SC"`;
+  ctx.fillStyle = COLORS.title;
+  drawLines(ctx, heading.lines, x, contentTop + heading.size, titleLineHeight, 2.4);
+
+  if (descriptionLines.length) {
+    const descriptionY = contentTop + titleBlockHeight + descriptionGap + 28;
     ctx.font = '400 28px "Noto Sans SC"';
     ctx.fillStyle = COLORS.description;
-    drawLines(ctx, lines, x, descriptionY, descriptionLineHeight, 0.8);
-    footerTop = Math.max(520, descriptionY + lines.length * descriptionLineHeight + 22);
+    drawLines(ctx, descriptionLines, x, descriptionY, descriptionLineHeight, 0.8);
   }
 
   const avatar = await loadImage(avatarPath);

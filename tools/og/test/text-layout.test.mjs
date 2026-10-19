@@ -1,5 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { readFrontmatter } from '../../i18n/lib.mjs';
+import { frontmatterText } from '../lib.mjs';
 import { clampLines, textTokens, wrapAndClamp, wrapText } from '../text-layout.mjs';
 
 function width(text) {
@@ -23,6 +27,22 @@ test('中英混排不溢出，并按英文词边界换行', () => {
   assert.ok(lines.some((line) => line.includes('40')));
   assert.ok(lines.some((line) => line.includes('Token')));
   assert.ok(lines.some((line) => line.includes('reaches')));
+});
+
+test('zelda 真实描述的每一行测量宽度均不超过可用宽度', () => {
+  const descriptionPath = fileURLToPath(new URL('../../../content/posts/260721-the-zelda-phase-of-life/index.md', import.meta.url));
+  const frontmatter = readFrontmatter(fs.readFileSync(descriptionPath, 'utf8'));
+  const description = frontmatterText(frontmatter.description);
+  const maxWidth = 380;
+  const lines = wrapText(description, maxWidth, width);
+  assert.ok(lines.length > 1);
+  assert.equal(lines.join('').replaceAll(' ', ''), description.replaceAll(' ', ''));
+  assert.ok(lines.every((line) => width(line) <= maxWidth), JSON.stringify(lines.map((line) => [line, width(line)])));
+  assert.ok(lines.every((line) => !/^[，。！？：；、）】」』〕〉〗〙〛…％‰℃”’"'!?.,:;%)\]}]/u.test(line)));
+});
+
+test('无法断开的超宽英文词会触发硬错误', () => {
+  assert.throws(() => wrapText('unbreakable', 30, width), /OG-TEXT-LINE-OVERFLOW/u);
 });
 
 test('超过最大行数时末行截断并添加省略号', () => {
