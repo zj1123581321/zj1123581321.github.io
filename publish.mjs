@@ -18,6 +18,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { spawnSync } from 'child_process';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -36,12 +37,14 @@ if (fs.existsSync(CONFIG_PATH)) {
 
 // --- 参数解析 ---
 const args = process.argv.slice(2);
-if (args.length < 1) {
-  console.log('用法: node publish.mjs <markdown文件路径> [slug]');
+const noEn = args.includes('--no-en');
+const positional = args.filter((a) => a !== '--no-en');
+if (positional.length < 1) {
+  console.log('用法: node publish.mjs <markdown文件路径> [slug] [--no-en]');
   process.exit(1);
 }
 
-const sourceFile = path.resolve(args[0]);
+const sourceFile = path.resolve(positional[0]);
 if (!fs.existsSync(sourceFile)) {
   console.error(`错误: 文件不存在 - ${sourceFile}`);
   process.exit(1);
@@ -49,7 +52,7 @@ if (!fs.existsSync(sourceFile)) {
 
 const sourceDir = path.dirname(sourceFile);
 const filename = path.basename(sourceFile, '.md');
-const slug = args[1] || filename.replace(/\s+/g, '-').replace(/-{2,}/g, '-').replace(/^-|-$/g, '').toLowerCase();
+const slug = positional[1] || filename.replace(/\s+/g, '-').replace(/-{2,}/g, '-').replace(/^-|-$/g, '').toLowerCase();
 const postDir = path.join(CONTENT_DIR, slug);
 
 fs.mkdirSync(postDir, { recursive: true });
@@ -226,10 +229,23 @@ if (fs.existsSync(destFile)) {
 // --- 写入文件 ---
 fs.writeFileSync(destFile, content, 'utf-8');
 
+// --- 生成英文草稿（默认；--no-en 跳过） ---
+let enDraftNote = '';
+if (!noEn) {
+  const translateScript = path.join(__dirname, 'tools', 'i18n', 'translate.mjs');
+  console.log('\n生成英文草稿（调用本机 claude 翻译）...');
+  const tr = spawnSync(process.execPath, [translateScript, postDir], { stdio: 'inherit' });
+  if (tr.status !== 0) {
+    console.error(`\n中文已生成，英文失败，可单独重跑: node tools/i18n/translate.mjs content/posts/${slug}`);
+    process.exit(1);
+  }
+  enDraftNote = `  英文草稿: content/posts/${slug}/index.en.md（draft: true，审阅后改为 false）\n`;
+}
+
 console.log(`
 发布完成!
   文章: ${path.join(postDir, 'index.md')}
   图片: ${imgCount} 张已本地化
-
+${enDraftNote}
 部署: git add content/posts/${slug} && git commit -m "post: ${slug}" && git push
 `);
