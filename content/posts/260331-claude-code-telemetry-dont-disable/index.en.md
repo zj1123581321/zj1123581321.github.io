@@ -1,7 +1,7 @@
 ---
 title: "Don't Turn Off Claude Code Telemetry: Why It Makes Your Account More Dangerous, Not Safer"
 date: 2026-03-31
-draft: true
+draft: false
 sourceHash: "sha256:1de3db827aa867c48e13a619ed3ff4130b4af1160a37b7fa5962819377211e3d"
 translatedBy: "claude-cli/sonnet"
 description: "After the Claude Code source code leaked, tutorials for turning off telemetry went viral in the community. But from the standpoint of risk-control logic, turning off telemetry is walking right into the line of fire. This article analyzes why from a risk-control perspective, and what you should actually do."
@@ -12,7 +12,7 @@ description: "After the Claude Code source code leaked, tutorials for turning of
 
 ---
 
-![主图](https://image.178494.xyz/image/2026/04/2225a90f5bcdcfbce89de3aade1606f3.png)
+![Main image](https://image.178494.xyz/image/2026/04/2225a90f5bcdcfbce89de3aade1606f3.png)
 
 ## What happened yesterday
 
