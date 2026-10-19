@@ -1,10 +1,10 @@
 ---
-title: "A Fall Into the Pit, a Gain in Your Wit"
+title: "Every Setback, a Lesson: Context and Loop in the Agent Era"
 date: 2026-10-04
-draft: true
+draft: false
 sourceHash: "sha256:028df6aec84e8d53e0f86da74840f80f874a0f8c18fe8d616a7764a2ec348d57"
 translatedBy: "claude-cli/sonnet"
-description: "If I could only remember two words from the Agent era, I would pick Context and Loop: one determines how well the Agent does this time, the other determines whether it can do better next time. Scheduling Agents should get easier and easier; don't let yourself become the bottleneck of the system."
+description: "If I could only remember two words from the Agent era, I would pick Context and Loop: one determines how well the Agent does this time, the other determines whether it can do better next time. Orchestrating agents should get easier over time; don't let yourself become the bottleneck of the system."
 ---
 *Translated from the [Chinese original](/posts/261004-context-and-loop/).*
 
@@ -33,7 +33,7 @@ The relationship between these two words is the main thread of this post:
 
 Let me start with some concrete numbers. I have a repository called agent-config, which holds the rules and scheduling scripts for all my AI tools. I created it on July 23. Two months later, it has accumulated about 16,000 commits (every change record), more than 1,800 issues (to-dos and problem tickets), and nearly 2,000 merged PRs (change proposals). All of these were submitted by AI. I have not written a single line of code in this repository myself.
 
-I now consume roughly 2 to 3 billion Tokens a day (including cache reads). A few months ago I had to watch things at high frequency, basically staying people in the loop, to sustain about 4 billion a day; now the consumption is the same order of magnitude, yet I spend only a small part of each day on Agents, and it doesn't get in the way of anything else. By feel, **the effort I put in has dropped by an order of magnitude, and each individual project is noticeably less of a worry.**
+I now consume roughly 2 to 3 billion Tokens a day (including cache reads). A few months ago I had to watch things at high frequency, with me still very much in the loop, to sustain about 4 billion a day; now the consumption is the same order of magnitude, yet I spend only a small part of each day on Agents, and it doesn't get in the way of anything else. By feel, **the effort I put in has dropped by an order of magnitude, and each individual project is noticeably less of a worry.**
 
 ![Daily Token throughput from August 1 to October 4: the top half is stacked by Coding Agent, the bottom half by model](images/token-trend.png)
 
@@ -49,7 +49,7 @@ Let's start from Coding. Why was Coding the first scenario where Agents could be
 
 1. **High value**: code is expensive to write, so everything saved is money.
 2. **High-quality, abundant data**: open-source code, documentation, and Q&A give plenty of training data.
-3. **Verification can be closed into a loop**: the code runs, the tests pass, the compiler reports errors.
+3. **You can close the feedback loop through verification**: the code runs, the tests pass, the compiler reports errors.
 
 The second point corresponds to Context, and the third to Loop. Coding happens to satisfy both conditions, so it runs the fastest.
 
@@ -156,7 +156,7 @@ All three paths need an entrance and also an exit — they can grow, and they mu
 
 Let me say a word about Memory specifically.
 
-I now use a great many clients: Claude Code, Codex, Grok, Cursor, Kimi, OpenCode, Pi. In that situation, **you can't depend on any single vendor's built-in memory system**. It's quite likely that Claude finishes a change, hands the implementation to another Agent, and that Agent picks it up without updating Claude's memory. Claude's memory then becomes the place in the whole system that least matches reality.
+I now use a great many clients: Claude Code, Codex, Grok, Cursor, Kimi, OpenCode, Pi. In that situation, **you can't depend on any single vendor's built-in memory system**. Claude may well make its changes and then hand the task off to another Agent to implement, and that Agent won't update Claude's memory. Claude's memory then becomes the place in the whole system that least matches reality.
 
 So on my dev machine I turned off Claude Code's built-in memory and maintain my own. It isn't hard to describe; in essence it follows the same logic as Claude Code's memory: an index directory plus a set of Markdown documents, with additions, updates, and deletions. I constrain it in the global rules so that all Agents maintain it together, and memory flows smoothly between different leads.
 
@@ -221,7 +221,7 @@ But I now **prefer to run the execution tasks for the quotas of Codex, Grok, Kim
 
 The reason is that I added a qualifying condition to "tight coupling": **it applies to hard, open-ended tasks**. In an execution scenario where the lead has already split and arranged the subtasks, I compared the same model with the same context, running on Pi versus its native client, and they are neck and neck.
 
-I just finished a round of comparison today. Same day, same batch of task cards, the same vendor's model run on Pi and on its native client, 12 pairs compared by hand in total:
+I just finished a round of comparison today. Same day, same batch of task cards, the same model run on Pi and on its native client, 12 pairs compared by hand in total:
 
 | Model | Pi wins | Native wins | Conclusion |
 |---|---|---|---|
@@ -235,7 +235,7 @@ An earlier round compared the same DeepSeek model running on Claude Code versus 
 
 The conclusion is very clear: **the gap mainly comes from the context the harness gives the model, not from the model itself.**
 
-And that's Pi's advantage: **it lets you organize the context entirely by yourself**. When other official native harnesses serve as executors, you can't customize the context; they may carry Skills you don't need, and rule files that only the lead side would use. With Pi, I can iterate separately on the context of the executor layer. It completes tasks with quality and quantity, saves Tokens, and the maintenance cost of the executor is also very low.
+And that's Pi's advantage: **it lets you organize the context entirely by yourself**. When other official native harnesses serve as executors, you can't customize the context; they may carry Skills you don't need, and rule files that only the lead side would use. With Pi, I can iterate separately on the context of the executor layer. It delivers the required work to the required standard, saves Tokens, and the maintenance cost of the executor is also very low.
 
 Putting the two rounds together, what I want to emphasize is: **given thorough context constraints, the Flash-tier models that have crossed the baseline complete tasks with about the same quality.** What really opens the gap is the context you give them; and Pi happens to be the shell that makes it easiest for you to control context.
 
@@ -243,7 +243,7 @@ In short: **treat Pi as the subagent of Claude Code and Codex.** In Claude Code 
 
 ## 4. Advisor: Stronger Judgment, Plus a Clean Context
 
-Put nicely, all of these context optimizations are essentially meant to improve task execution quality and reduce the drain on my energy. But objectively, they really are also meant to save Tokens, especially Opus 5.5 quota. Saving to the end, I've started to come up with some "exotic tricks".
+Put nicely, all of these context optimizations are essentially meant to improve task execution quality and reduce the drain on my energy. But objectively, they really are also meant to save Tokens, especially Opus 5.5 quota. I've taken the token saving so far that I've started coming up with some "exotic tricks".
 
 The one I use most frequently now is **Advisor mode**: consulting an advisor.
 
@@ -301,7 +301,7 @@ The experience has been very good. I sampled 21 decision-type consultations: **1
 
 Here are three concrete stories.
 
-**Story one: the advisor recommended giving up, because this card wasn't guarding that bottom line at all.** The decision logic of a merge gate: the executor had fixed it three rounds without converging, and the lead was choosing between two fallback options, ready to enter a fourth round. The advisor's answer was: this card isn't guarding a red line to begin with, and more patching only weakens the red line; take neither fallback option, and drop this version outright. It also pointed out that the problems in all three rounds fell in the same area, because this card had chosen the one path that had to rely on guessing. In the end that PR was closed without merging.
+**Story one: the advisor recommended giving up, because this card wasn't protecting any red line at all.** The decision logic of a merge gate: the executor had fixed it three rounds without converging, and the lead was choosing between two fallback options, ready to enter a fourth round. The advisor's answer was: this card isn't guarding a red line to begin with, and more patching only weakens the red line; take neither fallback option, and drop this version outright. It also pointed out that the problems in all three rounds fell in the same area, because this card had chosen the one path that had to rely on guessing. In the end that PR was closed without merging.
 
 **Story two: the exceptions that were uncertain from a safety standpoint turned out to be exceptions that couldn't be kept at all.** A safety hook that intercepts dangerous commands had a set of "change directory first, then delete" exemption rules, which had been patched for several rounds, and the lead wanted to keep tightening. The advisor first ran a read-only experiment proving that the "change directory" command itself can be quietly rewritten into other behavior, and then gave its conclusion: judging by command text alone, no exemption rule can be proven safe, and the only safe approach is to keep none. The lead adopted it and deleted the whole set of exemptions.
 
@@ -317,7 +317,7 @@ The static Context is basically covered. Now on to dynamic Context, which is the
 
 ### How It Grew Into This
 
-The agent-config repository started only to manage the context described above — syncing rule files and managing Skills. Later it gradually gained the system in which the lead schedules executors, then terminal-badge status monitoring, and later still it evolved into the base repository for all my AI learning.
+The agent-config repository started only to manage the context described above — syncing rule files and managing Skills. Later it gradually gained the system in which the lead schedules executors, then terminal-badge status monitoring, and later still it evolved into the central repository for everything I've learned about AI.
 
 Looking back, its evolution falls into three steps:
 
@@ -349,12 +349,12 @@ My standard for closing a lesson ticket is just one question: **can this pitfall
 
 Let me walk through a few concrete pitfalls to get a feel for what "a fall into the pit, a gain in wit" looks like in engineering:
 
-- **Tests hit production.** When an executor created an isolated working directory, it copied only the outermost config file, the config in deeper directories was missing, and the program quietly used default values — it connected to the real production environment, with no error at all. Later, creating the working directory was made into a script that automatically links every layer of config, and neither humans nor Agents create them by hand anymore.
+- **Tests hit production.** When an executor created an isolated working directory, it copied config files only from the top-level directory, the config in deeper directories was missing, and the program quietly used default values — it connected to the real production environment, with no error at all. Later, creating the working directory was made into a script that automatically links every layer of config, and neither humans nor Agents create them by hand anymore.
 - **The push succeeded, and was pushed twice more.** To look at fewer lines of output, Agents habitually trim command results. The trimming lost the "failure" signal; another time it was the reverse, a successful push was displayed as failed and pushed again for two more rounds. A rule was set afterward: to confirm whether code was uploaded, always ask the remote server, and don't trust the local display.
 - **The executor dispatched the work back to itself.** A task card forgot to say "you are the one doing the work, don't dispatch to anyone else". The executor read the dispatch manual meant only for the lead, dispatched the task out again, spun for 90 minutes with zero output. Later the task card template was made to force-include a role declaration, and the lead's section was stripped from the rules the executor receives.
 - **Checking one switch cost tens of thousands of Tokens.** The lead merely wanted to confirm whether a service was running, used a command that prints out the entire task card, and tens of thousands of Tokens poured into the context just like that. This is an example where Context and Loop meet: context waste, too, can only be discovered through review.
 
-So you should cherish the mistakes you make during development. Dispatch another Agent to read the work log and judge why it made that mistake at the time; accumulate what should be accumulated, and later handle it uniformly from first principles. Objectively, this too is a way of being glad to hear of your faults.
+So you should cherish the mistakes you make during development. Dispatch another Agent to read the work log and judge why it made that mistake at the time; accumulate what should be accumulated, and later handle it uniformly from first principles. Objectively, this too is a way of learning to welcome news of your mistakes.
 
 ### Better in Code Than in Prompts
 
@@ -396,15 +396,15 @@ The role of the gate is to chain the first two tiers together, merge only when a
 
 These verification channels send feedback back to the Agent, so it immediately knows whether the code it wrote has problems and where they are. When a bug appears in production, after fixing it you also need to trace back: why did it happen then? How do we avoid it next time? That also forms a Loop.
 
-### Choosing a Language: A Cross-Shaped Coordinate
+### Choosing a Language: A Two-Axis Framework
 
 A clear change for me recently is that I no longer care much what language is underneath. I have Go, Java, and Python projects at the same time. As long as you have some basic programming sense, with AI, in principle any language is fine. At this point in time, writing a feature or a module is no longer hard, but software engineering — managing complexity — is long-lived.
 
 In the past, the most important axis in choosing a language was **the cost of a human writing code**: Python is simple, Rust is complex, so everyone picked what they were good at and found comfortable. That axis matters less now, because it isn't you writing the code.
 
-The way I now choose the underlying language is a cross-shaped coordinate:
+The way I now choose the underlying language is a two-axis framework:
 
-![A cross-shaped coordinate for choosing the underlying language: the vertical axis is degree of automatic verifiability, the horizontal axis is fit with the domain ecosystem](images/d5b-language-axes.png)
+![A two-axis framework for choosing the underlying language: the vertical axis is degree of automatic verifiability, the horizontal axis is fit with the domain ecosystem](images/d5b-language-axes.png)
 
 - **Vertical axis: degree of automatic verifiability**, i.e. how friendly the language is to Agents. Rust is the most typical case, where many errors simply won't compile, so the Agent knows immediately when it writes something wrong and can fix it right away; Go and Java come next; Python further back, depending more on tests you add yourself.
 - **Horizontal axis: fit with the domain ecosystem**, i.e. what the business actually needs. For simple scripts and scaffolding, Python's ecosystem fits best; for high-performance services, you have to look at Go and Rust.
@@ -490,7 +490,7 @@ My current focus is just three directions: **first, scheduling**, letting the le
 
 The reason I say these are the two most important words of the whole Agent era is that they aren't limited to Coding. **Any environment an Agent wants to enter ultimately comes down to these two points: is there sufficient Context, and can a Loop form.**
 
-In [An Old Tree Blooms Anew](../260908-smb-agent-framework/) I discussed three levels of an AI Native organization: whether the organization is **readable** to AI (AI can get the material), **writable** (AI is allowed to change the records in the system), and **closeable-loop** (after a change, it can automatically judge right from wrong and record the errors). Seen in terms of Coding, a code repository is a simple, miniature organization.
+In [An Old Tree Blooms Anew](../260908-smb-agent-framework/) I discussed three levels of an AI Native organization: whether the organization is **readable** to AI (AI can get the material), **writable** (AI is allowed to change the records in the system), and **loop-closable** (after a change, it can automatically judge right from wrong and record the errors). Seen in terms of Coding, a code repository is a simple, miniature organization.
 
 ### Learning Itself Is Also a Loop
 
@@ -511,7 +511,7 @@ Normally, at least in engineering, you should feel more and more relaxed as you 
 If I had to summarize the change of these two months in one sentence, it would be: **from people in the loop, to people out of the loop.**
 
 - **People in the loop**: every step needs a human to look, judge, and decide. The "watching at high frequency to sustain 4 billion Tokens a day" I mentioned at the start was this stage. The human is the slowest link in the whole loop, and how fast the loop turns depends on how long you can stay awake watching each day.
-- **People out of the loop**: the human does only two things: define "what counts as done right", and show up when the system truly needs a decision. All the rest — dispatching, executing, verifying, reviewing, settling lessons — turns by itself inside the loop.
+- **People out of the loop**: the human does only two things: define "what counts as done right", and show up when the system truly needs a decision. All the rest — dispatching, executing, verifying, reviewing, capturing lessons learned — turns by itself inside the loop.
 
 Going from inside the loop to outside it doesn't rely on a stronger model, but on the two things this post covers: **Context means the Agent doesn't need a human beside it to explain, and Loop means the Agent doesn't need a human beside it to correct.** Without the former, you have to keep supplying background; without the latter, you have to keep checking results — missing either one, the human can't get out of the loop.
 
@@ -526,7 +526,7 @@ What gets you there is these two words:
 
 The early stage may be bumpy, but as the Loop turns, you basically won't let the same mistake happen a second time, and will only meet new, unexpected problems — that's fine, there are plenty of logs to investigate with, and then you accumulate more. **The further back the human steps, the faster this Loop turns, and the faster your ability to schedule Agents grows.**
 
-A fall into the pit, a gain in your wit. As long as that fall was recorded.
+Every setback can teach you something — as long as you record it.
 
 That's all — just one person's view, and not necessarily right. I hope it helps.
 
