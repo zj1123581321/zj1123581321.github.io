@@ -1,7 +1,7 @@
 ---
-title: "Musings on AI: How It Reshapes Our Lives, Our Relationships, and What It Means to Be Valuable"
+title: "Days Spent Running Ahead of the Bear: A Few Musings on the AI Era"
 date: 2026-03-15
-draft: true
+draft: false
 sourceHash: "sha256:91c944f99c2b6b4e285addfde613a4fbce35954cd5b0d9fdca62228204afd1f5"
 translatedBy: "claude-cli/sonnet"
 ---
@@ -35,7 +35,7 @@ Along the way I went through Claude Sonnet 3.5 → 3.7 → 4 → Sonnet 4.5 → 
 
 The arrival of Skill (you can think of it as a set of best-practice templates for AI) also lets a lot of engineering experience be quickly accumulated and reused. The model gets better and better at adapting to your workflow and makes fewer and fewer mistakes.
 
-As an experience, this process of building is far more fun than games, and much easier to get addicted to. The saying "someone wants it, someone gets it" is exactly this fast. It's very easy to slip into a flow state, which leaves me going to bed late every night: I always want to chat with the AI a bit longer, and have it handle a few more things for me overnight.
+As an experience, this process of building is far more fun than games, and much easier to get addicted to. You think of something you want, and the AI can make it happen almost immediately. It's very easy to slip into a flow state, which leaves me going to bed late every night: I always want to chat with the AI a bit longer, and have it handle a few more things for me overnight.
 
 You can also run multiple processes in parallel, on one project or several. For an individual, efficiency can go up by dozens of times.
 
@@ -45,7 +45,7 @@ At first, this efficiency gain brought a very real sense of delight: this is an 
 
 This thing is evolving a little too fast. For anything with clear context, a well-defined goal, and verifiable results, it's only a matter of time before these agents replace humans. Even if they can't do it now, they surely will after a while.
 
-The scariest part is that it can bootstrap itself, lifting itself up by its own bootstraps ("left foot stepping on the right foot"). A lot of OpenAI's and Anthropic's own software is already being written and iterated on with heavy AI involvement, and even training the next generation of models will involve AI itself. In other words, **the pace of AI's evolution is itself accelerating**. You think you're chasing a car moving at constant speed, but it's actually accelerating.
+The scariest part is that it can improve itself in a feedback loop. A lot of OpenAI's and Anthropic's own software is already being written and iterated on with heavy AI involvement, and even training the next generation of models will involve AI itself. In other words, **the pace of AI's evolution is itself accelerating**. You think you're chasing a car moving at constant speed, but it's actually accelerating.
 
 And isn't that exactly what a lot of white-collar workers do?
 
@@ -92,7 +92,7 @@ On this topic, I had a fairly in-depth conversation with Gemini. It helped me di
 |**Stage 3: Consumption and distribution crisis**|Productivity closes the loop (AI + robots); labor is no longer the only path to resources.|Nobody / quota recipient|2032 - 2045|Legitimacy crisis: when the masses can neither produce nor consume, the social contract collapses|
 |**Stage 4: Intelligence surpassing (the singularity)**|AI surpasses humans across the board. AI begins to restructure the physical world according to its own logic.|Pet / bonsai|2045+|Survival boundary: AI's "being nice to you" may lead to the biological degeneration of humans|
 
-Of course, this timeline is rough, and exactly how fast things go is hard to say. AI has already reached the front lines of scientific research. How much it helps scientific progress overall, and just how fierce this "left foot stepping on the right foot" acceleration will be, nobody can say for sure. Honestly, I don't know. All we can do, from the standpoint of our own development, is prepare as much as possible for the optimistic direction.
+Of course, this timeline is rough, and exactly how fast things go is hard to say. AI has already reached the front lines of scientific research. How much it helps scientific progress overall, and just how powerful this self-reinforcing acceleration will be, nobody can say for sure. Honestly, I don't know. All we can do, from the standpoint of our own development, is prepare as much as possible for the optimistic direction.
 
 > **Comment from Claude Opus 4.6:**
 >
@@ -144,13 +144,13 @@ There's a view out there: people who use AI first will eliminate people who don'
 
 But what I want to say is that "using AI" here can mean completely different things in different people's eyes.
 
-Many people think of combining themselves with AI to become a more efficient tool: AI helps me write code faster, make PPTs faster, process data faster. There's nothing wrong with that, but it still essentially positions yourself as an "executor," just a faster one. The problem is that **when it comes to execution efficiency, no one can beat AI itself**. However fast you are, you won't be faster than it.
+Many people want AI to make them more efficient at execution: write code faster, make presentations faster, process data faster. There's nothing wrong with that, but it still essentially positions you as an "executor," just a faster one. The problem is that **when it comes to execution efficiency, no one can beat AI itself**. However fast you are, you won't be faster than it.
 
-So what I want to say is closer to "a gentleman is not a vessel" (君子不器): **don't treat yourself as a tool; be the one who decides "what tool should be built."**
+So what I want to say is closer to the old saying, "A person of virtue is no mere tool": **don't treat yourself as a tool; be the one who decides what should be built.**
 
-Teacher Xifeng once said something I strongly agree with: **historically, "knowing what to do" has always mattered more than "knowing how to do it."** Which problems are worth solving? Which direction is worth investing in? These judgments require a comprehensive sense of human nature, the market, and timing, which is the founder's most essential quality. And as AI and robots develop, "how to do it" is being rapidly leveled out, so this statement has become more important than ever.
+Xifeng once said something I strongly agree with: **historically, "knowing what to do" has always mattered more than "knowing how to do it."** Which problems are worth solving? Which direction is worth investing in? These judgments require a comprehensive sense of human nature, the market, and timing, which is the founder's most essential quality. And as AI and robots develop, "how to do it" is being rapidly leveled out, so this statement has become more important than ever.
 
-Moreover, AI is not an ordinary tool. In history, no tool could autonomously call other tools, or even write tools itself. And even for problems it can't solve on its own, humans will help it create tools to solve them: the so-called "cyber guides" (赛博带路党). So from this angle, you have to see it one dimension up: treat it as your team, not as the hammer in your hand.
+Moreover, AI is not an ordinary tool. In history, no tool could autonomously call other tools, or even write tools itself. And even for problems it can't solve on its own, humans will help it create tools to solve them: the so-called "cyber guides." So step back and look at it from a higher level: treat it as your team, not as the hammer in your hand.
 
 The arrival of AI will objectively eat away the middle layer and force you toward the two ends. Either you are the one at the very source who wants to solve problems, a founder or partner with an Agent army serving you. Or you are the one on the very front line, the person who can sell the product. Because in an era where neither physical strength nor intelligence is scarce, productivity is bound to flourish enormously, and **the value of production is far lower than the value of sales**.
 
@@ -168,7 +168,7 @@ In the window in between, the middle layer can of course use AI to boost efficie
 
 This leads to a rather interesting thought.
 
-We know that LLM training relies on data that humans have made public and that can be crawled. But in fact, this data on the open web accounts for less than 5% of all human data. A very large share of the data lives in the "dark web" (not in the criminal sense, but in the sense of hidden): it may require paid access, it may be in your friends' circles, it may be in a company's internal databases.
+We know that LLM training relies on data that humans have made public and that can be crawled. But in fact, this data on the open web accounts for less than 5% of all human data. A very large share is hidden away (the "dark web"): it may require paid access, live in your social circle, or sit in a company's internal database.
 
 For today's AI, if you talk to it and have it solve real problems, the factors that determine the quality of its answers come down mainly to two: the capability of the model itself, and the data resources it draws on while answering. This is also why Xiaohongshu's "Dian Dian" isn't necessarily that strong in model capability, yet with a massive volume of real user notes behind it, the travel guides it generates are more authentic and useful than what you'd get from other AI.
 
@@ -186,7 +186,7 @@ From another angle, though, nothing is ever a once-and-for-all arrangement. Seen
 >
 > The judgment of many seasoned industry hands comes from bodily memory, intuition, and reflexive responses in specific environments; what you can write down is only the tip of the iceberg. Take the "feel" of a veteran practitioner of traditional Chinese medicine taking a pulse after 30 years: even if you had them dictate a hundred thousand words, they couldn't make it clear.
 >
-> If part of dark knowledge is structurally impossible to digitize, then "humans are fuel for AI" isn't the whole picture. Humans are more like **living veins of ore that keep producing new fuel**. This distinction matters: the former means use it up and throw it away, the latter means continuing value.
+> If part of dark knowledge is structurally impossible to digitize, then "humans are fuel for AI" isn't the whole picture. Humans are more like **living mines that keep producing new fuel**. This distinction matters: the former means use it up and throw it away, the latter means continuing value.
 >
 > The author's response is: dark knowledge that is deeply embedded in the physical world (like the tactile sense of traditional Chinese medicine) really is hard to digitize, and the physical world itself is a kind of barrier. But for work done entirely within the world of bits, from receiving information to verifying feedback, AI can obtain the data and verify the results on its own, and being distilled is only a matter of time.
 >
@@ -194,13 +194,13 @@ From another angle, though, nothing is ever a once-and-for-all arrangement. Seen
 
 Here's a somewhat pessimistic expectation: the number of people willing to come forward and share this kind of dark knowledge will probably keep shrinking, because its scarcity value keeps rising.
 
-Incidentally, locally deployed LLMs should still have a hard demand in the future: some data you don't want anyone to see, much less have used for training.
+Incidentally, there should still be a real need for locally deployed LLMs in the future: some data you don't want anyone to see, much less have used for training.
 
 ### Humans are the bottleneck: from conversation to Harness
 
 I believe I'm not the only one with this experience: normally I have three or four tabs open, even three or four projects, talking with Coding Agents like Claude Code at the same time. You quickly find that going back and forth in conversation is just too slow. The single-point bottleneck in the whole system becomes the human. Human information bandwidth is really low, and there are strange problems like limited attention too.
 
-So it's natural to wonder: could humans be responsible only for setting direction and goals, with AI handling all the execution along the way, and humans doing only the final acceptance? As for the collaboration among multiple Agents in between, that would be their own business, with no human participation needed. This is what the industry calls Harness Engineering. Put simply, you don't write code; you just direct a group of AIs to do the work. The end result is that humans don't need to care about a single line of underlying code, 100% of the code is generated by Agents, and when something breaks it tries to debug and fix itself, running independently of humans.
+So it's natural to wonder: could humans be responsible only for setting direction and goals, with AI handling all the execution along the way, and humans doing only the final review? As for the collaboration among multiple Agents in between, that would be their own business, with no human participation needed. This is what the industry calls Harness Engineering. Put simply, you don't write code; you just direct a group of AIs to do the work. The end result is that humans don't need to care about a single line of underlying code, 100% of the code is generated by Agents, and when something breaks it tries to debug and fix itself, running independently of humans.
 
 In a way, I think this is quite similar to the logic of how a person grows into a company. In the early days, a lot has to be done personally, but as the project scales up, you're forced to introduce an organizational structure to control complexity. In the end, all you do is set a big direction and provide resources, leaving the execution layer entirely to those below you. It's just that now the "people" below are Agents.
 
@@ -216,7 +216,7 @@ But fortunately, once the anxiety reached its extreme, I actually relaxed.
 
 Because I had overlooked one thing: I can't change this. As for the overall trend, the only thing I can change is myself. The trend is no longer something any human can change, in fact. Even the very top researchers can only change the speed of the trend, not its direction.
 
-The Way of heaven is constant; it does not exist for Yao, nor perish for Jie. (天道有常，不为尧存，不为舜亡。)
+The Way of Heaven is constant: it does not exist because of Yao, nor perish because of Shun. (天道有常，不为尧存，不为舜亡。)
 
 Whether from the standpoint of individuals, companies, or countries, we are all inside a game of competition. No one can accept falling behind and handing their fate to someone else to decide, given the consequences.
 
@@ -244,7 +244,7 @@ As for things further out, I'll be frank: I can't see clearly. Because if the re
 
 But right now, and for some time to come, this really is a very good window of opportunity. Execution costs have basically dropped to zero. Whole industries and countless opportunities are beckoning to our generation. The excuse of "everything is ready, we just need a programmer" no longer exists.
 
-Here's a chart (from Teacher Ruan Yifeng's weekly newsletter) to get an intuitive feel:
+Here's a chart (from Ruan Yifeng's weekly newsletter) to get an intuitive feel:
 
 ![AI 使用分布图](AI-使用分布图.jpg)
 
@@ -272,17 +272,17 @@ The discussion here is limited to the premise that human society still exists. O
 
 ### The baseline: no matter what
 
-**First, take care of your body.** At the current pace of AI plus biological science, technological progress over the next 5 to 10 years may equal that of the past several hundred years. Many diseases that couldn't be cured before may well have new solutions. It's like how, after AlphaGo defeated Lee Sedol, it iterated its way to many game records that humans couldn't understand. By now, no human can match AI's understanding of underlying protein structures. At this "left foot stepping on the right foot" speed, how the life sciences will look in the future is truly unknowable. So don't fall behind at this critical juncture.
+**First, take care of your body.** At the current pace of AI plus biological science, technological progress over the next 5 to 10 years may equal that of the past several hundred years. Many diseases that couldn't be cured before may well have new solutions. It's like how, after AlphaGo defeated Lee Sedol, it went on to develop many moves that human players couldn't understand. By now, no human can match AI's understanding of underlying protein structures. At this self-accelerating pace, the future of the life sciences is truly unknowable. So don't fall behind at this critical juncture.
 
 **Second, cherish your family and friends.** AI has no emotions; humans do. Even though objectively I spend far more time every day chatting with AI than with humans, the more I chat, the more I feel an urgent need for an emotional anchor in the physical world. That anchor is often given by family and friends. The flow and transmission of love is indeed one of AI's shortcomings right now.
 
 ### The strategy: if you still want a high score in this game
 
-**Third, experience more and earn more.** I truly believe we may be living in a simulation. Since there's an endgame, the differences between people are only differences in experience. Money is essentially the game currency of this world: you can exchange it for more experience tickets. The sweet and sour, bitter and spicy, love and hate are all worth experiencing. These things make a person live more truly. Many experiences really are gone once missed: as you grow and your state of mind shifts, many things can never come back.
+**Third, experience more and earn more.** I truly believe we may be living in a simulation. Since there's an endgame, the differences between people are only differences in experience. Money is essentially the game currency of this world: you can exchange it for more experience tickets. Every kind of joy and hardship, love and heartache, is worth experiencing. These things make a person feel more alive. Many experiences really are gone once missed: as you grow and your state of mind shifts, many things can never come back.
 
-So earning money and gaining experiences aren't contradictory. At least in this world right now, money is largely a voucher for experiences. And AI happens to be the biggest lever for prying open wealth.
+So earning money and gaining experiences aren't contradictory. At least in this world right now, money is largely a voucher for experiences. And AI happens to be the biggest lever you can use to build wealth.
 
-**Fourth, talk with AI more.** For everything, first ask yourself: can I bring in AI to help me solve this? Or simply give AI richer context to have it judge what's worth bringing AI into. Because, as I said above, this really is a race, and you'd still like to run a bit faster than others. The gap that this level of leverage opens up is terrifying.
+**Fourth, talk with AI more.** For everything, first ask yourself: can AI help me solve this? Or give it more context and let it judge where AI could help. Because, as I said above, this really is a race, and you'd still like to run a bit faster than others. The gap that this level of leverage opens up is terrifying.
 
 All people are born equal, but some are always more equal than others. As long as human society still exists, there will objectively be a demand for ranking. Find it, and satisfy it. The grand stage of humanity is open: come on up if you dare.
 
@@ -290,7 +290,7 @@ All people are born equal, but some are always more equal than others. As long a
 
 ## A Final Word
 
-Some time ago I went to see Chen Jingfei's live house show, which should be the pinnacle of live houses in China. I think one passage from her talk is a fitting ending for this whole article, so I'll share it with everyone.
+Some time ago I went to see Chen Jingfei perform at what may be China's best live music venue. I think one passage from her talk is a fitting ending for this whole article, so I'll share it with everyone.
 
 > What I've been realizing more and more, especially since this year, is that we know AI is about to rule over us carbon-based lifeforms. So I've realized that the one last thing left for us carbon-based lifeforms, for humans, is to imagine to our heart's content, dream to our heart's content, experience to our heart's content, feel to our heart's content.
 >
@@ -298,7 +298,7 @@ Some time ago I went to see Chen Jingfei's live house show, which should be the 
 >
 > I hope that in this game of life, this illusory dream, this experience, you'll remember: **you are always the one and only director, screenwriter, and actor, and you can rewrite your script at any time.**
 >
-> — Chen Jingfei, live at the Live House
+> — Chen Jingfei, live onstage
 
 [Video attached]
 
