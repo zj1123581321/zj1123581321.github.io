@@ -16,7 +16,7 @@ node publish.mjs "path/to/你的文章.md"
 node publish.mjs "path/to/你的文章.md" my-custom-slug
 
 # 2. 提交并推送，GitHub Actions 会自动构建部署
-git add -A
+git add content/posts/<slug>
 git commit -m "post: 文章标题"
 git push
 ```

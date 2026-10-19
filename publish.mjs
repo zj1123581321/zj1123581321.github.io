@@ -132,6 +132,62 @@ if (localImages.length > 0) {
   }
 }
 
+const SIMPLE_FRONTMATTER_LINE = /^([A-Za-z_][A-Za-z0-9_-]*):(.*)$/;
+
+function failUnparseableFrontmatter(filePath) {
+  console.error(`PUBLISH-FRONTMATTER-UNPARSEABLE ${filePath}`);
+  process.exit(1);
+}
+
+function parseSimpleFrontmatter(text, filePath) {
+  const lines = text.split('\n');
+  if (lines[0] !== '---') {
+    failUnparseableFrontmatter(filePath);
+  }
+  const entries = [];
+  let closeAt = -1;
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i].replace(/\r$/, '');
+    if (line === '---') {
+      closeAt = i;
+      break;
+    }
+    if (line === '') {
+      continue;
+    }
+    const match = SIMPLE_FRONTMATTER_LINE.exec(line);
+    if (!match) {
+      failUnparseableFrontmatter(filePath);
+    }
+    entries.push({ key: match[1], rawLine: line });
+  }
+  if (closeAt < 0) {
+    failUnparseableFrontmatter(filePath);
+  }
+  const body = lines.slice(closeAt + 1).join('\n');
+  return { entries, body };
+}
+
+function mergeExistingFrontmatter(existingText, generatedText, filePath) {
+  const existing = parseSimpleFrontmatter(existingText, filePath);
+  const generated = parseSimpleFrontmatter(generatedText, filePath);
+  const generatedKeys = new Set(generated.entries.map((entry) => entry.key));
+  const extraLines = [];
+  const extraSeen = new Set();
+  for (const entry of existing.entries) {
+    if (generatedKeys.has(entry.key) || extraSeen.has(entry.key)) {
+      continue;
+    }
+    extraSeen.add(entry.key);
+    extraLines.push(entry.rawLine);
+  }
+  const fmLines = [
+    ...generated.entries.map((entry) => entry.rawLine),
+    ...extraLines,
+  ];
+  return `---\n${fmLines.join('\n')}\n---\n${generated.body}`;
+}
+
 // --- 处理 frontmatter ---
 if (!content.trimStart().startsWith('---')) {
   // 提取第一个 # 标题
@@ -162,13 +218,18 @@ draft: false
   content = frontmatter + '\n\n' + content;
 }
 
+const destFile = path.join(postDir, 'index.md');
+if (fs.existsSync(destFile)) {
+  content = mergeExistingFrontmatter(fs.readFileSync(destFile, 'utf-8'), content, destFile);
+}
+
 // --- 写入文件 ---
-fs.writeFileSync(path.join(postDir, 'index.md'), content, 'utf-8');
+fs.writeFileSync(destFile, content, 'utf-8');
 
 console.log(`
 发布完成!
   文章: ${path.join(postDir, 'index.md')}
   图片: ${imgCount} 张已本地化
 
-部署: git add -A && git commit -m "post: ${slug}" && git push
+部署: git add content/posts/${slug} && git commit -m "post: ${slug}" && git push
 `);
