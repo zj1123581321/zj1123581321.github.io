@@ -1,20 +1,20 @@
 ---
 title: "My Hardware, My Rules: Customizing Your Phone on Demand in the AI Era"
 date: 2026-04-06
-draft: true
+draft: false
 sourceHash: "sha256:78669654020779fcec2f96047da4c9b3475eb9a5eee1a6bfc44f33f60ce94dc1"
 translatedBy: "claude-cli/sonnet"
 description: "A hands-on look at 5 Root modules: not a tutorial on installing plugins, but a demonstration of what an individual can do in the AI era once they have low-level access."
 ---
 *Translated from the [Chinese original](/posts/260406-root-modules-and-hardware-freedom/).*
 
-<!-- 封面图 prompt for Nano Banana Pro:
+<!-- Cover image prompt for Nano Banana Pro:
 A smartphone floating in mid-air with its back panel opened like a door, revealing glowing circuit boards and neural network patterns inside. A small robotic arm (representing AI) reaches into the phone, rewiring and customizing the circuits. Around the phone, holographic UI panels and code snippets float in the air. The scene has a cyberpunk aesthetic with warm orange and cool blue lighting contrast. Isometric perspective, clean minimal background with subtle grid lines. Digital illustration style, high detail.
 -->
 
 ![My Hardware, My Rules: Customizing Your Phone on Demand in the AI Era](image.png)
 
-In the previous post, [*The Agent's Home: A Hardware Foundation for Individuals in the AI Era*](/posts/260329-ai-hardware-data-security/), I mentioned one idea: **in the AI era, it's worth owning a rooted phone.** I gave four reasons at the time, but didn't expand on them.
+In the previous post, [*The Agent's Home: A Hardware Foundation for Individuals in the AI Era*](/en/posts/260329-ai-hardware-data-security/), I mentioned one idea: **in the AI era, it's worth owning a rooted phone.** I gave four reasons at the time, but didn't expand on them.
 
 This post is that expansion.
 
@@ -30,7 +30,7 @@ This post gets a bit geeky. If concepts like Root and Xposed are completely fore
 
 ### The Problem
 
-In an earlier post, [*The Tools I Grew with AI*](/posts/260220-ai-时代的自用软件工具分享-正文稿/), I shared my [Memo](https://github.com/usememos/memos) note-taking system — through Feishu/WeCom/Telegram bots, I can send ideas to a bot anytime, anywhere, which are automatically saved into Memo and trigger AI post-processing.
+In an earlier post, [*The Tools I Grew with AI*](/en/posts/260220-ai-时代的自用软件工具分享-正文稿/), I shared my [Memo](https://github.com/usememos/memos) note-taking system — through Feishu/WeCom/Telegram bots, I can send ideas to a bot anytime, anywhere, which are automatically saved into Memo and trigger AI post-processing.
 
 This setup works very well, but one step has never been smooth enough: **how fast I can capture a fleeting thought.**
 
@@ -54,7 +54,7 @@ The whole process was very smooth. I basically never had to dig through complica
 
 ![FodQuickAction configuration screen](fodquickaction-config.png)
 
-<!-- TODO: 插入 FodQuickAction 演示视频 -->
+<!-- TODO: Insert the FodQuickAction demo video -->
 
 > Open source: [FodQuickAction](https://github.com/zj1123581321/FodQuickAction) — supports customizing the 5 fingerprint quick-action slots on Xiaomi HyperOS, and can point to any APP, deep link, or Tasker task.
 
@@ -98,7 +98,7 @@ VideoSpeed solves exactly this: **it sets a default playback speed for 13+ APPs,
 
 ### 2.3 ClipboardWhitelist — Restoring Background Clipboard Access
 
-**What problem it solves:** Starting with Android 10, the system forbids APPs from reading the clipboard in the background. The intent was to protect privacy, but for automation tools that depend on the clipboard it's catastrophic. For example, I'm a heavy [Tasker](https://tasker.joaoapps.com/) user, and a lot of my automations are triggered by "watching for clipboard changes" — copy a link and it automatically calls [the tool I shared earlier](https://zj1123581321.com/posts/260220-ai-时代的自用软件工具分享-正文稿/) to summarize audio/video, or clips it to Obsidian in one tap. After Android 10, all of these broke.
+**What problem it solves:** Starting with Android 10, the system forbids APPs from reading the clipboard in the background. The intent was to protect privacy, but for automation tools that depend on the clipboard it's catastrophic. For example, I'm a heavy [Tasker](https://tasker.joaoapps.com/) user, and a lot of my automations are triggered by "watching for clipboard changes" — copy a link and it automatically calls [the tool I shared earlier](/en/posts/260220-ai-时代的自用软件工具分享-正文稿/) to summarize audio/video, or clips it to Obsidian in one tap. After Android 10, all of these broke.
 
 ClipboardWhitelist's approach is simple: **you specify which APPs may access the clipboard in the background, while all others remain restricted by the system.** It doesn't give up privacy entirely, yet lets your automation tools work normally.
 
