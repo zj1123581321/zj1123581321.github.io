@@ -1,7 +1,7 @@
 ---
 title: "How I Built My AI Hardware Stack: Devices, Data Safety, and Where the Hardware Market Is Heading"
 date: 2026-03-29
-draft: true
+draft: false
 sourceHash: "sha256:aac68669dc4cdcd4686686c7009aef397d12cc4ddc989552719b86a836b72187"
 translatedBy: "claude-cli/sonnet"
 description: "One ordinary person's AI hardware practice: device choices, data safety, hardware market trends, and a bit of dark humor."
@@ -12,7 +12,7 @@ description: "One ordinary person's AI hardware practice: device choices, data s
 >
 > This post gets a bit geeky. I actually wanted to write it a long time ago and put it off for almost a month, and in that month hardware prices went up quite a bit more.
 
-![硬件全景](hardware-overview.png)
+![Overview of my hardware setup](hardware-overview.png)
 
 ## 1. My Hardware Landscape
 
@@ -176,7 +176,7 @@ Every device's gateway points to it, so traffic routing for different sites is m
 
 #### Doubao Phone
 
-I bought it mainly because I find it very **commemorative**: it shows what an Agent can do on a phone. Even though things have stalled now over conflicts of interest, I still admire the product.
+I bought it mainly because it feels like a meaningful keepsake: it shows what an Agent can do on a phone. Even though things have stalled now over conflicts of interest, I still admire the product.
 
 That said, honestly, if you use it for Chinese apps, it's basically useless. Taobao and Xiaohongshu get forcibly logged out all the time, because the risk control is simple: they handle it uniformly by phone model. Apart from ByteDance apps, which run smoothly, everything else is a real hassle, and the Doubao assistant can't operate non-ByteDance apps either.
 
@@ -234,7 +234,7 @@ In essence, the iPad mini's role may be taken over by a foldable phone in the fu
 
 I now wear a Feishu Recording Bean around my neck, and my last few posts were written with it. I really like this form factor.
 
-![挂脖子很方便](feishu-green-bean.png)
+![Easy to wear around the neck](feishu-green-bean.png)
 
 I weighed this choice carefully. Something like Plaud, which sticks to the back of the phone, doesn't suit me. For one thing, I'm not an iPhone user, so I have no need for magnets, and for another, I don't like bulky things. What I ultimately cared about most was **the ability to sync files automatically and seamlessly to Feishu Minutes.**
 
@@ -250,9 +250,9 @@ This experience is better than a voice input method. For one thing, you don't ha
 
 **Especially now that Feishu has gone fully CLI**, I can fetch Minutes directly from the command line and keep chatting with Claude Code, with the whole process automated. Earlier products simply couldn't substitute for this experience.
 
-![这篇文章就用了 飞书 CLI 的能力。省去了我打开网页，导出原始记录的操作。](feishu-cli-workflow.png)
+![This post used the Feishu CLI, so I didn't need to open the webpage and export the original transcript.](feishu-cli-workflow.png)
 
-The hardware is 899 RMB and includes six months of membership (smart summary quota and voice transcription hours). Renewal is 69 RMB a month, not expensive. But that's not what I really care about, because locally I have full automation for turning audio and video into text and calling large models to summarize. **The capability I lack in this era is precisely hardware capability**: I can't build a device this small that can still automatically sync finished recordings to a server. That is the core selling point of the Feishu Recording Bean for me.
+The hardware is 899 RMB and includes six months of membership (smart summary quota and voice transcription hours). Renewal is 69 RMB a month, not expensive. But that's not what I really care about, because locally I have full automation for turning audio and video into text and calling large models to summarize. **What I lack in this era is the ability to build hardware**: I can't make a device this small that automatically syncs finished recordings to a server. That's the Feishu Recording Bean's core selling point for me.
 
 It's tiny and hangs around the neck like a necklace. I never leave home without it.
 
@@ -268,7 +268,7 @@ That's basically a Jarvis-style experience: issue commands through earbuds or gl
 
 But my problem now is that I'm **running out of body parts**. I have the Recording Bean, the glasses, and AirPods, and there's really no room to carry a separate pair of earbuds. So I'm looking forward to Doubao's smart glasses, which would be perfect.
 
-#### The Pain Point of Random Murmurs: Currently Unsolved
+#### Capturing Passing Thoughts: Still Unsolved
 
 In the AI era, voice input is basically a must. At work I capture audio with a DJI microphone and pair it with the Doubao desktop input method, and the experience is very good.
 
@@ -290,7 +290,7 @@ So for now I've shelved this. If there's a good solution, it could connect to my
 
 This is a smart guitar, and a foolproof one. You just follow the keys on the score on your phone screen and press whichever light is on. There's almost no barrier to getting started.
 
-In the AI era, a large part of every day is spent chatting with AI. AI is patient, knowledgeable, and gives emotional value. Apart from lacking a physical body, it's genuinely hard for humans to compare. But after chatting for a long time you start to feel a bit lonely, because a physical body and the real touch of an embrace are still different.
+In the AI era, a large part of every day is spent chatting with AI. AI is patient, knowledgeable, and offers emotional support. Aside from not having a physical body, it can be hard for humans to compete. But after chatting for a long time you start to feel a bit lonely, because a physical body and the real touch of an embrace are still different.
 
 **When emotions come and there's nobody around, picking up a guitar and playing a bit is a pretty good way to soothe yourself.** There's zero barrier, and I love it. I've even bought them to give to friends.
 
@@ -300,7 +300,7 @@ There are also competitors on the market that advertise "import songs from NetEa
 
 I chose Libre Live mostly because it pioneered this category and **has a large enough installed base in the market**. These products combine software and hardware, so you can't look only at the hardware itself: if the manufacturer goes under, the hardware may turn into junk. So market installed base and the vendor's ability to survive are also factors to consider when buying. As for other brands, use your own judgment.
 
-![当然它也可以折叠起来，带到户外当音箱。](librelive-outdoor.png)
+![It also folds up, so you can take it outdoors as a speaker.](librelive-outdoor.png)
 
 #### Action 5 Pro: Last Year's Most Recommended Hardware
 
@@ -403,7 +403,7 @@ This round of price increases is entirely driven by AI.
 
 AI has grabbed all the semiconductor capacity. It needs memory (HBM), storage, GPUs, and CPUs. Many manufacturers have cut their consumer memory production lines to supply HBM at full capacity, because the big AI companies are willing to spend and the margins are high. The result is that all consumer products get more expensive.
 
-![内存五倍涨..](memory-price-surge.jpg)
+![Memory prices are up fivefold](memory-price-surge.jpg)
 
 ### 4.2 Basically Irreversible
 
@@ -472,7 +472,7 @@ The price trend says even more:
 | US-version Mac Studio 64G M1 Max | 8,000 RMB | 10,000 RMB |
 | 512G M3 Ultra Mac Studio | A bit over 60,000 RMB (with national subsidy) | Pulled by Apple; second-hand prices hyped to **150,000 RMB** |
 
-![512G 统一内存想想就爽](mac-512g-dream.png)
+![Just imagine having 512 GB of unified memory](mac-512g-dream.png)
 
 For running large models, I recommend the **[OMLX framework](https://github.com/jundot/omlx)**. It's relatively new, its underlying support for Apple Silicon is well done, and its performance scheduling is more efficient. And as more people realize Mac's advantages in the Agent era, more people will build adaptations for its ecosystem, so the experience can only get better.
 
@@ -514,7 +514,7 @@ One more point that's easy to overlook: **a Skill is itself a core asset.** When
 
 In the end, the real moat may no longer be in "knowledge" but in **execution speed and iteration density**. Knowledge gets leveled out sooner or later anyway, but whoever gets things working with Agents first and engineers their workflows into production first will reap the dividend within the window.
 
-![鱼和熊掌难以得兼](prisoner-dilemma.png)
+![You can't have it both ways](prisoner-dilemma.png)
 
 > I judge that enterprise-grade hardware prices doubling within the next two years is still entirely possible. **If you have this need, better to buy early than late.**
 
