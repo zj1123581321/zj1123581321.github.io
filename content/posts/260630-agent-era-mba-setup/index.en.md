@@ -1,16 +1,16 @@
 ---
 title: "What to Install on a Laptop That's Just a Remote Control: My MacBook Air M5 Setup"
 date: 2026-06-30
-draft: true
+draft: false
 sourceHash: "sha256:5c6e86c0bd35db88bcd0d83193c6929624c2e298832365e6e52f74354623cc1f"
 translatedBy: "claude-cli/sonnet"
 description: "When your main development work runs in the cloud, what should you actually install on the laptop in your hands? From multi-monitor pitfalls to remote desktop choices, a MacBook Air setup reference organized by pain point."
 ---
 *Translated from the [Chinese original](/posts/260630-agent-era-mba-setup/).*
 
-This post is the client-side installment of the "LLM Eats Everything" series. For how to build the 24/7 remote base camp, see the previous post, [Agents Never Clock Out: A Development System for Any Place, Any Time, Any Device](/posts/260628-agent-era-dev-anywhere/); for how to choose the hardware foundation, see [The Agent's Home](/posts/...).
+This post is the client-side installment of the "LLM Eats Everything" series. For how to build the 24/7 remote base camp, see the previous post, [Agents Never Clock Out: A Development System for Any Place, Any Time, Any Device](/en/posts/260628-agent-era-dev-anywhere/); for how to choose the hardware foundation, see [The Agent's Home](/posts/...).
 
-This post is about this: when your main development work all runs on remote servers, **what should you actually install on the laptop in your hands?**
+The question here is: when all your main development work runs on remote servers, **what should you actually install on the laptop in your hands?**
 
 First, some background. I recently switched from a Windows laptop to a MacBook Air M5 with 32GB. In the previous post I mentioned that in this era a laptop is just a screen plus a keyboard, which is why I bought an Air rather than a Pro. This MBA doesn't carry any long-running development work. It does only two things:
 
@@ -79,7 +79,7 @@ eqMac takes over the system's audio output so the keyboard volume keys can contr
 |---|---|
 | **Stay** | Every time you plug or unplug an external monitor, all your window positions get scrambled. Stay remembers window positions per display configuration and puts everything back automatically when you plug in |
 | **AltTab** | The native macOS Cmd+Tab is too bare-bones: it shows only app icons, not window contents, and windows from all screens are mixed together. AltTab fixes two problems: first, it gives a **live preview** of what each window is doing as you switch, so you don't have to guess; second, you can set it to **switch only among windows on the current screen**, so windows on other screens don't get in the way when working across multiple monitors |
-| **Rectangle** | Quick keyboard window snapping. It's a Windows user's muscle memory — Win+arrow keys to snap windows — and Rectangle brings that experience to Mac |
+| **Rectangle** | Quick keyboard window snapping. For Windows users, snapping windows with Win+arrow keys is muscle memory; Rectangle brings that experience to Mac |
 
 ![AltTab: live preview of each window's contents while switching](alttab-preview.jpg)
 
@@ -145,7 +145,7 @@ For a proxy tool I use **Clash Party** (the GUI client for mihomo), installed vi
 
 - **Claude Code**: my main Agent, installed standalone
 - **Codex**: OpenAI's CLI Agent, a backup
-- **OpenCode**: an open-source option, the lowest-level fallback
+- **OpenCode**: an open-source option, my last-resort fallback
 
 Although this machine doesn't do long-term development, whenever I need to file a quick bug, tweak a script, or manage a remote server, I still need to run an Agent locally. The key point is that **they only handle temporary things** — run, finish, and leave.
 
