@@ -1,7 +1,7 @@
 ---
-title: "Starting Over with Gridea"
+title: "Before the Migration"
 date: 2022-05-04
-draft: true
+draft: false
 url: "/en/posts/220504-start/"
 sourceHash: "sha256:45e1ece691823daee8ec82358da7c8096e33dbce8bc96b64f7f989b208f201e4"
 translatedBy: "claude-cli/sonnet"
