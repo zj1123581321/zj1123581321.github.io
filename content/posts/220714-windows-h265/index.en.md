@@ -1,7 +1,7 @@
 ---
 title: "Finding H.265 Videos in a Mixed Folder on Windows 10"
 date: 2022-07-14
-draft: true
+draft: false
 url: "/en/posts/windows-wen-jian-guan-li-qi-he-h265/"
 sourceHash: "sha256:c667556a3a58febdbd0126bae29664bcd93d7b9f2c3c611ddd29cdaa6cb6a840"
 translatedBy: "claude-cli/sonnet"
@@ -29,4 +29,4 @@ That's it.
 
 # References
 
-[Eagle 支持哪些文件格式呢？ - 知识库 | Eagle](https://docs-cn.eagle.cool/article/18-what-file-formats-does-eagle-support)
+[Which File Formats Does Eagle Support? - Knowledge Base | Eagle](https://docs-cn.eagle.cool/article/18-what-file-formats-does-eagle-support)
