@@ -1,26 +1,26 @@
 ---
-title: "The General Doesn't Chase the Rabbit: A Multi-Agent Scheduling Architecture"
+title: "A General on the March Doesn't Chase Rabbits: Multi-Agent Scheduling Architecture and Practice"
 date: 2026-08-09
-draft: true
+draft: false
 sourceHash: "sha256:abf5a7b70d788ee2dace21c0b5133d12eaf11cdb9fa545ff310cd4d81fda23f4"
 translatedBy: "claude-cli/sonnet"
 description: "From a modest idea of saving quota to a full multi-agent scheduling system with a lead agent and an execution layer, covering task decomposition, parallel development, quality gates, quota-aware scheduling, and metrics monitoring, and how a complex system can grow step by step out of simple needs."
 ---
 *Translated from the [Chinese original](/posts/260809-multi-agent-scheduling-architecture/).*
 
-![The general doesn't chase the rabbit](images/agent控制台.png)
+![A general on the march doesn't chase rabbits](images/agent控制台.png)
 
 > This post started as an 80-minute voice talk. It continues the tradition of this series: **as a human, you only need to understand the ideas and the architectural logic; for all the concrete execution details, just hand the article to your Claude Code or Codex and let it do the work.**
 
 ## Opening: Why Talk About a Scheduling System
 
-In [The Zelda Phase of Life](../260721-the-zelda-phase-of-life/), I used an architecture diagram and a short overview to touch on "multi-agent scheduling": a lead agent does the planning, an execution layer does the work, and gates do the checking. But that post focused on Token economics and the arsenal of models, and the scheduling system itself got only a passing mention.
+In [The Zelda Phase of Life](/en/posts/260721-the-zelda-phase-of-life/), I used an architecture diagram and a short overview to touch on "multi-agent scheduling": a lead agent does the planning, an execution layer does the work, and gates do the checking. But that post focused on Token economics and the arsenal of models, and the scheduling system itself got only a passing mention.
 
 This post is the full treatment.
 
-Let me start with a one-line principle: **An agent's attention is extremely precious. You should spend it on resolving high-quality uncertainty, not on trivia.**
+Let me start with a one-line principle: **An agent's attention is extremely precious. You should spend it on tackling the most valuable uncertainties, not on trivia.**
 
-What does that mean? Think of an agent's attention as a person's working energy. If it spends an hour dealing with a login CAPTCHA, that's an hour less for the real work. In [Context is All You Need](../context-is-all-you-need/) I used a metaphor: attention is like your workbench. The bench is only so big, and once clutter piles up there's no room left for real work. That post was about keeping a single agent's "workbench" in good order; this one is about what to do when you have a whole crowd of agents at once (Claude Code, Codex, Kimi, Grok) and want to make good use of every one of their workbenches.
+What does that mean? Think of an agent's attention as a person's working energy. If it spends an hour dealing with a login CAPTCHA, that's an hour less for the real work. In [Context is All You Need](/en/posts/context-is-all-you-need/) I used a metaphor: attention is like your workbench. The bench is only so big, and once clutter piles up there's no room left for real work. That post was about keeping a single agent's "workbench" in good order; this one is about what to do when you have a whole crowd of agents at once (Claude Code, Codex, Kimi, Grok) and want to make good use of every one of their workbenches.
 
 It's a close analogy to how a CEO allocates their energy. A CEO's energy is limited and should go only to decisions, high-value judgments about direction, and finding resources, not to the details of frontline execution. **The general doesn't chase the rabbit.**
 
@@ -43,7 +43,7 @@ None of these steps was designed in advance. Each one "grew" out of use. You'll 
 
 - The **scheduling system** started as a script that picked an executor. Later I added quota gates, task card templates, commit tracking, and retrospective reports, and it ended up as a complete multi-agent orchestration infrastructure.
 
-**In the agent era, allow yourself to waste ideas. You can't know what a simple idea at the start will eventually turn into, or how useful a tool it will become.** It grows a little at a time in your collaboration with agents. If your curiosity is still alive, you'll find a great many interesting things to play with.
+**In the agent era, don't be afraid to pursue ideas that may seem wasteful. You can't know what a simple idea at the start will eventually turn into, or how useful a tool it will become.** It grows a little at a time in your collaboration with agents. If your curiosity is still alive, you'll find a great many interesting things to play with.
 
 ## 2. The Overall Architecture: Three Progressive Layers
 
@@ -69,7 +69,7 @@ This is the daily reality for most people: you use only one coding agent (say, j
 
 How? For example, Claude Code has a global config file called `CLAUDE.md`. You can write in it, "You are the lead. You only handle solution design and task decomposition, and you dispatch all concrete code changes to sub-agents," and the model will decide accordingly which things to do itself and which to send out. You can even give sub-agents roles: `implementer` (the executor, who writes code) and `reviewer` (read-only, who picks out problems). Codex works on similar logic, just constrained through prompts and config files.
 
-The core technique at this layer is the one I covered in [Context is All You Need](../context-is-all-you-need/): keep the lead's attention on planning and decisions, and let sub-agents run the trivial execution on separate "workbenches" so the lead's bench doesn't fill up with clutter.
+The core technique at this layer is the one I covered in [Context is All You Need](/en/posts/context-is-all-you-need/): keep the lead's attention on planning and decisions, and let sub-agents run the trivial execution on separate "workbenches" so the lead's bench doesn't fill up with clutter.
 
 For most people, getting this layer right already brings a big efficiency gain. For the specifics of configuration, the appendix at the end has sanitized reference templates that you can hand straight to your agent to set things up.
 
@@ -92,7 +92,7 @@ I went to Layer 3 not because the Layer 2 products are bad, but because I had mo
 
 Let me start with the simplest pain point: **switching between different tools is tiring in itself.** When you have Claude Code, Codex, Kimi Code, and Grok Build all at once, the mental "gear shifting" of going back and forth eats a lot of energy.
 
-Layers 2 and 3 share a premise: **a model and its native tooling should be used together.** I talked about this in [Claude Code's design philosophy](../claude-code-risk-model-philosophy/): to get the most out of a model, use the development tool it was designed to pair with, and ideally the model should be deeply coupled with the tool's feedback data during training. A recent interview with the Claude Code team backs this up: they deleted 80% of the system prompt, and the agent's capability didn't drop.
+Layers 2 and 3 share a premise: **a model and its native tooling should be used together.** I talked about this in [Claude Code's design philosophy](/en/posts/claude-code-risk-model-philosophy/): to get the most out of a model, use the development tool it was designed to pair with, and ideally the model should be deeply coupled with the tool's feedback data during training. A recent interview with the Claude Code team backs this up: they deleted 80% of the system prompt, and the agent's capability didn't drop.
 
 Incidentally, open frameworks like [OpenCode](https://github.com/opencode-ai/opencode) already have built-in multi-agent dispatch by category, automatically assigning different models by task type, out of the box. The problem is that it locks you into a single framework, so you can't enjoy the gains each vendor's native tooling makes as it evolves.
 
@@ -159,7 +159,7 @@ The **scheduling layer** assigns task cards to the most suitable executor based 
 
 The **execution layer** runs entirely in "headless mode." Let me explain the concept. When we normally use a coding agent, we open a chat window, say one thing, and it does one step. That's "conversation mode." "Headless mode" is a different way of working: you write up a task description, pass it to the agent through the command line, and it quietly finishes in the background and hands back the result, with no need for you to watch. It's like emailing an employee "get this done" instead of standing next to them and directing every step. I chose this mode because the scheduling system needs to dispatch dozens of tasks programmatically at the same time and collect results automatically, which a human sitting there in one conversation after another can't do.
 
-While I'm at it, here's a tool combination for managing multiple agent sessions in a command-line environment: **[herdr](https://github.com/herdrdev/herdr) + [mosh](https://mosh.org/)**. herdr is a terminal multiplexer designed specifically for AI agents and can manage multiple agent windows at once; mosh solves the problem of resuming a remote connection after it drops. This combination has replaced the tmux + SSH setup I recommended in [Agents Never Clock Out](../260628-agent-era-dev-anywhere/). It's more stable and better suited to agent scenarios. If you're interested, you can also look at [this write-up of best practices for account upkeep and interaction](https://mp.weixin.qq.com/s/U0Ha_Zia3brKntMvPPeurA).
+While I'm at it, here's a tool combination for managing multiple agent sessions in a command-line environment: **[herdr](https://github.com/herdrdev/herdr) + [mosh](https://mosh.org/)**. herdr is a terminal multiplexer designed specifically for AI agents and can manage multiple agent windows at once; mosh solves the problem of resuming a remote connection after it drops. This combination has replaced the tmux + SSH setup I recommended in [Agents Never Clock Out](/en/posts/260628-agent-era-dev-anywhere/). It's more stable and better suited to agent scenarios. If you're interested, you can also look at [this write-up of best practices for account maintenance and interaction](https://mp.weixin.qq.com/s/U0Ha_Zia3brKntMvPPeurA).
 
 The concrete implementation details for this layer (task card template, routing config, sub-agent role definitions, and so on) are in the sanitized reference materials in the appendix. If you're interested, hand the appendix to your own agent and let it help you build a similar system.
 
@@ -181,11 +181,11 @@ If you don't have a lead managing this centrally and instead create these copies
 
 ### How to Choose the Lead Model
 
-The difficulty of every problem ultimately converts into one question: **can the lead that splits the task cards actually do the job?**
+Ultimately, the hardest part comes down to one question: **can the lead that splits the task cards actually do the job?**
 
 By "ability" here I don't mean raw model intelligence but the combined ability of "model + tools": can it plan things properly around your business goals? Can it use parallelism effectively to speed up development? Can it adjust promptly based on errors that come up along the way?
 
-Right now Fable 5 is still in a class of its own as a lead. What makes it great isn't that it's smart, but its **sense of proportion**: it pushes back on you when it needs to and proposes better solutions. Without you deliberately steering it, it has the instinct to "think one dimension up": rather than treating the symptom and fixing the bug in front of it, it can propose a solution at a higher level so that this class of problem never happens again. That ability is very rare.
+Right now Fable 5 is still in a class of its own as a lead. What makes it great isn't that it's smart, but its **sense of proportion**: it pushes back on you when it needs to and proposes better solutions. Without you deliberately steering it, it has the instinct to "think at a higher level": rather than treating the symptom and fixing the bug in front of it, it can propose a solution at a higher level so that this class of problem never happens again. That ability is very rare.
 
 Because Fable 5's quota is limited, I also use Opus 5, GPT-5.6-sol xHigh, and Kimi K3 as leads. For fairly well-defined engineering tasks they're all good. But each has its temperament: GPT-5.6-sol is **too much like an engineer**, wanting everything done with extreme rigor and often over-designing, so you have to keep telling it in your instructions, "don't make this so complicated." K3 has limited compute, so it thinks deeply but runs slowly.
 
@@ -209,9 +209,9 @@ In my system, long-running tasks (the kind where you issue one instruction and t
 
 Together, these three rules usually give good results for an agent's autonomous execution in long-running tasks.
 
-### The One Who Writes Code and the One Who Picks Faults Must Be Separate
+### The Coder and Reviewer Must Be Different Agents
 
-I mentioned this in [The Zelda Phase of Life](../260721-the-zelda-phase-of-life/): **the agent that writes the code and the one that reviews it can't be the same.** Just as it's hard to spot errors in your own writing, an agent also "confirms itself" and thinks it did a pretty good job. Only an independent agent doing the review can truly find problems.
+I mentioned this in [The Zelda Phase of Life](/en/posts/260721-the-zelda-phase-of-life/): **the agent that writes the code and the one that reviews it can't be the same.** Just as it's hard to spot errors in your own writing, an agent also "confirms itself" and thinks it did a pretty good job. Only an independent agent doing the review can truly find problems.
 
 In practice I use two layers of review:
 
@@ -263,7 +263,7 @@ This gate doesn't serve only the auto-repair scenario. Commits that come from wo
 
 ## 4. Letting Agents Enter Production on Their Own
 
-The self-repair system I described in [The Zelda Phase of Life](../260721-the-zelda-phase-of-life/) (a production problem → automatic diagnosis → agent fix → commit → pass the gate → Feishu approval → deploy) is the first form of agents entering production. Here are a few other scenarios, which all follow the same path in essence: **pick out the things you currently do repeatedly, and gradually let agents replace you, freeing up your energy.**
+The self-repair system I described in [The Zelda Phase of Life](/en/posts/260721-the-zelda-phase-of-life/) (a production problem → automatic diagnosis → agent fix → commit → pass the gate → Feishu approval → deploy) is the first form of agents entering production. Here are a few other scenarios, which all follow the same path in essence: **pick out the things you currently do repeatedly, and gradually let agents replace you, freeing up your energy.**
 
 ### Scheduled Batch Triage of Issues
 
@@ -273,7 +273,7 @@ The approach: batch-process them in the early phase; later, turn it into a sched
 
 ### Periodic Architecture Scans and Security Audits
 
-An agent's strength is that it has a strong sense of purpose, but that is also its weakness: it tends to solve the problem in front of it on its own terms. Unless you deliberately guide it, it won't proactively "go up a dimension" and ask whether an architectural adjustment could stop this class of problem from ever happening again.
+An agent's strength is that it has a strong sense of purpose, but that is also its weakness: it tends to solve the problem in front of it on its own terms. Unless you deliberately guide it, it won't step back and ask whether an architectural change could prevent this whole class of problems.
 
 So two things need to be done periodically:
 
@@ -326,7 +326,7 @@ This is task-path data unique to you, and it is extremely valuable. Put it this 
 
 This metric directly answers "are your Tokens well spent?" My current task execution cost per million Tokens has dropped from about $0.6 at the start to about $0.4, and could be optimized further to around $0.3.
 
-Why care? Because the current upside-down pricing of the vendors' subscription plans can't last forever; I discussed this judgment in [the Zelda post](../260721-the-zelda-phase-of-life/) too. When the day comes that subsidies phase out and high-intelligence Tokens have to be bought at API prices, the routing experience you've accumulated today (knowing which tasks to send to which models, and which configuration is cheapest) will be real competitive strength.
+Why care? Because the current upside-down pricing of the vendors' subscription plans can't last forever; I discussed this judgment in [the Zelda post](/en/posts/260721-the-zelda-phase-of-life/) too. When the day comes that subsidies phase out and high-intelligence Tokens have to be bought at API prices, the routing experience you've accumulated today (knowing which tasks to send to which models, and which configuration is cheapest) will be real competitive strength.
 
 ### 6. Cache Hit Rate
 
@@ -370,7 +370,7 @@ There's one more principle: **do every low-cost form of record-keeping.** Never 
 
 ### "Don't Build Loops, Build a Software Factory"
 
-[Dexter Horthy](https://www.youtube.com/watch?v=xgkjtF89-44) (founder of the multi-agent orchestration tool Orca, with a YC background) put forward the concept of a "software factory," and he and I have a highly consistent observation:
+[Dexter Horthy](https://www.youtube.com/watch?v=xgkjtF89-44) (founder of the multi-agent orchestration tool Orca, with a YC background) put forward the concept of a "software factory," and he and I share a very similar observation:
 
 The traditional development process is a loop: write code → review → merge → deploy → get feedback → write code again. Once agents take over the "write code" step, code gets written blazingly fast, but **the bottleneck quickly shifts to "reviewing code"**. No matter how fast the writing is, it's pointless if review can't keep up.
 
@@ -414,7 +414,7 @@ When I see an interesting technical article or talk, here's what I do: **I look 
 
 The same logic applies in reverse to this very article: **as a reader, you only need to understand the architecture and the ideas. Hand all the technical details to your agent.**
 
-This way I take in new things very quickly, and my overall ability grows very quickly too. In a sense, every day I'm a newer version of myself. On one hand, energy is the biggest bottleneck; on the other, there's an endless supply of new and interesting things worth exploring.
+This way I take in new things very quickly, and my overall ability grows very quickly too. In a sense, I become a new version of myself every day. On one hand, energy is the biggest bottleneck; on the other, there's an endless supply of new and interesting things worth exploring.
 
 That's some of my recent thinking. It's just one person's view, it may not be right, and it may change over time. I hope it helps.
 
