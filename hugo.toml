@@ -2,6 +2,7 @@ baseURL = 'https://zj1123581321.com/'
 defaultContentLanguage = 'zh'
 defaultContentLanguageInSubdir = false
 disableDefaultLanguageRedirect = true
+enableRobotsTXT = true
 theme = 'PaperMod'
 
 [languages]
@@ -13,6 +14,7 @@ theme = 'PaperMod'
 
     [languages.zh.params]
       description = "记录一个数字生活流民的所见，所思。"
+      ogDefaultImage = "/images/og-default.zh.jpg"
 
       [languages.zh.params.homeInfoParams]
         Title = "杂谈by立行"
@@ -47,6 +49,7 @@ theme = 'PaperMod'
 
     [languages.en.params]
       description = "Notes and thoughts from a digital nomad. Most of my writing is in Chinese — see the Chinese homepage for more."
+      ogDefaultImage = "/images/og-default.en.jpg"
 
       [languages.en.params.homeInfoParams]
         Title = "Lixing's Blog"
@@ -100,6 +103,9 @@ theme = 'PaperMod'
   ShowCodeCopyButtons = true
   ShowToc = true
   comments = true
+
+  [params.social]
+    twitter = "bylixing"
 
   [params.giscus]
     repo = "zj1123581321/zj1123581321.github.io"
