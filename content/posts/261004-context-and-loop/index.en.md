@@ -8,7 +8,7 @@ description: "If I could only remember two words from the Agent era, I would pic
 ---
 *Translated from the [Chinese original](/posts/261004-context-and-loop/).*
 
-![A fall into the pit, a gain in your wit](images/cover.jpg)
+![Every setback, a lesson](images/cover.jpg)
 
 > This post is built on two voice recordings totaling more than 80 minutes. As in the rest of this series: **as a human, you only need to understand the ideas and the logic; for the concrete execution details, just hand the article to your Agent.**
 
@@ -347,7 +347,7 @@ My standard for closing a lesson ticket is just one question: **can this pitfall
 
 ### Don't Make the Same Mistake Twice
 
-Let me walk through a few concrete pitfalls to get a feel for what "a fall into the pit, a gain in wit" looks like in engineering:
+Let me walk through a few concrete pitfalls to get a feel for what "every setback, a lesson" looks like in engineering:
 
 - **Tests hit production.** When an executor created an isolated working directory, it copied config files only from the top-level directory, the config in deeper directories was missing, and the program quietly used default values — it connected to the real production environment, with no error at all. Later, creating the working directory was made into a script that automatically links every layer of config, and neither humans nor Agents create them by hand anymore.
 - **The push succeeded, and was pushed twice more.** To look at fewer lines of output, Agents habitually trim command results. The trimming lost the "failure" signal; another time it was the reverse, a successful push was displayed as failed and pushed again for two more rounds. A rule was set afterward: to confirm whether code was uploaded, always ask the remote server, and don't trust the local display.
@@ -550,7 +550,7 @@ That's all — just one person's view, and not necessarily right. I hope it help
 
 - [Context is All You Need](../context-is-all-you-need/) — the workbench metaphor and the basic methods of context management
 - [A General on the March Doesn't Chase Rabbits](../260809-multi-agent-scheduling-architecture/) — the multi-Agent scheduling system of lead + execution layer
-- [An Old Tree Blooms Anew](../260908-smb-agent-framework/) — readable, writable, closeable-loop
+- [An Old Tree Blooms Anew](../260908-smb-agent-framework/) — readable, writable, loop-closable
 
 ---
 
