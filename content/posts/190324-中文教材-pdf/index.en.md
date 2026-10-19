@@ -1,7 +1,7 @@
 ---
 title: "Mastering PDFs, Part 1: How to Find Chinese Textbooks"
 date: 2019-03-24
-draft: true
+draft: false
 url: "/en/posts/2019-03-25129/"
 sourceHash: "sha256:3d0bb3de65fa8c6c4a82804bc303c7aa0668b5d51d2e9bcae7cfa43f8eb2bc66"
 translatedBy: "claude-cli/sonnet"
@@ -201,7 +201,7 @@ The minus sign is usually used to **exclude certain search content**. The figure
 
 There are many more search syntax tricks, which I won't expand on here. You can refer to [this article](https://www.w3h5.com/post/220.html) to learn about them. Of course, knowing just a few common ones will greatly improve your search efficiency.
 
-PS: Most search engines today are **keyword-based** rather than semantic, so please don't type "how to find the book Learn Python the Hard Way" 🙃🙃🙃. Instead, split it into keywords: "笨方法 python".
+PS: Most search engines today are **keyword-based** rather than semantic, so please don't type "how to find the book Learn Python the Hard Way" 🙃🙃🙃. Instead, split it into keywords: "Learn Python the Hard Way python".
 
 ### 2.5 Miscellaneous
 

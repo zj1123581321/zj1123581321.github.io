@@ -1,17 +1,17 @@
 ---
-title: "Don't Use \"WeChat Favorites\" to Save Articles"
+title: "How to View and Save Articles Blocked by WeChat"
 date: 2019-05-16
-draft: true
+draft: false
 url: "/en/posts/2019-05-16177/"
 sourceHash: "sha256:08717453e3e4fb77cb856d89f9389e8cb476dd7355551e78cafca62562b948f5"
 translatedBy: "claude-cli/sonnet"
-description: "WeChat recently released its 2018 data report. According to the report, as of September 2018, WeChat had 1.082 billion monthly active users. Although the open rate of WeChat Official Accounts has been falling in recent years, it is undeniable that WeChat's enormous user base means the vast majority of content producers cannot give up this battlefield. According to the \"2017 WeChat Economy Data Report\"..."
+description: "WeChat recently released its 2018 data report. According to the report, as of September 2018, WeChat had 1.082 billion monthly active users. Although the open rate of WeChat Official Accounts has been falling in recent years, it is undeniable that WeChat's enormous user base means the vast majority of content producers cannot abandon this channel. According to the \"2017 WeChat Economy Data Report\"..."
 ---
 *Translated from the [Chinese original](/posts/2019-05-16177/).*
 
 WeChat recently released its 2018 data report. The report states that [as of September 2018, WeChat had 1.082 billion monthly active users](https://awtmt.com/articles/3466022?from=wscn).
 
-Although the open rate of WeChat Official Accounts has been falling in recent years, it is undeniable that WeChat's enormous user base means the vast majority of content producers cannot abandon this battlefield.
+Although the open rate of WeChat Official Accounts has been falling in recent years, it is undeniable that WeChat's enormous user base means the vast majority of content producers cannot abandon this channel.
 
 According to the "[2017 WeChat Economy Data Report](http://www.sohu.com/a/203492754_481775)" and "[2017 WeChat User Research and Business Opportunity Insights](http://www.199it.com/archives/585401.html)", by the end of 2017 there were more than 10 million WeChat Official Accounts, of which 3.5 million were active accounts, up 14% from 2016, with 797 million monthly active followers.
 
@@ -31,49 +31,49 @@ In the vast majority of cases this is fine, but sometimes, for one reason or ano
 
 ![Content blocked](/migrated-images/markdown_20190516_G5ModNhFnp0u.png)
 
-### 1.2 Poor cross-platform compatibility
+### 1.2 Poor cross-platform support
 
-For articles worth keeping that we come across on our phones, we can still "send to WeChat Favorites". But on a computer, using WeChat Favorites to save articles is not so convenient — you can't keep copying and pasting back and forth.
+For articles we find on our phones and want to keep, we can tap "Send to WeChat Favorites." Doing the same on a computer is much less convenient—you can't keep copying and pasting back and forth.
 
-So what should we do to really save an article? I recommend using a third-party cloud note-taking app.
+So how can we truly save an article? I recommend using a third-party cloud-based note-taking app.
 
-## 2. Using a Third-Party Cloud Note App
+## 2. Using a Third-Party Cloud-Based Note-Taking App
 
-### 2.1 Why saving to a cloud note app doesn't fear the original being blocked or deleted
+### 2.1 How cloud note-taking apps preserve articles when the original is blocked or deleted
 
-WeChat Favorites records only the URL and does not save the content. Third-party cloud note apps, however, usually save both the content and the URL. **Even if the article is blocked by WeChat, you can still view the content you saved with a third-party cloud note app.**
+WeChat Favorites records only the URL and does not save the content. Third-party cloud note-taking apps, however, usually save both the content and the URL. **Even if WeChat blocks the article, you can still view the copy saved in your note-taking app.**
 
-If an article is a house, then WeChat Favorites keeps only the key (the URL), so once the house is demolished (deleted/blocked), the key is meaningless. The clipping feature of a third-party cloud note app, on the other hand, builds an identical house elsewhere, so even if the original house is gone, we can still see what it looked like.
+If an article were a house, WeChat Favorites would keep only the key (the URL). Once the house is demolished (deleted or blocked), the key is useless. A third-party cloud note-taking app's clipping feature, on the other hand, builds an identical house elsewhere, so even if the original is gone, we can still see what it looked like.
 
-### 2.2 Advantages of Using a Cloud Note App
+### 2.2 Advantages of a Cloud-Based Note-Taking App
 
-#### 2.2.1 It can clip content
+#### 2.2.1 It saves a copy of the content
 
-The principle above already makes this clear: this is saving in the true sense. The actual content of the article is stored in your cloud notebook for later viewing.
+The principle above makes this clear: this is what it means to truly save an article. Its full content is stored in your cloud notebook so you can read it later.
 
-#### 2.2.2 Multi-platform compatibility, with web clipping support
+#### 2.2.2 Cross-platform support and web clipping
 
--   **WeChat**: one-tap send to the cloud note app
--   **Browser on a computer**: one-click clipping
--   **App**: supports sharing to the cloud note app
+-   **WeChat**: send to your note-taking app with one tap
+-   **Computer browser**: clip a page with one click
+-   **Other apps**: share content to your note-taking app
 
 ![One-tap send](/migrated-images/markdown_20190516_Y8XTDWpBHicy.jpg)
 
 ![OneNote web clipping](/migrated-images/markdown_20190516_xH5sc2lIEyoc.png)
 
-#### 2.2.3 Strong searchability
+#### 2.2.3 Easy to search
 
-Because the content of the article has been saved into our own notebook, even if we later forget the article's title, we can still find the target article quickly by searching for a few scattered words.
+Because the article's content is saved in our own notebook, we can still find it quickly by searching for a few words we remember, even if we forget its title.
 
-#### 2.2.4 A relatively complete ecosystem
+#### 2.2.4 A mature ecosystem
 
-Professional cloud note platforms generally partner with many platforms, optimize specifically for different content platforms, and can also work together with other tools. You can also use automation tools like [IFTTT](https://ifttt.com/) to do even more.
+Professional note-taking services usually partner with many content platforms and tailor their features to each one. They can also integrate with other tools. You can use automation services like [IFTTT](https://ifttt.com/) to do even more.
 
 ![Evernote recipes in IFTTT](/migrated-images/markdown_20190516_VGYvgAOUj51H.png)
 
-### 2.3 How to Choose a Cloud Note Platform
+### 2.3 Choosing a Cloud-Based Note-Taking App
 
-The two mainstream note-taking apps internationally: Evernote and OneNote
+The two leading international note-taking apps are Evernote and OneNote.
 
 #### 2.3.1 Evernote (Yinxiang Biji)
 
@@ -84,7 +84,7 @@ Evernote is an app focused on note-taking. Yinxiang Biji is its version for main
 -   Available on many platforms (Windows, Mac, Android, iOS, Chrome, Firefox, etc.)
 -   Strong third-party service support, and it can connect with many platforms (the best of the three)
 -   **Supports saving WeChat and Weibo content (Yinxiang Biji)**
--   One-click web clipping that preserves formatting (Yinxiang Biji's web clipping blows OneNote's away, let alone Youdao Cloud Note's)
+-   One-click web clipping that preserves formatting (Yinxiang Biji's clipper is much better than OneNote's, and far ahead of Youdao Cloud Note's)
 
 **Limitations**
 
@@ -93,7 +93,7 @@ Evernote is an app focused on note-taking. Yinxiang Biji is its version for main
 
 ![Yinxiang Biji pricing](/migrated-images/markdown_20190516_AU56Nwn2MmGB.png)
 
-#### 2.3.2 OneNote (Microsoft's cloud note app)
+#### 2.3.2 OneNote (Microsoft's cloud note-taking app)
 
 OneNote may be the least well-known app in the Office suite. It is made by Microsoft.
 
@@ -119,22 +119,22 @@ Evernote and OneNote each have their strengths and weaknesses. Although I'm a he
 
 Please choose your note-taking tool carefully, or migrating your notes later will be very troublesome. For more comparisons between the two, see the articles below.
 
-[How should one choose between OneNote and Evernote?](https://www.zhihu.com/question/24600253)
+[OneNote vs. Evernote: Which should you choose?](https://www.zhihu.com/question/24600253)
 
 [Tool for migrating Evernote to OneNote](https://www.onenote.com/import-evernote-to-onenote?omkt=zh-CN)
 
 [Tutorial: migrating OneNote to Evernote](https://smallbusiness.chron.com/change-onenote-files-evernote-75264.html)
 
-### 2.4 How to Clip Articles on WeChat
+### 2.4 How to Clip Articles from WeChat
 
 -   [Yinxiang Biji WeChat clipping tutorial](https://list.yinxiang.com/xiaobaixiulian/d4e2d9ff-f1ec-433b-ac25-710db4b2ae66.php)
 -   [OneNote WeChat clipping tutorial](https://jingyan.baidu.com/article/6c67b1d68944b12787bb1e13.html)
 
 ## 3. How to Read Blocked Articles
 
-The principle is actually simple: **anything valuable will surely be saved by someone who cares**.
+The principle is simple: **valuable information is bound to be saved by someone who appreciates it**.
 
-Copy the title of the WeChat article and search for it with a search engine (**WeChat search will do**). (Some articles may require Google to find.)
+Copy the article's title and search for it (**WeChat's own search is enough**). You may need Google to find some articles.
 
 Here's an example.
 
@@ -144,4 +144,4 @@ Use WeChat search and enter "The Death of Tuandai Wang" (团贷网之死).
 
 ![Result](/migrated-images/markdown_20190516_gNWdRXLmtuOc.jpg)
 
-Then save it to your own cloud note platform with one tap, and you'll have preserved the article for good.
+Then save it to your own note-taking app with one tap, and you'll have preserved the article for good.

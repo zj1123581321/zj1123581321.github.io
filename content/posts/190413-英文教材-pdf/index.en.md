@@ -1,17 +1,17 @@
 ---
-title: "Playing with PDFs, Part 2: How to Find English E-Textbooks"
+title: "Mastering PDFs, Part 2: How to Find English E-Textbooks"
 date: 2019-04-13
-draft: true
+draft: false
 url: "/en/posts/2019-04-13141/"
 sourceHash: "sha256:61cefd25b856ed48340b12616b99d56e2695dd2c6c18d3f355769fe6dc5fb7aa"
 translatedBy: "claude-cli/sonnet"
-description: "The long-awaited second installment of my \"Playing with PDFs\" tutorial series is finally here (forgive me, I've been really busy lately and took this long to publish). Last time we talked about how to find Chinese textbooks and launched the \"E-Textbook Project.\" The feedback in the backstage has been great, but the bookmark rate is far higher than the share rate... don't you know good things deserve to be shared? 🙄🙄🙄..."
+description: "The long-awaited second installment of my \"Mastering PDFs\" tutorial series is finally here (forgive me, I've been really busy lately and took this long to publish). Last time we talked about how to find Chinese textbooks and launched the \"E-Textbook Project.\" The response has been good, but the save rate is far higher than the share rate... don't you know good things are worth sharing? 🙄🙄🙄..."
 ---
 *Translated from the [Chinese original](/posts/2019-04-13141/).*
 
-The long-awaited second installment of my "**Playing with PDFs series**" is finally here (forgive me, I've been really busy lately and took this long to publish).
+The long-awaited second installment of my "**Mastering PDFs series**" is finally here (forgive me, I've been really busy lately and took this long to publish).
 
-Last time we talked about [how to find Chinese textbooks](https://mp.weixin.qq.com/s/mJ_FEnbProNf-M5OZW62lA), and launched the "[E-Textbook Project](https://mp.weixin.qq.com/s/GsRiYe9lJZ2SavdqHe0Ohg)". The feedback in the backstage has been great, but the bookmark rate is far higher than the share rate... don't you know good things deserve to be shared? 🙄🙄🙄
+Last time we talked about [how to find Chinese textbooks](https://mp.weixin.qq.com/s/mJ_FEnbProNf-M5OZW62lA), and launched the "[E-Textbook Project](https://mp.weixin.qq.com/s/GsRiYe9lJZ2SavdqHe0Ohg)". The response has been good, but the save rate is far higher than the share rate... don't you know good things are worth sharing? 🙄🙄🙄
 
 Alright, back to the topic. Chinese textbooks can already meet most people's needs, and they're relatively easy to read. But in some subjects, once you've read an English textbook and then compare it with a domestic one, the gap is still obvious. Setting aside translation and the like, domestic and foreign textbooks differ considerably in logical structure, guiding philosophy, and readability.
 
@@ -39,13 +39,13 @@ PS: Textbooks you find in Word, mobi, or Epub formats can also be converted to P
 > 
 > Z-Library has many servers in the USA, Panama, Russia, Germany, Finland, Malaysia and Luxembourg. Our stored data now totals more than 160 TB! Every month, millions of people use Z-Library for their purposes — this shows us that we are on the right track. But it will be difficult to achieve our goals without your help. Z-Library is a non-profit project that exists at its founder’s expense, and with your support. Only thanks to your support over the past six months, we’ve made many improvements: full-text search, ZAlerts, recommender system, download history, improved advanced search and much more.
 
-The above is the introduction to the Z-library project. Its range of books is extremely rich, with pdf, djvu, and epub formats all available, free to download. However, you can only download the next book after finishing the previous one.
+The above is the introduction to the Z-Library project. Its collection is extensive, with books in PDF, DjVu, and EPUB formats available for free. However, you can download a second book only after the first one has finished downloading.
 
-The project has many mirror sites (after all, it has stepped on a lot of people's toes), such as [Booksc](https://booksc.org/), [Bookok](https://b-ok.org), and [BookFi](http://en.bookfi.net/g/).
+The project has many mirror sites (after all, it threatens a lot of vested interests), such as [Booksc](https://booksc.org/), [Bookok](https://b-ok.org), and [BookFi](http://en.bookfi.net/g/).
 
 ![Booksc](/migrated-images/markdown_20190529_lbs90Wfnhcf7.png)
 
-PS: Besides textbooks, you can also download other e-books and articles. If the download speed is too slow, consider using the offline download feature of Baidu Cloud.
+PS: Besides textbooks, you can also download other e-books and articles. If the download speed is too slow, consider using Baidu Netdisk's offline download feature.
 
 ### 2.2 Library Genesis / LibGen Sites
 
@@ -73,7 +73,7 @@ The Z-library and LibGen projects can usually satisfy the vast majority of needs
 
 ![Ebookee](/migrated-images/markdown_20190529_XF6R7lc142zO.png)
 
-EBookEE is also an English e-book search site I use often, and its range of categories is relatively rich among these sites.
+EBookEE is also an English e-book search site I use often, and it has one of the broadest selections among these sites.
 
 #### 2.3.2 [FreeBookSpot](http://www.freebookspot.es)
 
@@ -88,6 +88,8 @@ No registration needed; download directly.
 You can download only after registering for free.
 
 #### 2.3.4 [ManyBooks](https://manybooks.net/)
+
+![ManyBooks](/migrated-images/markdown_20190529_sObYaJ7LXt76.png)
 
 "It offers more than 20,000 free e-books. You can search by category, author, title, and language, and each book comes with a synopsis including the title, author, country, and a content summary. All e-books can be downloaded and saved in dozens of e-book formats, such as Doc, PDF, RTF, JAR, TXT, and so on."
 
@@ -157,7 +159,7 @@ The minus sign is usually used to **exclude certain search content**. The figure
 
 There are many more search syntax tricks, which I won't expand on here. You can refer to [this article](https://www.w3h5.com/post/220.html) to learn about them. Of course, knowing just a few common ones can greatly improve your search efficiency.
 
-PS: Most search engines today are **keyword-based rather than semantic**, so don't type "how to find the book Learn Python the Hard Way" 🙃🙃🙃. Instead, break it into keywords, such as "Hard Way python".
+PS: Most search engines today are **keyword-based rather than semantic**, so don't type "how to find the book Learn Python the Hard Way" 🙃🙃🙃. Instead, break it into keywords, such as "Learn Python the Hard Way python".
 
 ## 3 Other
 
@@ -165,11 +167,11 @@ PS: Most search engines today are **keyword-based rather than semantic**, so don
 
 In my last article I launched the "**E-Textbook Project**." The goal is to build a library of textbooks organized by subject, to help you find the textbooks you need faster. If you're interested, [click here to learn more](https://mp.weixin.qq.com/s/GsRiYe9lJZ2SavdqHe0Ohg).
 
-### 3.2 Playing with PDFs Series
+### 3.2 Mastering PDFs Series
 
 From **finding books** to **processing PDFs**, and then to **choosing readers on each platform**, this tutorial series is all you need.
 
-Why do we need the "Playing with PDFs" series?
+Why do we need the "Mastering PDFs" series?
 
 First, with iPads and Surface devices becoming increasingly popular, more and more people are choosing digital ways of learning. But many people either can't find digital study materials, or find materials of poor quality, which greatly **hurts the efficiency of digital learning**.
 
@@ -177,4 +179,4 @@ Second, PDF has **cross-platform compatibility**: whether on Windows, Mac, Linux
 
 * * *
 
-Next installment preview: **How to find general books?**
+Next installment preview: **How to Find General-Interest Books**
