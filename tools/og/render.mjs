@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { createCanvas, GlobalFonts, loadImage } from '@napi-rs/canvas';
 import { addJpegInputHash } from './lib.mjs';
-import { wrapAndClamp } from './text-layout.mjs';
+import { wrapAndClamp, wrapText } from './text-layout.mjs';
 
 const FONT_SHA256 = 'a3041811a78c361b1de50f953c805e0244951c21c5bd412f7232ef0d899af0da';
 const FONT_URL = 'https://raw.githubusercontent.com/google/fonts/2894aab31764f10f29c421bdfd2340d3b382d384/ofl/notosanssc/NotoSansSC%5Bwght%5D.ttf';
@@ -52,13 +52,20 @@ function drawLines(ctx, lines, x, y, lineHeight, strokeWidth = 0) {
 }
 
 function fitTitle(ctx, text, maxWidth) {
-  for (let size = 68; size >= 48; size -= 2) {
+  const layout = (size) => {
     ctx.font = `700 ${size}px "Noto Sans SC"`;
-    const lines = wrapAndClamp(text, maxWidth, (value) => ctx.measureText(value).width, 3);
-    if (lines.every((line) => ctx.measureText(line).width <= maxWidth)) return { size, lines };
+    const measure = (value) => ctx.measureText(value).width;
+    return { size, raw: wrapText(text, maxWidth, measure), lines: wrapAndClamp(text, maxWidth, measure, 3) };
+  };
+  const first = layout(68);
+  if (first.raw.length !== 3 || ctx.measureText(first.raw[2]).width >= maxWidth * 0.24) {
+    return { size: first.size, lines: first.lines };
   }
-  ctx.font = '700 48px "Noto Sans SC"';
-  return { size: 48, lines: wrapAndClamp(text, maxWidth, (value) => ctx.measureText(value).width, 3) };
+  for (let size = 66; size >= 48; size -= 2) {
+    const candidate = layout(size);
+    if (candidate.raw.length <= 2) return { size: candidate.size, lines: candidate.lines };
+  }
+  return { size: first.size, lines: first.lines };
 }
 
 function fitDescription(ctx, text, maxWidth) {

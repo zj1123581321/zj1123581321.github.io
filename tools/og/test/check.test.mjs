@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { addJpegInputHash, checkCards, inputHash } from '../lib.mjs';
+import { addJpegInputHash, checkCards, frontmatterText, inputHash } from '../lib.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const CHECK_SCRIPT = path.join(ROOT, 'tools/og/check.mjs');
@@ -39,6 +39,11 @@ test('check CLI 对标题改动后的卡片打印 OG-CARD-STALE', (t) => {
   const result = spawnSync(process.execPath, [CHECK_SCRIPT, f.directory], { encoding: 'utf8' });
   assert.equal(result.status, 1);
   assert.match(result.stderr, /OG-CARD-STALE .*og-card\.zh\.jpg 修复：node tools\/og\/generate\.mjs/);
+});
+
+test('双引号 YAML 字符串按展示语义解码转义字符', () => {
+  assert.equal(frontmatterText('A \\\"quoted\\\" title'), 'A "quoted" title');
+  assert.equal(frontmatterText('C:\\\\path'), 'C:\\path');
 });
 
 test('最新卡片检查通过，语言字段也参与输入哈希', (t) => {

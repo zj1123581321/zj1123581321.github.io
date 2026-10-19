@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFrontmatter } from '../i18n/lib.mjs';
-import { inputHash, jpegInputHash, POSTS_DIR, postMarkdownFiles } from './lib.mjs';
+import { frontmatterText, inputHash, jpegInputHash, POSTS_DIR, postMarkdownFiles } from './lib.mjs';
 import { renderCard } from './render.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -34,8 +34,8 @@ async function main() {
       continue;
     }
     const bytes = await renderCard({
-      title: String(frontmatter.title ?? ''),
-      description: frontmatter.description == null ? '' : String(frontmatter.description),
+      title: frontmatterText(frontmatter.title),
+      description: frontmatter.description == null ? '' : frontmatterText(frontmatter.description),
       language,
       avatarPath: AVATAR_PATH,
       hash,

@@ -3,15 +3,19 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { readFrontmatter } from '../i18n/lib.mjs';
 
-export const TEMPLATE_VERSION = '2';
+export const TEMPLATE_VERSION = '5';
 export const META_PREFIX = 'blog-og-meta:v1 sha256:';
 export const POSTS_DIR = path.resolve('content/posts');
+
+export function frontmatterText(value) {
+  return String(value ?? '').replace(/\\(["\\])/g, '$1');
+}
 
 export function inputHash(markdown, language) {
   const frontmatter = readFrontmatter(markdown);
   const input = JSON.stringify({
-    title: String(frontmatter.title ?? ''),
-    description: frontmatter.description == null ? null : String(frontmatter.description),
+    title: frontmatterText(frontmatter.title),
+    description: frontmatter.description == null ? null : frontmatterText(frontmatter.description),
     language,
     templateVersion: TEMPLATE_VERSION,
   });

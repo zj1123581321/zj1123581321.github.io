@@ -1,5 +1,5 @@
 const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
-const NO_LINE_START = /^[，。！？：；、）》】」』〕〉〗〙〛…％‰℃）》!?.,:;%)\]}]/u;
+const NO_LINE_START = /^[，。！？：；、）】」』〕〉〗〙〛…％‰℃”’"'!?.,:;%)\]}]/u;
 
 export function textTokens(text) {
   const tokens = [];
