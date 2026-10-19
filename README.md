@@ -12,10 +12,13 @@
 # 1. 发布文章（自动下载局域网图床图片并本地化）
 node publish.mjs "path/to/你的文章.md"
 
-# 也可以自定义 URL slug
-node publish.mjs "path/to/你的文章.md" my-custom-slug
+# 也可以自定义 URL slug；不需要英文版时加 --no-en
+node publish.mjs "path/to/你的文章.md" my-custom-slug --no-en
 
-# 2. 提交并推送，GitHub Actions 会自动构建部署
+# 2. 预览草稿（含英文草稿），审阅 index.en.md，满意后把里面的 draft: true 改为 false
+hugo server -D
+
+# 3. 提交、推送、走 PR，GitHub Actions 会自动构建部署；PR 检查会跑全部单测与 i18n 校验
 git add content/posts/<slug>
 git commit -m "post: 文章标题"
 git push
@@ -26,6 +29,24 @@ git push
 - 替换图片引用为相对路径
 - 补全 Hugo frontmatter（标题、日期）
 - 生成 [Page Bundle](https://gohugo.io/content-management/page-bundles/) 目录结构
+- 调用本机 `claude` 把全文译成英文，生成 `index.en.md` 英文草稿（`draft: true`，
+  不会直接上线；翻译失败不影响中文，按提示单独重跑即可；不想要英文版用 `--no-en`）
+
+### 英文草稿工作流
+
+1. **生成**：`node publish.mjs ...` 写完中文后自动调 `node tools/i18n/translate.mjs
+   content/posts/<目录名>`（也可单独手动跑）。译文由本机 `claude` 生成，frontmatter
+   （标题、日期、url、sourceHash）由脚本写入，状态固定为 `draft: true`。
+2. **预览草稿**：`hugo server -D` 本地预览（草稿也显示），审阅英文译文；
+   技术名词、图片路径、代码块保持原样，观点不增删。
+3. **公开**：审过之后把 `index.en.md` 里的 `draft: true` 改为 `false`。
+4. **提交**：中文和英文一起 `git add content/posts/<slug>`，推送、走 PR。
+
+**中文改了怎么重译**：直接重跑 `node tools/i18n/translate.mjs content/posts/<目录名>`。
+它会读取旧英文译文喂给模型，只改动与中文变化对应的部分，其余逐字保留；重译后的
+英文一律回到 `draft: true`，需再次审阅后再公开。PR 检查里的 i18n 校验会比较译文的
+`sourceHash` 与中文正文：中文改了没重译会报 `I18N-STALE` 警告（不阻断合并，但该
+更新译文了）。
 
 ## 同步到公众号和 X
 
@@ -119,11 +140,13 @@ hugo server -D
 content/posts/          # 文章目录
   my-post/              #   Page Bundle（新文章）
     index.md            #     文章内容
+    index.en.md         #     英文草稿（翻译工具生成，draft: true）
     image.png           #     文章图片
   old-post.md           #   单文件（旧文章）
 static/                 # 静态资源（旧文章图片）
 layouts/partials/       # 自定义模板（Giscus 评论）
 .github/workflows/      # GitHub Actions 自动部署
+tools/i18n/             # 中英翻译与 i18n 校验（translate.mjs / check.mjs）
 tools/publish/          # 公众号 / X 多平台发布工具
 publish.mjs             # 发布脚本
 hugo.toml               # Hugo 配置

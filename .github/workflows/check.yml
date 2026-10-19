@@ -24,6 +24,9 @@ jobs:
       - name: Run i18n unit tests
         run: node --test tools/i18n/test/*.test.mjs
 
+      - name: Run repo unit tests
+        run: node --test test/*.test.mjs
+
       - name: Run i18n check
         run: node tools/i18n/check.mjs
 
