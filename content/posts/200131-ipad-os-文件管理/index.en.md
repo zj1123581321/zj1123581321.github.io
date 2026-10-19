@@ -166,4 +166,4 @@ Also, if you're often on a local network, consider trying FTP and SMB.
 
 Finally, a bit off-topic: always back up your iPad's data. If you lose an iPad, you can buy another, but if you lose the data, it's truly gone.
 
-First published on the WeChat Official Account [Jottings by Li Xing (杂谈by立行)](https://mp.weixin.qq.com/s/Ob5UYCR1qnBbYA7wX8wz7w) (ztbylx).
+First published on the WeChat Official Account [Zatan by Lixing (杂谈by立行)](https://mp.weixin.qq.com/s/Ob5UYCR1qnBbYA7wX8wz7w) (ztbylx).

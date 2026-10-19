@@ -2,7 +2,7 @@
 title: "Old Tree, New Blossoms: How a Traditional Team Lands Agents"
 date: 2026-09-08
 draft: false
-sourceHash: "sha256:a8fef620055cfd45dd777a2da29a702f21a8234bf7228e5fd3d90b659a3b9d3b"
+sourceHash: "sha256:adb8bd8d816d08a399e85b68296a04a46abd367f8e3855b9fb950eca731b6586"
 translatedBy: "claude-cli/sonnet"
 description: "First-hand practice from a cross-border e-commerce team: an old organization in a small or mid-sized team doesn't need to chase AI Native. From digital infrastructure, staff tiering, and a closed context loop to infrastructure selection, I used open-source tools and a single server to build the Agent infrastructure for the whole team."
 ---
@@ -12,7 +12,7 @@ description: "First-hand practice from a cross-border e-commerce team: an old or
 
 > The draft of this article was a 45-minute voice-recorded train of thought. Continuing the tradition of this series — **as a human, all you need to understand is the ideas and the framework; leave the execution details to your Agent.** The appendix at the end contains reference material for your Agent to read.
 >
-> Recommended background reading: [Context is All You Need](../context-is-all-you-need/) (the basics of context engineering), [Risk Control, Design Philosophy, and Model Selection](../260328-claude-code-risk-model-philosophy/) (model tiering strategy), and [A General Doesn't Chase Rabbits](../260809-multi-agent-scheduling-architecture/) (multi-Agent scheduling architecture). This article takes a different perspective — not "how I personally use Agents," but "how a traditional team gets Agents to land."
+> Recommended background reading: [Context is All You Need](../context-is-all-you-need/) (the basics of context engineering), [Risk Control, Design Philosophy, and Model Selection](../claude-code-risk-model-philosophy/) (model tiering strategy), and [A General Doesn't Chase Rabbits](../260809-multi-agent-scheduling-architecture/) (multi-Agent scheduling architecture). This article takes a different perspective — not "how I personally use Agents," but "how a traditional team gets Agents to land."
 
 ## Introduction: Why Talk About This
 
@@ -112,7 +112,7 @@ As for the small group who strongly resist AI, it's essentially a matter of calc
 
 This structure has another benefit: **controllable cost.** Only the top-tier architects and middle-tier practitioners need high-quality Tokens for thinking (using top-tier models to design solution frameworks and write reusable automation flows); most people are fine with a cheap execution model.
 
-This is the strategy I described in [Risk Control, Design Philosophy, and Model Selection](../260328-claude-code-risk-model-philosophy/): **top-tier models set the approach, while domestic models handle the engineering to cut cost.** It applies equally at the organizational level.
+This is the strategy I described in [Risk Control, Design Philosophy, and Model Selection](../claude-code-risk-model-philosophy/): **top-tier models set the approach, while domestic models handle the engineering to cut cost.** It applies equally at the organizational level.
 
 > For organizational change in the AI era, I strongly recommend listening to this talk by Mango, co-founder of XMind: [Divide the Work, Divide the Circles, Divide the Money, Do AI](https://www.xiaoyuzhoufm.com/episode/6a8c42b42e27ea5b21fabac7) ([AI summary and proofread transcript](https://sum.zlxlabs.com/view/view__jJHBegbh00Puv8ZsVDPdYOQxfxJVEk8HRIpT8eIcPc)). It's first-hand construction experience from XMind's shift from a departmental structure to a "circle structure," and the core conclusion is: the goal of an AI-native organization is to minimize friction between people, and anything with friction should be automated wherever possible. How to divide the circles, the work, and the money — this episode explains it thoroughly.
 
@@ -418,7 +418,7 @@ All of the above tools support Docker deployment and can be deployed on the same
 ### Related Articles
 
 - [Context is All You Need](/en/posts/context-is-all-you-need/): the basics of context engineering
-- [Risk Control, Design Philosophy, and Model Selection](/en/posts/260328-claude-code-risk-model-philosophy/): model tiering strategy
+- [Risk Control, Design Philosophy, and Model Selection](/en/posts/claude-code-risk-model-philosophy/): model tiering strategy
 - [A General Doesn't Chase Rabbits](/en/posts/260809-multi-agent-scheduling-architecture/): multi-Agent scheduling architecture
 - [Agents Don't Clock Out](/en/posts/260628-agent-era-dev-anywhere/): setting up a remote development environment
 - [Claude Managed Agents](https://platform.claude.com/docs/en/managed-agents/overview): Anthropic's official managed Agent platform
