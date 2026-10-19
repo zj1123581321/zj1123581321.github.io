@@ -13,3 +13,11 @@
 关键决策与已否决方案：仓根用 argv 不用环境变量；警告不算失败（哈希只能证明「变了」不能证明「已改译」）。不检查缺译。
 
 下一步唯一动作：写 PR 触发的 check.yml，Hugo 安装照抄 deploy.yml。
+
+当前阶段：implementing — PR 检查工作流落地。
+
+本段结论：新增 `.github/workflows/check.yml`，`pull_request` 目标 main 加 `workflow_dispatch`。步骤为 i18n 单测、`check.mjs`、Hugo 0.147.5 extended 构建。不改 `deploy.yml`。
+
+关键决策与已否决方案：checkout 带 `submodules: recursive`；CI 钉 Node 20，因为 Node 22+ 的 `--test <目录>` 把目录当文件执行，卡面命令在 Node 20 才按目录展开。不加 continue-on-error、不加重试。
+
+下一步唯一动作：把试点译文 translationSynced 迁成 sourceHash。
