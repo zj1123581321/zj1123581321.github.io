@@ -131,6 +131,7 @@ test('中文有 url：frontmatter、首行声明、argv/stdin 跨边界，产物
     assert.equal(call.argv.includes('--model'), true);
     assert.equal(call.argv[call.argv.indexOf('--model') + 1], 'sonnet');
     assert.equal(call.stdin.includes(ZH_UNIQUE), true);
+    assert.equal(call.stdin.includes('中文描述一句话'), true);
 
     const out = enText(postDir);
     assert.equal((out.match(/^draft: true$/gm) ?? []).length, 1);

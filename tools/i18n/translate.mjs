@@ -46,7 +46,7 @@ function bodyOf(markdownText) {
   return lines.slice(closeIdx + 1).join('\n').trim();
 }
 
-function buildPrompt({ zhBody, wantDescription, oldEnBody }) {
+function buildPrompt({ zhBody, zhDescription, wantDescription, oldEnBody }) {
   const lines = [
     '你是一名中译英的博客译员。把下面这篇中文博客文章翻译成英文。',
     '输出必须严格遵循以下机器可解析格式：每个标记行独占一行、原样输出；标记行之外不得输出任何解释或多余内容。',
@@ -55,7 +55,7 @@ function buildPrompt({ zhBody, wantDescription, oldEnBody }) {
     '<英文标题，一行>',
   ];
   if (wantDescription) {
-    lines.push('=== DESCRIPTION ===', '<英文描述，对应中文 description，一行>');
+    lines.push('=== DESCRIPTION ===', '<英文描述，一行：忠实翻译下方给出的中文 description 原文，不增删观点>');
   }
   lines.push(
     '=== BODY ===',
@@ -72,6 +72,14 @@ function buildPrompt({ zhBody, wantDescription, oldEnBody }) {
     '',
     zhBody,
   );
+  if (wantDescription) {
+    lines.push(
+      '',
+      '中文 description 原文（=== DESCRIPTION === 段的译文必须译自这句话）：',
+      '',
+      zhDescription,
+    );
+  }
   if (oldEnBody) {
     lines.push(
       '',
@@ -156,7 +164,12 @@ const wantDescription = Object.hasOwn(zhFm, 'description');
 const oldEnBody = fs.existsSync(enPath) ? bodyOf(fs.readFileSync(enPath, 'utf8')) : null;
 
 // --- 调用 claude（prompt 走 stdin） ---
-const prompt = buildPrompt({ zhBody: bodyOf(zhText), wantDescription, oldEnBody });
+const prompt = buildPrompt({
+  zhBody: bodyOf(zhText),
+  zhDescription: wantDescription ? zhFm.description : null,
+  wantDescription,
+  oldEnBody,
+});
 const r = spawnSync('claude', ['-p', '--model', MODEL], { input: prompt, encoding: 'utf8' });
 if (r.error) {
   fail(`cannot spawn claude: ${r.error.message}`);
