@@ -1,7 +1,7 @@
 ---
-title: "Building Win10 from Scratch into a Work \"Power Tool\": 1 GB of Data, 70+ Apps, a 10,000-Word Hand-Holding Guide"
+title: "Building Win10 from Scratch into a Work \"Power Tool\": 1 GB of Data, 70+ Apps, a 10,000-Character Hand-Holding Guide"
 date: 2020-04-06
-draft: true
+draft: false
 url: "/en/posts/2020-04-06230/"
 sourceHash: "sha256:6d4a289c97d8390c5ced4eaa602331049772e49bb898a1e16cbcab1ecb4c4630"
 translatedBy: "claude-cli/sonnet"
@@ -17,7 +17,7 @@ So I wanted to share the pitfalls and experience from that process, to help ever
 
 I hope this article helps you.
 
-1 GB of data, 70+ apps, a 10,000-word guide: I'll walk you through, step by step, turning Win10 from scratch into a work "power tool". **I suggest bookmarking it before you read.**
+1 GB of data, 70+ apps, a 10,000-character guide: I'll walk you through, step by step, turning Win10 from scratch into a work "power tool". **I suggest bookmarking it before you read.**
 
 * * *
 
@@ -57,14 +57,14 @@ As for why I reinstalled the system so many times in one year… um…
 
 After all, there's no problem a system reinstall can't solve. And if there is, then reinstall twice.
 
-During my exploration, I especially want to thank 沨沄极客 and 奔跑中的奶酪 for their selfless sharing, which saved me from taking many detours. Writing this article is also a way of passing on the spirit of "sharing" of these two teachers.
+During my exploration, I especially want to thank Fengyun Jike (沨沄极客) and Running Cheese (奔跑中的奶酪) for their selfless sharing, which saved me from taking many detours. Writing this article is also a way of passing on their spirit of sharing.
 
 All right, let's get to the main topic.
 
 PS:
 
 1.  Adopt the steps below according to your own needs; skip any step you don't need.
-2.  The apps in this article come with links to their official download pages. You can also reply "重装系统" (reinstall system) on my official account **杂谈by立行** to get the **organized collection pack of 70+ apps**.
+2.  The apps in this article come with links to their official download pages. You can also reply with the keyword "Reinstall System" (重装系统) on my WeChat public account **Zatan by Lixing (杂谈by立行)** to get the **organized collection pack of 70+ apps**.
 3.  Please take your own technical level and the risks of each operation into account, and back up your system / create a restore point. I take no responsibility for any consequences of improper operation.
 
 ![A 70+ app installer pack, painstakingly organized](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409113503.png)
@@ -142,7 +142,7 @@ Method: on the folder you want to change, click in order "right-click" – "Prop
 
 #### 1.4.2 Setting OneDrive's Location
 
-Cloud storage is practically standard equipment for using a computer today. File sync and backup both depend on a safe, reliable, convenient cloud service.
+Cloud storage is practically essential when using a computer today. File sync and backup both depend on a cloud service that is safe, reliable, and convenient.
 
 OneDrive is Microsoft's own offspring and is tightly integrated with Win10. Regular users get 5 GB of space, and Office 365 users get 1 TB. I suggest promptly putting important files into OneDrive or another cloud drive for backup and sync.
 
@@ -243,7 +243,7 @@ I also want to emphasize the following:
 > 
 > Source: Baidu Baike
 
-In plain words, UWP apps are the software you can download from the Microsoft Store. They are safer than traditional exe files, easier to manage, and more economical with system resources. But the ecosystem hasn't been built up well, and they aren't widely known.
+In plain words, UWP apps are the software you can download from the Microsoft Store. They are safer than traditional exe files, easier to manage, and more economical with system resources. But the ecosystem is underdeveloped, so UWP apps aren't widely known.
 
 ![Microsoft Store](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409113923.png)
 
@@ -285,7 +285,7 @@ Snipaste is simple to use and powerful.
 -   Press F1 to take a screenshot, and F3 to pin an image onto the screen
 -   While capturing, you can pick colors and locate pixels directly, and there are useful guide lines.
 -   After capturing, you can add text/shapes, scribble, mosaic, and do other common operations right on the image
--   Replay of screenshot history
+-   Review your screenshot history
 -   Pixel-level control over the capture area
 
 For more efficient and practical features, see the [official documentation](https://docs.snipaste.com/zh-cn/getting-started). It also has an [installer](https://zh.snipaste.com/) and a [UWP version](https://www.microsoft.com/zh-cn/p/snipaste/9p1wxpkb68kx), with no difference in features.
@@ -362,13 +362,13 @@ Compared with software that needs installing, their advantage is that when you r
 
 ![SumatraPDF offers a portable download](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409114457.png)
 
-The downside is that common software generally doesn't offer a portable version these days, and many portable versions are made by netizens from the installer versions.
+The downside is that common software generally doesn't offer a portable version these days, and many portable versions are repackaged by users from the installer editions.
 
 For the few apps that do offer a portable version, the installer filename usually contains "Portable".
 
-![The portable Chrome made by 奶酪](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409114508.png)
+![The portable Chrome made by Running Cheese](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409114508.png)
 
-Finding portable versions of software usually takes some searching skill and accumulated know-how, for example GitHub, [精品绿色便携软件](https://www.portablesoft.org/), and [PortableAppK](https://portableappk.com/).
+Finding portable versions of software usually takes some searching skill and accumulated know-how. Useful sources include GitHub, [Premium Portable Software (精品绿色便携软件)](https://www.portablesoft.org/), and [PortableAppK](https://portableappk.com/).
 
 ![My portable software repository](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409114519.png)
 
@@ -433,7 +433,7 @@ An open-source, free little tool under 10 MB, but with very powerful screen and 
 
 ![Captura interface screenshot](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409114644.png)
 
-#### 2.2.6 [菲菲更名宝贝 (FF Rename Baby) - Batch Renaming / Batch File Processing](http://www.ffhome.com/works/1406.html)
+#### 2.2.6 [FF Rename Baby (菲菲更名宝贝) - Batch Renaming / Batch File Processing](http://www.ffhome.com/works/1406.html)
 
 > If you think this software is similar to other **batch renaming** software, then you're wrong…
 > 
@@ -451,11 +451,11 @@ An open-source, free little tool under 10 MB, but with very powerful screen and 
 > 
 > …
 > 
-> If the answer is yes, then good: here comes "菲菲更名宝贝 · 得意非凡"…
+> If the answer is yes, then good: here comes "FF Rename Baby: De Yi Fei Fan (菲菲更名宝贝之得意非凡)"…
 
 The interface isn't that pretty, but its features are genuinely beyond criticism… it can basically satisfy any need for batch file processing.
 
-![菲菲更名宝贝 software interface](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409114711.png)
+![FF Rename Baby software interface](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409114711.png)
 
 #### 2.2.7 [IrfanView - Image Viewer](https://www.irfanview.com/)
 
@@ -628,11 +628,11 @@ Its advantage is that iPhone/iPad/Mac can mirror to Windows without installing a
 
 One use case is using the iPad as a drawing pad and sharing the window during online meetings. Of course, for that scenario I'd recommend using Zoom instead.
 
-#### 2.2.20 [天若 OCR (Tianruo OCR) - Text Recognition](https://tianruoocr.cn/)
+#### 2.2.20 [Tianruo OCR (天若 OCR) - Text Recognition](https://tianruoocr.cn/)
 
 A small but powerful OCR recognition tool. Its features are shown in the image:
 
-![天若OCR text recognition](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409115419.png)
+![Tianruo OCR text recognition](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409115419.png)
 
 Version V4.48 and earlier are free portable versions; later versions are paid, with correspondingly enhanced features. Just choose the version that fits your needs.
 
@@ -664,7 +664,7 @@ Software that lets you manage and switch hosts files faster; programmers will pr
 
 ![OneDrive acceleration](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409115522.png)
 
-#### 2.2.24 [冰点文库下载器 (Bingdian Library Downloader) - Document Downloads](http://www.bingdian001.com/)
+#### 2.2.24 [Bingdian Library Downloader (冰点文库下载器) - Document Downloads](http://www.bingdian001.com/)
 
 The name says it all: it downloads documents from Baidu Wenku, Docin, DXY, Chanxiang, MBALib, Book118, and other document libraries without spending points.
 
@@ -700,7 +700,7 @@ On Windows you can even bind keys, so you can control the phone from the compute
 
 ### 2.3 Essentials for a New Setup: Must-Haves
 
-Generally speaking, the Office trio comes preinstalled on computers. So for ordinary people, the truly essential software is just two kinds: a browser and an IM (instant messaging) app.
+Generally speaking, the Microsoft Office suite comes preinstalled on computers. So for most people, the truly essential software comes down to two kinds: a browser and an IM (instant messaging) app.
 
 More specifically, these ones below.
 
@@ -740,15 +740,15 @@ If you have things to memorize and absorb, such as vocabulary, reference materia
 -   Cross-platform support (Windows, Mac, iOS, Android, Web)
 -   …
 
-![ANKI open course by 学习骇客 (Learning Hacker)](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409115827.png)
+![ANKI open course by Learning Hacker (学习骇客)](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409115827.png)
 
 [Video link](https://www.bilibili.com/video/BV1U7411u7WT)
 
-More: if you want to understand Anki in depth, I recommend following "学习骇客" (Learning Hacker), who uses Anki with astonishing mastery…
+More: if you want to understand Anki in depth, I recommend following Learning Hacker, who uses Anki with astonishing mastery…
 
-[Suggestions for using ANKI in English exam prep | 学习骇客](https://mp.weixin.qq.com/s/7K0rTH7mGPlghXtN7lr84Q)
+[Suggestions for using ANKI in English exam prep | Learning Hacker](https://mp.weixin.qq.com/s/7K0rTH7mGPlghXtN7lr84Q)
 
-[How do you use Anki? – answer by 高冷冷](https://www.zhihu.com/question/28335314/answer/428970652)
+[How do you use Anki? – answer by Gao Leng Leng (高冷冷)](https://www.zhihu.com/question/28335314/answer/428970652)
 
 #### 2.4.2 [BookxNote - Book Breakdown / Notes](http://www.bookxnote.com/)
 
@@ -780,7 +780,7 @@ If you're tired of the pain of typing LaTeX by hand, try Mathpix. The accuracy f
 
 ![MathPix](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409115906.png)
 
-Friendly reminder: the free version has a usage limit, and upgrading to a paid plan is less cost-effective than using 天若 OCR with an API.
+Friendly reminder: the free version has a usage limit, and upgrading to a paid plan is less cost-effective than using Tianruo OCR with an API.
 
 #### 2.4.5 [Youdao Dictionary - Translation](https://www.youdao.com/)
 
@@ -848,7 +848,7 @@ For the strengths and weaknesses of the Tencent, Shimo, and Kingsoft office suit
 
 > Markdown is a lightweight markup language that lets people write documents in an easy-to-read, easy-to-write plain text format.
 > 
-> In plain words, it's a way of input where you only need to **focus on the text and images themselves**, without thinking about complicated layout. Unless you have particular layout requirements, Markdown is a very comfortable and efficient way to input text and images.
+> In plain English, it lets you **focus on the text and images themselves** without worrying about complicated formatting. Unless you have special layout requirements, Markdown is a comfortable and efficient way to write with text and images.
 
 Compared with the abundance of competing Markdown editors on Mac, Windows has pitifully few Markdown editors that can hold their own. And Typora is probably the best Markdown solution on the Windows platform.
 
@@ -896,7 +896,7 @@ Of course, its original purpose is to delay startup, reducing resource usage at 
 
 > Friends who know a bit more about computers know that a lot of software is written with Microsoft Visual Studio, and such software can't run without Microsoft's system runtime libraries, for example [QQ](http://www.carrotchou.blog/29.html), [Xunlei](http://www.carrotchou.blog/16012.html), [Adobe software](http://www.carrotchou.blog/?s=Adobe), and so on. System runtime libraries are the foundation that lets most software run. If the runtime libraries aren't fully installed, some software may report errors when opened, saying files are missing.
 > 
-> However, many friends don't know which runtime libraries they actually need to install. No problem: the collection of common Microsoft runtime libraries that 萝卜君 is sharing today is meant to solve exactly this problem. This collection integrates the latest and most commonly used Microsoft runtime libraries, installs with one click, is easy to operate, and is an essential tool for any new setup!
+> However, many people don't know which runtime libraries they actually need to install. No problem: the collection of common Microsoft runtime libraries that Luobo Jun (萝卜君) is sharing today is meant to solve exactly this problem. This collection integrates the latest and most commonly used Microsoft runtime libraries, installs with one click, is easy to use, and is an essential tool for any new setup!
 
 ![Common Microsoft runtime libraries collection 2020.03.25](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409120257.jpg)
 
@@ -971,7 +971,7 @@ Quicker is an efficiency powerhouse that helps you abstract your common operatio
 
 Describing Quicker in words falls flat, so let's go straight to animated images and videos.
 
-![Batch-filling data into a form. Author: 咿呀杀杀](D:%5CMyFolders%5CDesktop%5C20200409120426.gif)
+![Batch-filling data into a form. Author: Yi Ya Shasha (咿呀杀杀)](D:%5CMyFolders%5CDesktop%5C20200409120426.gif)
 
 ![Quickly saving WeChat images](D:%5CMyFolders%5CDesktop%5C20200409120426.gif)
 
@@ -981,7 +981,7 @@ Describing Quicker in words falls flat, so let's go straight to animated images 
 
 ![Quicker action library – Excel section](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409120450.png)
 
-And Quicker's [action library](https://www.getquicker.net/Share) already contains many actions written by netizens. In most cases you only need to copy and paste to begin a legendary journey.
+And Quicker's [action library](https://www.getquicker.net/Share) already contains many actions created by other users. In most cases you only need to copy and paste to start using Quicker to its full potential.
 
 Quicker comes in a free edition and a pro edition. If you feel you need to buy the pro edition, you can enter my referral code `2923-4897`; this gives you three extra months of subscription, and I get a reward too.
 
@@ -1043,7 +1043,7 @@ Although Win10 has built-in FTP functionality, it's not as convenient to manage 
 
 They support common cloud drives and protocols, and are another option for file backup/sync. You can set up scheduled backup/sync tasks to automate things.
 
-GoodSync has a free promotional period every year, so if you're not in a hurry you can be a waiter-and-see type.
+GoodSync has a free promotional period every year, so if you're not in a hurry, you can wait for it.
 
 #### 2.8.4 [qBittorrent - Magnet Downloads](https://www.qbittorrent.org/)
 
@@ -1069,7 +1069,7 @@ This should be a must-have download tool on Windows.
 
 With IDM, the only things that can limit you are the server and your own network bandwidth.
 
-For a detailed introduction to IDM, you can refer to 奶酪's [article](https://www.runningcheese.com/idm).
+For a detailed introduction to IDM, you can refer to Running Cheese's [article](https://www.runningcheese.com/idm).
 
 ### 2.9 Essentials for a New Setup: Creative Toolbox
 
@@ -1103,7 +1103,7 @@ By default it supports Weibo image host, Qiniu, Tencent Cloud COS, Upyun, GitHub
 
 XnConvert helps you operate on images in batches, including but not limited to: rotating, converting formats, compressing, cropping, and adjusting color. It supports many image formats, and batch settings can be saved for reuse.
 
-![XnConvert interface, Chinese available](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409120702.jpg)
+![XnConvert interface, with a Chinese-language option](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409120702.jpg)
 
 #### 2.9.5 [Riot - Image Compression](https://riot-optimizer.com/)
 
@@ -1111,7 +1111,7 @@ The official-account backend has size limits for images and animated images, and
 
 ![You can view the compressed image's size instantly](https://gitee.com/zj1123581321/ImgForPicGo/raw/master/Img/20200409120709.png)
 
-One last reminder: you can download the software mentioned in this article through the official links, or reply "重装系统" (reinstall system) on my official account **杂谈by立行** to get the **organized collection pack of 70+ apps**.
+One last reminder: you can download the software mentioned in this article through the official links, or reply with the same keyword on my WeChat public account **Zatan by Lixing** to get the **organized collection pack of 70+ apps**.
 
 ## 3 Daily Use
 
@@ -1129,7 +1129,7 @@ I mentioned this at the start of the article; I'll stress it once more here.
 #### 3.1.1 Installing
 
 -   For all Chinese-made software, **do not choose** options like "Quick Install" or "One-Click Install"; check step by step.
--   It's best to manage install locations uniformly; for details, see 奶酪's article: [The Great Way is Simple: how to use Windows efficiently?](https://www.runningcheese.com/windows). Of course, if you can't be bothered to manage this, the default location is fine too.
+-   It's best to manage install locations uniformly; for details, see Running Cheese's article: [The Great Way is Simple: how to use Windows efficiently?](https://www.runningcheese.com/windows). Of course, if you can't be bothered to manage this, the default location is fine too.
 -   After installing, remember to **check startup management**; don't trust the software's own autostart option.
 -   You can use the Start menu as the entry point for software, and manage your software by category there.
 
@@ -1147,7 +1147,7 @@ Microsoft 365 here includes not only OneDrive's 1 TB of space, but also multi-pl
 
 **I strongly advise against using those few-yuan, 5 TB OneDrive accounts from Taobao for file backup.** Such accounts are fraudulently registered and may be **banned** by Microsoft at any time. Moreover, the files in the account can be **viewed and deleted at any time** by the system administrator, with no privacy whatsoever.
 
-As for Baidu Netdisk, if you're a member, Windows does support backing up to 5 local files, which is not a bad option either.
+As for Baidu Netdisk, its Windows client supports backing up up to five local files if you're a member, which is not a bad option either.
 
 And for Jianguoyun, as mentioned above, if you need multi-device sync it's the first choice in China. If you don't have that need, you can still download and try it; free users have no limits on space or speed, only on capacity. (Jianguoyun, if you're reading this, please give me a renewal discount, thanks.)
 
@@ -1197,11 +1197,11 @@ Also, because this article is published on multiple platforms, to avoid some que
 
 [Click here to ask a question](https://docs.qq.com/form/fill/DYUNCZU1zSVZHSHFD?_w_tencentdocx_form=1)
 
-## 4 The External Environment
+## 4 Your Physical Setup
 
-Modern work is hard to do without a computer, and most of the day may be spent in front of one.
+It's hard to get through a modern workday without a computer, and many people spend most of the day in front of one.
 
-If you're like me, and sitting for long stretches in front of the computer often leaves your lower back, wrists, and hips sore, take a look at this set of gear I worked out for under 500 yuan, which has greatly relieved these problems.
+If you're like me and long hours at the computer often leave your lower back, wrists, and hips sore, take a look at this setup I put together for under 500 yuan. It has eased those problems considerably.
 
 [What chairs are better for long hours of work/gaming, and what are the criteria for judging?](https://www.zhihu.com/question/28628163/answer/1034720398)
 
