@@ -1,0 +1,36 @@
+name: Check
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.147.5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run i18n unit tests
+        run: node --test tools/i18n/test/*.test.mjs
+
+      - name: Run i18n check
+        run: node tools/i18n/check.mjs
+
+      - name: Install Hugo CLI
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+      - name: Build with Hugo
+        run: hugo --gc --minify --baseURL https://zj1123581321.com/ --destination "$RUNNER_TEMP/site"

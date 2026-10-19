@@ -3,12 +3,12 @@ title: "Claude Code: Avoiding Bans, Choosing Models, and Design Philosophy"
 date: 2026-03-28
 draft: false
 url: "/en/posts/claude-code-risk-model-philosophy/"
-translationSynced: 2026-09-25
+sourceHash: "sha256:c6f895ee068580d8243126b0c5138ae943749a241e047fde310f3bd84f30c788"
 ---
 
 ![Claude Code: Avoiding Bans, Choosing Models, and Design Philosophy](Pasted-image-20260328205719.png)
 
-*Translated from the [Chinese original](/posts/claude-code-risk-model-philosophy/). Last synced 2026-09-25.*
+*Translated from the [Chinese original](/posts/claude-code-risk-model-philosophy/).*
 
 Claude Code paired with Opus 4.6, and Codex paired with GPT 5.4 — these are the two products running far ahead of the pack in the coding agent space. My own setup is the Claude Code Max plan plus Codex's $20 basic plan; I do most of my project work in Claude Code and turn to Codex for the really hard debugging.
 
