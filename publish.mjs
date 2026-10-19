@@ -231,5 +231,5 @@ console.log(`
   文章: ${path.join(postDir, 'index.md')}
   图片: ${imgCount} 张已本地化
 
-部署: git add -A && git commit -m "post: ${slug}" && git push
+部署: git add content/posts/${slug} && git commit -m "post: ${slug}" && git push
 `);
