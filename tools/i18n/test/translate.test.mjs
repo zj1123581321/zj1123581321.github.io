@@ -218,6 +218,44 @@ test('已有旧译文：旧英文正文附入 prompt，生成文件被新译文�
   });
 });
 
+test('重译去重：旧译文声明不进 prompt，产物声明恰好一行', () => {
+  const decl = '*Translated from the [Chinese original](/posts/demo/).*';
+  const outWithDecl = [
+    '=== TITLE ===',
+    STUB.title,
+    '=== DESCRIPTION ===',
+    STUB.description,
+    '=== BODY ===',
+    `${decl}\n\nregenerated body paragraph.`,
+  ].join('\n');
+  withSandbox(({ dir, postDir }) => {
+    fs.writeFileSync(path.join(postDir, 'index.md'), zhArticle({ url: '/posts/demo/' }));
+    fs.writeFileSync(path.join(postDir, 'index.en.md'), [
+      '---',
+      'title: "Old Title"',
+      'date: 2026-01-02',
+      'draft: false',
+      '---',
+      '',
+      decl,
+      '',
+      'old body paragraph.',
+      '',
+    ].join('\n'));
+
+    const r = runTranslate(dir, postDir);
+    assert.equal(r.status, 0, r.stderr);
+
+    const call = readCall(dir);
+    assert.equal(call.stdin.includes('Translated from the'), false);
+    assert.equal(call.stdin.includes('old body paragraph.'), true);
+
+    const out = enText(postDir);
+    assert.equal((out.match(/Translated from the/g) ?? []).length, 1);
+    assert.equal(out.includes('regenerated body paragraph.'), true);
+  }, { output: outWithDecl });
+});
+
 test('stub 非零退出：失败上抛且不写 index.en.md', () => {
   withSandbox(({ dir, postDir }) => {
     fs.writeFileSync(path.join(postDir, 'index.md'), zhArticle());

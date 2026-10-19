@@ -27,6 +27,11 @@ function fail(reason) {
   process.exit(1);
 }
 
+// 剥掉首行的中文原文声明行（旧译文携带或模型回抄），保证最终文件恰好一行声明
+function stripDeclaration(body) {
+  return body.replace(/^\*Translated from the \[Chinese original\]\([^)]*\)\.\*\n+/, '');
+}
+
 function bodyOf(markdownText) {
   const text = String(markdownText).replaceAll('\r\n', '\n');
   if (!text.startsWith('---\n')) {
@@ -113,7 +118,7 @@ function parseModelOutput(text, wantDescription) {
   };
   const oneLine = (name) => section(name).replace(/\s+/g, ' ').trim();
   const title = oneLine('TITLE');
-  const body = section('BODY').trim();
+  const body = stripDeclaration(section('BODY').trim());
   if (!title || !body) {
     return null;
   }
@@ -161,7 +166,9 @@ const slug = path.basename(postDir);
 const hasUrl = Object.hasOwn(zhFm, 'url');
 const zhPagePath = hasUrl ? zhFm.url : `/posts/${slug}/`;
 const wantDescription = Object.hasOwn(zhFm, 'description');
-const oldEnBody = fs.existsSync(enPath) ? bodyOf(fs.readFileSync(enPath, 'utf8')) : null;
+const oldEnBody = fs.existsSync(enPath)
+  ? stripDeclaration(bodyOf(fs.readFileSync(enPath, 'utf8')))
+  : null;
 
 // --- 调用 claude（prompt 走 stdin） ---
 const prompt = buildPrompt({
