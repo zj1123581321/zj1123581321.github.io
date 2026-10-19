@@ -1,14 +1,14 @@
 ---
 title: "Agents Never Clock Out, Mobile Edition 2.0: From tmux + HAPI to Herdr + HerdWeb"
 date: 2026-08-26
-draft: true
+draft: false
 sourceHash: "sha256:02e4cd20593f6f24bb94b3e080c414279365e227b6038fc4134392026843845c"
 translatedBy: "claude-cli/sonnet"
 description: "From tmux + HAPI to Herdr + HerdWeb, a full upgrade of my mobile remote-development setup: a badge API that fixes the status blind spot, seven interaction optimizations for phone screens, a weak-network scheme inspired by the Mosh protocol, and the trade-offs behind each choice."
 ---
 *Translated from the [Chinese original](/posts/260826-agent-era-mobile-dev-evolution/).*
 
-> This post is the mobile-setup upgrade in the "Agents Never Clock Out" series. For how to build the base architecture, see [Agents Never Clock Out: A Development Setup for Anytime, Anywhere, Any Device](/posts/260628-agent-era-dev-anywhere/); for how to schedule multiple agents, see [A General on the March Doesn't Chase Rabbits](/posts/260809-multi-agent-scheduling-architecture/). This post is about what happened to the mobile development experience after the whole setup switched to Herdr.
+> This post is the mobile-setup upgrade in the "Agents Never Clock Out" series. For how to build the base architecture, see [Agents Never Clock Out: A Development Setup for Anytime, Anywhere, Any Device](/en/posts/260628-agent-era-dev-anywhere/); for how to schedule multiple agents, see [A General on the March Doesn't Chase Rabbits](/en/posts/260809-multi-agent-scheduling-architecture/). This post is about what happened to the mobile development experience after the whole setup switched to Herdr.
 >
 > As always: **as a human, all you need to understand is the architecture and the reasoning behind the choices. Hand the actual installation and deployment to your agent.**
 
@@ -24,18 +24,18 @@ So I figured I might as well write this post. I'd wanted to write it for a while
 
 ## 1. Two Cracks in the 1.0 Setup
 
-In [Agents Never Clock Out](/posts/260628-agent-era-dev-anywhere/), the mobile setup I recommended was **HAPI + tmux**, with Tailscale or Cloudflare Tunnel for networking. After using it for a while, two problems became increasingly obvious.
+In [Agents Never Clock Out](/en/posts/260628-agent-era-dev-anywhere/), the mobile setup I recommended was **HAPI + tmux**, with Tailscale or Cloudflare Tunnel for networking. After using it for a while, two problems became increasingly obvious.
 
 ### Crack One: tmux's Status Blind Spot
 
-In the [multi-agent scheduling](/posts/260809-multi-agent-scheduling-architecture/) post, I mentioned that my current scheduling approach is for the **lead agent to dispatch task cards**: the lead agent handles planning and breaking down tasks, and the execution layer works autonomously in the background.
+In the [multi-agent scheduling](/en/posts/260809-multi-agent-scheduling-architecture/) post, I mentioned that my current scheduling approach is for the **lead agent to dispatch task cards**: the lead agent handles planning and breaking down tasks, and the execution layer works autonomously in the background.
 
 In this mode, tmux's title mechanism isn't enough. Two scenarios are especially painful:
 
 - **The lead agent has finished, but the tmux title hasn't changed.** You don't know it's waiting for you, so the task just sits there without moving forward.
 - **The tmux title has changed, but the background execution layer is still running.** You click in and find there's actually nothing for you to do. Your attention is wasted.
 
-When I had five or six lead agents open at once, these two situations kept recurring. A huge amount of your energy goes into "figuring out who needs my attention", instead of the attention itself.
+When I had five or six lead agents open at once, these two situations kept recurring. A huge amount of your energy goes into "figuring out who needs your attention" instead of paying attention to the work itself.
 
 ### Crack Two: Two Hard Flaws in HAPI
 
@@ -145,7 +145,7 @@ Based on how often I actually use them, I put eight items in the first-level men
 
 These cover the vast majority of everyday interactions with a coding agent: ESC to cancel, Ctrl+C to interrupt, Enter to confirm, Delete to edit, plus the keyboard toggle, image paste, and voice input mentioned above. The less common actions go into "More", to be expanded when needed.
 
-### ④ Image Paste: Fixing the Lame Leg
+### ④ Image Paste: Restoring a Missing Capability
 
 The original remobi project doesn't support image paste.
 
@@ -178,7 +178,7 @@ These two points make a particularly noticeable difference on a high-speed train
 
 HerdWeb has no built-in authentication layer. This isn't laziness; it's a **deliberate design decision**.
 
-It is essentially a personally deployed tool, and authentication should be handed to more professional, mature infrastructure, such as [Tailscale](/posts/260628-agent-era-dev-anywhere/#tailscale把所有设备拉进同一个安全的虚拟-wifi) or [Cloudflare Tunnel + Access](/posts/260628-agent-era-dev-anywhere/#cloudflare-tunnel--access手机访问-hapi-的方案), both introduced in the last post.
+It is essentially a personally deployed tool, and authentication should be handed to more professional, mature infrastructure, such as [Tailscale](/en/posts/260628-agent-era-dev-anywhere/#tailscale-pulling-all-your-devices-into-one-secure-virtual-wifi) or [Cloudflare Tunnel + Access](/en/posts/260628-agent-era-dev-anywhere/#cloudflare-tunnel--access-the-solution-for-reaching-hapi-from-a-phone), both introduced in the last post.
 
 **But please remember: never expose HerdWeb directly to the public internet.** Whoever can reach this page can drive the terminals on your server, which is equivalent to handing them command-line access to your dev machine. Always put a Tailscale private network or Cloudflare Access authentication in front of it.
 
@@ -273,7 +273,7 @@ I suggest giving the relevant API Key to your agent, telling it which route you 
 - HerdWeb has **no built-in authentication** and binds only to `127.0.0.1` by default
 - It **must** be exposed through a Tailscale private network or Cloudflare Tunnel + Access
 - **Never** open it directly to the public internet: anyone who can reach the page can drive your terminals
-- The authentication setup is exactly the same as the network layer in [Agents Never Clock Out 1.0](/posts/260628-agent-era-dev-anywhere/)
+- The authentication setup is exactly the same as the network layer in [Agents Never Clock Out 1.0](/en/posts/260628-agent-era-dev-anywhere/)
 
 ---
 
