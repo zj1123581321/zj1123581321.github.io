@@ -52,6 +52,19 @@ theme = 'PaperMod'
         Title = "Lixing's Blog"
         Content = "Notes and thoughts from a digital nomad. Most of my writing is in Chinese — see the [Chinese homepage](https://zj1123581321.com/) for more."
 
+    [[languages.en.params.socialIcons]]
+      name = "github"
+      url = "https://github.com/zj1123581321"
+
+    [[languages.en.params.socialIcons]]
+      name = "x"
+      title = "X: @bylixing"
+      url = "https://x.com/bylixing"
+
+    [[languages.en.params.socialIcons]]
+      name = "rss"
+      url = "/en/index.xml"
+
     [[languages.en.menu.main]]
       identifier = "archives"
       name = "Archives"
@@ -62,6 +75,11 @@ theme = 'PaperMod'
       name = "Tags"
       url = "/tags/"
       weight = 20
+    [[languages.en.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about/"
+      weight = 30
     [[languages.en.menu.main]]
       identifier = "search"
       name = "Search"
