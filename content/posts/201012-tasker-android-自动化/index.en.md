@@ -1,7 +1,7 @@
 ---
 title: "Automating My Android Phone with Tasker: A Collection of Setups"
 date: 2020-10-12
-draft: true
+draft: false
 url: "/en/posts/2020-10-12239/"
 sourceHash: "sha256:8898a49d2041c18dec4a1bb037532e151b52b69014f0dfb70205838b74e53828"
 translatedBy: "claude-cli/sonnet"
@@ -67,9 +67,9 @@ Endif
 
 ## 1.2 Automatically Syncing fooView Floating-Ball Screenshots to the Computer Desktop
 
-[FV悬浮球-fooView(com.fooview.android.fooview) - 1.4.4.1 - Apps - Coolapk](https://www.coolapk.com/apk/com.fooview.android.fooview)
+[fooView Floating Ball (com.fooview.android.fooview) - 1.4.4.1 - Apps - Coolapk](https://www.coolapk.com/apk/com.fooview.android.fooview)
 
-[FV悬浮球 - fooView，文件浏览，手势截图 - Apps on Google Play](https://play.google.com/store/apps/details?id=com.fooview.android.fooview&hl=zh)
+[fooView Floating Ball - File Browser and Gesture Screenshot - Apps on Google Play](https://play.google.com/store/apps/details?id=com.fooview.android.fooview&hl=zh)
 
 ### What It Does
 
@@ -87,7 +87,7 @@ From here on, once you configure a new sync item in FolderSync, this action is d
 
 ```
 if (Logcat Entry detects that fooview saved a screenshot):
-	call the Tasker FolerSync plugin to sync a specific item
+	call the Tasker FolderSync plugin to sync a specific item
 Endif
 
 # My Logcat Entry settings - Mi10 - MIUI12, for reference only. This part will differ depending on your device and default save folder
@@ -98,6 +98,7 @@ Filter：[thread-pool-0] insert /storage/emulated/0/Pictures/Screenshots/
 ### Requirements
 
 -   No Root required, but the [Logcat Entry](https://www.reddit.com/r/tasker/comments/dsf5gj/dev_tasker_59beta8_the_game_changer/) feature needs adb authorization (when you add the feature, Tasker tells you how to do it)
+-   Downloading FolderSync from Google Play requires a VPN-style workaround
 -   I recommend Jianguoyun for cloud storage, though OneDrive on Windows can achieve the same effect; if you don't use cloud storage, you can also sync directly to the computer over a local network via FTP or SMB.
 
 # 2. Tasker + Notify&Fitness for Mi Band
@@ -249,7 +250,7 @@ Reference tutorials:
 
 [Installing HomeAssistant on Android with Termux as a HomeKit Hub for Your Home](https://gist.github.com/Caldis/7646df406de43e6c6581ff491dfd8afe)
 
-[Turn an Idle Android Phone into a Homeassistant Home Assistant - HAChina](https://www.hachina.io/7656.html)
+[Turn an Idle Android Phone into a Home Assistant Hub - HAChina](https://www.hachina.io/7656.html)
 
 [Installing Home assistant+homekit+MQTT+Node-red on an Android Phone or Box via Termux - 『HomeAssistant』](https://bbs.hassbian.com/thread-7167-1-1.html)
 
