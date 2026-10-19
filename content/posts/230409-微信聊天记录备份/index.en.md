@@ -1,7 +1,7 @@
 ---
 title: "Fixing WeChat's Chat History Backup Network Errors"
 date: 2023-04-09
-draft: true
+draft: false
 url: "/en/posts/bei-fen-shou-ji-wei-xin-liao-tian-ji-lu-dao-dian-nao-jie-jue-ti-shi-wen-ti-dang-qian-wang-luo-huan-jing-fu-za-qing-chang-shi-shi-yong-qi-ta-wang-luo/"
 sourceHash: "sha256:ddef5b9db73083f997cdd554bcf0f7f53744030748b60cdc5de331c3ef1cc7f8"
 translatedBy: "claude-cli/sonnet"
