@@ -33,11 +33,11 @@ The relationship between these two words is the main thread of this post:
 
 Let me start with some concrete numbers. I have a repository called agent-config, which holds the rules and scheduling scripts for all my AI tools. I created it on July 23. Two months later, it has accumulated about 16,000 commits (every change record), more than 1,800 issues (to-dos and problem tickets), and nearly 2,000 merged PRs (change proposals). All of these were submitted by AI. I have not written a single line of code in this repository myself.
 
-I now consume roughly 2 to 3 billion Tokens a day (including cache reads). A few months ago I had to watch things at high frequency, with me still very much in the loop, to sustain about 4 billion a day; now the consumption is the same order of magnitude, yet I spend only a small part of each day on Agents, and it doesn't get in the way of anything else. By feel, **the effort I put in has dropped by an order of magnitude, and each individual project is noticeably less of a worry.**
+I now consume roughly 2 to 3 billion tokens a day (including cache reads). A few months ago I had to watch things at high frequency, with me still very much in the loop, to sustain about 4 billion a day; now the consumption is the same order of magnitude, yet I spend only a small part of each day on Agents, and it doesn't get in the way of anything else. By feel, **the effort I put in has dropped by an order of magnitude, and each individual project is noticeably less of a worry.**
 
-![Daily Token throughput from August 1 to October 4: the top half is stacked by Coding Agent, the bottom half by model](images/token-trend.png)
+![Daily token throughput from August 1 to October 4: the top half is stacked by Coding Agent, the bottom half by model](images/token-trend.png)
 
-The chart above shows my daily Token throughput from August 1 to October 4. In early August it was almost all Claude Code and Codex; after late September, Pi (yellow) clearly grows. The bottom half is the distribution by model over the same period: besides the 19 listed in the table there are another 37, with Claude, GPT, Grok, DeepSeek, MiniMax, and Kimi all mixed together and no single vendor dominating.
+The chart above shows my daily token throughput from August 1 to October 4. In early August it was almost all Claude Code and Codex; after late September, Pi (yellow) clearly grows. The bottom half is the distribution by model over the same period: besides the 19 listed in the table there are another 37, with Claude, GPT, Grok, DeepSeek, MiniMax, and Kimi all mixed together and no single vendor dominating.
 
 The ones behind all this are Context and Loop.
 
@@ -53,7 +53,7 @@ Let's start from Coding. Why was Coding the first scenario where Agents could be
 
 The second point corresponds to Context, and the third to Loop. Coding happens to satisfy both conditions, so it runs the fastest.
 
-More importantly, **these two things have nothing to do with which specific model you use**. Once they are in place, whether you use a top-tier model or a cheap one, they help you improve decision quality and cut Token waste. Models getting stronger is the vendors' progress; what you can work on from your side is the context and the loop.
+More importantly, **these two things have nothing to do with which specific model you use**. Once they are in place, whether you use a top-tier model or a cheap one, they help you improve decision quality and cut token waste. Models getting stronger is the vendors' progress; what you can work on from your side is the context and the loop.
 
 A Cloudflare article opens very plainly:
 
@@ -87,7 +87,7 @@ The context of a Coding Agent, open source or closed, roughly consists of these 
 
 In plain words: **rule files** are the rules stuffed into the conversation at the start of every session; a **Skill** is an operating manual you can call on demand, and normally only a short blurb occupies space; **MCP** is a plug that lets the AI connect to external services, and each plug comes with a fairly long manual.
 
-Over the past month I have done a great deal of auditing and testing on these layers — deleting, trimming, adding, changing — with only two goals: raise task completion quality, and lower Token consumption.
+Over the past month I have done a great deal of auditing and testing on these layers — deleting, trimming, adding, changing — with only two goals: raise task completion quality, and lower token consumption.
 
 The principle that runs through it all: **treat the Agent's context window as carefully as you treat your own attention.** Everything that appears in the context should, in principle, be governed, and should be asked: does it really need to be here? If not, remove it.
 
@@ -112,15 +112,15 @@ Are they right? Certainly. These are models they trained themselves, and they ha
 
 **But my advice is: follow the direction, and trail the pace by half a year.**
 
-Their current best practice rests on a premise we don't have: nearly unlimited high-quality Tokens. All three vendors have admitted this themselves:
+Their current best practice rests on a premise we don't have: nearly unlimited high-quality tokens. All three vendors have admitted this themselves:
 
 - The Pragmatic Engineer's article on OpenAI's internal software factory opens with: *"It's rare to work with an unlimited token budget, but at OpenAI, that's what all engineers… do."*
 - Thariq also said offhand in [the Latent Space interview](https://www.latent.space/p/thariq): *"we have lots of tokens"*.
-- In [the interview with Orca's founder](https://www.superlinear.academy/c/recording/orca), it was also mentioned that people inside model companies live in an environment with plenty of Tokens, and rarely run into the friction outside users hit every day: quota used up, switching vendors to carry on.
+- In [the interview with Orca's founder](https://www.superlinear.academy/c/recording/orca), it was also mentioned that people inside model companies live in an environment with plenty of tokens, and rarely run into the friction outside users hit every day: quota used up, switching vendors to carry on.
 
 Those of us on the outside can hardly afford such luxury. What easily happens is: you strip your prompt clean for a top-tier model, the quota runs out two days later, and you're forced onto an ordinary model — the patches you'd made for ordinary models are gone, and you can imagine the quality.
 
-We can only hope that in about six months the cost of high-intelligence Tokens drops to an acceptable range, and then we can really follow suit. **Until then, we have to keep some fairly "ancient" configuration** — the patches made for ordinary models can't be deleted yet.
+We can only hope that in about six months the cost of high-intelligence tokens drops to an acceptable range, and then we can really follow suit. **Until then, we have to keep some fairly "ancient" configuration** — the patches made for ordinary models can't be deleted yet.
 
 So what to do? In that interview Thariq raised an interesting point. He said failure modes change with the model; even Fable 5 and Fable 5.1 differ. The host chimed in, "so you'd need a Fable.md and an Opus.md". Thariq's response was: true, but maintaining several copies is very painful, and continuously accumulating records of failure modes will most likely over-constrain the model.
 
@@ -178,7 +178,7 @@ The reason is again context. A Skill's blurb takes up little space, but it still
 
 For example, Feishu's CLI ships with many Skills. Some projects never use Feishu at all, and some use only a few, such as Bitable and Miaoji; the rest is pure noise. My approach: install globally only what I use at high frequency every day, and switch on the rest individually at the project level.
 
-I stepped on a fairly typical pitfall here. The bulk of Coding Agents is Claude Code and Codex, and most others actively stay compatible, reading their rule files and Skills directly. The most outrageous is Grok: it reads Claude's `CLAUDE.md` and its own `AGENTS.md` at the same time, then swallows all of `~/.claude/skills` as well, with a lot of things not deduplicated. For a while my Grok lead had 197 Skills resident. Its context window is 500K Tokens, which is the total capacity of the whole conversation — before any work began, a chunk was already taken by this duplicated material, most of it irrelevant to the current project. After dealing with it separately, the Skills dropped to 41.
+I stepped on a fairly typical pitfall here. The bulk of Coding Agents is Claude Code and Codex, and most others actively stay compatible, reading their rule files and Skills directly. The most outrageous is Grok: it reads Claude's `CLAUDE.md` and its own `AGENTS.md` at the same time, then swallows all of `~/.claude/skills` as well, with a lot of things not deduplicated. For a while my Grok lead had 197 Skills resident. Its context window is 500K tokens, which is the total capacity of the whole conversation — before any work began, a chunk was already taken by this duplicated material, most of it irrelevant to the current project. After dealing with it separately, the Skills dropped to 41.
 
 So when you check startup context, don't only count Skills; also check for duplicated injection of rule files.
 
@@ -194,9 +194,9 @@ What we've covered so far is the lead's layer. This section goes one layer down,
 
 ### Flash-Tier Models Have Crossed the Coding Baseline
 
-Some background first. The Tokens I consume daily are quite mixed, and I've bought basically every common subscription on the market: Claude, Codex, Grok, Kimi, MiniMax, GLM.
+Some background first. The tokens I consume daily are quite mixed, and I've bought basically every common subscription on the market: Claude, Codex, Grok, Kimi, MiniMax, GLM.
 
-The overall Token usage follows a trend of **splitting first, then merging**. At the very beginning it was only Claude Code and Codex; later, to save the quota of high-intelligence Tokens, I bought a pile of third-party plans, and both the clients and the models I used became mixed.
+The overall token usage follows a trend of **splitting first, then merging**. At the very beginning it was only Claude Code and Codex; later, to save the quota of high-intelligence tokens, I bought a pile of third-party plans, and both the clients and the models I used became mixed.
 
 But over this past month, comparing several thousand executor task cards, I found that: **at least in the scenario of "lead schedules, executor executes", the success rate and quality with which the various executors complete tasks are actually about the same**. In the acceptance records of the last 90 days, the pass rates of the mainstream executors all fall between 88% and 93%. Of course, each one receives different tasks, so this number only says "in practice they all work", and can't strictly prove equal quality; the clearly unusable ones get eliminated — one was at only 50% and has already been taken offline.
 
@@ -207,7 +207,7 @@ I think a model's "strength" comes in two kinds:
 - **Strong across the board**: strong in taste, thinking, and execution. Typical examples are Anthropic's Fable 5 and Opus 5.5.
 - **Strong in a direction**: post-training makes it especially cost-effective for Coding or ordinary office tasks. Typical examples are DeepSeek v4.1 Flash and each vendor's Flash models.
 
-If you don't have money to burn, you can save by **tiered task scheduling**: let the across-the-board strong model make high-value judgments, and hand concrete execution to the directionally strong "workhorse models". A model like DeepSeek v4.1 Flash outputs very fast, by feel one or two hundred Tokens per second, and concurrency is easy to push up, which to some extent lets you experience what a "$500 membership" feels like.
+If you don't have money to burn, you can save by **tiered task scheduling**: let the across-the-board strong model make high-value judgments, and hand concrete execution to the directionally strong "workhorse models". A model like DeepSeek v4.1 Flash outputs very fast, by feel one or two hundred tokens per second, and concurrency is easy to push up, which to some extent lets you experience what a "$500 membership" feels like.
 
 ### Treat Pi as the Subagent of Every Lead
 
@@ -231,11 +231,11 @@ I just finished a round of comparison today. Same day, same batch of task cards,
 
 Six to six overall. Wins and losses mainly depend on whether the executor held to the task card's requirements, and have little to do with Pi versus native. This is not a public leaderboard and the sample is small, so the only conclusion to take away is: **the shell is not the variable that decides who wins.**
 
-An earlier round compared the same DeepSeek model running on Claude Code versus Pi. At first Pi lagged behind; later I found three kinds of problems with the context on the Pi side — the task prompt wasn't injected in the first turn, the entire pool of 83 Skills was stuffed in, and rules were injected twice. After fixing them, **Pi's system prompt dropped from 38,700 characters to 16,700, and first-turn input dropped from 17,500 Tokens to 8,500**; in the third batch of 8 examples Pi won 5, with quality level or slightly better, and cost per task about 40% lower.
+An earlier round compared the same DeepSeek model running on Claude Code versus Pi. At first Pi lagged behind; later I found three kinds of problems with the context on the Pi side — the task prompt wasn't injected in the first turn, the entire pool of 83 Skills was stuffed in, and rules were injected twice. After fixing them, **Pi's system prompt dropped from 38,700 characters to 16,700, and first-turn input dropped from 17,500 tokens to 8,500**; in the third batch of 8 examples Pi won 5, with quality level or slightly better, and cost per task about 40% lower.
 
 The conclusion is very clear: **the gap mainly comes from the context the harness gives the model, not from the model itself.**
 
-And that's Pi's advantage: **it lets you organize the context entirely by yourself**. When other official native harnesses serve as executors, you can't customize the context; they may carry Skills you don't need, and rule files that only the lead side would use. With Pi, I can iterate separately on the context of the executor layer. It delivers the required work to the required standard, saves Tokens, and the maintenance cost of the executor is also very low.
+And that's Pi's advantage: **it lets you organize the context entirely by yourself**. When other official native harnesses serve as executors, you can't customize the context; they may carry Skills you don't need, and rule files that only the lead side would use. With Pi, I can iterate separately on the context of the executor layer. It delivers the required work to the required standard, saves tokens, and the maintenance cost of the executor is also very low.
 
 Putting the two rounds together, what I want to emphasize is: **given thorough context constraints, the Flash-tier models that have crossed the baseline complete tasks with about the same quality.** What really opens the gap is the context you give them; and Pi happens to be the shell that makes it easiest for you to control context.
 
@@ -243,7 +243,7 @@ In short: **treat Pi as the subagent of Claude Code and Codex.** In Claude Code 
 
 ## 4. Advisor: Stronger Judgment, Plus a Clean Context
 
-Put nicely, all of these context optimizations are essentially meant to improve task execution quality and reduce the drain on my energy. But objectively, they really are also meant to save Tokens, especially Opus 5.5 quota. I've taken the token saving so far that I've started coming up with some "exotic tricks".
+Put nicely, all of these context optimizations are essentially meant to improve task execution quality and reduce the drain on my energy. But objectively, they really are also meant to save tokens, especially Opus 5.5 quota. I've taken the token saving so far that I've started coming up with some "exotic tricks".
 
 The one I use most frequently now is **Advisor mode**: consulting an advisor.
 
@@ -255,7 +255,7 @@ The first is that **the model's own judgment is rather mediocre**. Workhorse mod
 
 The second is a **problem every model has: context rot**. As the context window fills, the model's intelligence declines, even for a top-tier model. And it doesn't wait until the window is nearly full to go wrong — I've observed that many models, once the window is forty or fifty percent used, already start getting stuck in a local view without realizing it.
 
-At first I only focused on the first problem, with a simple idea: **use a model that is strong across the board to make high-value judgments.** So I automatically consult top models like GPT-6, Opus, Fable, and Kimi; each model uses about a hundred-odd thousand Tokens per consult, but the advice has very high decision quality and **often directly overturns the underlying model's judgment**.
+At first I only focused on the first problem, with a simple idea: **use a model that is strong across the board to make high-value judgments.** So I automatically consult top models like GPT-6, Opus, Fable, and Kimi; each model uses about a hundred-odd thousand tokens per consult, but the advice has very high decision quality and **often directly overturns the underlying model's judgment**.
 
 This idea was learned from Claude Code. It has an experimental native Advisor tool in which the main model consults another, stronger model at key points. But it can only be used inside Claude Code, so I wrote it as a standalone tool, in a Skill-like form, so that all Agents can use it.
 
@@ -331,7 +331,7 @@ Its most important aspect is: **it already has the rough form of a Loop**. This 
 
 ![The agent-config repository home page](images/agent-config-repo.png)
 
-Among the 1,800-plus issues in the numbers at the start, more than 1,100 are tickets dedicated to recording lessons. And this repository is also the one that consumed the most Tokens of all my repositories in the past two months — **building a system that saves effort itself requires a lot of investment**; the second most is the gate system, which I'll come to later.
+Among the 1,800-plus issues in the numbers at the start, more than 1,100 are tickets dedicated to recording lessons. And this repository is also the one that consumed the most tokens of all my repositories in the past two months — **building a system that saves effort itself requires a lot of investment**; the second most is the gate system, which I'll come to later.
 
 ### Swapping the Engine While the Plane Is Flying
 
@@ -352,7 +352,7 @@ Let me walk through a few concrete pitfalls to get a feel for what "a fall into 
 - **Tests hit production.** When an executor created an isolated working directory, it copied config files only from the top-level directory, the config in deeper directories was missing, and the program quietly used default values — it connected to the real production environment, with no error at all. Later, creating the working directory was made into a script that automatically links every layer of config, and neither humans nor Agents create them by hand anymore.
 - **The push succeeded, and was pushed twice more.** To look at fewer lines of output, Agents habitually trim command results. The trimming lost the "failure" signal; another time it was the reverse, a successful push was displayed as failed and pushed again for two more rounds. A rule was set afterward: to confirm whether code was uploaded, always ask the remote server, and don't trust the local display.
 - **The executor dispatched the work back to itself.** A task card forgot to say "you are the one doing the work, don't dispatch to anyone else". The executor read the dispatch manual meant only for the lead, dispatched the task out again, spun for 90 minutes with zero output. Later the task card template was made to force-include a role declaration, and the lead's section was stripped from the rules the executor receives.
-- **Checking one switch cost tens of thousands of Tokens.** The lead merely wanted to confirm whether a service was running, used a command that prints out the entire task card, and tens of thousands of Tokens poured into the context just like that. This is an example where Context and Loop meet: context waste, too, can only be discovered through review.
+- **Checking one switch cost tens of thousands of tokens.** The lead merely wanted to confirm whether a service was running, used a command that prints out the entire task card, and tens of thousands of tokens poured into the context just like that. This is an example where Context and Loop meet: context waste, too, can only be discovered through review.
 
 So you should cherish the mistakes you make during development. Dispatch another Agent to read the work log and judge why it made that mistake at the time; accumulate what should be accumulated, and later handle it uniformly from first principles. Objectively, this too is a way of learning to welcome news of your mistakes.
 
@@ -372,11 +372,11 @@ Of the pitfalls above, the ones that were truly cured at the root were all those
 
 Loop isn't only for dealing with mistakes; it is also for dealing with new tools that "look great".
 
-For all the tools that "help Agents save Tokens", when someone recommends one, the first thing to do is not to install it right away, but to **have an Agent analyze, against your local work logs, whether it is actually necessary for your scenario**. After you decide to trial it, backtest again after a while: did it really do what it claimed? Or did it bring side effects?
+For all the tools that "help Agents save tokens", when someone recommends one, the first thing to do is not to install it right away, but to **have an Agent analyze, against your local work logs, whether it is actually necessary for your scenario**. After you decide to trial it, backtest again after a while: did it really do what it claimed? Or did it bring side effects?
 
-RTK is an example where I installed first and uninstalled later. It is a tool that compresses command-line output to help AI save Tokens, and it claims to save 90% in some scenarios. I backtested 1,505 calls on my machine, and it actually saved 44% — which sounds decent too, but **87% of that saving came from search and file-reading operations, and those are precisely the two kinds that can least stand compression**: search results quietly lose lines, and when file content is compressed, the Agent can't match the original text when editing code, and has to bypass the tool to find the original. So I stopped using it.
+RTK is an example where I installed first and uninstalled later. It is a tool that compresses command-line output to help AI save tokens, and it claims to save 90% in some scenarios. I backtested 1,505 calls on my machine, and it actually saved 44% — which sounds decent too, but **87% of that saving came from search and file-reading operations, and those are precisely the two kinds that can least stand compression**: search results quietly lose lines, and when file content is compressed, the Agent can't match the original text when editing code, and has to bypass the tool to find the original. So I stopped using it.
 
-**For any tool that helps an Agent save Tokens, you have to judge whether it is truly helping the Agent understand context better, or introducing new complexity.**
+**For any tool that helps an Agent save tokens, you have to judge whether it is truly helping the Agent understand context better, or introducing new complexity.**
 
 ## 6. Low-Cost Verification Channels, and "Verification Also Needs Verifying"
 
@@ -384,10 +384,10 @@ Whether a Loop can turn depends on whether you have a **low-cost, efficient way 
 
 ### The Spectrum of Verification Channels
 
-The cost of verification has to be looked at comprehensively: time is a cost, extra spending like Tokens is a cost, and human involvement is a cost too. From lowest to highest overall cost, it can roughly be divided into three tiers:
+The cost of verification has to be looked at comprehensively: time is a cost, extra spending like tokens is a cost, and human involvement is a cost too. From lowest to highest overall cost, it can roughly be divided into three tiers:
 
-1. **Low cost**: checks that spend no Tokens and give results within seconds. Compile checks of programming languages (expanded on separately below), basic tests, lint (the code-style and error scan that runs automatically at commit). On the backend, tests can lock behavior down.
-2. **Medium cost**: checks that spend Tokens. For example Alibaba's OpenCode Review, which can review code at a relatively low Token cost; plus our own custom Agent reviews, and having an Agent record the screen and then review the frontend video. They are more expensive than tests, but much cheaper than humans.
+1. **Low cost**: checks that spend no tokens and give results within seconds. Compile checks of programming languages (expanded on separately below), basic tests, lint (the code-style and error scan that runs automatically at commit). On the backend, tests can lock behavior down.
+2. **Medium cost**: checks that spend tokens. For example Alibaba's OpenCode Review, which can review code at a relatively low token cost; plus our own custom Agent reviews, and having an Agent record the screen and then review the frontend video. They are more expensive than tests, but much cheaper than humans.
 3. **High cost**: checks that need people. Human time and attention are the most expensive, so avoid using them wherever possible, and keep them only for places that truly need judgment.
 
 The role of the gate is to chain the first two tiers together, merge only when all is green, and try not to push checks to the third tier. The principle is also simple: **whatever can be solved at a lower tier shouldn't be escalated to a higher one.**
@@ -417,7 +417,7 @@ In the era of Agent Coding, **code is very cheap, and tests are very high-value*
 
 Having a clear, explicit acceptance standard that can form feedback has become the core goal of modern software engineering. If your goal can be broken down into a series of conditions that can be verified, then for every Coding Agent, everything else is just a matter of time and cost, and you simply iterate.
 
-For things like rewriting a database or migrating a code repository, if there is already a set of tests that can prove the old and new behavior are consistent, and the pitfalls already hit have been internalized as tests, what's left is mainly piling on cost: use the best Tokens, use the best harness. For the part tests don't cover, the difficulty remains.
+For things like rewriting a database or migrating a code repository, if there is already a set of tests that can prove the old and new behavior are consistent, and the pitfalls already hit have been internalized as tests, what's left is mainly piling on cost: use the best tokens, use the best harness. For the part tests don't cover, the difficulty remains.
 
 The most troublesome are goals where **you don't know how to break them down into quantifiable feedback**. Backend performance is relatively simple — latency and throughput are clear numbers, making it easy to form a "change once, measure, change again" loop; but frontend aesthetics are hard to quantify, so it's hard to form a Loop and hard to keep iterating and optimizing.
 
@@ -425,7 +425,7 @@ The most troublesome are goals where **you don't know how to break them down int
 
 Here's an easily overlooked problem: **the thing you use to verify itself also needs verifying.**
 
-My gate system is the repository with my second-largest Token consumption, and I've stepped on quite a few of these pitfalls with it. Two of the most typical:
+My gate system is the repository with my second-largest token consumption, and I've stepped on quite a few of these pitfalls with it. Two of the most typical:
 
 - **Didn't take the exam, recorded as passing.** When a change proposal was in "draft" state, the model review step was skipped entirely; and the step that aggregates results treated "skipped" as "passed" and still lit the green light. After the proposal was marked ready, it went red three rounds in a row.
 - **Assessing an examiner who had never graded a paper.** I designed a set of "synthetic exam papers": periodically testing the review model with code known to have problems, to detect whether it was "alive but dumber". The result: it ran for more than a month, 111 times, and because the login credentials were never configured properly, it never actually graded a single paper.
@@ -440,7 +440,7 @@ So I now have a hard rule: **after writing any criterion, first feed it an input
 
 After this system was built, I noticed something: **my bottleneck suddenly was no longer energy, but hardware.**
 
-This isn't to say everyone's bottleneck will switch like this; it is just my own phase-specific sense. And it swings back and forth: strengthen the hardware, and the bottleneck goes back to energy. Going further up is a higher-dimensional need — **unlimited high-quality Tokens, paired with sufficient context information and complete infrastructure**; only when all three are in place can the best enterprise-grade application scenarios like Claude Tag and OpenAI Dots arise. That is the battlefield of big companies; for us individuals, first solve this round of bottlenecks in front of us.
+This isn't to say everyone's bottleneck will switch like this; it is just my own phase-specific sense. And it swings back and forth: strengthen the hardware, and the bottleneck goes back to energy. Going further up is a higher-dimensional need — **unlimited high-quality tokens, paired with sufficient context information and complete infrastructure**; only when all three are in place can the best enterprise-grade application scenarios like Claude Tag and OpenAI Dots arise. That is the battlefield of big companies; for us individuals, first solve this round of bottlenecks in front of us.
 
 ### CI Became the New Choke Point
 
@@ -510,7 +510,7 @@ Normally, at least in engineering, you should feel more and more relaxed as you 
 
 If I had to summarize the change of these two months in one sentence, it would be: **from people in the loop, to people out of the loop.**
 
-- **People in the loop**: every step needs a human to look, judge, and decide. The "watching at high frequency to sustain 4 billion Tokens a day" I mentioned at the start was this stage. The human is the slowest link in the whole loop, and how fast the loop turns depends on how long you can stay awake watching each day.
+- **People in the loop**: every step needs a human to look, judge, and decide. The "watching at high frequency to sustain 4 billion tokens a day" I mentioned at the start was this stage. The human is the slowest link in the whole loop, and how fast the loop turns depends on how long you can stay awake watching each day.
 - **People out of the loop**: the human does only two things: define "what counts as done right", and show up when the system truly needs a decision. All the rest — dispatching, executing, verifying, reviewing, capturing lessons learned — turns by itself inside the loop.
 
 Going from inside the loop to outside it doesn't rely on a stronger model, but on the two things this post covers: **Context means the Agent doesn't need a human beside it to explain, and Loop means the Agent doesn't need a human beside it to correct.** Without the former, you have to keep supplying background; without the latter, you have to keep checking results — missing either one, the human can't get out of the loop.
