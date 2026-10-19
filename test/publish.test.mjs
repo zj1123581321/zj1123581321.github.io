@@ -52,10 +52,25 @@ function makeClaudeStub(dir, { exitCode = 0 } = {}) {
   return bin;
 }
 
-function withSandbox(fn) {
+function installOgStub(dir, exitCode = 0) {
+  const ogDir = path.join(dir, 'tools', 'og');
+  fs.mkdirSync(ogDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(ogDir, 'generate.mjs'),
+    [
+      "import fs from 'node:fs';",
+      "fs.writeFileSync('og-call.json', JSON.stringify({ argv: process.argv.slice(2), cwd: process.cwd() }));",
+      `process.exitCode = ${exitCode};`,
+      '',
+    ].join('\n'),
+  );
+}
+
+function withSandbox(fn, { ogExitCode = 0 } = {}) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'publish-rerun-'));
   try {
     fs.copyFileSync(REPO_PUBLISH, path.join(dir, 'publish.mjs'));
+    installOgStub(dir, ogExitCode);
     makeNullStub(dir);
     fs.mkdirSync(path.join(dir, 'content', 'posts'), { recursive: true });
     return fn(dir);
@@ -73,6 +88,7 @@ function withEnSandbox(fn, stubOpts = {}) {
     for (const f of ['translate.mjs', 'lib.mjs', 'check.mjs']) {
       fs.copyFileSync(path.join(REPO_ROOT, 'tools', 'i18n', f), path.join(dir, 'tools', 'i18n', f));
     }
+    installOgStub(dir);
     makeClaudeStub(dir, stubOpts);
     fs.mkdirSync(path.join(dir, 'content', 'posts'), { recursive: true });
     return fn(dir);
@@ -95,6 +111,30 @@ function runPublish(dir, sourcePath, slug, { noEn = true, stubBin = 'null-stub-b
 function destFile(dir, slug) {
   return path.join(dir, 'content', 'posts', slug, 'index.md');
 }
+
+test('publish 将目标文章目录作为唯一 argv 交给 OG 生成器', () => {
+  withSandbox((dir) => {
+    const source = path.join(dir, '260101-src.md');
+    fs.writeFileSync(source, '# 标题\n\n正文内容\n', 'utf8');
+    const result = runPublish(dir, source, 'foo');
+    assert.equal(result.status, 0, result.stderr);
+    assert.deepEqual(JSON.parse(fs.readFileSync(path.join(dir, 'og-call.json'), 'utf8')), {
+      argv: [path.join(dir, 'content', 'posts', 'foo')],
+      cwd: dir,
+    });
+  });
+});
+
+test('OG 生成失败时 publish 非零退出并给出单独重跑命令', () => {
+  withSandbox((dir) => {
+    const source = path.join(dir, '260101-src.md');
+    fs.writeFileSync(source, '# 标题\n\n正文内容\n', 'utf8');
+    const result = runPublish(dir, source, 'foo');
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /标题卡失败，可单独重跑: node tools\/og\/generate\.mjs content\/posts\/foo/);
+    assert.equal(fs.existsSync(destFile(dir, 'foo')), true);
+  }, { ogExitCode: 1 });
+});
 
 test('重跑保留目标已有 wechat_url 与 url 原文，title/date/正文取本次生成', () => {
   withSandbox((dir) => {
