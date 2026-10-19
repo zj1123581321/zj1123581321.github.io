@@ -4,3 +4,4 @@ resources/
 .publish.config.json
 tools/publish/out/
 tools/publish/node_modules/
+tools/og/node_modules/
