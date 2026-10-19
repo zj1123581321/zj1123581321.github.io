@@ -1,7 +1,7 @@
 ---
 title: "Replacing Cortana with Xiao Ai on Win10: Binding Win+C to Launch a UWP App"
 date: 2022-05-14
-draft: true
+draft: false
 url: "/en/posts/zen-me-zai-win10-shang-jiang-xiao-nuo-ti-huan-wei-xiao-ai-tong-xue/"
 sourceHash: "sha256:5386156bab1d5e2085ed6489484dd9baf4773bebff21ed8b7a5f8d0b63390fec"
 translatedBy: "claude-cli/sonnet"
@@ -27,7 +27,7 @@ explorer.exe shell:appsFolder\8497DDF3.639A2791C9AB_kf545nqv09rxe!App
 
 But when I tried to add the hotkey in HotKeyP, a new problem appeared:
 
-![No way to directly invoke a command line](/migrated-images/picgo_202205140000046.png)
+![No way to invoke a command line directly](/migrated-images/picgo_202205140000046.png)
 
 So the question changed once more: how do I make HotKeyP execute a command line directly?
 
@@ -35,7 +35,7 @@ The approach is also natural: write the command into a `.bat` script, store it o
 
 But when I tried it, a black console window flashed up whenever the `.bat` script ran, which was really annoying. I searched for how to run a `.bat` invisibly.
 
-[全网最详细，bat不弹黑框/不显示控制台方法\_时过境迁一样美的博客-CSDN博客\_如何运行bat文件不弹出黑框](https://blog.csdn.net/qq_28362747/article/details/110472877)
+[The Most Detailed Guide to Running a .bat File Without a Black Console Window - CSDN Blog by Shiguo Jingqian Yiyang Mei](https://blog.csdn.net/qq_28362747/article/details/110472877)
 
 So using a `.vbs` script to execute the `.bat` script avoids the black window.
 

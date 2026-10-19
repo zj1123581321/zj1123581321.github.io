@@ -1,7 +1,7 @@
 ---
 title: "Precise Transcription: An Incomplete Guide to Turning Audio and Video into Text with Whisper"
 date: 2023-10-19
-draft: true
+draft: false
 url: "/en/posts/liao-liao-gao-jing-du-yin-shi-pin-zhuan-wen-zi-gong-zuo-liu/"
 sourceHash: "sha256:61f98fb0f72d3b51a230a2e340ca67ac1dc0bdd9dc4eeb568ae9e1d571436ba9"
 translatedBy: "claude-cli/sonnet"
@@ -75,7 +75,7 @@ Later, while browsing Appinn (a site for niche software), I came across the beta
 
 ![Memo screenshot](/post-images/P1Op5XfnI9iZslz.png)
 
-This was truly like being handed a pillow just as I was getting sleepy. With Memo in hand, I can now walk through the whole transcription workflow.
+Memo came along just when I needed it. With Memo in place, I can now walk through the whole transcription workflow.
 
 # Workflow
 
@@ -178,8 +178,8 @@ Based on Whisper's [cookbook](https://github.com/openai/openai-cookbook/blob/mai
 
 Whisper's transcripts sometimes lack punctuation. In that case you can use a Prompt that contains punctuation to guide Whisper to add it.
 
-1.  "生于忧患，死于安乐。岂不快哉？"
-2.  "请为转写的文本添加标点符号" ("Please add punctuation to the transcribed text")
+1.  "生于忧患，死于安乐。岂不快哉？" ("Live through hardship, die in comfort—what could be better?")
+2.  "Please add punctuation to the transcribed text."
 
 Prompt 1 is meaningful; Prompt 2 is not.
 
@@ -189,9 +189,9 @@ That said, Whisper doesn't always learn the Prompt's style and add punctuation. 
 
 This one is easy to understand: different words can share the same pronunciation. You can specify your preferred spelling in the Prompt.
 
-For example, suppose a conversation mentions 张三 and 李四, and "张三" could be written as "章三", "樟叁"...
+For example, suppose a conversation mentions Zhang San (张三) and Li Si (李四), and "Zhang San" (张三) could be written with the homophones "Zhang San" (章三) or "Zhang San" (樟叁)...
 
-Then the Prompt can include "张三，李四。"
+Then the Prompt can include "Zhang San (张三), Li Si (李四)."
 
 #### Style 3: Whether it includes filler words
 
@@ -214,7 +214,7 @@ The plain Whisper model can't distinguish speakers in its transcript; to do that
 The method is to use a dialogue-style Prompt:
 
 -   "- How are you? - I'm fine, thank you."
--   "- 吃了没？- 吃了。" ("- Have you eaten? - Yes, I have.")
+-   "- Have you eaten? - Yes, I have."
 
 Worth trying for podcast-type content.
 

@@ -1,7 +1,7 @@
 ---
-title: "Controlling My Desktop Speakers' Infrared Remote with Quicker, Home Assistant, and Xiao AI"
+title: "Connecting My Edifier Speakers' Infrared Remote to Home Assistant"
 date: 2022-05-08
-draft: true
+draft: false
 url: "/en/posts/man-bu-zhe-yin-xiang-hong-wai-jie-ru-home-assistant-ji-lu/"
 sourceHash: "sha256:1e98399d9aaadff9326589bc7aef90059414eed6c395ac788d3bd646766a9d99"
 translatedBy: "claude-cli/sonnet"
@@ -29,9 +29,9 @@ My HA currently has a Xiaomi AC Partner 2, and in Mi Home it supports learning c
 
 Luckily, I found some references on connecting the AC Partner to HA and learning infrared codes:
 
-[Home Assistant 通过空调伴侣学习红外指令 - 博客 - binsite](https://www.binss.me/blog/home-assistant-learn-ir-command-by-aqara-ac-adapter/)  
-[小米空调伴侣2 插件接入HA - 『HomeAssistant』综合讨论区 - 『瀚思彼岸』» 智能家居技术论坛 - Powered by Discuz!](https://bbs.hassbian.com/thread-10763-1-1.html)  
-[小米空调伴侣2Pro学习/复制的红外遥控怎么加入HA - 『HomeAssistant』综合讨论区 - 『瀚思彼岸』» 智能家居技术论坛 - Powered by Discuz!](https://bbs.hassbian.com/thread-14951-1-1.html)
+[Learning Infrared Commands with an Air Conditioner Companion in Home Assistant - Blog - binsite](https://www.binss.me/blog/home-assistant-learn-ir-command-by-aqara-ac-adapter/)\
+[Adding the Xiaomi Air Conditioner Companion 2 Plugin to Home Assistant - HomeAssistant Discussion - Hassbian Smart Home Technology Forum](https://bbs.hassbian.com/thread-10763-1-1.html)\
+[How to Add an Infrared Remote Learned or Copied by the Xiaomi Air Conditioner Companion 2 Pro to Home Assistant - HomeAssistant Discussion - Hassbian Smart Home Technology Forum](https://bbs.hassbian.com/thread-14951-1-1.html)
 
 Unfortunately, the "miio plugin with MCN02 support" I installed in HA for my AC Partner 2 kept failing, and the "Custom Remote" brought in through the Mi Home cloud device integration showed up as an entity but could not actually be controlled.
 
@@ -80,7 +80,7 @@ data:
 
 If you want to control it through [HA's API](https://developers.home-assistant.io/docs/api/rest/), you need to make some conversions.
 
-![比如在 Quicker 中的配置](/migrated-images/picgo_202205082302618.png)
+![Configuration in Quicker](/migrated-images/picgo_202205082302618.png)
 
 The requests in FV Float Ball and Shortcuts are similar.
 

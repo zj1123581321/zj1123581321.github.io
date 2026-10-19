@@ -1,7 +1,7 @@
 ---
-title: "Applying for a US EIN by Phone: A Record"
+title: "Applying for a US EIN by Phone with an ITIN: A Record"
 date: 2024-03-13
-draft: true
+draft: false
 url: "/en/posts/you-itin-de-qing-kuang-xia-tong-guo-dian-hua-shen-qing-ein-ji-lu/"
 sourceHash: "sha256:a9a9765e56ecd75c7c08406b9ba3cccb270e2ecb542460273c07ecb8876e8b0a"
 translatedBy: "claude-cli/sonnet"
@@ -80,7 +80,7 @@ Here are the English names of a few symbols:
 
 If you only need real-time speech-to-text and don't need translation, any Chrome can do it.
 
-[Use Live Caption in Chrome - Google Chrome Help](https://support.google.com/chrome/answer/10538231?hl=en)
+[Use Live Caption in Chrome - Google Chrome Help](https://support.google.com/chrome/answer/10538231?hl=zh-Hans)
 
 If you need live translation, it's currently only available in the Chrome Canary channel.
 

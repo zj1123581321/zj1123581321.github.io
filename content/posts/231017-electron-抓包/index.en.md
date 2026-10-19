@@ -1,7 +1,7 @@
 ---
 title: "Capturing Traffic from an Electron App: Fiddler Couldn't See It, HTTP Toolkit Could"
 date: 2023-10-17
-draft: true
+draft: false
 url: "/en/posts/zen-yang-gei-electron-ying-yong-zhua-bao/"
 sourceHash: "sha256:d4ab4fba86c572718acb7f743d264fc0a314ee87fab8128e808dda160270a0d5"
 translatedBy: "claude-cli/sonnet"
@@ -15,9 +15,9 @@ I naturally opened Fiddler on my computer, but, unexpectedly, I couldn't capture
 
 I searched around and found that it might be because of Electron.
 
-So, following [抓包经验总结（一） - 知乎](https://zhuanlan.zhihu.com/p/581675620), I tried capturing with Wireshark. Unfortunately, Wireshark showed far too much information, and even after filtering by IP and protocol there were still a huge number of requests... so I gave up.
+So, following [Packet Capture Tips (1) - Zhihu](https://zhuanlan.zhihu.com/p/581675620), I tried capturing with Wireshark. Unfortunately, Wireshark showed far too much information, and even after filtering by IP and protocol there were still a huge number of requests... so I gave up.
 
-Later I found the article [Electron应用抓包_electron 程序 抓包-CSDN博客](https://blog.csdn.net/lemisky/article/details/116724150).
+Later I found the article [Capturing Traffic from an Electron App - CSDN Blog](https://blog.csdn.net/lemisky/article/details/116724150).
 
 ```
 code.exe --args --proxy-server=localhost:8888 --ignore-certificate-errors
@@ -25,7 +25,7 @@ code.exe --args --proxy-server=localhost:8888 --ignore-certificate-errors
 
 I tested it with Fiddler and found that I could capture Memo's update-check request, but still couldn't capture the translation request...
 
-Next, following the approach in [Electron抓包体验-CSDN博客](https://blog.csdn.net/qq_37186947/article/details/127680921), I debugged the Electron app in Chrome.
+Next, following the approach in [Capturing Traffic from an Electron App - CSDN Blog](https://blog.csdn.net/qq_37186947/article/details/127680921), I debugged the Electron app in Chrome.
 
 ```
 Memo.exe -remote-debugging-port=9222

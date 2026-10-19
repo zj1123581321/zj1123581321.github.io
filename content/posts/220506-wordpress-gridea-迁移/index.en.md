@@ -1,7 +1,7 @@
 ---
 title: "Migrating WordPress Posts to Gridea: Pitfalls and Notes"
 date: 2022-05-06
-draft: true
+draft: false
 url: "/en/posts/wordpress-qian-yi-gridea-ji-lu/"
 sourceHash: "sha256:fd1e3e5ffc6259347d5d8d1b2924c8ff39bf2c9bf7e7283a36be33f2701d83e4"
 translatedBy: "claude-cli/sonnet"

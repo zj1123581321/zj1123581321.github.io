@@ -1,7 +1,7 @@
 ---
-title: "A Year of Building My Own AI Tools: An Information Processing System, Layer by Layer"
+title: "LLMs Are Swallowing Everything: The Tools I Built with AI"
 date: 2026-02-20
-draft: true
+draft: false
 sourceHash: "sha256:32e9d5f599a7381980838a122e5aaf90fdd8a5dd02369f845a2c561d883f12b8"
 translatedBy: "claude-cli/sonnet"
 ---
@@ -317,7 +317,7 @@ The draft of this article was itself written through voice input.
 
 ### Networking: Tailscale + Cloudflare Tunnel
 
-Networking has two parts. Thanks to two cyber benefactors, I haven't paid anything extra. Both are free products.
+Networking has two parts, and both products are free, so I haven't had to pay anything extra.
 
 #### Tailscale
 
@@ -327,7 +327,7 @@ Tailscale recently added the [peer relays](https://tailscale.com/blog/peer-relay
 
 #### Cloudflare Tunnel
 
-The god of internal network tunneling. It handles HTTPS and some security issues automatically, is free and unlimited, and has enough bandwidth for API and text use.
+A godsend for tunneling into the local network. It handles HTTPS and some security issues automatically, has no usage limits, and offers enough bandwidth for API and text workloads.
 
 That said, when it comes to networking, **don't expose anything to the public internet if you can avoid it**. Tools written by AI in particular have far too many vulnerabilities. For any service you do want to expose publicly, I suggest having AI run a deep security check.
 
@@ -379,7 +379,7 @@ Used with voice input on the computer. The experience of voice input depends hea
 
 ## A Few Thoughts
 
-### In an Age Where Speaking Makes It So, Voicing an Idea Is Open-Sourcing the Code
+### In an Age When Words Become Code, Voicing an Idea Is Like Open-Sourcing the Code
 
 For small and mid-sized tools, voicing an idea is basically the same as open-sourcing the code. So for basic components that everyone can share, I just open-source them, so people don't waste time rebuilding them. But for highly personal workflow software, I only share the ideas. You can throw this article at an AI and, together with your own needs, work out an architecture that suits you.
 
@@ -452,17 +452,17 @@ A few more points about Token consumption:
 
 ## Final Words:
 
-Standing at this 2026 juncture of AI plus robots, in a sense the future has already arrived, just unevenly distributed.
+At this point in 2026, with AI and robotics advancing, the future has arrived—just unevenly distributed.
 
 Much of the underlying operating logic and value definitions of human society are being thoroughly reconstructed, with an intensity far beyond the last industrial revolution.
 
-I wrote this in a hurry, partly to catch this content while it still has some value.
+I wrote this quickly to share these ideas while they still have some value.
 
-There's far more I want to say, but the threads are tangled and I don't know where to begin. So let me end with Faye Wong's song from this year's Spring Festival Gala.
+I have much more to say, but there are so many threads that I don't know where to start. So let me end with Faye Wong's song from this year's Spring Festival Gala.
 
 ```
-A hundred years of long river is just a moment that you and I are living through.
-We began to exist from a very distant time.
+A century is a long river, and this is only one moment we are living through together.
+We have been here since a time far beyond our memory.
 ```
 
 ---
