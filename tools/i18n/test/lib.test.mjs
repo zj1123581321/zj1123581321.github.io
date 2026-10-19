@@ -54,7 +54,7 @@ test('readFrontmatter: 去掉一对包裹双引号', () => {
   assert.equal(fm.date, '2026-03-28');
 });
 
-test('readFrontmatter: 列表键抛 I18N-FRONTMATTER-UNPARSEABLE', () => {
+test('readFrontmatter: 块列表解析为字符串数组', () => {
   const listed = `---
 title: Hello
 tags:
@@ -63,8 +63,54 @@ tags:
 
 body
 `;
+  const fm = readFrontmatter(listed);
+  assert.deepEqual(fm.tags, ['a']);
+});
+
+test('readFrontmatter: 带引号 item 去引号，多 key 多列表', () => {
+  const multi = `---
+title: "中文"
+tags:
+  - "书籍"
+  - "找书"
+aliases:
+  - "/post/2019-03-25129/"
+url: "/posts/2019-03-25129/"
+---
+
+body
+`;
+  const fm = readFrontmatter(multi);
+  assert.deepEqual(fm.tags, ['书籍', '找书']);
+  assert.deepEqual(fm.aliases, ['/post/2019-03-25129/']);
+  assert.equal(fm.url, '/posts/2019-03-25129/');
+});
+
+test('readFrontmatter: 孤立缩进行无前置空值 key 仍抛 I18N-FRONTMATTER-UNPARSEABLE', () => {
+  const orphan = `---
+title: Hello
+  - a
+---
+
+body
+`;
   assert.throws(
-    () => readFrontmatter(listed),
+    () => readFrontmatter(orphan),
     { message: 'I18N-FRONTMATTER-UNPARSEABLE' },
   );
+});
+
+test('readFrontmatter: 空值 key 下缩进 key: value 解析为嵌套对象', () => {
+  const nested = `---
+title: "X"
+cover:
+  image: "/post-images/220504-Start.jpg"
+url: "/posts/220504-start/"
+---
+
+body
+`;
+  const fm = readFrontmatter(nested);
+  assert.deepEqual(fm.cover, { image: '/post-images/220504-Start.jpg' });
+  assert.equal(fm.url, '/posts/220504-start/');
 });
