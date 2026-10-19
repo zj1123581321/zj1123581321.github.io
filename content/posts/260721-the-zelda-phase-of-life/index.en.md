@@ -1,7 +1,7 @@
 ---
-title: "The Zelda Chapter of My Life: The Night My Tokens Ran Out"
+title: "The Zelda Chapter of My Life: The Week I Averaged 4 Billion Tokens a Day"
 date: 2026-07-21
-draft: true
+draft: false
 sourceHash: "sha256:0035ffe7835f32a08134d903394a1f4e70cce5ebf39ba1553a5870a8aa6f2ff7"
 translatedBy: "claude-cli/sonnet"
 description: "A write-up from the night all my Token quotas hit their limits: Zelda-style obsession, the logic of harvesting the subsidy window, where Skills end and software begins, the three stages of human-AI collaboration, and how I divide work among models."
@@ -36,7 +36,7 @@ But lately, I feel like I've found that feeling again.
 
 **Or rather, I may have entered the Zelda chapter of my life.**
 
-My days are now packed with curiosity: I explore many different directions and solve many real problems. Once I get going, I often end up chatting with an Agent until one or two in the morning. I hold a simple belief: as long as something's data is online and large language models have seen related training data, then in principle you can try it with an Agent — the earlier [software post](../260220-ai-时代的自用软件工具分享-正文稿/) and [hardware post](../260329-ai-hardware-data-security/) were both found out this way.
+My days are now packed with curiosity: I explore many different directions and solve many real problems. Once I get going, I often end up chatting with an Agent until one or two in the morning. I hold a simple belief: as long as something's data is online and large language models have seen related training data, then in principle you can try it with an Agent — my earlier [software post](/en/posts/260220-ai-时代的自用软件工具分享-正文稿/) and [hardware post](/en/posts/260329-ai-hardware-data-security/) both came out of experiments like this.
 
 Objectively speaking, my entire July schedule was arranged around the expiry of my Fable 5 quota in Claude Code and the reset time of my Codex quota. Before July 10, my average daily Token consumption was only around 700 to 800 million; on July 10 a new quota cycle began, and to avoid wasting the reset I had to burn through my Fable 5 and Codex quotas in a concentrated push, so consumption shot up — for several days in a row the daily average was above 4 billion (all channels combined).
 
@@ -48,7 +48,7 @@ This is a Token usage monitoring dashboard I built myself. Over the past 30 days
 
 It's easy to go from frugal to extravagant, and hard to go back. Pushing Token usage up is actually pretty easy, but once the Tokens drop, I feel like a useless person — my first instinct on so many things is "can I give this to an Agent?", and I can no longer remember how to do them by hand.
 
-In [The Days of Running Ahead of the Bear](../260315-ai-时代闲言几则-正文稿/) I wrote: "This process of building is far more fun than games, and far more addictive; it's very easy to slip into a flow state." Back then it was a feeling; now it's empirical evidence.
+In [The Days of Running Ahead of the Bear](/en/posts/260315-ai-时代闲言几则-正文稿/) I wrote: "This process of building is far more fun than games, and far more addictive; it's very easy to slip into a flow state." Back then it was a feeling; now it's empirical evidence.
 
 ## 2. Reading the Subsidy Window: Harvest What You Can
 
@@ -60,7 +60,7 @@ Why so aggressive? It comes down to one judgment: **although the average Token c
 
 Think of today's subscription plans as early-bird tickets, or limited-time flash-sale prices during a big e-commerce promotion — the price is unreal precisely because the platforms are still fighting for territory, trading low prices for users and training data rather than trying to make money off you. That's also why I don't think these cheap plans can last: neither Anthropic nor OpenAI has gone public yet, and what they want right now is user scale and behavioral data, not near-term profit. On a $200 monthly plan, I can easily burn through the equivalent of $10,000 in API quota; Codex is even more extreme, where $200 can get you $20,000–30,000 in equivalent consumption — thanks go to Tibo, the person in charge of Codex's quota reset mechanism, whose reset cadence is so well tuned that subscription utilization is absurdly high.
 
-This kind of upside-down pricing obviously can't last long. At the end of my post on [Claude Code's design philosophy](../claude-code-risk-model-philosophy/) I wrote "cherish it while it lasts" — that was a judgment; this is doubling down.
+This kind of upside-down pricing obviously can't last long. At the end of my post on [Claude Code's design philosophy](/en/posts/claude-code-risk-model-philosophy/) I wrote "cherish it while it lasts" — that was a judgment; this is doubling down.
 
 So the question becomes: **how do you spend the harvested Tokens so they don't go to waste?** That's the next section.
 
@@ -74,7 +74,7 @@ A Skill's results depend both on how well it's written and on the capability of 
 
 Its upside is a low barrier to entry: it's all natural language, anyone can write one, and it's especially well suited to workflows that keep changing. Put simply, **you're borrowing the Agent's ability to handle uncertainty** — that's where a Skill is most valuable.
 
-But that's also where the limit lies. You'll find that the same Skill run on a different model can easily lose instruction-following quality (though some of that can be pinned down with scripts). The more critical issue is attention. In [Context is All You Need](../context-is-all-you-need/) I wrote: **an Agent's attention is its most precious resource, and it should be spent sparingly on resolving uncertainty.**
+But that's also where the limit lies. You'll find that the same Skill run on a different model can easily lose instruction-following quality (though some of that can be pinned down with scripts). The more critical issue is attention. In [Context is All You Need](/en/posts/context-is-all-you-need/) I wrote: **an Agent's attention is its most precious resource, and it should be spent sparingly on resolving uncertainty.**
 
 How to understand that? Think of an Agent's attention as a person's working energy — if you make it spend an hour dealing with a login CAPTCHA, it has an hour less for the real work. People are the same; nobody wants their workday swallowed by that kind of trivia.
 
@@ -84,13 +84,13 @@ Take an example. Say you have a browser-scraper Skill that can crawl all kinds o
 
 So the better solution is: **once a scenario is used frequently enough, turn it into a program.**
 
-In terms of efficiency and cost, it's like shifting gears when driving — on stretches where you've mastered the manual, sooner or later you'll want an automatic, so the attention you save can go to road conditions that really need judgment. Or put it another way: if you cook the same dish every day, you're better off buying a bread maker, handing the deterministic steps to the machine, and keeping for yourself only the seasoning, the part that actually needs judgment. **Turning Tokens into code is, I think, the highest-leverage conversion available right now** — provided that code actually runs in production and keeps getting called. The marginal cost of code is nearly zero; most of the time it doesn't need Tokens at all, or needs several orders of magnitude fewer than the Agent approach.
+In terms of efficiency and cost, it's like shifting gears when driving — once you've mastered a familiar route in a manual car, sooner or later you'll want an automatic, so the attention you save can go to road conditions that really need judgment. Or put it another way: if you cook the same dish every day, you're better off buying a bread maker, handing the deterministic steps to the machine, and keeping for yourself only the seasoning, the part that actually needs judgment. **Turning Tokens into code is, I think, the highest-leverage conversion available right now** — provided that code actually runs in production and keeps getting called. The marginal cost of code is nearly zero; most of the time it doesn't need Tokens at all, or needs several orders of magnitude fewer than the Agent approach.
 
-Let me use my own example. For the same information-processing and filtering pipeline, I wrote it as a programmatic service — it still calls an LLM, but through a traditional single call rather than an Agent, and the model can be swapped for something cheap like DeepSeek. That way, a single project burning seven or eight million or even ten million Tokens a day works out to **under 10 RMB a day**. If the same job were done with an Agent, it might burn one or two hundred million Tokens — a subscription plan could carry that, but over the long run this road doesn't work.
+Let me use my own example. For the same information-processing and filtering pipeline, I wrote it as a programmatic service — it still calls an LLM, but through a traditional single call rather than an Agent, and the model can be swapped for something cheap like DeepSeek. That way, a single project burning seven or eight million or even ten million Tokens a day works out to **under 10 RMB a day**. If the same job were done with an Agent, it might burn one or two hundred million Tokens — a subscription plan could carry that, but over the long run this approach isn't sustainable.
 
-I've already accumulated a batch of these services on my LAN, for example: a YouTube download service that handles IP risk control, multi-country language and region switching, and non-downloadable livestreams; a crawler gateway that, given a URL, fetches content from WeChat official accounts, Xiaohongshu, and Twitter without spending a single Token; an ASR speech-to-text service that batch-transcribes dozens of hours of audio and video every day; and an image OCR and image understanding service.
+I've already accumulated a batch of these services on my LAN, for example: a YouTube downloader that handles IP-based restrictions, switches language and region settings, and downloads livestreams that are otherwise unavailable; a crawler gateway that, given a URL, fetches content from WeChat official accounts, Xiaohongshu, and Twitter without spending a single Token; an ASR speech-to-text service that batch-transcribes dozens of hours of audio and video every day; and an image OCR and image understanding service.
 
-Once these are built, they can be consumed repeatedly by many downstream scenarios and recombined into new things — whether it's summarizing audio and video across platforms or monitoring livestream feeds on different platforms for me, it's all composed on top of the engineering foundation laid earlier. Each service usually has two or three downstream consumers, and some have four or five. This is the latest progress on the "validate quickly with Skills, pursue stability through engineering" idea from my post on [the tools I grew with AI](../260220-ai-时代的自用软件工具分享-正文稿/).
+Once these are built, they can be consumed repeatedly by many downstream scenarios and recombined into new things — whether it's summarizing audio and video across platforms or monitoring livestream feeds on different platforms for me, it's all composed on top of the engineering foundation laid earlier. Each service usually has two or three downstream consumers, and some have four or five. This is the latest progress on the "validate quickly with Skills, pursue stability through engineering" idea from my post on [the tools I grew with AI](/en/posts/260220-ai-时代的自用软件工具分享-正文稿/).
 
 ```mermaid
 graph LR
@@ -186,13 +186,13 @@ The system comes down to three rules:
 
 **Third, the moment I'm summoned must be the moment when everything is ready and only my decision is missing.** When a PR has just been opened, Feishu only gets a progress card with no button; once the gate is all green, that same card grows a button. The whole stretch of running tests, review, and waiting for results never disturbs me.
 
-Because this system is still iterating rapidly and is far from a stable form, I'll only cover the architectural principles here and not the implementation details — once it settles, it may get its own post like the one on [Agents That Never Clock Out](../260628-agent-era-dev-anywhere/). On the supporting infrastructure, one note: a while ago I moved many of my personal GitHub repos under an organization, because an organization can natively reuse the same CI template system, and new repos automatically plug into the whole workflow without per-repo configuration.
+Because this system is still iterating rapidly and is far from a stable form, I'll only cover the architectural principles here and not the implementation details — once it settles, it may get its own post like the one on [Agents That Never Clock Out](/en/posts/260628-agent-era-dev-anywhere/). On the supporting infrastructure, one note: a while ago I moved many of my personal GitHub repos under an organization, because an organization can natively reuse the same CI template system, and new repos automatically plug into the whole workflow without per-repo configuration.
 
 ### Once the System Is Running
 
 After the system is built, you'll find that most of the time you're only making two kinds of decisions: **one is setting direction — what to do next; the other is approval — whether this can ship.** You no longer need to get involved in how it's executed.
 
-My own development mode has become this: first chat with an Agent for an hour or two to thoroughly work through the system's goals, architecture, what should and shouldn't be done, and what engineering trade-offs to make; then hand it a long-running task and let it run on its own — anywhere from three or five hours to dozens of hours. Along the way I hold three hard rules: test-driven development (TDD), small commits and PRs, and an independent Agent must review.
+My own development mode has become this: first chat with an Agent for an hour or two to thoroughly work through the system's goals, architecture, what should and shouldn't be done, and what engineering trade-offs to make; then hand it a long-running task and let it run on its own — from a few hours to dozens of hours. Along the way I hold three hard rules: test-driven development (TDD), small commits and PRs, and an independent Agent must review.
 
 With this mode, I can now push roughly ten projects forward in parallel. That's also why my Token consumption looks a bit frightening — at peak hours, refreshing the dashboard every half hour shows two or three hundred million Tokens burned; and since Codex removed the 5-hour limit, burning through a 20x plan's entire weekly quota in a single day really does happen.
 
@@ -266,15 +266,15 @@ On domestic models, I have a dilemma I haven't fully thought through: on one han
 
 ## 6. Running Ahead of the Bear, Continued: The Age of Discovery
 
-Everything above is my own little plot of land — specific usage and specific trade-offs. Zooming out to the whole industry, the same logic applies, and this is a sequel to [The Days of Running Ahead of the Bear](../260315-ai-时代闲言几则-正文稿/).
+Everything above is my own little plot of land — specific usage and specific trade-offs. Zooming out to the whole industry, the same logic applies, and this is a sequel to [The Days of Running Ahead of the Bear](/en/posts/260315-ai-时代闲言几则-正文稿/).
 
 ### The Trend Holds, but the Process Is Long
 
 Conclusion first: the big direction hasn't changed — **nobody can change the trend of Agents entering society's production environments.** But the process may be very long, and it's stuck mainly on two levels.
 
-**First, Coding is an accidental and scarce scenario that other fields can hardly replicate.** Why have Agents progressed fastest at writing code? Because only Coding has both of two conditions at once: "open high-value data" and "a closed behavioral loop" — code you write can run, be tested, and be verified, forming a complete feedback loop. Most of the rest of the world has neither: the data may be very valuable but it lives in the heads of industry front-line people; there are too many influencing factors, and a decision can at most raise the probability of success without guaranteeing the outcome — so it's hard to close the loop. The physical world is even harder: all kinds of startups spend heavily to collect physical-world data, but neither in quality nor quantity can it compare with Coding, so progress is bound to be much slower. Put differently, **highly paid programmers plus an open-source community culture is itself an accidental, scarce combination**, and it's hard to find a second one like it in reality. This is also the "dark knowledge" problem I discussed in [The Days of Running Ahead of the Bear](../260315-ai-时代闲言几则-正文稿/): the less an experience has been digitized, the harder it is for AI to reach.
+**First, Coding is an accidental and scarce scenario that other fields can hardly replicate.** Why have Agents progressed fastest at writing code? Because only Coding has both of two conditions at once: "open high-value data" and "a closed behavioral loop" — code you write can run, be tested, and be verified, forming a complete feedback loop. Most of the rest of the world has neither: the data may be very valuable but it lives in the heads of industry front-line people; there are too many influencing factors, and a decision can at most raise the probability of success without guaranteeing the outcome — so it's hard to close the loop. The physical world is even harder: all kinds of startups spend heavily to collect physical-world data, but neither in quality nor quantity can it compare with Coding, so progress is bound to be much slower. Put differently, **highly paid programmers plus an open-source community culture is itself an accidental, scarce combination**, and it's hard to find a second one like it in reality. This is also the "dark knowledge" problem I discussed in [The Days of Running Ahead of the Bear](/en/posts/260315-ai-时代闲言几则-正文稿/): the less an experience has been digitized, the harder it is for AI to reach.
 
-**Second, technical problems are the small problems; the distribution of interests is the big problem.** The first hurdle is stuck on data and scenarios; the second is stuck on people. A line from the British comedy *Yes, Minister* captures it perfectly: whatever a department was founded for, in the end it has only one purpose — to prove it needs to exist. That's what you actually face when pushing new technology into a company. So **bringing AI into an enterprise must be something the number-one leader personally steps into and signs off on.**
+**Second, technical hurdles are the smaller problem; the bigger one is the distribution of interests.** The first hurdle is stuck on data and scenarios; the second is stuck on people. A line from the British comedy *Yes, Minister* captures it perfectly: whatever a department was founded for, in the end it has only one purpose — to prove it needs to exist. That's what you actually face when pushing new technology into a company. So **bringing AI into an enterprise must be something the number-one leader personally steps into and signs off on.**
 
 ### But You Only Need to Be Relatively Ahead
 
@@ -288,7 +288,7 @@ For anything online, as long as I can see it, it can most likely be reproduced. 
 
 One is Cloudflare's [vinext](https://blog.cloudflare.com/vinext/): an internal Cloudflare project that reimplemented Next.js, which one engineer with AI finished in **one week**, at a Token cost of only $1,100. What made it possible was that Next.js's documentation is thorough and its test suite is comprehensive, so it could be carried over directly as the acceptance criteria.
 
-The other is [pgrust](https://mp.weixin.qq.com/s/JaZiPYscoR349M0dbDuf3g) — a project rewriting PostgreSQL in Rust, with a more interesting story: the author first tried a **from-scratch rewrite, which failed**, and the whole codebase was archived; the path that actually survived was to first mechanically translate PostgreSQL's C source into Rust with tools, then have AI rewrite it module by module — and what it finally passed was PostgreSQL's original 46,066 regression tests.
+The other is [pgrust](https://mp.weixin.qq.com/s/JaZiPYscoR349M0dbDuf3g) — a project rewriting PostgreSQL in Rust, with a more interesting story: the author first tried a **from-scratch rewrite, which failed**, and the whole codebase was archived; the path that actually survived was to first mechanically translate PostgreSQL's C source into Rust with tools, then have AI rewrite it module by module — and the end result passed PostgreSQL's original 46,066 regression tests.
 
 These two examples point to the same conclusion: **whether AI can reproduce something depends on two things — whether there's a complete test suite to serve as the acceptance anchor, and whether the hard-won lessons the original system accumulated can be inherited.** vinext relied on the former, using Next.js's test suite directly as acceptance criteria; pgrust relied on the latter — mechanical translation preserved thirty years of accumulated code as-is, while a from-scratch rewrite threw all that accumulation away, which is exactly why it failed.
 
@@ -304,7 +304,7 @@ Zelda players want a brain that has never played Zelda because the game's conten
 
 But this time is different — **this new continent grows bigger every day**, and every morning you wake up there are new corners to explore. That is probably the happiest part of "the Zelda chapter of my life."
 
-Of course, the subsidy window will close too: quotas will tighten, plans will scale back, and high-intelligence Tokens will sooner or later be billed at their true price. So while you can still harvest, harvest everything you can; and more importantly, turn the Tokens you harvest into **long-term reusable production assets** like code, services, and workflows — when the day comes that Tokens get expensive, what you've accumulated is the real clear-the-game reward.
+Of course, the subsidy window will close too: quotas will tighten, plans will scale back, and high-intelligence Tokens will sooner or later be billed at their true price. So while you can still harvest, harvest everything you can; and more importantly, turn the Tokens you harvest into **long-term reusable production assets** like code, services, and workflows — when the day comes that Tokens get expensive, what you've accumulated will be the real reward for finishing the game.
 
 Happy exploring, everyone.
 
