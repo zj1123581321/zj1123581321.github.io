@@ -24,7 +24,7 @@
   {{- end }}
 {{- end }}
 {{/* First image in body: bundle-relative -> processed resource; site-absolute (static/) -> plain URL; external -> skip. */}}
-{{- if and (not $imgParams) (not $imgs) }}
+{{- if and (not $imgParams) (not $imgs) (eq .Section "posts") }}
   {{- $src := "" -}}
   {{- $m := findRESubmatch `!\[[^\]]*\]\(\s*(?:<([^>]+)>|([^)\s]+))` .RawContent -}}
   {{- if not $m }}
