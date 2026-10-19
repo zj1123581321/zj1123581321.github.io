@@ -1,7 +1,7 @@
 ---
 title: "Always-On Agents: A Remote Development Setup You Can Reach From Any Device"
 date: 2026-06-28
-draft: true
+draft: false
 sourceHash: "sha256:47000b2267c588922a08e6742b68117f053188b773ae981927c9d083ae685b5f"
 translatedBy: "claude-cli/sonnet"
 description: "A remote development architecture that keeps your Coding Agent online 24/7: server selection, tmux session management, phone access via HAPI, Tailscale networking, and a reading guide for both beginners and Agents."
@@ -16,7 +16,7 @@ description: "A remote development architecture that keeps your Coding Agent onl
 
 In the [hardware post](../260329-ai-hardware-data-security/) I mentioned that, at the current pace of Coding Agent development, I most likely won't buy a high-performance laptop again. All of my budget will move to a high-performance host machine. The only thing I need from a laptop when I'm out is a bigger screen that's comfortable to look at — a portable, long-battery-life machine like the MacBook Air fits the needs of programming in the AI era much better.
 
-A while ago I heard that Apple's supply chain costs were going to rise, so I ordered a MacBook Air M5 32G + 1T that very night: a like-new, in-warranty used unit for 10,300 RMB, while the same configuration lists at 15,000. A few days after it arrived, Apple did indeed raise prices across the board. I suppose I got to enjoy a little payoff from cashing in on my own awareness.
+A while ago I heard that Apple's supply chain costs were going to rise, so I ordered a MacBook Air M5 32G + 1T that very night: a like-new, in-warranty used unit for 10,300 RMB, while the same configuration lists at 15,000. A few days after it arrived, Apple did indeed raise prices across the board. I suppose I got a small return on a little foresight.
 
 Why an Air instead of a Pro? Because in this era, **a laptop is just a screen plus a keyboard**. All the compute, all the code repositories, and all the running Coding Agent processes live on a remote server. The device in your hand only needs to do one thing — connect.
 
@@ -28,7 +28,7 @@ This is the underlying logic of the entire article. Everything below unfolds aro
 
 ## 2. Architecture Overview
 
-Here's a global topology diagram first, to give you the overall picture. Each layer will be expanded one by one afterward.
+Here's an overall architecture diagram first, to give you the big picture. Each layer will be expanded one by one afterward.
 
 ```mermaid
 graph TB
@@ -195,7 +195,7 @@ tmux itself isn't hard to install or use, but there are a few configuration pitf
 
 **① Title passthrough**
 
-While running, Claude Code and Codex display their current status through the terminal title (the line of text at the top of your window/tab) — while running, the small dot in the title keeps moving or blinking.
+Claude Code and Codex display their current status through the terminal title (the line of text at the top of your window or tab) — while they run, the small dot in the title keeps moving or blinking.
 
 But many default tmux configurations don't pass this title change through to your outer terminal tab. The result is that you have to click into each one to see what state each Agent is in, which is painful when you have several open at once.
 
@@ -213,7 +213,7 @@ Tools like Codex use key combinations such as Shift+Enter. tmux may not forward 
 
 By default tmux has a half-second delay after pressing Esc, which is annoying in scenarios with frequent interaction; just set it to 0.
 
-I've already stepped on all of these pitfalls. My tmux configuration reference is in the appendix at the end of the article — have the Agent read it and load the configuration onto the server directly.
+I've run into all of these issues myself. My tmux configuration reference is in the appendix at the end of the article — have the Agent read it and load the configuration onto the server directly.
 
 ---
 
@@ -229,7 +229,7 @@ VS Code has a plugin called Remote SSH (a plugin is an extension package that ad
 
 When the network is decent, you can browse the remote server's directory structure, view code, and copy file paths to give instructions to the Agent, and the experience is very smooth.
 
-But it suits text and code — relatively small files. Large files like PDFs and Excel sheets of hundreds of megabytes will be very laggy to open over the network.
+But it suits text and code — relatively small files. Large files like PDFs and Excel sheets of hundreds of megabytes will be painfully slow to open over the network.
 
 ### Syncthing: Two-Way Sync for Large Files
 
@@ -249,11 +249,11 @@ Just have the Agent set up an SMB share on the server; the configuration isn't c
 
 ### cc-clip: Pasting Screenshots Remotely
 
-This is an open-source tool that I help maintain (I contributed the Windows client), and it solves a very specific pain point: **you see a problem on a front-end page locally and want to screenshot it and send it to the remote Claude Code for analysis — what do you do?**
+This is an open-source tool that I help maintain (I contributed the Windows client), and it solves a very specific pain point: **you spot a problem on a local web page and want to screenshot it and send it to the remote Claude Code for analysis — what do you do?**
 
 Your screenshot is in the local clipboard, but Claude Code runs on the remote server — you simply can't paste across.
 
-[cc-clip](https://github.com/ShunmeiCho/cc-clip) was built to solve this. It runs a small service locally and, through SSH's port-forwarding mechanism (you don't need to understand this detail), "bridges" your local clipboard to the remote server. The effect: you take a screenshot locally, then paste directly into the remote Claude Code terminal, and the image goes through — **completely seamless**.
+[cc-clip](https://github.com/ShunmeiCho/cc-clip) was built to solve this. It runs a small service locally and, through SSH's port-forwarding mechanism (you don't need to understand this detail), "bridges" your local clipboard to the remote server. The effect: you take a screenshot locally, then paste directly into the remote Claude Code terminal, and the image appears on the remote side as if you'd pasted it locally — **seamlessly**.
 
 The experience on macOS is excellent; Windows support is experimental.
 
@@ -263,13 +263,13 @@ The experience on macOS is excellent; Windows support is experimental.
 
 Once the server side is all set, the next question is which device and which tool you use to connect.
 
-There isn't **that much to be particular about** here — the client is largely whatever you find comfortable. But there are some differences in experience across devices that are worth mentioning.
+The choice of client is mostly a matter of personal preference. But there are some differences in experience across devices that are worth mentioning.
 
 ### On a Computer: Terminal Tools
 
 The simplest option, of course, is VS Code's built-in terminal, which can also be opened multiple times. But when you want to run Agents on several different projects in parallel, VS Code's multi-window management gets a bit tiring.
 
-I recommend a dedicated terminal tool (that "black window" from earlier). A dedicated terminal can open many tabs at once, each connected to one tmux session, clear at a glance. Often you don't even need to open VS Code, because you already know what the topic is and can just chat with the Agent right in the terminal.
+I recommend a dedicated terminal tool (that "black window" from earlier). A dedicated terminal can open many tabs at once, each connected to a tmux session, so you can see them all at a glance. Often you don't even need to open VS Code, because you already know what the topic is and can just chat with the Agent right in the terminal.
 
 **Windows:** Windows Terminal is enough, and it's made by Microsoft.
 
@@ -289,7 +289,7 @@ Phones do have SSH clients that can connect back to the server, but honestly —
 
 There's also a more important reason: **risk-control safety**. In the [risk-control post](../claude-code-risk-model-philosophy/) I analyzed in detail that the sensor information a phone app can obtain (GPS location, cell tower information, system time zone, and so on) goes far beyond what you can disguise at the network level. For services with risk-control policies, installing a native client on your phone is effectively handing over your physical location voluntarily. So on my phone I only use the PWA web versions of Claude and ChatGPT (a PWA "installs" a web page onto your phone's home screen; once opened it looks like a native app, but it's still a browser running underneath and doesn't access the phone's sensor information), and **all interaction with Coding Agents goes through HAPI** — the phone is just a display terminal and exposes none of the phone's sensor information.
 
-I recommend [HAPI](https://github.com/tiann/hapi) more.
+I'd especially recommend [HAPI](https://github.com/tiann/hapi).
 
 #### What Does HAPI Do?
 
@@ -297,7 +297,7 @@ In plain words: **HAPI turns Claude Code's command-line interface into a web pag
 
 But it's far more than "terminal to web page." HAPI consists of three parts:
 
-1. **CLI**: wraps the process of Agents such as Claude Code on the server and syncs session state out in real time
+1. **CLI**: runs Agents such as Claude Code on the server and syncs their session state in real time
 2. **Hub**: a central service that stores session data and presents it to you through a web page
 3. **Runner**: a background daemon — with it, you can start a brand-new Agent session directly from the phone's web page, without first having to SSH in, open tmux, and type commands
 
@@ -316,9 +316,9 @@ When I'm out, I basically just use HAPI to connect back and chat with Claude Cod
 
 ---
 
-## 7. Network: The Guarantee of Anytime, Anywhere
+## 7. Network: Staying Connected Anytime, Anywhere
 
-With the server and clients in place, one link is still missing in between — **the network**.
+With the server and clients in place, one piece is still missing — **the network**.
 
 Normally, your server sits in the local network at home (a local network is the network covered by your home WiFi), and you can only reach it when connected to the same WiFi. But the whole point of all this is "anytime, anywhere" — you can't stay home forever.
 
@@ -364,9 +364,9 @@ In our scenario, you expose the HAPI Hub through Cloudflare Tunnel, and your pho
 
 Although HAPI has its own login authentication, if you want extra safety you can layer [Cloudflare Access](https://developers.cloudflare.com/cloudflare-one/policies/access/) on top.
 
-Access works like this: **before a user can touch your web page, it requires them to verify their identity** — it supports email one-time codes, Google login, and so on. Only your own email can pass verification. Everyone else can't even see what the page looks like.
+Access works like this: **before anyone can reach your web page, they have to verify their identity** — it supports email one-time codes, Google login, and so on. Only your own email can pass verification. Everyone else can't even see what the page looks like.
 
-HAPI authentication plus Cloudflare Access — two layers stacked together, and even exposed to the public internet there are no security worries.
+HAPI authentication plus Cloudflare Access gives you two layers of protection, even when the service is exposed to the public internet.
 
 Incidentally: Tailscale, Cloudflare Tunnel, and Cloudflare Access are **all free**. It's hard to imagine services at this level costing nothing — I use them heavily, and truly haven't paid much.
 
@@ -378,13 +378,13 @@ Finishing the architecture isn't the end. For a system that's online 24/7, you n
 
 ### Data Backup
 
-Take data safety seriously. Back up multiple times, on multiple machines, even offsite. **The value of data far exceeds the cost of storage.**
+Take data safety seriously. Keep multiple backups across different machines, and even offsite if possible. **The value of data far exceeds the cost of storage.**
 
 For the specific backup strategy (the 3-2-1 rule, PVE image interchange, the 115 cloud drive, and so on), I wrote about it in detail in the [hardware post](../260329-ai-hardware-data-security/), so I won't repeat it here.
 
 ### UPS: A 300-RMB Power-Outage Insurance
 
-A UPS (uninterruptible power supply) is a front-end power source that keeps your server from shutting down instantly when power suddenly cuts out, giving you ample time to shut down safely and avoid data corruption.
+A UPS (uninterruptible power supply) is a backup power source that keeps your server from shutting down instantly when power suddenly cuts out, giving you ample time to shut down safely and avoid data corruption.
 
 Don't underestimate this thing — a sudden power loss can corrupt data being written and leave PVE virtual machines in an abnormal state, and fixing that costs far more than buying a UPS. It's three or four hundred RMB on JD.com, and well worth it.
 
@@ -408,15 +408,15 @@ Compared with heavyweight solutions like Grafana + Prometheus that require confi
 
 All the important code and repositories are on the remote server. Your local laptop can lose power, shut down, or go offline at any time without affecting the Agent's operation.
 
-It even works the other way around — spotty signal on a high-speed train? No problem. When there's signal, sync progress back and send a few commands to have the Agent continue; when there's no signal, it's running in the server's background anyway. **You can actually use these fragments of time to keep the Agent working in the background.**
+It even works the other way around — spotty signal on a high-speed train? No problem. When there's a signal, sync your progress and send a few commands to the Agent so it can keep going; when there's no signal, it's running in the server's background anyway. **You can actually use these fragments of time to keep the Agent working in the background.**
 
-### ② Very Low Device Migration Cost
+### ② Very Low Cost to Switch Devices
 
 When I switched from a Windows laptop to the MacBook Air this time, there was almost nothing local to migrate — the important repositories are on GitHub and the dev machine, and all other materials are in cloud storage. With passwordless SSH set up, a new device can start working right away.
 
 ### ③ High Data Safety
 
-Mac has Time Machine, and PVE can snapshot an entire virtual machine and back it up offsite. If something goes wrong you can restore at any time. Compared with the traditional model of piling everything onto a single laptop, the safety is much higher.
+Mac has Time Machine, and PVE can snapshot an entire virtual machine and back it up offsite. If something goes wrong you can restore at any time. Compared with the traditional model of piling everything onto a single laptop, your data is much safer.
 
 ### ④ Better Value for Money
 
@@ -430,11 +430,11 @@ Put the whole compute budget into the server — a Mac Studio has no screen, key
 
 ![Anytime, anywhere, on any device](anywhere-concept.jpg)
 
-Built on this system, my Coding Agent is online 24 hours a day. Whether I'm at home, at the office, on a high-speed train, or traveling abroad over the May Day holiday, as long as the network reaches, I can get in touch with my Agent anytime, anywhere. Laptop, phone, tablet — any device works.
+Built on this system, my Coding Agent is online 24 hours a day. Whether I'm at home, at the office, on a high-speed train, or traveling abroad over the May Day holiday, as long as I have an internet connection, I can get in touch with my Agent anytime, anywhere. Laptop, phone, tablet — any device works.
 
 I've run this system across multiple cities and many network environments, and it has never given me trouble.
 
-Once more: **as a human, all you need to understand is the architecture of the whole method.** For all the execution-layer work, send this article to your Claude Code or Codex, let it read through it, then tell it what you want to build, and it will do it for you.
+Once more: **as a human, all you need to understand is the overall architecture.** For all the setup and implementation work, send this article to your Claude Code or Codex, let it read the article, then tell it what you want to build, and it will do it for you.
 
 One practical tip to add: services like Tailscale and Cloudflare mentioned above all support creating API Keys. As long as you give the Coding Agent SSH access and the relevant API Keys, it can do a lot of the configuration in one go, without you clicking back and forth across various admin consoles. **But once the configuration is done, be sure to revoke or rotate these API Keys promptly** to avoid key leaks. A special reminder: if you're not using the official API but a third-party relay service, never put any sensitive key information in the conversation — your conversation content may be visible to the relay provider.
 
@@ -442,7 +442,7 @@ One practical tip to add: services like Tailscale and Cloudflare mentioned above
 
 ## Appendix: Reference Material and Pitfall Notes for Agents
 
-> The following content is aimed at Coding Agents (Claude Code / Codex, etc.). If you're a human reader, you can skip this part — send the link to the whole article to your Agent, and it will come read this section itself.
+> The following content is aimed at Coding Agents (Claude Code / Codex, etc.). If you're a human reader, you can skip this part — send the Agent a link to the whole article, and it can read this section itself.
 
 ### Server Environment Setup
 
