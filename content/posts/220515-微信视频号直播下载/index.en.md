@@ -1,7 +1,7 @@
 ---
 title: "Downloading WeChat Channels Livestreams"
 date: 2022-05-15
-draft: true
+draft: false
 url: "/en/posts/duo-ping-tai-wei-xin-shi-pin-hao-zhi-bo-xia-zai-fang-fa/"
 sourceHash: "sha256:ea08a96025b84977671fe2994aa92bc4e38c08c7aa1c04ade1ddecd26af205ed"
 translatedBy: "claude-cli/sonnet"
@@ -33,7 +33,7 @@ Open the livestreaming Channels page on your computer and capture packets with F
 
 Packet capture on Android 7.0+ is more troublesome: you either need to Root the phone and install the certificate into the system, or use something like a parallel space to create a virtual environment for capturing. My own phone is rooted, so I simply moved the HTTP Canary certificate into the system store.
 
-[Installing the HTTP Canary (Little Yellow Bird) system certificate on Android 11 - Bilibili](https://www.bilibili.com/video/BV1z54y1W7Wq/)
+[Installing the HTTP Canary (Little Yellow Bird) System Certificate on Android 11 - Bilibili](https://www.bilibili.com/video/BV1z54y1W7Wq/)
 
 Once HTTP Canary is installed, just capture traffic from WeChat.
 
@@ -41,7 +41,7 @@ Once HTTP Canary is installed, just capture traffic from WeChat.
 
 Capturing HTTPS on iOS is comparatively very easy. I use Stream to do it.
 
-[Stream, an iOS packet capture tool — making mobile packet capture a breeze - 温一壶清酒 - cnblogs](https://www.cnblogs.com/hong-fithing/p/12562448.html)
+[Stream: An iOS Packet Capture Tool That Makes Mobile Packet Capture Easy - Wen Yi Hu Qing Jiu (温一壶清酒) - cnblogs](https://www.cnblogs.com/hong-fithing/p/12562448.html)
 
 # Calling a Downloader to Download the flv File
 
@@ -63,12 +63,12 @@ For the notification that a download task was created successfully, I didn't use
 
 Then I trigger it through the FV floating ball on Android and through Shortcuts on iOS.
 
-[Using a long connection to exchange clipboard text between phone and computer [fooView] [text only] - Quicker](https://getquicker.net/KC/Kb/Article/928)  
+[Using a long connection to exchange clipboard text between phone and computer (fooView, text only) - Quicker](https://getquicker.net/KC/Kb/Article/928)\
 [Sync clipboard - Action info - Quicker](https://getquicker.net/Sharedaction?code=51cfce12-6aa6-4ad6-a067-08d9ac50b9f2)
 
 # Transcoding flv to mp4
 
-There are usually two ways to get the flv file of a Channels livestream:
+There are usually two ways to get the FLV file of a WeChat Channels livestream:
 
 -   Wait for the Channels livestream to end, and the download will end automatically.
 -   End the IDM download early, find the downloaded content in the cache folder, and rename its extension to `.flv`.
@@ -90,7 +90,7 @@ But whichever kind of flv file you get, the progress bar basically stops working
 You can process it with MediaCoder, or with Maruko Toolbox (小丸工具箱).
 
 **Updated 2024-01-16**:  
-Some livestream streams on platforms such as Douyin and Channels are now in hevc format rather than the original h264. None of the tools above can convert an hevc-format flv into an mp4 video.
+Some livestreams on platforms such as Douyin and WeChat Channels are now in HEVC format rather than the original H.264. None of the tools above can convert an HEVC FLV into an MP4 video.
 
 However, such an flv can still be decoded and played with PotPlayer.
 
