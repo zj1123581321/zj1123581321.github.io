@@ -55,4 +55,5 @@ test('超过最大行数时末行截断并添加省略号', () => {
 test('clampLines 仅截断超行文本', () => {
   assert.deepEqual(clampLines(['短行'], 3, 40, width), ['短行']);
   assert.deepEqual(textTokens('日均 40 亿 Token'), ['日', '均', ' ', '40', ' ', '亿', ' ', 'Token']);
+  assert.deepEqual(textTokens("don't split English contractions"), ["don't", ' ', 'split', ' ', 'English', ' ', 'contractions']);
 });

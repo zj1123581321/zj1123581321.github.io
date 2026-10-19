@@ -1,5 +1,6 @@
 const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
 const NO_LINE_START = /^[，。！？：；、）】」』〕〉〗〙〛…％‰℃”’"'!?.,:;%)\]}]/u;
+const PUNCTUATION_TOKEN = /^[，。！？：；、）】」』〕〉〗〙〛…％‰℃”’]$/u;
 
 export function textTokens(text) {
   const tokens = [];
@@ -9,7 +10,7 @@ export function textTokens(text) {
       if (word) tokens.push(word);
       word = '';
       if (tokens.at(-1) !== ' ') tokens.push(' ');
-    } else if (CJK.test(char) || NO_LINE_START.test(char)) {
+    } else if (CJK.test(char) || PUNCTUATION_TOKEN.test(char)) {
       if (word) tokens.push(word);
       word = '';
       tokens.push(char);

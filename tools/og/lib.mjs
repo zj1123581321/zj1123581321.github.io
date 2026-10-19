@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { readFrontmatter } from '../i18n/lib.mjs';
 
-export const TEMPLATE_VERSION = '6';
+export const TEMPLATE_VERSION = '7';
 export const META_PREFIX = 'blog-og-meta:v1 sha256:';
 export const POSTS_DIR = path.resolve('content/posts');
 
