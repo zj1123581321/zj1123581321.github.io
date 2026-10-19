@@ -10,5 +10,6 @@ Spec 入口：`README.md`、`hugo.toml`、`.github/workflows/deploy.yml`。ADR�
 
 - 权威验证：Hugo v0.147.5 执行 `hugo --gc --minify --baseURL <url> --destination <临时目录>`，并执行 `git diff --check`。
 - 本地预览：`hugo server -D`。
+- 修改文章标题或描述后：`node tools/og/generate.mjs content/posts/<slug>`。
 
 提交按逻辑显式暂存路径，使用工具署名 `[codex]`；不要使用 `git add -A`。

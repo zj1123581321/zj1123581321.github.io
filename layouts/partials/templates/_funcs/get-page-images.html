@@ -1,102 +1,30 @@
-{{/* 覆盖 PaperMod 同名函数：四级取图
-     1. front matter images / 包内 feature|cover|thumbnail（含 images/ 子目录，PaperMod 原语义扩展）
-     2. （合并在第 1 级 glob 中，** 前缀可跨子目录）
-     3. 正文第一张图：包内相对路径 → resource 处理后输出；站点绝对路径（static/）→ 原样绝对 URL；外链 → 跳过
-     4. 全站兜底：分语言品牌卡 site.Params.ogDefaultImage
-     能拿到 resource 的统一 Fill 1200x630 jpg q80，仅供分享。 */}}
 {{- $imgs := slice }}
-{{- $imgParams := .Params.images }}
-{{- $resources := .Resources.ByType "image" -}}
-{{- $spec := "1200x630 jpg q80" -}}
-{{/* Find featured image resources if the images parameter is empty. */}}
-{{- if not $imgParams }}
-  {{- $featured := $resources.GetMatch "**feature*" -}}
-  {{- if not $featured }}{{ $featured = $resources.GetMatch "**cover*" }}{{ end -}}
-  {{- if not $featured }}{{ $featured = $resources.GetMatch "**thumbnail*" }}{{ end -}}
-  {{- with $featured }}
-    {{- $p := .Fill $spec -}}
-    {{- $imgs = $imgs | append (dict
-      "Image" $p
-      "RelPermalink" $p.RelPermalink
-      "Permalink" $p.Permalink
-      "Width" $p.Width
-      "Height" $p.Height) }}
-  {{- end }}
-{{- end }}
-{{/* First image in body: bundle-relative -> processed resource; site-absolute (static/) -> plain URL; external -> skip. */}}
-{{- if and (not $imgParams) (not $imgs) (eq .Section "posts") }}
-  {{- $src := "" -}}
-  {{- $m := findRESubmatch `!\[[^\]]*\]\(\s*(?:<([^>]+)>|([^)\s]+))` .RawContent -}}
-  {{- if not $m }}
-    {{- $m = findRESubmatch `<img[^>]+src=["']([^"']+)` .RawContent -}}
-  {{- end }}
-  {{- with $m }}
-    {{- $row := index . 0 -}}
-    {{- range $g := $row | after 1 }}
-      {{- if and (not $src) $g }}{{ $src = $g }}{{ end -}}
-    {{- end }}
-  {{- end }}
-  {{- if $src }}
-    {{- $u := urls.Parse $src -}}
-    {{- if $u.IsAbs }}
-      {{/* External image: skip, fall through to the brand card below. */}}
-    {{- else if hasPrefix $u.Path "/" }}
-      {{- $imgs = $imgs | append (dict
-        "RelPermalink" (relURL $u.Path)
-        "Permalink" (absURL $u.Path)) }}
-    {{- else }}
-      {{- with $resources.GetMatch $u.Path }}
-        {{- $p := .Fill $spec -}}
-        {{- $imgs = $imgs | append (dict
-          "Image" $p
-          "RelPermalink" $p.RelPermalink
-          "Permalink" $p.Permalink
-          "Width" $p.Width
-          "Height" $p.Height) }}
-      {{- end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
-{{/* Use the first one of site images as the fallback. */}}
-{{- if and (not $imgParams) (not $imgs) }}
-  {{- with site.Params.images }}
-    {{- $imgParams = first 1 . }}
-  {{- end }}
-{{- end }}
-{{/* Site-wide fallback: per-language brand card. */}}
-{{- if and (not $imgParams) (not $imgs) }}
-  {{- with .Site.Params.ogDefaultImage }}
-    {{- $imgs = $imgs | append (dict
-      "RelPermalink" (relURL .)
-      "Permalink" (absURL .)
-      "Width" 1200
-      "Height" 630) }}
-  {{- end }}
-{{- end }}
-{{/* Parse page's images parameter. */}}
-{{- range $imgParams }}
-  {{- $img := . }}
-  {{- $url := urls.Parse $img }}
-  {{- if eq $url.Scheme "" }}
-    {{/* Internal image. */}}
-    {{- with $resources.GetMatch $img -}}
-      {{/* Image resource. */}}
-      {{- $imgs = $imgs | append (dict
-        "Image" .
-        "RelPermalink" .RelPermalink
-        "Permalink" .Permalink) }}
-    {{- else }}
-      {{- $imgs = $imgs | append (dict
-        "RelPermalink" (relURL $img)
-        "Permalink" (absURL $img)
-      ) }}
-    {{- end }}
-  {{- else }}
-    {{/* External image */}}
-    {{- $imgs = $imgs | append (dict
-      "RelPermalink" $img
-      "Permalink" $img
-    ) }}
-  {{- end }}
-{{- end }}
+{{- $isPost := and .IsPage (eq .Section "posts") -}}
+{{- if $isPost -}}
+  {{- $imgParams := .Params.images -}}
+  {{- if $imgParams -}}
+    {{- range $imgParams -}}
+      {{- $img := . -}}
+      {{- $url := urls.Parse $img -}}
+      {{- if eq $url.Scheme "" -}}
+        {{- with $.Resources.GetMatch $img -}}
+          {{- $imgs = $imgs | append (dict "Image" . "RelPermalink" .RelPermalink "Permalink" .Permalink) -}}
+        {{- else -}}
+          {{- $imgs = $imgs | append (dict "RelPermalink" (relURL $img) "Permalink" (absURL $img)) -}}
+        {{- end -}}
+      {{- else -}}
+        {{- $imgs = $imgs | append (dict "RelPermalink" $img "Permalink" $img) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- with .Resources.GetMatch (printf "og-card.%s.jpg" .Lang) -}}
+      {{- $imgs = $imgs | append (dict "Image" . "RelPermalink" .RelPermalink "Permalink" .Permalink "Width" .Width "Height" .Height) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $imgs -}}
+  {{- with .Site.Params.ogDefaultImage -}}
+    {{- $imgs = $imgs | append (dict "RelPermalink" (relURL .) "Permalink" (absURL .) "Width" 1200 "Height" 630) -}}
+  {{- end -}}
+{{- end -}}
 {{- return $imgs }}
