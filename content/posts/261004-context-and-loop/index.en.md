@@ -1,10 +1,10 @@
 ---
-title: "A Fall in the Pit, a Gain in Wit: Context and Loop"
+title: "A Fall Into the Pit, a Gain in Your Wit"
 date: 2026-10-04
 draft: true
 sourceHash: "sha256:028df6aec84e8d53e0f86da74840f80f874a0f8c18fe8d616a7764a2ec348d57"
 translatedBy: "claude-cli/sonnet"
-description: "If you could only remember two words from the Agent era, they should be Context and Loop. A two-month retrospective on moving from people in the loop to people out of the loop."
+description: "If I could only remember two words from the Agent era, I would pick Context and Loop: one determines how well the Agent does this time, the other determines whether it can do better next time. Scheduling Agents should get easier and easier; don't let yourself become the bottleneck of the system."
 ---
 *Translated from the [Chinese original](/posts/261004-context-and-loop/).*
 
@@ -255,7 +255,7 @@ The first is that **the model's own judgment is rather mediocre**. Workhorse mod
 
 The second is a **problem every model has: context rot**. As the context window fills, the model's intelligence declines, even for a top-tier model. And it doesn't wait until the window is nearly full to go wrong — I've observed that many models, once the window is forty or fifty percent used, already start getting stuck in a local view without realizing it.
 
-At first I only focused on the first problem, with a simple idea: **use a model that is strong across the board to make high-value judgments.** So I automatically consult top models like GPT-6, Opus, Fable, and Kimi; each consultation costs a few hundred thousand Tokens... more precisely, each model uses about a hundred-odd thousand Tokens per consult, but the advice has very high decision quality and **often directly overturns the underlying model's judgment**.
+At first I only focused on the first problem, with a simple idea: **use a model that is strong across the board to make high-value judgments.** So I automatically consult top models like GPT-6, Opus, Fable, and Kimi; each model uses about a hundred-odd thousand Tokens per consult, but the advice has very high decision quality and **often directly overturns the underlying model's judgment**.
 
 This idea was learned from Claude Code. It has an experimental native Advisor tool in which the main model consults another, stronger model at key points. But it can only be used inside Claude Code, so I wrote it as a standalone tool, in a Skill-like form, so that all Agents can use it.
 

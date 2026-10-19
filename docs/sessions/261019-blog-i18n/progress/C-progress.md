@@ -27,3 +27,10 @@
 - 本段结论：真实运行 `node tools/i18n/translate.mjs content/posts/261004-context-and-loop` 一次成功（claude 2.1.303 / sonnet），产出 index.en.md：draft: true 恰好 1 处、sourceHash 与中文一致、首行声明 /posts/261004-context-and-loop/、description 已译、tags 未带入。check 输出 `2 translations, 0 stale`；`hugo -D` 构建产出 /en/posts/261004-context-and-loop/，中文页出现 En 切换链接与 hreflang alternate。Verify-Command 全绿（29 测试 + check + hugo + git diff --check）。
 - 关键决策与已否决方案：worktree 主题子模块为空导致首次 hugo 构建无模板（WARN found no layout file），`git submodule update --init` 后恢复——子模块初始化属构建环境准备，不改仓内容。草稿页不出现在默认 hugo 构建（无 -D）是 draft: true 的预期行为，行为验收按卡面用 -D 验证。
 - 下一步唯一动作：收尾报告与 push。
+
+## 里程碑 5：验收续修（description 无源 + 重译声明重复）
+
+- 当前阶段：done（续修完成，待主脑复审）
+- 本段结论：验收反馈两处缺陷修复入库：①buildPrompt 把中文 description 原文附入 prompt 并要求忠实译出（622748a，红验：去掉后 stdin 断言 false !== true）；②重译时旧译文首行声明不进 prompt、模型回抄的 BODY 首行声明确定性剥除（b6b532c，红验两向：stdin 断言 true !== false、声明计数 2 !== 1）。真实 claude 对 261004 走重译路径一次成功：description 与中文逐句对应、`grep -c 'Translated from the'` = 1、check `2 translations, 0 stale`，全套 30 测试绿。
+- 关键决策与已否决方案：输出侧剥声明放在 parseModelOutput 内、空体检查之前——仅含声明的 BODY 直接算解析失败（fail-loud）而非写出空正文。
+- 下一步唯一动作：收尾续修报告与 push。
