@@ -242,6 +242,14 @@ if (!noEn) {
   enDraftNote = `  英文草稿: content/posts/${slug}/index.en.md（draft: true，审阅后改为 false）\n`;
 }
 
+console.log('\n生成分享标题卡...');
+const ogScript = path.join(__dirname, 'tools', 'og', 'generate.mjs');
+const og = spawnSync(process.execPath, [ogScript, postDir], { stdio: 'inherit' });
+if (og.status !== 0) {
+  console.error(`\n文章已生成，标题卡失败，可单独重跑: node tools/og/generate.mjs content/posts/${slug}`);
+  process.exit(1);
+}
+
 console.log(`
 发布完成!
   文章: ${path.join(postDir, 'index.md')}

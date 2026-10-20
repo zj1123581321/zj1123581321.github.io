@@ -42,6 +42,8 @@ git push
 3. **公开**：审过之后把 `index.en.md` 里的 `draft: true` 改为 `false`。
 4. **提交**：中文和英文一起 `git add content/posts/<slug>`，推送、走 PR。
 
+首次使用先在 `tools/og/` 执行 `npm ci`；回到仓库根目录后，每次修改文章标题或描述都运行 `node tools/og/generate.mjs content/posts/<slug>` 更新分享标题卡。
+
 **中文改了怎么重译**：直接重跑 `node tools/i18n/translate.mjs content/posts/<目录名>`。
 它会读取旧英文译文喂给模型，只改动与中文变化对应的部分，其余逐字保留；重译后的
 英文一律回到 `draft: true`，需再次审阅后再公开。PR 检查里的 i18n 校验会比较译文的
