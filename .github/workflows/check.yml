@@ -30,6 +30,12 @@ jobs:
       - name: Run i18n check
         run: node tools/i18n/check.mjs
 
+      - name: Install OG tool dependencies
+        run: npm ci --prefix tools/og
+
+      - name: Run OG unit tests
+        run: node --test tools/og/test/*.test.mjs
+
       - name: Check OG cards
         run: node tools/og/check.mjs
 
