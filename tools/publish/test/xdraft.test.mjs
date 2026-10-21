@@ -18,10 +18,20 @@ import {
   waitForCondition,
 } from '../lib/xdraft.mjs';
 
-function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }] } = {}) {
+function startFakeBridge({
+  tabs = [],
+  blocks = [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }],
+  coverReadyAfterChecks = 1,
+  coverDialogCloses = true,
+  gifReadyAfterChecks = 1,
+} = {}) {
   const requests = [];
-  let imageCount = 0;
+  let mediaCount = 0;
+  let currentMediaKind = 'image';
+  let gifReadyChecks = 0;
   let captionDialogOpen = false;
+  let coverDialogOpen = true;
+  let coverApplyReadyChecks = 0;
   // 标记属性存在才允许 probe 找到目标（与真实页面一致：没 mark 过就查不到该选择器）
   const marked = { create: false, coverApply: false, captionOpen: false, captionSave: false };
   const server = http.createServer(async (request, response) => {
@@ -53,6 +63,14 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
       } else if (code.includes('data-md2p-cover-apply')) {
         marked.coverApply = true;
         data = { type: 'string', value: JSON.stringify({ found: true, text: '应用', ariaLabel: '' }) };
+      } else if (code.includes('aria-disabled') && code.includes('naturalWidth > 0')) {
+        coverApplyReadyChecks += 1;
+        data = {
+          type: 'string',
+          value: JSON.stringify({ ready: coverApplyReadyChecks >= coverReadyAfterChecks }),
+        };
+      } else if (code.includes('return JSON.stringify({dialogOpen})')) {
+        data = { type: 'string', value: JSON.stringify({ dialogOpen: coverDialogOpen }) };
       } else if (code.includes('data-md2p-caption-save')) {
         marked.captionSave = true;
         data = { type: 'string', value: JSON.stringify({ found: true, text: '保存', ariaLabel: '保存' }) };
@@ -72,22 +90,26 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
       } else if (code.includes('kind: \'cover\'')) {
         data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'cover' }) };
       } else if (code.includes('data.items.add(file)')) {
-        imageCount += 1;
+        mediaCount += 1;
+        currentMediaKind = code.toLowerCase().includes('.gif') ? 'video' : 'image';
+        gifReadyChecks = 0;
         data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'image' }) };
       } else if (code.includes('data.setData(\'text/html\'')) {
         data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'html' }) };
-      } else if (
-        code.includes('filter((section) => section.querySelector(\'img\')).length') &&
-        !code.includes('imageSectionCount')
-      ) {
-        data = imageCount;
       } else if (code.includes('textReady')) {
         data = {
           type: 'string',
-          value: JSON.stringify({ textReady: true, imageSectionCount: imageCount }),
+          value: JSON.stringify({ textReady: true, mediaSectionCount: mediaCount }),
         };
-      } else if (code.includes('imageSectionCount')) {
-        data = { type: 'string', value: JSON.stringify({ imageSectionCount: imageCount, ready: true }) };
+      } else if (code.includes('mediaSectionCount')) {
+        if (currentMediaKind === 'video') gifReadyChecks += 1;
+        data = {
+          type: 'string',
+          value: JSON.stringify({
+            mediaSectionCount: mediaCount,
+            ready: currentMediaKind === 'video' ? gifReadyChecks >= gifReadyAfterChecks : true,
+          }),
+        };
       } else if (code.includes('return JSON.stringify({blocks});')) {
         data = { type: 'string', value: JSON.stringify({ blocks }) };
       } else if (code.includes('location.href')) {
@@ -106,7 +128,10 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
     } else if (body.action === 'click') {
       if (body.args.selector === '[data-md2p-caption-open="1"]') captionDialogOpen = true;
       if (body.args.selector === '[data-md2p-caption-save="1"]') captionDialogOpen = false;
-      if (body.args.selector === '[data-md2p-cover-apply="1"]') marked.coverApply = false;
+      if (body.args.selector === '[data-md2p-cover-apply="1"]') {
+        marked.coverApply = false;
+        if (coverDialogCloses) coverDialogOpen = false;
+      }
       data = { success: true, tag: 'BUTTON', text: '' };
     } else if (body.action === 'fill') {
       data = { success: true, tag: 'TEXTAREA', mode: 'value' };
@@ -237,7 +262,7 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
       ],
     },
   };
-  const { server, requests } = startFakeBridge();
+  const { server, requests } = startFakeBridge({ coverReadyAfterChecks: 3 });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   try {
     const { port } = server.address();
@@ -278,6 +303,36 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
         request.args.selector === '[data-md2p-cover-apply="1"]'
     );
     assert.equal(applyClicks.length, 1);
+    const applyReadyChecks = requests.filter(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes('aria-disabled') &&
+        request.args.code.includes('naturalWidth > 0')
+    );
+    assert.equal(applyReadyChecks.length, 3, '就绪前轮询两次，第三次才允许点击');
+    assert.ok(
+      requests.indexOf(applyClicks[0]) > requests.indexOf(applyReadyChecks.at(-1)),
+      '预览未就绪时不应向应用选择器发 click'
+    );
+    assert.match(applyReadyChecks[0].args.code, /el\.complete && el\.naturalWidth > 0/);
+    assert.match(applyReadyChecks[0].args.code, /!button\.disabled/);
+    assert.match(applyReadyChecks[0].args.code, /getAttribute\('aria-disabled'\) !== 'true'/);
+    const dialogClosedWait = requests.find(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes('return JSON.stringify({dialogOpen})')
+    );
+    assert.ok(dialogClosedWait, '点击应用后应等待编辑媒体对话框关闭');
+    const coverImageWait = requests.find(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes('pbs.twimg.com/media/')
+    );
+    assert.ok(
+      requests.indexOf(dialogClosedWait) > requests.indexOf(applyClicks[0]) &&
+        requests.indexOf(dialogClosedWait) < requests.indexOf(coverImageWait),
+      '先确认对话框关闭，再等待封面图上传完成'
+    );
     const applyMark = requests.find(
       (request) =>
         request.action === 'evaluate' &&
@@ -296,6 +351,44 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
     assert.deepEqual(Buffer.from(JSON.parse(imageBase64Literal), 'base64'), bodyBytes);
     assert.match(pasteRequests[2].args.code, /<p>结束<\/p>/);
   } finally {
+    await new Promise((resolve) => server.close(resolve));
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('封面应用后对话框未关闭时报告专属超时错误，不误报封面上传超时', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-cover-dialog-'));
+  const outDir = path.join(dir, 'tools/publish/out/example');
+  fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'assets/cover.png'), Buffer.from('cover-bytes'));
+  const data = { title: '封面对话框错误', cover: 'assets/cover.png', x: { segments: [] } };
+  const { server, requests } = startFakeBridge({ coverDialogCloses: false });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const originalNow = Date.now;
+  let fakeNow = originalNow();
+  Date.now = () => (fakeNow += 60_001);
+  try {
+    const { port } = server.address();
+    const bridge = new BridgeClient({ addr: `127.0.0.1:${port}` });
+    await assert.rejects(
+      () => runXDraft({ data, outDir, bridge, log: () => {}, pause: async () => {} }),
+      (error) => {
+        assert.match(error.message, /等待封面应用后对话框关闭超时/);
+        assert.doesNotMatch(error.message, /等待封面图上传超时/);
+        return true;
+      }
+    );
+    assert.equal(
+      requests.filter(
+        (request) =>
+          request.action === 'click' &&
+          request.args.selector === '[data-md2p-cover-apply="1"]'
+      ).length,
+      1,
+      '不重试点击应用'
+    );
+  } finally {
+    Date.now = originalNow;
     await new Promise((resolve) => server.close(resolve));
     fs.rmSync(dir, { recursive: true, force: true });
   }
@@ -402,6 +495,45 @@ test('安全闸拒绝白名单外的 click 选择器，且不向 bridge 发任�
     () => safeClick(bridge, 'button[aria-label="publish"]'),
     /安全闸拒绝未授权 click 选择器：button\[aria-label="publish"\]/
   );
+});
+
+test('GIF 正文段按 video 就绪计数、后续 HTML 保持顺序，字幕警告并跳过字幕对话框', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-gif-'));
+  const outDir = path.join(dir, 'tools/publish/out/example');
+  fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
+  for (const name of ['animation.gif', 'after.png']) fs.writeFileSync(path.join(outDir, 'assets', name), Buffer.from([1, 2, 3]));
+  const caption = '动画中的字幕原文';
+  const data = { title: 'GIF 上传测试', cover: null, x: { segments: [
+    { kind: 'html', html: '<p>GIF 前文</p>' },
+    { kind: 'image', src: 'assets/animation.gif', alt: caption, caption },
+    { kind: 'html', html: '<p>GIF 后文</p>' },
+    { kind: 'image', src: 'assets/after.png', alt: '后续图片' },
+  ] } };
+  const { server, requests } = startFakeBridge({
+    blocks: [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }, { kind: 'IMG' }], gifReadyAfterChecks: 2,
+  });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  try {
+    const { port } = server.address();
+    const logs = [];
+    await runXDraft({ data, outDir, bridge: new BridgeClient({ addr: `127.0.0.1:${port}` }), log: (line) => logs.push(line), pause: async () => {} });
+    assert.ok(requests.find((r) => r.action === 'evaluate' && r.args.code.includes('return JSON.stringify({blocks});')).args.code.includes("block.querySelector('img, video')"));
+    assert.ok(logs.includes(`预检：图片段数量 2，总字数 10，带字幕图片 0，GIF 字幕跳过 1`));
+    assert.ok(logs.includes(`警告：X 不支持 GIF 字幕，已跳过：${caption}`));
+    const probes = requests.filter((r) => r.action === 'evaluate' && r.args.code.includes('mediaSectionCount'));
+    const videoProbes = probes.filter((r) => r.args.code.includes('video.readyState >= 2'));
+    assert.equal(videoProbes.length, 3);
+    const videoCode = videoProbes[0].args.code;
+    assert.ok(videoCode.includes("video.currentSrc.startsWith('blob:')") && videoCode.includes("video.currentSrc.startsWith('https://')") && videoCode.includes('video.readyState >= 2'));
+    assert.ok(videoCode.includes("section.querySelector('img, video')"));
+    const htmlProbes = requests.filter((r) => r.action === 'evaluate' && r.args.code.includes('textReady'));
+    assert.ok(htmlProbes[1].args.code.includes("section.querySelector('img, video')"));
+    assert.ok(requests.indexOf(videoProbes[1]) < requests.findIndex((r) => r.action === 'evaluate' && r.args.code.includes("data.setData('text/html'") && r.args.code.includes('GIF 后文')));
+    assert.equal(requests.filter((r) => r.action === 'click' && r.args.selector.includes('caption')).length, 0);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 test('图片字幕：带 caption 的图片段点占位→填值→保存；无 caption 的图片段不发字幕请求', async () => {

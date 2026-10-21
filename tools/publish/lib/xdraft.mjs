@@ -189,6 +189,35 @@ function coverDialogReadyCode() {
   )`;
 }
 
+function coverApplyReadyCode() {
+  return `(() => {
+    const dialog = [...document.querySelectorAll('dialog, [role="dialog"]')].find((el) =>
+      (el.getAttribute('aria-label') || el.getAttribute('name') || el.innerText || '').includes('编辑媒体')
+    );
+    if (!dialog) return JSON.stringify({ready: false});
+    const image = [...dialog.querySelectorAll('img')].find((el) =>
+      el.complete && el.naturalWidth > 0
+    );
+    const button = [...dialog.querySelectorAll('button')].find((el) =>
+      (el.textContent || '').trim() === '应用'
+    );
+    return JSON.stringify({
+      ready: Boolean(
+        image && button && !button.disabled && button.getAttribute('aria-disabled') !== 'true'
+      )
+    });
+  })()`;
+}
+
+function coverDialogOpenCode() {
+  return `(() => {
+    const dialogOpen = [...document.querySelectorAll('dialog, [role="dialog"]')].some((el) =>
+      (el.getAttribute('aria-label') || el.getAttribute('name') || el.innerText || '').includes('编辑媒体')
+    );
+    return JSON.stringify({dialogOpen});
+  })()`;
+}
+
 function markCoverApplyCode() {
   return `(() => {
     document.querySelectorAll('[data-md2p-cover-apply]').forEach((el) => {
@@ -231,19 +260,23 @@ function imageUploadStateCode() {
     const sections = editor
       ? [...editor.querySelectorAll('section[data-block="true"]')]
       : [];
-    const imageSections = sections.filter((section) => section.querySelector('img'));
-    const latest = imageSections.at(-1);
+    const mediaSections = sections.filter((section) => section.querySelector('img, video'));
+    const latest = mediaSections.at(-1);
     const image = latest?.querySelector('img');
-    const ready =
-      Boolean(latest) &&
+    const video = latest?.querySelector('video');
+    const imageReady =
       Boolean(image) &&
       image.src.startsWith('blob:') &&
       image.complete &&
       image.naturalWidth > 0 &&
       Boolean(latest.querySelector('[aria-label="编辑媒体"]'));
+    const videoReady =
+      Boolean(video) &&
+      (video.currentSrc.startsWith('blob:') || video.currentSrc.startsWith('https://')) &&
+      video.readyState >= 2;
     return JSON.stringify({
-      imageSectionCount: imageSections.length,
-      ready
+      mediaSectionCount: mediaSections.length,
+      ready: image ? imageReady : videoReady
     });
   })()`;
 }
@@ -369,10 +402,10 @@ function htmlSettledCode(fingerprint) {
     const sections = editor
       ? [...editor.querySelectorAll('section[data-block="true"]')]
       : [];
-    const imageSectionCount = sections.filter((section) => section.querySelector('img')).length;
+    const mediaSectionCount = sections.filter((section) => section.querySelector('img, video')).length;
     return JSON.stringify({
       textReady: ${JSON.stringify(fingerprint)} === '' || text.includes(${JSON.stringify(fingerprint)}),
-      imageSectionCount
+      mediaSectionCount
     });
   })()`;
 }
@@ -383,10 +416,10 @@ function selfCheckCode() {
     const blocks = editor
       ? [...editor.querySelectorAll('[data-block="true"]')]
           .map((block) => {
-            if (block.tagName === 'SECTION' && block.querySelector('img')) {
+            if (block.tagName === 'SECTION' && block.querySelector('img, video')) {
               return {kind: 'IMG'};
             }
-            if (!block.textContent.trim() && !block.querySelector('img')) {
+            if (!block.textContent.trim() && !block.querySelector('img, video')) {
               return null;
             }
             return {kind: 'TEXT'};
@@ -550,11 +583,20 @@ export async function runXDraft({
     ? allSegments.slice(1)
     : allSegments;
   const imageCount = bodySegments.filter((segment) => segment.kind === 'image').length;
-  const captionCount = bodySegments.filter((segment) => segment.caption).length;
+  const isGifSegment = (segment) =>
+    segment.kind === 'image' && path.extname(segment.src).toLowerCase() === '.gif';
+  const captionCount = bodySegments.filter(
+    (segment) => segment.caption && !isGifSegment(segment)
+  ).length;
+  const gifCaptionCount = bodySegments.filter(
+    (segment) => segment.caption && isGifSegment(segment)
+  ).length;
   const textLength = bodySegments
     .filter((segment) => segment.kind === 'html')
     .reduce((total, segment) => total + textLengthOfHtml(segment.html), 0);
-  log(`预检：图片段数量 ${imageCount}，总字数 ${textLength}，带字幕图片 ${captionCount}`);
+  log(
+    `预检：图片段数量 ${imageCount}，总字数 ${textLength}，带字幕图片 ${captionCount}，GIF 字幕跳过 ${gifCaptionCount}`
+  );
   const pauseCount = (data.cover ? 3 : 2) + bodySegments.length + imageCount;
   log(
     `节奏：${pauseCount} 次停顿，预计额外 ${Math.round((pauseCount * PACE_MIN_MS) / 1000)}~${Math.round(
@@ -610,12 +652,24 @@ export async function runXDraft({
         description: '封面编辑媒体对话框',
         predicate: Boolean,
       });
+      await waitForCondition({
+        bridge,
+        code: coverApplyReadyCode(),
+        description: '封面裁剪预览就绪',
+        predicate: (state) => state?.ready === true,
+      });
       const applyTarget = evaluateValue(await bridge.evaluate({ code: markCoverApplyCode() }));
       if (!applyTarget?.found) {
         throw new Error('安全闸找不到封面应用按钮');
       }
       assertSafeClickTarget(applyTarget);
       await safeClick(bridge, COVER_APPLY_SELECTOR);
+      await waitForCondition({
+        bridge,
+        code: coverDialogOpenCode(),
+        description: '封面应用后对话框关闭',
+        predicate: (state) => state?.dialogOpen === false,
+      });
       await waitForCondition({
         bridge,
         code: coverImageReadyCode(),
@@ -635,10 +689,11 @@ export async function runXDraft({
           code: htmlSettledCode(fingerprint),
           description: `第 ${completedSegments + 1} 段 HTML 落盘且图片块保持`,
           predicate: (state) =>
-            state?.textReady === true && state.imageSectionCount === imagesCompleted,
+            state?.textReady === true && state.mediaSectionCount === imagesCompleted,
         });
       } else if (segment.kind === 'image') {
         caption = segment.caption ?? null;
+        const isGif = isGifSegment(segment);
         const imagePath = resolveAsset(outDir, segment.src);
         const bytes = fs.readFileSync(imagePath);
         await bridge.evaluate({
@@ -653,10 +708,13 @@ export async function runXDraft({
           code: imageUploadStateCode(),
           description: `第 ${imagesCompleted + 1} 个图片块上传`,
           predicate: (state) =>
-            state?.imageSectionCount === imagesCompleted + 1 && state.ready === true,
+            state?.mediaSectionCount === imagesCompleted + 1 && state.ready === true,
         });
         imagesCompleted += 1;
-        if (caption) {
+        if (caption && isGif) {
+          log(`警告：X 不支持 GIF 字幕，已跳过：${caption}`);
+          caption = null;
+        } else if (caption) {
           await pause();
           await fillImageCaption(bridge, caption);
         }
