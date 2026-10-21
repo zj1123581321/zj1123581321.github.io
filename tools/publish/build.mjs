@@ -6,7 +6,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { buildPostsIndex, parseFrontmatter, blogUrlOf, rewriteLinksForWechat, rewriteLinksForX } from './lib/links.mjs';
 import { resolveAllImages, rewriteImagesForWechat } from './lib/images.mjs';
-import { launchBrowser, renderMermaidToPng } from './lib/render.mjs';
+import { launchBrowser, padImageToXAspectRatio, renderMermaidToPng } from './lib/render.mjs';
 import { assertAllPushed } from './lib/push-check.mjs';
 import { renderWechatHtml, mermaidFilename } from './lib/wechat.mjs';
 import { buildXSegments } from './lib/x.mjs';
@@ -73,30 +73,29 @@ export async function runBuild({ repoRoot, postArg, skipPushCheck }) {
       blogUrl: blogUrlOf(dirName, index),
     });
 
+    // cover 与正文第一张图片同路径时保持源字节不变；其余 image 段素材统一做 X 补白。
+    let cover = null;
+    let coverAssetRel = null;
+    if (resolvedImages.length > 0) {
+      const first = resolvedImages[0];
+      coverAssetRel =
+        first.kind === 'external'
+          ? `assets/${decodeURIComponent(path.basename(new URL(first.src).pathname))}`
+          : `assets/${path.basename(first.repoRelPath)}`;
+    }
+
     // 5) 产物落盘：out/<目录>/ 整目录重建，避免上次构建残留
     const outDir = path.join(repoRoot, 'tools/publish/out', dirName);
     fs.rmSync(outDir, { recursive: true, force: true });
     fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
     for (const a of assets) {
       const destAbs = path.join(outDir, a.destRel);
-      if (a.copyFrom) {
-        fs.copyFileSync(path.join(repoRoot, a.copyFrom), destAbs);
-      } else {
-        fs.writeFileSync(destAbs, a.data);
-      }
+      const source = a.copyFrom ? fs.readFileSync(path.join(repoRoot, a.copyFrom)) : a.data;
+      const data = a.destRel === coverAssetRel ? source : await padImageToXAspectRatio(browser, source);
+      fs.writeFileSync(destAbs, data);
     }
-
-    // 6) cover：正文第一张图片落到 assets 后的相对路径；无图则 null
-    let cover = null;
-    if (resolvedImages.length > 0) {
-      const first = resolvedImages[0];
-      const destRel =
-        first.kind === 'external'
-          ? `assets/${decodeURIComponent(path.basename(new URL(first.src).pathname))}`
-          : `assets/${path.basename(first.repoRelPath)}`;
-      if (fs.existsSync(path.join(outDir, destRel))) {
-        cover = destRel;
-      }
+    if (coverAssetRel && fs.existsSync(path.join(outDir, coverAssetRel))) {
+      cover = coverAssetRel;
     }
 
     const data = {

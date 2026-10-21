@@ -2,7 +2,7 @@
 // 段顺序与原文一致；html 段里不得出现 <table、<pre、<img（不变式 5，违规即抛错）。
 import path from 'node:path';
 import MarkdownIt from 'markdown-it';
-import { renderHtmlToPng } from './render.mjs';
+import { renderHtmlToPng, renderMermaidToPngForX } from './render.mjs';
 import { classifyImageSrc } from './images.mjs';
 import { mermaidFilename } from './wechat.mjs';
 
@@ -116,11 +116,9 @@ export async function buildXSegments(markdown, ctx) {
       flushHtml();
       const info = t.info.trim();
       if (info === 'mermaid') {
-        // 与公众号共用 content/posts/<目录>/images/generated/<mermaid-hash>.png，复制到 assets
-        const destRel = registerCopyAsset(
-          mermaidFilename(t.content),
-          `content/posts/${ctx.dirName}/images/generated/${mermaidFilename(t.content)}`
-        );
+        // X 副本从同一源码独立高倍率渲染；公众号 generated PNG 完全不改。
+        const png = await renderMermaidToPngForX(ctx.browser, t.content);
+        const destRel = writeAsset(mermaidFilename(t.content), png);
         pushImage(destRel, '架构图');
       } else {
         const png = await renderHtmlToPng(
