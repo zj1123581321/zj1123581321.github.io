@@ -23,9 +23,12 @@ function startFakeBridge({
   blocks = [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }],
   coverReadyAfterChecks = 1,
   coverDialogCloses = true,
+  gifReadyAfterChecks = 1,
 } = {}) {
   const requests = [];
-  let imageCount = 0;
+  let mediaCount = 0;
+  let currentMediaKind = 'image';
+  let gifReadyChecks = 0;
   let captionDialogOpen = false;
   let coverDialogOpen = true;
   let coverApplyReadyChecks = 0;
@@ -87,22 +90,26 @@ function startFakeBridge({
       } else if (code.includes('kind: \'cover\'')) {
         data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'cover' }) };
       } else if (code.includes('data.items.add(file)')) {
-        imageCount += 1;
+        mediaCount += 1;
+        currentMediaKind = code.toLowerCase().includes('.gif') ? 'video' : 'image';
+        gifReadyChecks = 0;
         data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'image' }) };
       } else if (code.includes('data.setData(\'text/html\'')) {
         data = { type: 'string', value: JSON.stringify({ dispatched: true, kind: 'html' }) };
-      } else if (
-        code.includes('filter((section) => section.querySelector(\'img\')).length') &&
-        !code.includes('imageSectionCount')
-      ) {
-        data = imageCount;
       } else if (code.includes('textReady')) {
         data = {
           type: 'string',
-          value: JSON.stringify({ textReady: true, imageSectionCount: imageCount }),
+          value: JSON.stringify({ textReady: true, mediaSectionCount: mediaCount }),
         };
-      } else if (code.includes('imageSectionCount')) {
-        data = { type: 'string', value: JSON.stringify({ imageSectionCount: imageCount, ready: true }) };
+      } else if (code.includes('mediaSectionCount')) {
+        if (currentMediaKind === 'video') gifReadyChecks += 1;
+        data = {
+          type: 'string',
+          value: JSON.stringify({
+            mediaSectionCount: mediaCount,
+            ready: currentMediaKind === 'video' ? gifReadyChecks >= gifReadyAfterChecks : true,
+          }),
+        };
       } else if (code.includes('return JSON.stringify({blocks});')) {
         data = { type: 'string', value: JSON.stringify({ blocks }) };
       } else if (code.includes('location.href')) {
@@ -488,6 +495,45 @@ test('安全闸拒绝白名单外的 click 选择器，且不向 bridge 发任�
     () => safeClick(bridge, 'button[aria-label="publish"]'),
     /安全闸拒绝未授权 click 选择器：button\[aria-label="publish"\]/
   );
+});
+
+test('GIF 正文段按 video 就绪计数、后续 HTML 保持顺序，字幕警告并跳过字幕对话框', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-gif-'));
+  const outDir = path.join(dir, 'tools/publish/out/example');
+  fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
+  for (const name of ['animation.gif', 'after.png']) fs.writeFileSync(path.join(outDir, 'assets', name), Buffer.from([1, 2, 3]));
+  const caption = '动画中的字幕原文';
+  const data = { title: 'GIF 上传测试', cover: null, x: { segments: [
+    { kind: 'html', html: '<p>GIF 前文</p>' },
+    { kind: 'image', src: 'assets/animation.gif', alt: caption, caption },
+    { kind: 'html', html: '<p>GIF 后文</p>' },
+    { kind: 'image', src: 'assets/after.png', alt: '后续图片' },
+  ] } };
+  const { server, requests } = startFakeBridge({
+    blocks: [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }, { kind: 'IMG' }], gifReadyAfterChecks: 2,
+  });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  try {
+    const { port } = server.address();
+    const logs = [];
+    const result = await runXDraft({ data, outDir, bridge: new BridgeClient({ addr: `127.0.0.1:${port}` }), log: (line) => logs.push(line), pause: async () => {} });
+    assert.equal(result.completedSegments, 4);
+    assert.ok(logs.includes(`预检：图片段数量 2，总字数 10，带字幕图片 0，GIF 字幕跳过 1`));
+    assert.ok(logs.includes(`警告：X 不支持 GIF 字幕，已跳过：${caption}`));
+    const probes = requests.filter((r) => r.action === 'evaluate' && r.args.code.includes('mediaSectionCount'));
+    const videoProbes = probes.filter((r) => r.args.code.includes('video.readyState >= 2'));
+    assert.equal(videoProbes.length, 3);
+    const videoCode = videoProbes[0].args.code;
+    assert.ok(videoCode.includes("video.src.startsWith('blob:')") && videoCode.includes("video.src.startsWith('https://')") && videoCode.includes('video.readyState >= 2'));
+    assert.ok(videoCode.includes("section.querySelector('img, video')"));
+    const htmlProbes = requests.filter((r) => r.action === 'evaluate' && r.args.code.includes('textReady'));
+    assert.ok(htmlProbes[1].args.code.includes("section.querySelector('img, video')"));
+    assert.ok(requests.indexOf(videoProbes[1]) < requests.findIndex((r) => r.action === 'evaluate' && r.args.code.includes("data.setData('text/html'") && r.args.code.includes('GIF 后文')));
+    assert.equal(requests.filter((r) => r.action === 'click' && r.args.selector.includes('caption')).length, 0);
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 test('图片字幕：带 caption 的图片段点占位→填值→保存；无 caption 的图片段不发字幕请求', async () => {
