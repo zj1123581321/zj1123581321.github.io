@@ -47,8 +47,9 @@ tools/publish/out/<目录名>/
 且与 `alt` 逐字相同；表格/代码块/mermaid 等生成器自造的图没有这个字段，X 草稿填充时也不会点字幕。
 
 X 分段规则：html 段（相邻块合并为一段）与 image 段交替；表格/代码块/mermaid 各渲染成
-PNG（宽 680px、deviceScaleFactor 2）；html 段中不出现 `<table>`/`<pre>`/`<img>`；
-文末追加「本文首发于我的博客」段。
+PNG（表格/代码块宽 680px、deviceScaleFactor 2；mermaid 的 X 副本按 SVG 实际宽度渲染到至少 1200px）；
+image 段中非 GIF 竖图若宽高比小于 3:4，会以白色左右补白至 3:4（封面不补白）；公众号仍使用原有 mermaid PNG；
+html 段中不出现 `<table>`/`<pre>`/`<img>`；文末追加「本文首发于我的博客」段。
 
 ## 图片约定
 
