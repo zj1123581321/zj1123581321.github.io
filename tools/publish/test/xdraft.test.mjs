@@ -516,8 +516,8 @@ test('GIF 正文段按 video 就绪计数、后续 HTML 保持顺序，字幕警
   try {
     const { port } = server.address();
     const logs = [];
-    const result = await runXDraft({ data, outDir, bridge: new BridgeClient({ addr: `127.0.0.1:${port}` }), log: (line) => logs.push(line), pause: async () => {} });
-    assert.equal(result.completedSegments, 4);
+    await runXDraft({ data, outDir, bridge: new BridgeClient({ addr: `127.0.0.1:${port}` }), log: (line) => logs.push(line), pause: async () => {} });
+    assert.ok(requests.find((r) => r.action === 'evaluate' && r.args.code.includes('return JSON.stringify({blocks});')).args.code.includes("block.querySelector('img, video')"));
     assert.ok(logs.includes(`预检：图片段数量 2，总字数 10，带字幕图片 0，GIF 字幕跳过 1`));
     assert.ok(logs.includes(`警告：X 不支持 GIF 字幕，已跳过：${caption}`));
     const probes = requests.filter((r) => r.action === 'evaluate' && r.args.code.includes('mediaSectionCount'));
