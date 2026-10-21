@@ -72,6 +72,8 @@ export async function padImageToXAspectRatio(browser, input) {
     mime = 'image/jpeg';
   } else if (signature.startsWith('RIFF') && signature.slice(8, 12) === 'WEBP') {
     mime = 'image/webp';
+  } else if (/<svg(?:\s|>)/i.test(input.toString('utf8', 0, 512))) {
+    mime = 'image/svg+xml';
   } else {
     throw new Error(`不支持为 X 补白的图片格式：${signature.slice(0, 12)}`);
   }
@@ -87,6 +89,13 @@ export async function padImageToXAspectRatio(browser, input) {
       if (width / height >= 0.75) return { padded: false };
 
       const outputWidth = Math.ceil((height * 3) / 4);
+      if (imageMime === 'image/svg+xml') {
+        const left = Math.floor((outputWidth - width) / 2);
+        return {
+          padded: true,
+          svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${outputWidth}" height="${height}" viewBox="0 0 ${outputWidth} ${height}"><rect width="100%" height="100%" fill="#ffffff"/><image x="${left}" y="0" width="${width}" height="${height}" preserveAspectRatio="none" href="data:image/svg+xml;base64,${base64}"/></svg>`,
+        };
+      }
       const canvas = document.createElement('canvas');
       canvas.width = outputWidth;
       canvas.height = height;
@@ -98,7 +107,8 @@ export async function padImageToXAspectRatio(browser, input) {
       if (!blob) throw new Error(`无法编码补白后的图片：${imageMime}`);
       return { padded: true, bytes: Array.from(new Uint8Array(await blob.arrayBuffer())) };
     }, { base64: input.toString('base64'), imageMime: mime });
-    return result.padded ? Buffer.from(result.bytes) : input;
+    if (!result.padded) return input;
+    return result.svg ? Buffer.from(result.svg) : Buffer.from(result.bytes);
   } finally {
     await page.close();
   }

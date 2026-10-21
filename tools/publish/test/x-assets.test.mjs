@@ -34,6 +34,11 @@ test('竖向 PNG 左右白色补白至 3:4，原图内容不缩放', async () =>
     const padded = await padImageToXAspectRatio(browser, source);
     const gif = Buffer.from('GIF89a');
     assert.equal(await padImageToXAspectRatio(browser, gif), gif);
+    const svg = Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="1" height="4"><rect width="1" height="4" fill="#ff0000"/></svg>');
+    const paddedSvg = (await padImageToXAspectRatio(browser, svg)).toString();
+    assert.match(paddedSvg, /width="3" height="4"/);
+    assert.match(paddedSvg, /fill="#ffffff"/);
+    assert.match(paddedSvg, /href="data:image\/svg\+xml;base64,/);
     const pageForPixels = await browser.newPage();
     try {
       const pixels = await pageForPixels.evaluate(async (base64) => {
