@@ -524,7 +524,7 @@ test('GIF 正文段按 video 就绪计数、后续 HTML 保持顺序，字幕警
     const videoProbes = probes.filter((r) => r.args.code.includes('video.readyState >= 2'));
     assert.equal(videoProbes.length, 3);
     const videoCode = videoProbes[0].args.code;
-    assert.ok(videoCode.includes("video.src.startsWith('blob:')") && videoCode.includes("video.src.startsWith('https://')") && videoCode.includes('video.readyState >= 2'));
+    assert.ok(videoCode.includes("video.currentSrc.startsWith('blob:')") && videoCode.includes("video.currentSrc.startsWith('https://')") && videoCode.includes('video.readyState >= 2'));
     assert.ok(videoCode.includes("section.querySelector('img, video')"));
     const htmlProbes = requests.filter((r) => r.action === 'evaluate' && r.args.code.includes('textReady'));
     assert.ok(htmlProbes[1].args.code.includes("section.querySelector('img, video')"));

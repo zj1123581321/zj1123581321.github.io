@@ -272,7 +272,7 @@ function imageUploadStateCode() {
       Boolean(latest.querySelector('[aria-label="编辑媒体"]'));
     const videoReady =
       Boolean(video) &&
-      (video.src.startsWith('blob:') || video.src.startsWith('https://')) &&
+      (video.currentSrc.startsWith('blob:') || video.currentSrc.startsWith('https://')) &&
       video.readyState >= 2;
     return JSON.stringify({
       mediaSectionCount: mediaSections.length,
