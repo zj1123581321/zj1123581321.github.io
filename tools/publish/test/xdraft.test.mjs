@@ -18,10 +18,17 @@ import {
   waitForCondition,
 } from '../lib/xdraft.mjs';
 
-function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }] } = {}) {
+function startFakeBridge({
+  tabs = [],
+  blocks = [{ kind: 'TEXT' }, { kind: 'IMG' }, { kind: 'TEXT' }],
+  coverReadyAfterChecks = 1,
+  coverDialogCloses = true,
+} = {}) {
   const requests = [];
   let imageCount = 0;
   let captionDialogOpen = false;
+  let coverDialogOpen = true;
+  let coverApplyReadyChecks = 0;
   // 标记属性存在才允许 probe 找到目标（与真实页面一致：没 mark 过就查不到该选择器）
   const marked = { create: false, coverApply: false, captionOpen: false, captionSave: false };
   const server = http.createServer(async (request, response) => {
@@ -53,6 +60,14 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
       } else if (code.includes('data-md2p-cover-apply')) {
         marked.coverApply = true;
         data = { type: 'string', value: JSON.stringify({ found: true, text: '应用', ariaLabel: '' }) };
+      } else if (code.includes('aria-disabled') && code.includes('naturalWidth > 0')) {
+        coverApplyReadyChecks += 1;
+        data = {
+          type: 'string',
+          value: JSON.stringify({ ready: coverApplyReadyChecks >= coverReadyAfterChecks }),
+        };
+      } else if (code.includes('return JSON.stringify({dialogOpen})')) {
+        data = { type: 'string', value: JSON.stringify({ dialogOpen: coverDialogOpen }) };
       } else if (code.includes('data-md2p-caption-save')) {
         marked.captionSave = true;
         data = { type: 'string', value: JSON.stringify({ found: true, text: '保存', ariaLabel: '保存' }) };
@@ -106,7 +121,10 @@ function startFakeBridge({ tabs = [], blocks = [{ kind: 'TEXT' }, { kind: 'IMG' 
     } else if (body.action === 'click') {
       if (body.args.selector === '[data-md2p-caption-open="1"]') captionDialogOpen = true;
       if (body.args.selector === '[data-md2p-caption-save="1"]') captionDialogOpen = false;
-      if (body.args.selector === '[data-md2p-cover-apply="1"]') marked.coverApply = false;
+      if (body.args.selector === '[data-md2p-cover-apply="1"]') {
+        marked.coverApply = false;
+        if (coverDialogCloses) coverDialogOpen = false;
+      }
       data = { success: true, tag: 'BUTTON', text: '' };
     } else if (body.action === 'fill') {
       data = { success: true, tag: 'TEXTAREA', mode: 'value' };
@@ -237,7 +255,7 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
       ],
     },
   };
-  const { server, requests } = startFakeBridge();
+  const { server, requests } = startFakeBridge({ coverReadyAfterChecks: 3 });
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
   try {
     const { port } = server.address();
@@ -278,6 +296,36 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
         request.args.selector === '[data-md2p-cover-apply="1"]'
     );
     assert.equal(applyClicks.length, 1);
+    const applyReadyChecks = requests.filter(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes('aria-disabled') &&
+        request.args.code.includes('naturalWidth > 0')
+    );
+    assert.equal(applyReadyChecks.length, 3, '就绪前轮询两次，第三次才允许点击');
+    assert.ok(
+      requests.indexOf(applyClicks[0]) > requests.indexOf(applyReadyChecks.at(-1)),
+      '预览未就绪时不应向应用选择器发 click'
+    );
+    assert.match(applyReadyChecks[0].args.code, /el\.complete && el\.naturalWidth > 0/);
+    assert.match(applyReadyChecks[0].args.code, /!button\.disabled/);
+    assert.match(applyReadyChecks[0].args.code, /getAttribute\('aria-disabled'\) !== 'true'/);
+    const dialogClosedWait = requests.find(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes('return JSON.stringify({dialogOpen})')
+    );
+    assert.ok(dialogClosedWait, '点击应用后应等待编辑媒体对话框关闭');
+    const coverImageWait = requests.find(
+      (request) =>
+        request.action === 'evaluate' &&
+        request.args.code.includes('pbs.twimg.com/media/')
+    );
+    assert.ok(
+      requests.indexOf(dialogClosedWait) > requests.indexOf(applyClicks[0]) &&
+        requests.indexOf(dialogClosedWait) < requests.indexOf(coverImageWait),
+      '先确认对话框关闭，再等待封面图上传完成'
+    );
     const applyMark = requests.find(
       (request) =>
         request.action === 'evaluate' &&
@@ -296,6 +344,44 @@ test('伪 bridge 记录真实 HTTP body：导航、新建、标题、封面、�
     assert.deepEqual(Buffer.from(JSON.parse(imageBase64Literal), 'base64'), bodyBytes);
     assert.match(pasteRequests[2].args.code, /<p>结束<\/p>/);
   } finally {
+    await new Promise((resolve) => server.close(resolve));
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('封面应用后对话框未关闭时报告专属超时错误，不误报封面上传超时', async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'xdraft-cover-dialog-'));
+  const outDir = path.join(dir, 'tools/publish/out/example');
+  fs.mkdirSync(path.join(outDir, 'assets'), { recursive: true });
+  fs.writeFileSync(path.join(outDir, 'assets/cover.png'), Buffer.from('cover-bytes'));
+  const data = { title: '封面对话框错误', cover: 'assets/cover.png', x: { segments: [] } };
+  const { server, requests } = startFakeBridge({ coverDialogCloses: false });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const originalNow = Date.now;
+  let fakeNow = originalNow();
+  Date.now = () => (fakeNow += 60_001);
+  try {
+    const { port } = server.address();
+    const bridge = new BridgeClient({ addr: `127.0.0.1:${port}` });
+    await assert.rejects(
+      () => runXDraft({ data, outDir, bridge, log: () => {}, pause: async () => {} }),
+      (error) => {
+        assert.match(error.message, /等待封面应用后对话框关闭超时/);
+        assert.doesNotMatch(error.message, /等待封面图上传超时/);
+        return true;
+      }
+    );
+    assert.equal(
+      requests.filter(
+        (request) =>
+          request.action === 'click' &&
+          request.args.selector === '[data-md2p-cover-apply="1"]'
+      ).length,
+      1,
+      '不重试点击应用'
+    );
+  } finally {
+    Date.now = originalNow;
     await new Promise((resolve) => server.close(resolve));
     fs.rmSync(dir, { recursive: true, force: true });
   }

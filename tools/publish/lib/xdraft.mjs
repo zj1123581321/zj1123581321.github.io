@@ -189,6 +189,35 @@ function coverDialogReadyCode() {
   )`;
 }
 
+function coverApplyReadyCode() {
+  return `(() => {
+    const dialog = [...document.querySelectorAll('dialog, [role="dialog"]')].find((el) =>
+      (el.getAttribute('aria-label') || el.getAttribute('name') || el.innerText || '').includes('编辑媒体')
+    );
+    if (!dialog) return JSON.stringify({ready: false});
+    const image = [...dialog.querySelectorAll('img')].find((el) =>
+      el.complete && el.naturalWidth > 0
+    );
+    const button = [...dialog.querySelectorAll('button')].find((el) =>
+      (el.textContent || '').trim() === '应用'
+    );
+    return JSON.stringify({
+      ready: Boolean(
+        image && button && !button.disabled && button.getAttribute('aria-disabled') !== 'true'
+      )
+    });
+  })()`;
+}
+
+function coverDialogOpenCode() {
+  return `(() => {
+    const dialogOpen = [...document.querySelectorAll('dialog, [role="dialog"]')].some((el) =>
+      (el.getAttribute('aria-label') || el.getAttribute('name') || el.innerText || '').includes('编辑媒体')
+    );
+    return JSON.stringify({dialogOpen});
+  })()`;
+}
+
 function markCoverApplyCode() {
   return `(() => {
     document.querySelectorAll('[data-md2p-cover-apply]').forEach((el) => {
@@ -610,12 +639,24 @@ export async function runXDraft({
         description: '封面编辑媒体对话框',
         predicate: Boolean,
       });
+      await waitForCondition({
+        bridge,
+        code: coverApplyReadyCode(),
+        description: '封面裁剪预览就绪',
+        predicate: (state) => state?.ready === true,
+      });
       const applyTarget = evaluateValue(await bridge.evaluate({ code: markCoverApplyCode() }));
       if (!applyTarget?.found) {
         throw new Error('安全闸找不到封面应用按钮');
       }
       assertSafeClickTarget(applyTarget);
       await safeClick(bridge, COVER_APPLY_SELECTOR);
+      await waitForCondition({
+        bridge,
+        code: coverDialogOpenCode(),
+        description: '封面应用后对话框关闭',
+        predicate: (state) => state?.dialogOpen === false,
+      });
       await waitForCondition({
         bridge,
         code: coverImageReadyCode(),
