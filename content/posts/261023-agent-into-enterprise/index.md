@@ -4,6 +4,7 @@ date: 2026-10-23
 draft: false
 tags: ["AI", "Agent", "企业落地", "中小企业", "组织", "飞书"]
 description: "写给懂业务、不懂技术的老板：Agent 进企业，真正难的不是技术。从写代码为什么最先被 AI 攻克讲起，聊老板怎么亲自下场把 Agent 当联席 CEO、为什么信息不是免费的、利益怎么分，以及一个传统中小企业目前可行的二流解。"
+wechat_url: "https://mp.weixin.qq.com/s/--5C-fqXA8BWM5_2BieEYw"
 ---
 
 ![众人拾柴火焰高](images/cover.jpg)
