@@ -96,7 +96,7 @@ AI 写代码的能力，去年大概还是个小学生，今年已经能顶替�
 所以越往光谱的物理世界那一头走，你越需要看和自己位置相近的样本：
 
 - **模型公司**：只看方向，不抄打法。
-- **已经围绕 AI 重组的公司**：看组织怎么变、活怎么分、钱怎么分。比如 XMind，推荐听一下他们联合创始人的分享：[分活，分圈，分钱，搞 AI](https://www.xiaoyuzhoufm.com/episode/6a8c42b42e27ea5b21fabac7)（[AI 总结与校对稿](https://sum.zlxlabs.com/view/view__jJHBegbh00Puv8ZsVDPdYOQxfxJVEk8HRIpT8eIcPc)），讲的是从部门制转向"圈子制"的一手经验。
+- **已经围绕 AI 重组的公司**：看组织怎么变、活怎么分、钱怎么分。比如 XMind，推荐听一下他们联合创始人的分享：[分活，分圈，分钱，搞 AI](https://www.xiaoyuzhoufm.com/episode/6a8c42b42e27ea5b21fabac7)（[AI 总结与校对稿](https://sum.zlxlabs.com/view/view__jJHBegbh00Puv8ZsVDPdYOQxfxJVEk8HRIpT8eIcPc)），讲的是从部门制转向"圈子制"的一手经验。但也要注意，XMind 本质上也是一家软件公司，它的业务同样全在数字世界里，围绕 AI 做重组相对简单。它的分活、分钱思路值得借鉴，具体做法却不能照搬到一脚踩在物理世界里的生意上。
 - **自己行业里、和你在光谱上位置相近的先行者**：他们踩过的坑，才是你真正会踩的坑。
 
 看这些不是为了抄作业，而是为了心里有一个"好组织长什么样"的画面。取法乎上，得乎其中；取法乎中，得乎其下。
