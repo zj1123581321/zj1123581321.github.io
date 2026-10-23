@@ -12,6 +12,7 @@ import markdownItLinkfoot from './mdnice/markdown-it-linkfoot.js';
 import markdownItLi from './mdnice/markdown-it-li.js';
 import { highlightMdnice } from './highlight.mjs';
 import { bundleWechatUrl } from './images.mjs';
+import { GITHUB_RAW_BASE } from './links.mjs';
 
 const themesDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'themes');
 const LANQING_CSS = fs.readFileSync(path.join(themesDir, 'lanqing.css'), 'utf8');
@@ -33,7 +34,7 @@ export function createWechatMd() {
     if (info === 'mermaid') {
       // PNG 已由 build 主流程预渲染到 content/posts/<目录>/images/generated/
       const filename = mermaidFilename(token.content);
-      const url = bundleWechatUrl(env.dirName, `images/generated/${filename}`);
+      const url = bundleWechatUrl(env.dirName, `images/generated/${filename}`, env.rawBase);
       return `<img src="${url}" alt="架构图">\n`;
     }
     return highlightMdnice(token.content, info);
@@ -42,9 +43,9 @@ export function createWechatMd() {
 }
 
 // 渲染公众号 HTML：输入已完成链接变换的正文，返回带内联样式的 <section id="nice"> HTML
-export function renderWechatHtml(markdown, dirName) {
+export function renderWechatHtml(markdown, dirName, rawBase = GITHUB_RAW_BASE) {
   const md = createWechatMd();
-  const rendered = md.render(markdown, { dirName });
+  const rendered = md.render(markdown, { dirName, rawBase });
   const wrapped = `<section id="nice">${rendered}</section>`;
   return juice.inlineContent(wrapped, LANQING_CSS, {
     inlinePseudoElements: true,

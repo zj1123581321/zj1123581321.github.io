@@ -7,7 +7,7 @@ import { GITHUB_RAW_BASE } from './links.mjs';
 //   ② 站点根路径 /migrated-images/...、/post-images/... → static/<路径>
 //   ③ http(s) 外链                            → 原样保留
 // 其余形式（含 Windows 盘符、站根其它目录、协议相对 // 等）→ 抛错并给出行号。
-export function classifyImageSrc(src) {
+export function classifyImageSrc(src, rawBase = GITHUB_RAW_BASE) {
   if (/^https?:\/\//.test(src)) {
     return { kind: 'external', src };
   }
@@ -16,7 +16,7 @@ export function classifyImageSrc(src) {
     return {
       kind: 'static',
       repoRelPath: `static/${rel}`,
-      wechatUrl: `${GITHUB_RAW_BASE}/static/${encodePathSegments(rel)}`,
+      wechatUrl: `${rawBase}/static/${encodePathSegments(rel)}`,
     };
   }
   // bundle 内相对路径：不允许 ../ 逃出 bundle、不允许站根绝对路径、不允许协议相对
@@ -31,8 +31,8 @@ function encodePathSegments(p) {
 }
 
 // ① 类图片的公众号 raw URL（需要目录名）
-export function bundleWechatUrl(dirName, relPath) {
-  return `${GITHUB_RAW_BASE}/content/posts/${encodeURIComponent(dirName)}/${encodePathSegments(relPath)}`;
+export function bundleWechatUrl(dirName, relPath, rawBase = GITHUB_RAW_BASE) {
+  return `${rawBase}/content/posts/${encodeURIComponent(dirName)}/${encodePathSegments(relPath)}`;
 }
 
 // 从 markdown 正文提取全部图片引用（含行号），用于：未推送检查、图片复制、X assets。
@@ -51,16 +51,16 @@ export function extractImages(markdown) {
 }
 
 // 解析一篇正文的全部图片 → [{..., resolved}]，解析不了直接抛错（带行号）
-export function resolveAllImages(markdown, dirName) {
+export function resolveAllImages(markdown, dirName, rawBase = GITHUB_RAW_BASE) {
   return extractImages(markdown).map(({ alt, src, line }) => {
-    const c = classifyImageSrc(src);
+    const c = classifyImageSrc(src, rawBase);
     if (!c) {
       throw new Error(`图片路径不属于受支持的三类（bundle 相对 / /migrated-images|/post-images / http外链）：第 ${line} 行 ${src}（文章：${dirName}）`);
     }
     if (c.kind === 'bundle') {
       const filePath = path.join('content/posts', dirName, src);
       c.repoRelPath = filePath;
-      c.wechatUrl = bundleWechatUrl(dirName, src);
+      c.wechatUrl = bundleWechatUrl(dirName, src, rawBase);
     }
     return { alt, src, line, ...c };
   });
@@ -68,8 +68,8 @@ export function resolveAllImages(markdown, dirName) {
 
 // 公众号图片 URL 替换（约束卡）：①bundle ②static → raw.githubusercontent（逐段 percent-encode），③外链原样。
 // 在渲染前对源文本替换；路径不合法由 resolveAllImages 先抛错（带行号）。
-export function rewriteImagesForWechat(markdown, dirName) {
-  const resolved = resolveAllImages(markdown, dirName);
+export function rewriteImagesForWechat(markdown, dirName, rawBase = GITHUB_RAW_BASE) {
+  const resolved = resolveAllImages(markdown, dirName, rawBase);
   const urlBySrc = new Map();
   for (const img of resolved) {
     if (img.kind !== 'external') urlBySrc.set(img.src, img.wechatUrl);
