@@ -4,6 +4,7 @@ date: 2026-10-04
 draft: false
 tags: ["AI", "Agent", "Context", "Claude Code", "Codex", "工程实践"]
 description: "如果 Agent 时代只能记住两个词，我会选 Context 和 Loop：一个决定 Agent 这一次做得好不好，一个决定它下一次能不能做得更好。Agent 调度应该是越来越轻松的，不要让自己成为系统的瓶颈。"
+wechat_url: "https://mp.weixin.qq.com/s/lLOkm4e9NwAGI6n5qWfvKQ"
 ---
 
 ![吃一堑，长一智](images/cover.jpg)
