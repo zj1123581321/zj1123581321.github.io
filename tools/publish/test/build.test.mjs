@@ -4,6 +4,7 @@
 //   261002-local-asr-selection（4 张作者图片带 alt 说明 + 1 张表格转图，用于 caption 契约）
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -53,8 +54,31 @@ test('未推送检查：缺失路径全部列出且不通过', () => {
   );
 });
 
-test('未推送检查：已在 origin/main 的文件通过（已知答案为「是」）', () => {
+test('未推送检查：已在 origin/main 的文件通过，显式传分支同样通过（已知答案为「是」）', () => {
   assertAllPushed(REPO_ROOT, ['content/posts/261004-context-and-loop/images/cover.jpg']);
+  assertAllPushed(REPO_ROOT, ['content/posts/261004-context-and-loop/images/cover.jpg'], 'main');
+});
+
+test('未推送检查：--ref 指定分支时检查 origin/<分支>，报错写出实际检查的 ref', () => {
+  assert.throws(
+    () => assertAllPushed(REPO_ROOT, ['content/posts/__不存在__0217/x.png'], '__no_such_branch_0217__'),
+    (e) => {
+      assert.match(e.message, /origin\/__no_such_branch_0217__/);
+      return true;
+    }
+  );
+});
+
+test('图片 raw 地址基址可替换：static 与 bundle 均用传入 rawBase（--ref 钉 SHA 的基础）', () => {
+  const base = 'https://raw.githubusercontent.com/zj1123581321/zj1123581321.github.io/abc123def';
+  assert.equal(
+    classifyImageSrc('/post-images/b.png', base).wechatUrl,
+    `${base}/static/post-images/b.png`
+  );
+  assert.equal(
+    resolveAllImages('![x](images/a.png)', '260100-fake', base)[0].wechatUrl,
+    `${base}/content/posts/260100-fake/images/a.png`
+  );
 });
 
 test('内链解析三格：目录名命中 / url 末段命中 / 都不命中报错', () => {
@@ -276,6 +300,78 @@ test('runBuild 遇到未推送图片时报错且不写产物（不依赖真实�
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
+});
+
+test('runBuild --ref 不存在的分支：PUBLISH-REF-NOT-FOUND 报错退出（不回退 main）', async () => {
+  await assert.rejects(
+    () =>
+      runBuild({
+        repoRoot: REPO_ROOT,
+        postArg: 'content/posts/261004-context-and-loop',
+        skipPushCheck: false,
+        ref: '__no_such_branch_0217__',
+      }),
+    /PUBLISH-REF-NOT-FOUND.*__no_such_branch_0217__/
+  );
+});
+
+test('runBuild --ref main：公众号 raw 地址钉 origin/main 的 40 位 SHA；内链/外链/X 不受影响', async () => {
+  const sha = spawnSync('git', ['rev-parse', 'origin/main'], { cwd: REPO_ROOT, encoding: 'utf8' }).stdout.trim();
+  assert.match(sha, /^[0-9a-f]{40}$/);
+  const data = await runBuild({
+    repoRoot: REPO_ROOT,
+    postArg: 'content/posts/261004-context-and-loop',
+    skipPushCheck: false,
+    ref: 'main',
+  });
+  const rawUrls = [...data.wechat.html.matchAll(/https:\/\/raw\.githubusercontent\.com[^"'<)\s]+/g)].map((m) => m[0]);
+  assert.ok(rawUrls.length >= 3, `应解析出 raw 图片地址（实际 ${rawUrls.length}）`);
+  for (const u of rawUrls) {
+    assert.ok(u.includes(`/${sha}/`), `raw 地址应含 40 位 SHA：${u}`);
+    assert.ok(!u.includes('/main/'), `raw 地址不应含 /main/ 段：${u}`);
+  }
+  // 内链/外链/博客 URL 与 X 分段不受 --ref 影响
+  assert.equal(data.blog_url, 'https://zj1123581321.com/posts/261004-context-and-loop/');
+  assert.match(data.wechat.html, /<a href="https:\/\/mp\.weixin\.qq\.com\/s\/az3gUGA24mXs1ptYdayFjQ"/);
+  assert.ok(!JSON.stringify(data.x.segments).includes('raw.githubusercontent.com'), 'X 分段不应引用 raw 地址');
+});
+
+test('不带 --ref：wechat.html 与改动前逐字节一致（金样 sha256 钉死）', async () => {
+  const data = await runBuild({
+    repoRoot: REPO_ROOT,
+    postArg: 'content/posts/261004-context-and-loop',
+    skipPushCheck: false,
+  });
+  const hash = crypto.createHash('sha256').update(data.wechat.html).digest('hex');
+  assert.equal(
+    hash,
+    '1b87fc89dd93bf39892dadd269bdd6cbf856ee4d3ed475ff599900bcc44f4f4f',
+    '不带 --ref 的 wechat.html 应与 --ref 引入前的产物逐字节一致；有意变更渲染时需同步更新此金样'
+  );
+});
+
+test('CLI：--ref 缺值报用法错误非零退出', () => {
+  for (const extra of [['--ref'], ['--ref', '--skip-push-check']]) {
+    const r = spawnSync(process.execPath, ['tools/publish/build.mjs', 'content/posts/261004-context-and-loop', ...extra], {
+      cwd: REPO_ROOT,
+      encoding: 'utf8',
+    });
+    assert.notEqual(r.status, 0, `--ref 缺值应非零退出：${extra.join(' ')}`);
+    assert.match(r.stderr, /用法/);
+  }
+});
+
+test('CLI：不带 --ref 走默认 main，raw 地址含 /main/（默认行为回归锁）', () => {
+  const r = spawnSync(process.execPath, ['tools/publish/build.mjs', 'content/posts/261004-context-and-loop'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8',
+  });
+  assert.equal(r.status, 0, r.stderr);
+  const d = JSON.parse(fs.readFileSync(path.join(OUT_DIR, '261004-context-and-loop/data.json'), 'utf8'));
+  assert.ok(
+    d.wechat.html.includes(`${GITHUB_RAW_BASE}/content/posts/261004-context-and-loop/images/cover.jpg`),
+    '无 --ref 时公众号 raw 地址应仍是 /main/'
+  );
 });
 
 test('build 260809：mermaid 渲染 3 块、公众号引用 raw URL', async () => {

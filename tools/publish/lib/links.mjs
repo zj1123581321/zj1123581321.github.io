@@ -3,8 +3,9 @@ import path from 'node:path';
 import grayMatter from 'gray-matter';
 
 export const SITE_BASE = 'https://zj1123581321.com';
-export const GITHUB_RAW_BASE =
-  'https://raw.githubusercontent.com/zj1123581321/zj1123581321.github.io/main';
+export const GITHUB_RAW_REPO = 'https://raw.githubusercontent.com/zj1123581321/zj1123581321.github.io';
+// 默认 raw 基址（main 分支）；--ref 时由 build.mjs 换成 GITHUB_RAW_REPO/<40位提交SHA>
+export const GITHUB_RAW_BASE = `${GITHUB_RAW_REPO}/main`;
 
 // 扫描 content/posts，建「目录名 → frontmatter」与「frontmatter url 末段 → 目录名」两张索引。
 // 消费者：build.mjs（内链解析）、backfill-wechat-url.mjs（回填映射）。
