@@ -60,7 +60,12 @@ export async function renderMermaidToPngForX(browser, source) {
   }
 }
 
-// 将竖图左右补白到 3:4；GIF 保留原字节，其他变换只支持 PNG/JPEG/WebP 栅格输入。
+// X 长文编辑器对超宽图会裁掉左右：2026-10-23 实测，宽高比约 13:1 的 mermaid 横向流程图
+// 在 X 草稿里以约 647×130（≈ 5:1）的框显示、两侧内容被裁。故宽高比大于 5:1 的图以白色
+// 上下补白到恰好 5:1（输出高 Math.ceil(width / 5)，原图垂直居中不缩放），与竖图 3:4 对称。
+const X_WIDE_ASPECT_RATIO = 5;
+
+// 将竖图左右补白到 3:4、超宽图上下补白到 5:1；GIF 保留原字节，其他变换只支持 PNG/JPEG/WebP 栅格输入。
 export async function padImageToXAspectRatio(browser, input) {
   const signature = input.toString('ascii', 0, 12);
   if (signature.startsWith('GIF87a') || signature.startsWith('GIF89a')) return input;
@@ -80,33 +85,48 @@ export async function padImageToXAspectRatio(browser, input) {
 
   const page = await browser.newPage();
   try {
-    const result = await page.evaluate(async ({ base64, imageMime }) => {
+    const result = await page.evaluate(async ({ base64, imageMime, wideRatio }) => {
       const image = new Image();
       image.src = `data:${imageMime};base64,${base64}`;
       await image.decode();
       const width = image.naturalWidth;
       const height = image.naturalHeight;
-      if (width / height >= 0.75) return { padded: false };
+      const ratio = width / height;
+      if (ratio >= 0.75 && ratio <= wideRatio) return { padded: false };
 
-      const outputWidth = Math.ceil((height * 3) / 4);
+      // 竖图左右补白到 3:4、超宽图上下补白到 5:1；原图不缩放，只换画布尺寸与粘贴偏移。
+      let canvasWidth;
+      let canvasHeight;
+      let offsetX;
+      let offsetY;
+      if (ratio < 0.75) {
+        canvasWidth = Math.ceil((height * 3) / 4);
+        canvasHeight = height;
+        offsetX = Math.floor((canvasWidth - width) / 2);
+        offsetY = 0;
+      } else {
+        canvasWidth = width;
+        canvasHeight = Math.ceil(width / wideRatio);
+        offsetX = 0;
+        offsetY = Math.floor((canvasHeight - height) / 2);
+      }
       if (imageMime === 'image/svg+xml') {
-        const left = Math.floor((outputWidth - width) / 2);
         return {
           padded: true,
-          svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${outputWidth}" height="${height}" viewBox="0 0 ${outputWidth} ${height}"><rect width="100%" height="100%" fill="#ffffff"/><image x="${left}" y="0" width="${width}" height="${height}" preserveAspectRatio="none" href="data:image/svg+xml;base64,${base64}"/></svg>`,
+          svg: `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasWidth}" height="${canvasHeight}" viewBox="0 0 ${canvasWidth} ${canvasHeight}"><rect width="100%" height="100%" fill="#ffffff"/><image x="${offsetX}" y="${offsetY}" width="${width}" height="${height}" preserveAspectRatio="none" href="data:image/svg+xml;base64,${base64}"/></svg>`,
         };
       }
       const canvas = document.createElement('canvas');
-      canvas.width = outputWidth;
-      canvas.height = height;
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
       const context = canvas.getContext('2d');
       context.fillStyle = '#ffffff';
-      context.fillRect(0, 0, outputWidth, height);
-      context.drawImage(image, Math.floor((outputWidth - width) / 2), 0, width, height);
+      context.fillRect(0, 0, canvasWidth, canvasHeight);
+      context.drawImage(image, offsetX, offsetY, width, height);
       const blob = await new Promise((resolve) => canvas.toBlob(resolve, imageMime, 1));
       if (!blob) throw new Error(`无法编码补白后的图片：${imageMime}`);
       return { padded: true, bytes: Array.from(new Uint8Array(await blob.arrayBuffer())) };
-    }, { base64: input.toString('base64'), imageMime: mime });
+    }, { base64: input.toString('base64'), imageMime: mime, wideRatio: X_WIDE_ASPECT_RATIO });
     if (!result.padded) return input;
     return result.svg ? Buffer.from(result.svg) : Buffer.from(result.bytes);
   } finally {
