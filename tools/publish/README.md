@@ -76,6 +76,24 @@ content/posts/260809-…/images/generated/mermaid-50ebba13a0e2.png
 
 `--skip-push-check` 只给测试用。mermaid PNG 首次生成后需提交、推送，再重跑构建。
 
+### `--ref <分支名>`：图片地址钉到已推送分支的提交
+
+「文章 PR 不合并、先发公众号、拿到公众号链接回填后再合并」的工作流下，图片只推到了功能分支，
+main 上还没有，默认构建会报「图片尚未推送」。此时用 `--ref` 把未推送检查与公众号图片地址一起
+钉到该分支：
+
+```bash
+node build.mjs content/posts/261023-xxx --ref post/261023-xxx
+```
+
+- 未推送检查改为对 `origin/<分支名>` 逐个 `git cat-file -e`，缺失时报错信息写出实际检查的 ref；
+- 公众号 HTML 里 bundle/static/mermaid 图片的 raw 地址换成
+  `https://raw.githubusercontent.com/zj1123581321/zj1123581321.github.io/<40位提交SHA>/…`，
+  SHA 由 `origin/<分支名>` 解析。钉 SHA 而非分支名：分支合并删除后地址仍有效；
+- 分支不存在时以 `PUBLISH-REF-NOT-FOUND` 开头报错、非零退出，不回退 main；`--ref` 缺值报用法错误；
+- 外链、内链（wechat_url/博客 URL）与 X 分段不受 `--ref` 影响；
+- 不带 `--ref` 时行为不变（默认 main）。PR 合并后重跑不带 `--ref` 的构建即可恢复默认地址。
+
 ## 内链约定
 
 链接目标形如 `../<x>/` 或 `/posts/<x>/`（可带 `#锚点`）视为内链，`<x>` 先按目录名
