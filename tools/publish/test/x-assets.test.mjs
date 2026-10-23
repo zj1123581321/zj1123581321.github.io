@@ -136,3 +136,90 @@ test('mermaid X 副本按 SVG 实际宽度渲染到至少 1200px', async () => {
     await browser.close();
   }
 });
+
+test('超宽 PNG 上下白色补白至 5:1，原图垂直居中不缩放', async () => {
+  const browser = await launchBrowser();
+  try {
+    const page = await browser.newPage({ viewport: { width: 1400, height: 200 } });
+    await page.setContent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="100"><rect width="1300" height="100" fill="#ff0000"/></svg>'
+    );
+    const source = await page.locator('svg').screenshot();
+    await page.close();
+
+    const padded = await padImageToXAspectRatio(browser, source);
+    // 1300×100（13:1）→ 1300×260（5:1），上留白 floor((260-100)/2)=80 行，内容占 80~179 行。
+    const pageForPixels = await browser.newPage();
+    try {
+      const pixels = await pageForPixels.evaluate(async (base64) => {
+        const image = new Image();
+        image.src = `data:image/png;base64,${base64}`;
+        await image.decode();
+        const canvas = document.createElement('canvas');
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        const context = canvas.getContext('2d');
+        context.drawImage(image, 0, 0);
+        const at = (x, y) => Array.from(context.getImageData(x, y, 1, 1).data);
+        return {
+          size: { width: canvas.width, height: canvas.height },
+          topEdge: at(650, 0),
+          aboveContent: at(650, 79),
+          contentTopLeft: at(0, 80),
+          contentBottomRight: at(1299, 179),
+          belowContent: at(650, 180),
+          bottomEdge: at(650, canvas.height - 1),
+        };
+      }, padded.toString('base64'));
+      assert.deepEqual(pixels.size, { width: 1300, height: 260 });
+      assert.deepEqual(pixels.topEdge, [255, 255, 255, 255]);
+      assert.deepEqual(pixels.aboveContent, [255, 255, 255, 255]);
+      assert.deepEqual(pixels.contentTopLeft, [255, 0, 0, 255]);
+      assert.deepEqual(pixels.contentBottomRight, [255, 0, 0, 255]);
+      assert.deepEqual(pixels.belowContent, [255, 255, 255, 255]);
+      assert.deepEqual(pixels.bottomEdge, [255, 255, 255, 255]);
+    } finally {
+      await pageForPixels.close();
+    }
+  } finally {
+    await browser.close();
+  }
+});
+
+test('宽高比恰为 5:1 与 2:1 的图片原样返回', async () => {
+  const browser = await launchBrowser();
+  try {
+    const page = await browser.newPage();
+    await page.setContent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="100"><rect width="500" height="100" fill="#00ff00"/></svg>'
+    );
+    const exact5 = await page.locator('svg').screenshot();
+    await page.setContent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100"><rect width="200" height="100" fill="#00ff00"/></svg>'
+    );
+    const wide2 = await page.locator('svg').screenshot();
+    await page.close();
+    assert.equal(await padImageToXAspectRatio(browser, exact5), exact5);
+    assert.equal(await padImageToXAspectRatio(browser, wide2), wide2);
+  } finally {
+    await browser.close();
+  }
+});
+
+test('超宽 SVG 按包裹方式上下补白至 5:1', async () => {
+  const browser = await launchBrowser();
+  try {
+    const svg = Buffer.from(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="2"><rect width="20" height="2" fill="#ff0000"/></svg>'
+    );
+    const paddedSvg = (await padImageToXAspectRatio(browser, svg)).toString();
+    // 20×2（10:1）→ 20×4（恰为 5:1），上留白 floor((4-2)/2)=1。
+    assert.match(paddedSvg, /width="20" height="4"/);
+    assert.match(paddedSvg, /viewBox="0 0 20 4"/);
+    assert.match(paddedSvg, /x="0" y="1"/);
+    assert.match(paddedSvg, /fill="#ffffff"/);
+    assert.match(paddedSvg, /href="data:image\/svg\+xml;base64,/);
+  } finally {
+    await browser.close();
+  }
+});
